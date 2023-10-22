@@ -60,7 +60,7 @@ You will also see any lint errors in the console.
 * merge
   > git merge <target branch>
 
-- request 방법
+- request 방법\
   github에서 요청\
   > base: 병합된 커밋이 들어갈 브랜치\
   > compare: 병합의 대상(병합할 커밋)이 될 브랜치\
