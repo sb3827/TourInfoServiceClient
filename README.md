@@ -29,15 +29,15 @@ You will also see any lint errors in the console.
    그 외의 사항들은 추후 추가
 
 - 용어
-  repository: 저장소
-  commit: repository에 저장
-  push: 업로드(로컬 저장소의 commit를 업로드)
-  pull: 다운로드(원격 저장소의 commit를 다운로드)
-  merge: 코드 병합
-  pull request: 병합 요청
-  branch: 갈래
-  origin: 원격 저장소
-  HEAD: 작업중인 branch
+  repository: 저장소\
+  commit: repository에 저장\
+  push: 업로드(로컬 저장소의 commit를 업로드)\
+  pull: 다운로드(원격 저장소의 commit를 다운로드)\
+  merge: 코드 병합\
+  pull request: 병합 요청\
+  branch: 갈래\
+  origin: 원격 저장소\
+  HEAD: 작업중인 branch\
 
 - 명령어
 
