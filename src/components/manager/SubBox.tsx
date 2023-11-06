@@ -1,4 +1,7 @@
 import React from 'react'
+
+//내부 박스 스타일
+
 type SubBoxProps = {
   children?: React.ReactNode
 }
