@@ -6,13 +6,18 @@ dotenv.config()
 
 interface TextEditorProps {
   initialValue?: string
+  width: number
+  height: number
 }
 
-export const TextEditor: FC<TextEditorProps> = ({initialValue}) => {
+export const TextEditor: FC<TextEditorProps> = ({initialValue, width, height}) => {
   return (
     <Editor
-      apiKey={process.env.TINY_MCE_API_KEY}
+      apiKey={process.env.TINY_MCE_API_KEY} //Environment Variable(.env)
       init={{
+        resize: false,
+        width: width,
+        height: height,
         plugins:
           'ai mentions autolink charmap emoticons image link lists searchreplace table visualblocks checklist mediaembed casechange formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
         toolbar:
