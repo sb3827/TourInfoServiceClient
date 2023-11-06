@@ -18,3 +18,17 @@ code {
   font-family: 'Material Icons';
   display: inline-block;
 }
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
