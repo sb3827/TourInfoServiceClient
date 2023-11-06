@@ -6,8 +6,8 @@ dotenv.config()
 
 interface TextEditorProps {
   initialValue?: string
-  width: number
-  height: number
+  width: string
+  height: string
 }
 
 export const TextEditor: FC<TextEditorProps> = ({initialValue, width, height}) => {
