@@ -23,6 +23,12 @@ You will also see any lint errors in the console.
 - text editor\
   TinyMCE: https://www.tiny.cloud/docs/tinymce/6/react-cloud/
 
+- map api docs \
+  naver cloud platform: https://guide.ncloud-docs.com/docs/ko/maps-overview\
+  naver map service: https://www.ncloud.com/product/applicationService/maps\
+  naver map github: https://navermaps.github.io/maps.js.ncp/docs/tutorial-1-Conceptual-Overview.html\
+  React naver maps: https://zeakd.github.io/react-naver-maps/
+
 ### git 사용방법
 
 - 규칙
