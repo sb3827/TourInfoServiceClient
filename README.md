@@ -16,19 +16,23 @@ You will also see any lint errors in the console.
 
 ### 개발 참고 api
 
-- ui deisign
-  daisyui: https://daisyui.com/theme-generator/
+- ui deisign \
+  daisyui: https://daisyui.com/theme-generator/ \
   tailwindcss: https://tailwindcss.com/docs/installation
+
+- text editor\
+  TinyMCE: https://www.tiny.cloud/docs/tinymce/6/react-cloud/
 
 ### git 사용방법
 
 - 규칙
 
 1. master branch에 push 금지
-2. pull request를 통하여 master branch로 merge\
+2. pull request를 통하여 master branch로 merge
+3. API key, DB 정보 등 보안사항 하드코딩 금지\
    그 외의 사항들은 추후 추가
 
-- 용어
+- 용어 \
   repository: 저장소\
   commit: repository에 저장\
   push: 업로드(로컬 저장소의 commit를 업로드)\
