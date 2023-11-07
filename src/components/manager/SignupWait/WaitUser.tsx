@@ -8,9 +8,9 @@ type WaitUserProps = {}
 
 const WaitUser: React.FC<WaitUserProps> = ({}) => {
   return (
-    <div className="flex items-center w-full">
+    <div className="flex items-center w-full ">
       <div className="w-3/4 p-3 m-5 border rounded-lg">
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between w-full ">
           <UserInfo text="이름" />
           <UserInfo text="아이디" />
           <UserInfo text="이메일" />
@@ -18,10 +18,10 @@ const WaitUser: React.FC<WaitUserProps> = ({}) => {
           <UserInfo text="사업자 등록번호" />
         </div>
       </div>
-      <div className="flex justify-center w-1/4 p-3 m-5">
-        <Button text="조회" bgColor="bg-yellow-400" />
-        <Button text="승인" bgColor="bg-blue-500" />
-        <Button text="삭제" bgColor="bg-red-500" />
+      <div className="flex justify-around w-1/4 p-3 m-5">
+        <Button text="조회" bgColor="btn-warning" />
+        <Button text="승인" bgColor="btn-primary" />
+        <Button text="삭제" bgColor="btn-error" />
       </div>
     </div>
   )
