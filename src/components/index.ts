@@ -6,6 +6,7 @@ export * from './manager/Button'
 export * from './manager/SubBox'
 export * from './manager/SubTitle'
 export * from './manager/UserInfo'
+export * from './manager/ToggleButton'
 
 // /manager/FindUser
 export * from './manager/FindUser/FindBox'
