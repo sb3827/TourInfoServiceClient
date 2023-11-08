@@ -1,3 +1,4 @@
+//신고 정보
 export type RepoartData = {
   reportDate: string //날짜
   lno: string //게시글 번호
