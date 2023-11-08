@@ -1,12 +1,11 @@
 import React from 'react'
-import Button from '../Button'
-import UserInfo from '../UserInfo'
+import {Button, UserInfo} from '../../index'
 
 // 유저 정보 한줄 - 추후 UserInfo로 prop 추가해줘야함
 
 type WaitUserProps = {}
 
-const WaitUser: React.FC<WaitUserProps> = ({}) => {
+export const WaitUser: React.FC<WaitUserProps> = ({}) => {
   return (
     <div className="flex items-center w-full ">
       <div className="w-3/4 p-3 m-5 border rounded-lg">
@@ -18,7 +17,7 @@ const WaitUser: React.FC<WaitUserProps> = ({}) => {
           <UserInfo text="사업자 등록번호" />
         </div>
       </div>
-      <div className="flex justify-around w-1/4 p-3 m-5">
+      <div className="flex justify-around p-3 m-5 min-w-fit">
         <Button text="조회" bgColor="btn-warning" />
         <Button text="승인" bgColor="btn-primary" />
         <Button text="삭제" bgColor="btn-error" />
@@ -26,5 +25,3 @@ const WaitUser: React.FC<WaitUserProps> = ({}) => {
     </div>
   )
 }
-
-export default WaitUser

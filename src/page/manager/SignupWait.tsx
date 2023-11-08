@@ -1,15 +1,11 @@
 import React, {useState} from 'react'
-import WaitBox from '../../components/manager/SignupWait/WaitBox'
-import SubTitle from '../../components/manager/SubTitle'
-import FindUser from '../../components/manager/FindUser/FindBox'
-import SearchInput from '../../components/manager/FindUser/SearchInput'
-import Box from '../../components/manager/Box'
+import {Box, FindBox, SearchInput, SubTitle, WaitBox} from '../../components/index'
 
 //회원 대기목록 + 사용자검색 페이지
 
 type SignupWaitProps = {}
 
-const SignupWait: React.FC<SignupWaitProps> = ({}) => {
+export const SignupWait: React.FC<SignupWaitProps> = ({}) => {
   //검색 값
   const [searchValue, setSearchValue] = useState('')
 
@@ -26,9 +22,7 @@ const SignupWait: React.FC<SignupWaitProps> = ({}) => {
         사용자 검색
         <SearchInput value={searchValue} onChange={onChangeSearch} />
       </SubTitle>
-      <FindUser />
+      <FindBox />
     </Box>
   )
 }
-
-export default SignupWait

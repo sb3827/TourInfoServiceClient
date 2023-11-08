@@ -1,12 +1,14 @@
 import React, {useState} from 'react'
-import UserInfo from '../UserInfo'
-import ReportModal from './ReportModal'
+import {ReportModal, UserInfo} from '../../index'
+import {RepoartData} from '../../../data/manager/index'
 
 //신고 정보
 
-type ReportInfoProps = {}
+type ReportInfoProps = {
+  //reportData: RepoartData
+}
 
-const ReportInfo: React.FC<ReportInfoProps> = ({}) => {
+export const ReportInfo: React.FC<ReportInfoProps> = ({}) => {
   const [isModalOpen, setModalOpen] = useState(false)
 
   const openModal = () => setModalOpen(true)
@@ -53,5 +55,3 @@ const ReportInfo: React.FC<ReportInfoProps> = ({}) => {
     </div>
   )
 }
-
-export default ReportInfo

@@ -3,10 +3,13 @@ import React from 'react'
 type ReportModalProps = {
   isOpen: boolean
   onClose: () => void
-  children?: React.ReactNode
 }
 
-const ReportModal: React.FC<ReportModalProps> = ({isOpen, onClose, children}) => {
+export const ReportModal: React.FC<React.PropsWithChildren<ReportModalProps>> = ({
+  isOpen,
+  onClose,
+  children
+}) => {
   if (!isOpen) return null
 
   return (
@@ -20,5 +23,3 @@ const ReportModal: React.FC<ReportModalProps> = ({isOpen, onClose, children}) =>
     </div>
   )
 }
-
-export default ReportModal

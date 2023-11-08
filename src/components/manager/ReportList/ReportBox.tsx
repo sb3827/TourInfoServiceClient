@@ -1,19 +1,13 @@
 import React from 'react'
-import SubBox from '../SubBox'
-import ReportInfo from './ReportInfo'
+import {ReportInfo, SubBox} from '../../index'
 
 //신고 박스
 
 type ReportBoxProps = {}
 
-const ReportBox: React.FC<ReportBoxProps> = ({}) => {
+export const ReportBox: React.FC<ReportBoxProps> = ({}) => {
   return (
     <SubBox>
-      <ReportInfo />
-      <ReportInfo />
-      <ReportInfo />
-      <ReportInfo />
-      <ReportInfo />
       <ReportInfo />
       <ReportInfo />
       <ReportInfo />
@@ -22,5 +16,3 @@ const ReportBox: React.FC<ReportBoxProps> = ({}) => {
     </SubBox>
   )
 }
-
-export default ReportBox

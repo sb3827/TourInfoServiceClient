@@ -1,10 +1,9 @@
 import React from 'react'
-import UserInfo from '../UserInfo'
-import Button from '../Button'
+import {Button, UserInfo} from '../../index'
 
 type FindUserInfoProps = {}
 
-const FindUserInfo: React.FC<FindUserInfoProps> = ({}) => {
+export const FindUserInfo: React.FC<FindUserInfoProps> = ({}) => {
   return (
     <div className="flex items-center w-full">
       <div className="w-3/4 p-3 m-5 border rounded-lg">
@@ -22,5 +21,3 @@ const FindUserInfo: React.FC<FindUserInfoProps> = ({}) => {
     </div>
   )
 }
-
-export default FindUserInfo

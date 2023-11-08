@@ -1,12 +1,11 @@
 import React from 'react'
-import SubBox from '../SubBox'
-import FindUserInfo from './FindUserInfo'
+import {FindUserInfo, SubBox} from '../../index'
 
 type FindBoxProps = {}
 
 //유저 검색 박스
 
-const FindBox: React.FC<FindBoxProps> = ({}) => {
+export const FindBox: React.FC<FindBoxProps> = ({}) => {
   return (
     <SubBox>
       <FindUserInfo />
@@ -15,5 +14,3 @@ const FindBox: React.FC<FindBoxProps> = ({}) => {
     </SubBox>
   )
 }
-
-export default FindBox

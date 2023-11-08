@@ -1,14 +1,11 @@
 import React from 'react'
-import Box from '../../components/manager/Box'
-import SubTitle from '../../components/manager/SubTitle'
-import ReportBox from '../../components/manager/ReportList/ReportBox'
-import FindBox from '../../components/manager/FindUser/FindBox'
+import {Box, FindBox, ReportBox, SubTitle} from '../../components/index'
 
 //신고 + 사용자 검색 페이지
 
 type ReportListProps = {}
 
-const ReportList: React.FC<ReportListProps> = ({}) => {
+export const ReportList: React.FC<ReportListProps> = ({}) => {
   return (
     <Box>
       <SubTitle>신고 목록</SubTitle>
@@ -18,5 +15,3 @@ const ReportList: React.FC<ReportListProps> = ({}) => {
     </Box>
   )
 }
-
-export default ReportList

@@ -6,12 +6,10 @@ type UserInfoProps = {
   text: string
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({text}) => {
+export const UserInfo: React.FC<UserInfoProps> = ({text}) => {
   return (
     <div className="p-3">
       <span>{text}</span>
     </div>
   )
 }
-
-export default UserInfo

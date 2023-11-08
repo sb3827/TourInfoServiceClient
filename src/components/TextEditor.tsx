@@ -1,8 +1,5 @@
 import type {FC} from 'react'
 import {Editor} from '@tinymce/tinymce-react'
-import * as dotenv from 'dotenv'
-
-dotenv.config()
 
 interface TextEditorProps {
   initialValue?: string

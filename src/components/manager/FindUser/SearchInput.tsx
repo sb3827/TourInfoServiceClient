@@ -9,7 +9,7 @@ type SearchInputProps = {
   onChange: (value: string) => void
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({value, onChange}) => {
+export const SearchInput: React.FC<SearchInputProps> = ({value, onChange}) => {
   return (
     <div className="flex items-center w-1/2 p-2 ml-10 border rounded-2xl">
       <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -21,5 +21,3 @@ const SearchInput: React.FC<SearchInputProps> = ({value, onChange}) => {
     </div>
   )
 }
-
-export default SearchInput

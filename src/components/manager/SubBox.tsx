@@ -2,11 +2,9 @@ import React from 'react'
 
 //내부 박스 스타일
 
-type SubBoxProps = {
-  children?: React.ReactNode
-}
+type SubBoxProps = {}
 
-const SubBox: React.FC<SubBoxProps> = ({children}) => {
+export const SubBox: React.FC<React.PropsWithChildren<SubBoxProps>> = ({children}) => {
   return (
     <div className="flex justify-center w-full mb-5">
       <div className="flex flex-col w-2/3 p-2">
@@ -15,5 +13,3 @@ const SubBox: React.FC<SubBoxProps> = ({children}) => {
     </div>
   )
 }
-
-export default SubBox

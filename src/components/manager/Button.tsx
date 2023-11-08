@@ -7,7 +7,7 @@ type ButtonProps = {
   bgColor?: string
 }
 
-const Button: React.FC<ButtonProps> = ({text, bgColor}) => {
+export const Button: React.FC<ButtonProps> = ({text, bgColor}) => {
   const buttonClass = `btn m-1 p-5 ${bgColor} border rounded-lg text-white`
 
   return (
@@ -16,5 +16,3 @@ const Button: React.FC<ButtonProps> = ({text, bgColor}) => {
     </div>
   )
 }
-
-export default Button
