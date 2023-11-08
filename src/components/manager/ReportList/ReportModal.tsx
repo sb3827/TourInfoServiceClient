@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {FC} from 'react'
 
 type ReportModalProps = {
   isOpen: boolean
   onClose: () => void
 }
 
-export const ReportModal: React.FC<React.PropsWithChildren<ReportModalProps>> = ({
+export const ReportModal: FC<React.PropsWithChildren<ReportModalProps>> = ({
   isOpen,
   onClose,
   children
