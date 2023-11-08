@@ -1,14 +1,14 @@
-import React from 'react'
+import React, {FC} from 'react'
 import {Button, UserInfo} from '../../index'
 
 // 유저 정보 한줄 - 추후 UserInfo로 prop 추가해줘야함
 
 type WaitUserProps = {}
 
-export const WaitUser: React.FC<WaitUserProps> = ({}) => {
+export const WaitUser: FC<WaitUserProps> = ({}) => {
   return (
-    <div className="flex items-center w-full ">
-      <div className="w-3/4 p-3 m-5 border rounded-lg">
+    <div className="flex items-center w-full border-b-2">
+      <div className="w-3/4 p-3 m-5 rounded-lg">
         <div className="flex justify-between w-full ">
           <UserInfo text="이름" />
           <UserInfo text="아이디" />

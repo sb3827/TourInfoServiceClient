@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {FC, useState} from 'react'
 import {ReportModal, UserInfo} from '../../index'
 import {RepoartData} from '../../../data/manager/index'
 
@@ -8,14 +8,14 @@ type ReportInfoProps = {
   //reportData: RepoartData
 }
 
-export const ReportInfo: React.FC<ReportInfoProps> = ({}) => {
+export const ReportInfo: FC<ReportInfoProps> = ({}) => {
   const [isModalOpen, setModalOpen] = useState(false)
 
   const openModal = () => setModalOpen(true)
   const closeModal = () => setModalOpen(false)
   return (
     <div>
-      <div className="p-3 m-5 border rounded-lg cursor-pointer" onClick={openModal}>
+      <div className="p-3 m-5 border-b-2 cursor-pointer" onClick={openModal}>
         <div className="flex justify-between w-full ">
           <UserInfo text="날짜" />
           <UserInfo text="게시글 번호" />

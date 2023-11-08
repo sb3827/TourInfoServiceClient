@@ -1,16 +1,16 @@
-import React from 'react'
+import React, {FC} from 'react'
 
 //박스 위의 글 스타일
-type SubTitleProps = {}
+type SubTitleProps = {text: string}
 
-export const SubTitle: React.FC<React.PropsWithChildren<SubTitleProps>> = ({
-  children
+export const SubTitle: FC<React.PropsWithChildren<SubTitleProps>> = ({
+  children,
+  text
 }) => {
   return (
-    <div className="w-2/3">
-      <h2 className="flex items-center p-3 mt-5 ml-3 text-xl font-bold text-left">
-        {children}
-      </h2>
+    <div className="flex items-center p-3 ">
+      <h2 className="text-xl font-bold text-left">{text}</h2>
+      {children}
     </div>
   )
 }
