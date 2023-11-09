@@ -21,3 +21,5 @@ export * from './manager/ReportList/ReportModal'
 // /manager/SignupWait
 export * from './manager/SignupWait/WaitBox'
 export * from './manager/SignupWait/WaitUser'
+
+export * from './Map' // Naver Map API component
