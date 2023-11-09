@@ -5,14 +5,17 @@ import React, {FC} from 'react'
 type ButtonProps = {
   text?: string
   bgColor?: string
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export const Button: FC<ButtonProps> = ({text, bgColor}) => {
+export const Button: FC<ButtonProps> = ({text, bgColor, onClick}) => {
   const buttonClass = `btn m-1 p-5 ${bgColor} border rounded-lg text-white`
 
   return (
     <div className="flex">
-      <button className={buttonClass}>{text}</button>
+      <button className={buttonClass} onClick={onClick}>
+        {text}
+      </button>
     </div>
   )
 }
