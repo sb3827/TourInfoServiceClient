@@ -8,6 +8,8 @@ import {
   ToggleButton,
   WaitBox
 } from '../../components/index'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faBell, faList} from '@fortawesome/free-solid-svg-icons'
 
 //관리자 페이지
 
@@ -25,8 +27,12 @@ export const Manager: FC<ManagerProps> = ({}) => {
   return (
     <Box>
       <ToggleButton>
-        <SubTitle text="회원대기 목록" />
-        <SubTitle text="신고 목록" />
+        <SubTitle text="회원대기 목록" styles="ml-5">
+          <FontAwesomeIcon icon={faList} className="absolute" />
+        </SubTitle>
+        <SubTitle text="신고 목록" styles="ml-5">
+          <FontAwesomeIcon icon={faBell} className="absolute" />
+        </SubTitle>
         <WaitBox />
         <ReportBox />
       </ToggleButton>

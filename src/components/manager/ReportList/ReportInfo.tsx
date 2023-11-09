@@ -1,6 +1,8 @@
 import React, {FC, useState} from 'react'
-import {ReportModal, UserInfo} from '../../index'
+import {Button, ReportModal, UserInfo} from '../../index'
 import {RepoartData} from '../../../data/manager/index'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faBell} from '@fortawesome/free-solid-svg-icons'
 
 //신고 정보
 
@@ -24,7 +26,11 @@ export const ReportInfo: FC<ReportInfoProps> = ({}) => {
         </div>
       </div>
       <ReportModal isOpen={isModalOpen} onClose={closeModal}>
-        <h1 className="text-lg font-bold">신고</h1>
+        <div className="flex flex-row items-center justify-center">
+          <FontAwesomeIcon icon={faBell} className="mr-2" />
+          <h1 className="text-xl font-bold">신고</h1>
+        </div>
+
         <p className="mt-4">날짜 : {'날짜'}</p>
         <p className="mt-4">게시글 번호 : {'게시글번호'}</p>
         <p className="mt-4">아이디 : {'아이디'}</p>
@@ -33,23 +39,9 @@ export const ReportInfo: FC<ReportInfoProps> = ({}) => {
           신고 사유 :<br /> -{'신고사유'}
         </p>
         <div className="flex justify-around mt-5">
-          <button
-            className="w-1/4 p-2 mt-4 text-white rounded btn-primary btn"
-            onClick={closeModal}>
-            게시글로
-            <br />
-            이동
-          </button>
-          <button
-            className="w-1/4 p-2 mt-4 text-white rounded btn-error btn"
-            onClick={closeModal}>
-            제재
-          </button>
-          <button
-            className="w-1/4 p-2 mt-4 text-white rounded btn-neutral btn"
-            onClick={closeModal}>
-            닫기
-          </button>
+          <Button styles="w-1/4 btn-primary" onClick={closeModal} text="게시글로 이동" />
+          <Button styles="w-1/4 btn-error" onClick={closeModal} text="제재" />
+          <Button styles="w-1/4 btn-neutral" onClick={closeModal} text="닫기" />
         </div>
       </ReportModal>
     </div>
