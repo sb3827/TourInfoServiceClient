@@ -6,7 +6,7 @@ type BoxProps = {}
 
 export const Box: FC<React.PropsWithChildren<BoxProps>> = ({children}) => {
   return (
-    <div className="flex flex-col items-center justify-center w-full mt-14">
+    <div className="flex flex-col items-center justify-center w-full bg-gray-100 pt-14">
       {children}
     </div>
   )
