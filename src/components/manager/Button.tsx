@@ -3,7 +3,7 @@ import React, {FC, PropsWithChildren} from 'react'
 //관리자 페이지 버튼 스타일 - 추후 props(아마 대기목록의 회원 아이디) 더 추가해야함
 
 type ButtonProps = {
-  text?: string & PropsWithChildren
+  text?: string | React.ReactNode
   styles?: string
   onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
