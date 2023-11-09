@@ -17,7 +17,7 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({}) => {
         </div>
       </div>
       <div className="flex justify-end w-1/4 p-3 m-5">
-        <Button text="탈퇴" bgColor="btn-error" />
+        <Button text="탈퇴" styles="btn-error" />
       </div>
     </div>
   )

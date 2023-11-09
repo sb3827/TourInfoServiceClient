@@ -37,11 +37,11 @@ export const WaitUser: FC<WaitUserProps> = ({}) => {
       <div className="flex justify-around p-3 m-5 min-w-fit">
         <Button
           text="조회"
-          bgColor="btn-warning"
-          onClick={() => onCheck(['0000000000'])}
+          styles="btn-warning"
+          onClick={() => onCheck(['5691901664'])}
         />
-        <Button text="승인" bgColor="btn-primary" />
-        <Button text="삭제" bgColor="btn-error" />
+        <Button text="승인" styles="btn-primary" />
+        <Button text="삭제" styles="btn-error" />
       </div>
     </div>
   )
