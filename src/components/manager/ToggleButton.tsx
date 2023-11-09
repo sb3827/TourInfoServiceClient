@@ -1,9 +1,10 @@
 import React, {Children, FC, useState} from 'react'
+import {Button} from './Button'
 
 //토글 버튼 컴포넌트
 
 export const ToggleButton: FC<React.PropsWithChildren> = ({children}) => {
-  const [toggle, setToggle] = useState<Boolean>(true)
+  const [toggle, setToggle] = useState<boolean>(true)
 
   //children 배열로 만들어줌
   const result = Children.toArray(children)
@@ -20,17 +21,17 @@ export const ToggleButton: FC<React.PropsWithChildren> = ({children}) => {
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div className="w-2/3">
-        <div className="items-center ">
+        <div className="flex">
           <button
             onClick={onChangeFirstButton}
-            className={`border-0 btn ${
+            className={`rounded-none rounded-l-xl btn ${
               toggle === true ? 'btn-info text-white' : 'btn-ghost'
             }`}>
             {result[0]}
           </button>
           <button
             onClick={onChangeSecondButton}
-            className={`border-0 btn ${
+            className={`rounded-none rounded-r-xl btn ${
               toggle === false ? 'btn-info text-white' : 'btn-ghost'
             } `}>
             {result[1]}
