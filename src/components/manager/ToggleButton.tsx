@@ -25,14 +25,18 @@ export const ToggleButton: FC<React.PropsWithChildren> = ({children}) => {
           <button
             onClick={onChangeFirstButton}
             className={`rounded-none rounded-l-xl btn ${
-              toggle === true ? 'btn-info text-white' : 'btn-ghost'
+              toggle === true
+                ? 'bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-white'
+                : 'btn-ghost'
             }`}>
             {result[0]}
           </button>
           <button
             onClick={onChangeSecondButton}
             className={`rounded-none rounded-r-xl btn ${
-              toggle === false ? 'btn-info text-white' : 'btn-ghost'
+              toggle === false
+                ? 'bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-white'
+                : 'btn-ghost'
             } `}>
             {result[1]}
           </button>

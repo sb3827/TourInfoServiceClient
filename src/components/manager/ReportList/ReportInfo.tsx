@@ -39,8 +39,16 @@ export const ReportInfo: FC<ReportInfoProps> = ({}) => {
           신고 사유 :<br /> -{'신고사유'}
         </p>
         <div className="flex justify-around mt-5">
-          <Button styles="w-1/4 btn-primary" onClick={closeModal} text="게시글로 이동" />
-          <Button styles="w-1/4 btn-error" onClick={closeModal} text="제재" />
+          <Button
+            styles="w-1/4 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700"
+            onClick={closeModal}
+            text="게시글로 이동"
+          />
+          <Button
+            styles="w-1/4 bg-gradient-to-r from-red-400 via-red-500 to-red-600"
+            onClick={closeModal}
+            text="제재"
+          />
           <Button styles="w-1/4 btn-neutral" onClick={closeModal} text="닫기" />
         </div>
       </ReportModal>

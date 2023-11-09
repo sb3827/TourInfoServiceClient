@@ -24,7 +24,7 @@ export const WaitUser: FC<WaitUserProps> = ({}) => {
   }
 
   return (
-    <div className="flex items-center w-full border-b-2">
+    <div className="flex items-center w-full border-b-2 ">
       <div className="w-3/4 p-3 m-5 rounded-lg">
         <div className="flex justify-between w-full ">
           <UserInfo text="이름" />
@@ -37,11 +37,17 @@ export const WaitUser: FC<WaitUserProps> = ({}) => {
       <div className="flex justify-around p-3 m-5 min-w-fit">
         <Button
           text="조회"
-          styles="btn-warning"
+          styles="bg-gradient-to-r from-lime-300 via-lime-400 to-lime-500 text-gray-500"
           onClick={() => onCheck(['5691901664'])}
         />
-        <Button text="승인" styles="btn-primary" />
-        <Button text="삭제" styles="btn-error" />
+        <Button
+          text="승인"
+          styles="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700"
+        />
+        <Button
+          text="삭제"
+          styles="bg-gradient-to-r from-red-400 via-red-500 to-red-600"
+        />
       </div>
     </div>
   )
