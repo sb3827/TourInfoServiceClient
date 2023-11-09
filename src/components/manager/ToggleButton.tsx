@@ -18,7 +18,7 @@ export const ToggleButton: FC<React.PropsWithChildren> = ({children}) => {
     setToggle(false)
   }
   return (
-    <div className="flex flex-col items-center justify-center w-full mt-10">
+    <div className="flex flex-col items-center justify-center w-full">
       <div className="w-2/3">
         <div className="items-center ">
           <button
