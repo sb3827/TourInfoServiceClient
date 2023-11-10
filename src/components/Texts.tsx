@@ -23,7 +23,7 @@ export const Headline: FC<HeadlineProps> = ({
 }
 
 export type TitleProps = HeadlineProps & {}
-export const Titletitle: FC<SubtitleProps> = ({
+export const Title: FC<SubtitleProps> = ({
     className: _className,
     numberOfLines,
     ...props
