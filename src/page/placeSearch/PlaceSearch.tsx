@@ -16,14 +16,27 @@ export const PlaceSearch: FC<ManagerProps> = ({}) => {
         setSearchValue(value)
     }
 
+
+
     return (
         <Box>
-            <div className="w-2/3 ml-4 ">
+            <div className="justify-center w-5/6 ">
                 <SubTitle text="장소 검색">
                     <SearchInput value={searchValue} onChange={onChangeSearch} />
                 </SubTitle>
-                <SubBox />
             </div>
+                <div className="flex justify-center w-full h-screen mb-32">
+                    <div className="flex w-5/6">
+                        <div className="w-2/6 p-3 overflow-y-auto border rounded-lg border--300">
+                                {/* 검색 결과를 보여줄 컴포넌트 */}
+                                <h2>검색 결과를 보여줄 컴포넌트</h2>
+                        </div>
+                        <div className="w-4/6 p-3 bg-green-400 border border-gray-300 rounded-lg">
+                             {/* MapAPI 컴포넌트 */}
+                             <h2>MapAPI 컴포넌트</h2>
+                        </div>
+                    </div>
+                </div>
         </Box>
     )
 }
