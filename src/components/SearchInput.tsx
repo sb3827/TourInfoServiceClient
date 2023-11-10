@@ -7,11 +7,13 @@ import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
 type SearchInputProps = {
   value: string
   onChange: (value: string) => void
+  styles: string
 }
 
-export const SearchInput: FC<SearchInputProps> = ({value, onChange}) => {
+export const SearchInput: FC<SearchInputProps> = ({value, onChange, styles}) => {
+  const inputStyle = `flex items-center ${styles} p-2 ml-10 bg-white border border-gray-300 rounded-2xl`
   return (
-    <div className="flex items-center w-1/2 p-2 ml-10 bg-white border border-gray-300 rounded-2xl">
+    <div className={inputStyle}>
       <FontAwesomeIcon icon={faMagnifyingGlass} />
       <input
         className="w-full p-1 font-medium border-0 outline-0"
