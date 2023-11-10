@@ -1,4 +1,4 @@
-import React, {FC, PropsWithChildren} from 'react'
+import React, {FC} from 'react'
 
 //관리자 페이지 버튼 스타일 - 추후 props(아마 대기목록의 회원 아이디) 더 추가해야함
 
