@@ -1,5 +1,5 @@
 import React, {Children, FC, useState} from 'react'
-import {Button} from './Button'
+import {Button} from '../Button'
 
 //토글 버튼 컴포넌트
 
