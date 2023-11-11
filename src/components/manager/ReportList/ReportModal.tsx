@@ -1,11 +1,13 @@
-import React, {FC} from 'react'
+import {faXmark} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import React, {FC,PropsWithChildren} from 'react'
 
 type ReportModalProps = {
   isOpen: boolean
   onClose: () => void
 }
 
-export const ReportModal: FC<React.PropsWithChildren<ReportModalProps>> = ({
+export const ReportModal: FC<PropsWithChildren<ReportModalProps>> = ({
   isOpen,
   onClose,
   children
@@ -13,10 +15,12 @@ export const ReportModal: FC<React.PropsWithChildren<ReportModalProps>> = ({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex overflow-auto bg-gray-600 bg-opacity-50 ">
-      <div className="relative flex flex-col w-full max-w-2xl p-8 m-auto bg-white rounded-xl ">
+    <div className="fixed inset-0 z-50 flex overflow-auto bg-gray-600 bg-opacity-50">
+      <div className="relative flex flex-col w-full max-w-2xl p-8 pl-10 pr-10 m-auto bg-white rounded-xl">
         <span className="absolute top-0 right-0 p-4" onClick={onClose}>
-          <button>X</button>
+          <button>
+            <FontAwesomeIcon icon={faXmark} size="2xl" />
+          </button>
         </span>
         {children}
       </div>
