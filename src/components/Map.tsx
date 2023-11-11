@@ -6,10 +6,6 @@ import {
   NavermapsProvider,
   useNavermaps
 } from 'react-naver-maps'
-import * as dotenv from 'dotenv'
-import {relative} from 'path'
-
-dotenv.config()
 
 interface MapProps {
   width: string
@@ -64,7 +60,7 @@ export const Map: FC<MapProps> = ({width, height}) => {
           logoControl={scaleControl}
           mapDataControl={scaleControl}
           mapTypeControl={scaleControl}
-          zoomControl={scaleControl}></NaverMap>
+          zoomControl={scaleControl} />
       </MapDiv>
     </NavermapsProvider>
   )
