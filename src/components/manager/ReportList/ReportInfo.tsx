@@ -40,16 +40,20 @@ export const ReportInfo: FC<ReportInfoProps> = ({}) => {
                 </p>
                 <div className="flex justify-around mt-5">
                     <Button
-                        styles="w-1/4 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700"
+                        className="w-1/4 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700"
                         onClick={closeModal}
                         text="게시글로 이동"
                     />
                     <Button
-                        styles="w-1/4 bg-gradient-to-r from-red-400 via-red-500 to-red-600"
+                        className="w-1/4 bg-gradient-to-r from-red-400 via-red-500 to-red-600"
                         onClick={closeModal}
                         text="제재"
                     />
-                    <Button styles="w-1/4 btn-neutral" onClick={closeModal} text="닫기" />
+                    <Button
+                        className="w-1/4 btn-neutral"
+                        onClick={closeModal}
+                        text="닫기"
+                    />
                 </div>
             </ReportModal>
         </div>
