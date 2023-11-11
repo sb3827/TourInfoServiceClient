@@ -1,5 +1,7 @@
 import React, {FC, PropsWithChildren} from 'react'
 
+//FIXME 영현 subtitle 이미 있음 texts에
+
 //박스 위의 글 스타일
 type SubTitleProps = {text: string; styles?: string}
 
