@@ -1,17 +1,20 @@
 export * from './TextEditor' // custom TinyMCE Editor
+export * from './Button'
+export * from './SearchInput'
+export * from './input'
+export * from './Rating'
 
 // /manager
 export * from './manager/Box'
-export * from './manager/Button'
-export * from './manager/SubBox'
+
 export * from './manager/SubTitle'
+export * from './manager/SubBox'
 export * from './manager/UserInfo'
 export * from './manager/ToggleButton'
 
 // /manager/FindUser
 export * from './manager/FindUser/FindBox'
 export * from './manager/FindUser/FindUserInfo'
-export * from './manager/FindUser/SearchInput'
 
 // /manager/ReportList
 export * from './manager/ReportList/ReportBox'
@@ -22,4 +25,8 @@ export * from './manager/ReportList/ReportModal'
 export * from './manager/SignupWait/WaitBox'
 export * from './manager/SignupWait/WaitUser'
 
-export * from './Map' // Naver Map API component
+// Naver Map API component
+export * from './Map'
+
+// Text Format
+export * from './Texts'
