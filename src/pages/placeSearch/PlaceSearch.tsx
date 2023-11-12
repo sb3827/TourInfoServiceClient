@@ -22,7 +22,7 @@ export const PlaceSearch: FC<ManagerProps> = ({}) => {
         <Box>
             <div className="justify-center w-5/6 ">
                 <SubTitle text="장소 검색">
-                    <SearchInput value={searchValue} onChange={onChangeSearch} />
+                    <SearchInput value={searchValue} onChange={onChangeSearch} styles='flex' />
                 </SubTitle>
             </div>
                 <div className="flex justify-center w-full h-screen mb-32">
