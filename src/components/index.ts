@@ -7,7 +7,6 @@ export * from './Rating'
 // /manager
 export * from './manager/Box'
 
-export * from './manager/SubTitle'
 export * from './manager/SubBox'
 export * from './manager/UserInfo'
 export * from './manager/ToggleButton'
