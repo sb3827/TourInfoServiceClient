@@ -5,10 +5,7 @@ import {
     SubTitle,
     Map,
     ToggleButton,
-    SubBox,
-    WaitBox,
-    ReportBox,
-    Title
+    SubBox
 } from '../../components/index'
 import {ADBoard, UserBoard} from './index'
 
@@ -43,10 +40,8 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
                 <ToggleButton>
                     <SubTitle text="게시글" />
                     <SubTitle text="광고" />
-                    {/* <UserBoard/>
-                    <ADBoard/> */}
-                    <WaitBox />
-                    <ReportBox />
+                    <UserBoard />
+                    <ADBoard />
                 </ToggleButton>
             </SubBox>
         </Box>
