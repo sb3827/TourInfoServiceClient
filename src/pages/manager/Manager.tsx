@@ -40,7 +40,7 @@ export const Manager: FC<ManagerProps> = ({}) => {
             <div className="w-2/3 ml-4">
                 <SubTitle text="사용자 검색">
                     <SearchInput
-                        styles="w-1/2"
+                        className="w-1/2"
                         value={searchValue}
                         onChange={onChangeSearch}
                     />
