@@ -4,7 +4,7 @@ import {
     FindBox,
     ReportBox,
     SearchInput,
-    SubTitle,
+    Subtitle,
     ToggleButton,
     WaitBox
 } from '../../components/index'
@@ -27,24 +27,28 @@ export const Manager: FC<ManagerProps> = ({}) => {
     return (
         <Box>
             <ToggleButton>
-                <SubTitle text="회원대기 목록" styles="ml-5">
-                    <FontAwesomeIcon icon={faList} className="absolute" />
-                </SubTitle>
-                <SubTitle text="신고 목록" styles="ml-5">
-                    <FontAwesomeIcon icon={faBell} className="absolute" />
-                </SubTitle>
+                <Subtitle
+                    value="회원대기 목록"
+                    className="ml-5 text-left flex items-center flex-row-reverse">
+                    <FontAwesomeIcon icon={faList} className="m-1" />
+                </Subtitle>
+                <Subtitle
+                    value="신고 목록"
+                    className="ml-5 text-left flex items-center flex-row-reverse">
+                    <FontAwesomeIcon icon={faBell} className="m-1" />
+                </Subtitle>
                 <WaitBox />
                 <ReportBox />
             </ToggleButton>
 
             <div className="w-2/3 ml-4">
-                <SubTitle text="사용자 검색">
+                <Subtitle value="사용자 검색" className="flex items-center m-5">
                     <SearchInput
-                        styles="w-1/2"
+                        className="w-1/2"
                         value={searchValue}
                         onChange={onChangeSearch}
                     />
-                </SubTitle>
+                </Subtitle>
             </div>
             <FindBox />
         </Box>
