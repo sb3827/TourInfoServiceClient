@@ -1,23 +1,14 @@
 import React, {FC, useState} from 'react'
-import {
-    Box,
-    Map,
-    ToggleButton,
-    SubBox,
-    Subtitle
-} from '../../components/index'
+import {Box, Map, ToggleButton, SubBox, Subtitle} from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faList} from '@fortawesome/free-solid-svg-icons'
 import {ADBoard, UserBoard} from './index'
-
 
 // 장소상세 페이지
 
 type PlaceDetailsProps = {}
 
 export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
-
-
     return (
         <Box>
             <div className="flex justify-center w-full mb-4 h-96">
@@ -32,9 +23,7 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
                     </div>
                 </div>
             </div>
-
-            <SubBox>
-                <ToggleButton>
+            <ToggleButton>
                 <Subtitle
                     value="유저 게시글"
                     className="flex flex-row-reverse items-center ml-5 text-left">
@@ -45,10 +34,13 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
                     className="flex flex-row-reverse items-center ml-5 text-left">
                     <FontAwesomeIcon icon={faList} className="m-1" />
                 </Subtitle>
-                    <UserBoard/>
+                <SubBox>
+                    <UserBoard />
+                </SubBox>
+                <SubBox>
                     <ADBoard />
-                </ToggleButton>
-            </SubBox>
+                </SubBox>
+            </ToggleButton>
         </Box>
     )
 }

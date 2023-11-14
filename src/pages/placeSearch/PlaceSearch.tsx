@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react'
 import {Box, SearchInput, Map} from '../../components/index'
-import { SearchResult } from "./index";
+import {SearchResult} from './index'
 
 // 장소검색 페이지
 
@@ -18,15 +18,15 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
     return (
         <Box>
             <SearchInput
-                        className="w-5/6 mb-4"
-                        value={searchValue}
-                        onChange={onChangeSearch}
-                    />                  
+                className="w-4/6 mb-4"
+                value={searchValue}
+                onChange={onChangeSearch}
+            />
             <div className="flex justify-center w-full h-screen mb-32">
                 <div className="flex w-5/6 h-5/6">
                     <div className="w-2/6 p-3 overflow-y-auto border rounded-lg border--300">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
-                        <SearchResult text="장소"/>
+                        <SearchResult text="장소" />
                     </div>
                     <div className="w-4/6 p-3 border border-gray-300 rounded-lg">
                         {/* MapAPI 컴포넌트 */}
