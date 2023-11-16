@@ -1,5 +1,5 @@
 import {FC} from 'react'
-import {UserInfo, Button} from '../../components/index'
+import {UserInfo, Button, Slider} from '../../components/index'
 
 type ADBoardProps = {}
 
@@ -12,8 +12,8 @@ export const ADBoard: FC<ADBoardProps> = ({}) => {
                 <Button value="게시글 작성" className="bg-gradient-to-r bg-slate-500" />
             </div>
             {/* 썸네일 더미데이터 */}
-            <div className="h-64 p-10 m-2 border rounded-lg border--300 bg-sky-200">
-                Thumbnail
+            <div className="h-64 border rounded-lg border--300">
+                <Slider />
             </div>
             {/* 게시글 더미데이터 */}
             {Array.from({length: i}, (_, index) => (
