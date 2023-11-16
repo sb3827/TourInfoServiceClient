@@ -29,3 +29,5 @@ export * from './Map'
 
 // Text Format
 export * from './Texts'
+
+export * from './placeDetails/Slider'
