@@ -23,3 +23,23 @@ export * from './manager/SignupWait/WaitBox'
 export * from './manager/SignupWait/WaitUser'
 
 export * from './Map' // Naver Map API component
+
+// /myPage/ShowUserInfo
+export * from './myPage/ShowUserInfo/ProfileBox'
+export * from './myPage/ShowUserInfo/UserAvatar'
+export * from './myPage/ShowUserInfo/ShowFollowModal'
+export * from './myPage/ShowUserInfo/ShowMyFollowing'
+export * from './myPage/ShowUserInfo/ShowMyFollower'
+export * from './myPage/ShowUserInfo/MyFollowingBox'
+export * from './myPage/ShowUserInfo/MyFollowerBox'
+
+export * from './myPage/ShowPersonalMap/PersonalMap'
+
+export * from './myPage/ShowMyWriting/MyWriting'
+export * from './myPage/ShowMyWriting/MyCourseBox'
+export * from './myPage/ShowMyWriting/MyPostBox'
+export * from './myPage/ShowMyWriting/MyReplyBox'
+
+export * from './myPage/WritingButton'
+export * from './myPage/ChangeInfo'
+export * from './myPage/MyLikes'
