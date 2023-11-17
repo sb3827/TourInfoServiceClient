@@ -24,8 +24,14 @@ export * from './manager/SignupWait/WaitUser'
 
 export * from './Map' // Naver Map API component
 
-// /myPage
-export * from './myPage/MyLikes'
-
 // /myPage/ShowUserInfo
+export * from './myPage/ShowUserInfo/UserAvatar'
 export * from './myPage/ShowUserInfo/MyFollowerBox'
+
+export * from './myPage/ShowMyWriting/MyCourseBox'
+export * from './myPage/ShowMyWriting/MyPostBox'
+export * from './myPage/ShowMyWriting/MyReplyBox'
+
+export * from './myPage/WritingButton'
+export * from './myPage/ChangeInfo'
+export * from './myPage/MyLikes'
