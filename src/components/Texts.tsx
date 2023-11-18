@@ -36,10 +36,11 @@ export const Title: FC<SubtitleProps> = ({
     return <p {...props} className={className} />
 }
 
-export type SubtitleProps = HeadlineProps & {}
+export type SubtitleProps = HeadlineProps & {value: string}
 export const Subtitle: FC<SubtitleProps> = ({
     className: _className,
     numberOfLines,
+    children,
     ...props
 }) => {
     const className = makeClassName(
@@ -47,7 +48,12 @@ export const Subtitle: FC<SubtitleProps> = ({
         _className,
         numberOfLines
     )
-    return <p {...props} className={className} />
+    return (
+        <p {...props} className={className}>
+            {props.value}
+            {children}
+        </p>
+    )
 }
 
 export type CaptionProps = SubtitleProps & {}
