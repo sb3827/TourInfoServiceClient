@@ -20,10 +20,10 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
 
     return (
         <div>
-            <div className="ml-auto  h-full">
+            <div className="ml-auto  h-full opacity-70">
                 <div>{children}</div>
                 <div
-                    className={`fixed top-0 w-14 h-full bg-slate-400 border-r-2 transition-all pt-4 flex-col items-center  ${
+                    className={`rounded-r-3xl fixed top-0 w-14 h-full bg-blue-300 border-r-2 transition-all pt-4 flex-col items-center  ${
                         isOpen ? 'w-64 transition-all' : ''
                     }`}>
                     <div
@@ -31,6 +31,7 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
                         onClick={handleTrigger}>
                         <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
                     </div>
+                    {/* merge 후 아래 바로 아래 SidebarItem은 변경 예정 - 사용자 이미지 및 이름 컴포넌트로 변경 */}
                     <SidebarItem sideTitle="Home" isOpen={isOpen}>
                         <FontAwesomeIcon icon={faUser} color="#4169E1" />
                     </SidebarItem>
