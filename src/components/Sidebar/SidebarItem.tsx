@@ -12,13 +12,13 @@ export const SidebarItem: FC<PropsWithChildren<SidebarItemProps>> = ({
     isOpen
 }) => {
     return (
-        <div className="h-14 cursor-pointer flex items-center px-3 text-left">
+        <div className="h-14 cursor-pointer flex items-center px-4 text-left hover:bg-slate-400 hover:border-r-8 hover:border-red-800">
             {children}
             <span
                 className={
                     !isOpen
-                        ? `w-0 h-0 px-4 transition-all uppercase whitespace-nowrap overflow-hidden text-ellipsis`
-                        : `block w-full h-auto`
+                        ? `w-0 h-0 px-4 transition-all uppercase whitespace-nowrap overflow-hidden text-ellipsis `
+                        : `flex justify-center w-full h-auto text-slate-200`
                 }>
                 {sideTitle}
             </span>

@@ -20,29 +20,28 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
 
     return (
         <div>
-            <div className="page">
+            <div className="ml-auto  h-full">
                 <div>{children}</div>
-
                 <div
-                    className={`fixed top-0 w-14 h-full bg-slate-600 border-r-2 transition-all pt-4 ${
+                    className={`fixed top-0 w-14 h-full bg-slate-400 border-r-2 transition-all pt-4 flex-col items-center  ${
                         isOpen ? 'w-64 transition-all' : ''
                     }`}>
                     <div
-                        className="h-14 text-2xl cursor-pointer flex items-center justify-end px-3 pb-4"
+                        className="h-14 text-2xl cursor-pointer flex items-center justify-end px-4"
                         onClick={handleTrigger}>
                         <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
                     </div>
                     <SidebarItem sideTitle="Home" isOpen={isOpen}>
-                        <FontAwesomeIcon icon={faUser} />
+                        <FontAwesomeIcon icon={faUser} color="#4169E1" />
                     </SidebarItem>
                     <SidebarItem sideTitle="Menu item 2" isOpen={isOpen}>
-                        <FontAwesomeIcon icon={faCogs} />
+                        <FontAwesomeIcon icon={faCogs} color="#4169E1" />
                     </SidebarItem>
                     <SidebarItem sideTitle="Menu item 3" isOpen={isOpen}>
-                        <FontAwesomeIcon icon={faTable} />
+                        <FontAwesomeIcon icon={faTable} color="#4169E1" />
                     </SidebarItem>
                     <SidebarItem sideTitle="Menu item 4" isOpen={isOpen}>
-                        <FontAwesomeIcon icon={faList} />
+                        <FontAwesomeIcon icon={faList} color="#4169E1" />
                     </SidebarItem>
                 </div>
             </div>
