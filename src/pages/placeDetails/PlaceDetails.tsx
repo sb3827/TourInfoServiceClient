@@ -2,7 +2,7 @@ import React, {FC, useState} from 'react'
 import {Box, Map, ToggleButton, SubBox, Subtitle} from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faList} from '@fortawesome/free-solid-svg-icons'
-import {ADBoard, UserBoard} from './index'
+import { Board } from "./index";
 
 // 장소상세 페이지
 
@@ -35,10 +35,10 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
                     <FontAwesomeIcon icon={faList} className="m-1" />
                 </Subtitle>
                 <SubBox>
-                    <UserBoard />
+                    <Board />
                 </SubBox>
                 <SubBox>
-                    <ADBoard />
+                    <Board />
                 </SubBox>
             </ToggleButton>
         </Box>
