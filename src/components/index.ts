@@ -30,4 +30,6 @@ export * from './Map'
 // Text Format
 export * from './Texts'
 
-export * from './placeDetails/Slider'
+//place
+export * from './place/Slider'
+export * from './place/SearchResult'
