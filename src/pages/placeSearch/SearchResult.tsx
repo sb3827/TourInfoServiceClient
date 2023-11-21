@@ -2,18 +2,23 @@ import React, {FC} from 'react'
 
 
 type SearchResultProps = {
-  text: string
+  name: string;
+  address: string;
+  information: string;
+  imageUrl: string;
 }
 
-export const SearchResult: FC<SearchResultProps> = ({text}) => {
-    var i: number = 7
+export const SearchResult: FC<SearchResultProps> = ({name, address, information, imageUrl}) => {
   return (
-    <div>
-        {Array.from({length: i}, () => (
-            <div className="p-10 m-2 border rounded-lg border--300 bg-sky-200">
-                 <span>{text}</span>
-                 </div>
-        ))}
+    <div className='p-4 m-2 text-2xl border rounded-lg border--300 bg-sky-200'>
+      <div className='w-1/2'>
+        <div>{name}</div>
+        <div>{address}</div>
+        <div>{information}</div>
+      </div>
+      <div className='w-1/2'>
+        <img src={imageUrl} alt="" />
+      </div>
      </div>
 
   )
