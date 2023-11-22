@@ -52,8 +52,8 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = () => 
                     <TextEditor width="1000px" height="80vh"></TextEditor>
                 </div>
                 <div className="flex flex-row justify-end mx-6 my-2">
-                    <Button text="취소"></Button>
-                    <Button text="등록"></Button>
+                    <Button>취소</Button>
+                    <Button>등록</Button>
                 </div>
             </div>
         </div>
