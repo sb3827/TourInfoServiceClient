@@ -3,14 +3,15 @@ import {Input, TextEditor, Button, Rating} from '../../components'
 
 type PostRegisterProps = {}
 
+// 장소 포스팅 등록
 export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = () => {
     return (
-        <div>
+        <div className="w-10/12 mx-auto">
             <Input
                 className="my-2 border-black"
                 size={70}
                 placeholder="제목을 입력하세요"></Input>
-            <div>장소 입력</div>
+            <div>장소 입력 부분 지도</div>
             <div className="flex flex-row justify-end mx-6">
                 <Rating />
             </div>
