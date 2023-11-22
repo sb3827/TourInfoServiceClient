@@ -32,4 +32,5 @@ export * from './Texts'
 
 //place
 export * from './place/Slider'
-export * from './place/SearchResult'
+export * from './place/SearchInfo'
+export * from './place/Board'
