@@ -1,19 +1,24 @@
 import React, {FC} from 'react'
 import {Button, UserInfo} from '../../index'
+import {UserData} from '../../../data/manager/index'
 
-type FindUserInfoProps = {}
+type FindUserInfoProps = {
+    users: UserData
+}
 
-export const FindUserInfo: FC<FindUserInfoProps> = ({}) => {
+export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
     return (
         <div className="flex items-center w-full border-b-2">
             <div className="w-3/4 p-3 m-5 rounded-lg">
                 <div className="flex justify-between w-full ">
-                    <UserInfo text="이름" />
-                    <UserInfo text="아이디" />
-                    <UserInfo text="이메일" />
-                    <UserInfo text="전화번호" />
-                    <UserInfo text="가입일" />
-                    <UserInfo text="사업자 여부" />
+                    <UserInfo text={users.userName} />
+                    <UserInfo text={users.userId} />
+                    <UserInfo text={users.userEmail} />
+                    <UserInfo text={users.phoneNum} />
+                    <UserInfo text={users.regDate.toDateString()} />
+                    <UserInfo
+                        text={users.businessCheck === true ? '사업자' : '일반 회원'}
+                    />
                 </div>
             </div>
             <div className="flex justify-end w-1/4 p-3 m-5">
