@@ -13,7 +13,7 @@ export const Reply: FC<PropsWithChildren<ReplyProps>> = () => {
                     placeholder="댓글을 작성해 주세요"
                     className="mx-2 border-black"
                     size={80}></Input>
-                <Button text="작성" styles="" />
+                <Button value="작성" className="" />
             </div>
             <div className="flex justify-center">
                 <Comment
