@@ -7,7 +7,7 @@ import {
     useNavermaps
 } from 'react-naver-maps'
 
-interface MapProps {
+type MapProps = {
     width: string
     height: string
 }
