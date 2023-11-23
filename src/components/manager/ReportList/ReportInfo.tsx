@@ -17,7 +17,9 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
     const closeModal = () => setModalOpen(false)
     return (
         <div>
-            <div className="p-3 m-5 border-b-2 cursor-pointer" onClick={openModal}>
+            <div
+                className="p-3 m-5 border-b-2 cursor-pointer min-w-fit"
+                onClick={openModal}>
                 <div className="flex justify-between w-full ">
                     <UserInfo text={reportData.reportDate.toDateString()} />
                     <UserInfo text={reportData.listNum.toString()} />

@@ -8,8 +8,8 @@ type FindUserInfoProps = {
 
 export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
     return (
-        <div className="flex items-center w-full border-b-2">
-            <div className="w-3/4 p-3 m-5 rounded-lg">
+        <div className="flex items-center w-full border-b-2 min-w-fit">
+            <div className="w-3/4 p-3 m-5 rounded-lg ">
                 <div className="flex w-full ">
                     <UserInfo text={users.userName} />
                     <UserInfo text={users.userId} />
