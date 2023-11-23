@@ -34,6 +34,7 @@ export * from './Texts'
 export * from './place/Slider'
 export * from './place/SearchInfo'
 export * from './place/Board'
+
 // reply component
 export * from './Comment'
 
