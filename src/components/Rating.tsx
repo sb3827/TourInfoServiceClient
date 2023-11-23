@@ -1,9 +1,7 @@
-import {FC, DetailedHTMLProps, InputHTMLAttributes} from 'react'
-import {ReactInputProps} from './input'
+import {FC} from 'react'
 
-type RatingProps = ReactInputProps & {}
-
-export const Rating: FC<RatingProps> = () => {
+// rating component
+export const Rating: FC = () => {
     return (
         <div className="rating rating-md">
             <input
@@ -31,6 +29,7 @@ export const Rating: FC<RatingProps> = () => {
                 type="radio"
                 name="rating-7"
                 className="bg-orange-400 mask mask-star-2"
+                checked
             />
         </div>
     )

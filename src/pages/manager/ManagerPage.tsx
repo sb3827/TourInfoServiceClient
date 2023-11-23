@@ -30,12 +30,12 @@ export const Manager: FC<ManagerProps> = ({}) => {
             <ToggleButton>
                 <Subtitle
                     value="회원대기 목록"
-                    className="ml-5 text-left flex items-center flex-row-reverse">
+                    className="flex flex-row-reverse items-center ml-5 text-left">
                     <FontAwesomeIcon icon={faList} className="m-1" />
                 </Subtitle>
                 <Subtitle
                     value="신고 목록"
-                    className="ml-5 text-left flex items-center flex-row-reverse">
+                    className="flex flex-row-reverse items-center ml-5 text-left">
                     <FontAwesomeIcon icon={faBell} className="m-1" />
                 </Subtitle>
                 <WaitBox />
