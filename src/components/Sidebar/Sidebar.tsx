@@ -1,5 +1,4 @@
 import React, {FC, PropsWithChildren, useState} from 'react'
-import ReactDOM from 'react-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
     faBars,
@@ -20,14 +19,14 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
 
     return (
         <div>
-            <div className="ml-auto  h-full opacity-70">
+            <div className="h-full ml-auto opacity-70">
                 <div>{children}</div>
                 <div
                     className={`rounded-tr-3xl fixed top-0 w-14 h-full bg-gradient-to-b from-blue-300  transition-all pt-4 flex-col items-center  ${
                         isOpen ? 'w-64 transition-all' : ''
                     }`}>
                     <div
-                        className="h-14 text-2xl cursor-pointer flex items-center justify-end px-4"
+                        className="flex items-center justify-end px-4 text-2xl cursor-pointer h-14"
                         onClick={handleTrigger}>
                         <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
                     </div>
