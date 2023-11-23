@@ -1,9 +1,9 @@
 import {FC, PropsWithChildren, useState} from 'react'
-import {Box, SearchInput} from '../../components/index'
+import {Box, SearchInput, Button, SearchUserInfo} from '../../components/index'
 
 type UserSearchProps = {}
 
-export const UserSearch: FC<UserSearchProps> = () => {
+export const UserSearch: FC<UserSearchProps> = ({}) => {
     //검색 값
     const [searchValue, setSearchValue] = useState<string>('')
 
@@ -22,7 +22,12 @@ export const UserSearch: FC<UserSearchProps> = () => {
             <div className="flex justify-center w-full h-screen mb-32">
                 <div className="flex w-5/6 h-5/6">
                     <div className="w-full p-3 overflow-y-auto border rounded-lg border--300">
-                        {/* 검색 결과를 보여줄 컴포넌트 */}
+                        <SearchUserInfo profileImage="" information="정보" id="ID" />
+                        <SearchUserInfo profileImage="" information="정보" id="ID" />
+                        <SearchUserInfo profileImage="" information="정보" id="ID" />
+                        <SearchUserInfo profileImage="" information="정보" id="ID" />
+                        <SearchUserInfo profileImage="" information="정보" id="ID" />
+                        <SearchUserInfo profileImage="" information="정보" id="ID" />
                     </div>
                 </div>
             </div>
