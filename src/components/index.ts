@@ -1,7 +1,7 @@
 export * from './TextEditor' // custom TinyMCE Editor
 export * from './Button'
 export * from './SearchInput'
-export * from './Input'
+export * from './input'
 export * from './Rating'
 
 // /manager
@@ -30,11 +30,23 @@ export * from './Map'
 // Text Format
 export * from './Texts'
 
+//place
+export * from './place/Slider'
+export * from './place/SearchInfo'
+export * from './place/Board'
+
 // reply component
 export * from './Comment'
 
 // spot block component
 export * from './Spot'
+
 //Sidebar
 export * from './Sidebar/Sidebar'
 export * from './Sidebar/SidebarItem'
+
+//course
+export * from './course/CourseInfo'
+
+//user
+export * from './user/SearchUserInfo'
