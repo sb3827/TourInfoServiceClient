@@ -2,8 +2,14 @@ import React, {Children, FC, PropsWithChildren, useState} from 'react'
 import {Button} from '../Button'
 
 //토글 버튼 컴포넌트
+type ToggleButtonProps = {
+    size?: string
+}
 
-export const ToggleButton: FC<PropsWithChildren> = ({children}) => {
+export const ToggleButton: FC<PropsWithChildren<ToggleButtonProps>> = ({
+    children,
+    size
+}) => {
     const [toggle, setToggle] = useState<boolean>(true)
 
     //children 배열로 만들어줌
@@ -24,7 +30,7 @@ export const ToggleButton: FC<PropsWithChildren> = ({children}) => {
                 <div className="flex">
                     <button
                         onClick={onChangeFirstButton}
-                        className={`rounded-none rounded-l-xl btn ${
+                        className={`rounded-none rounded-l-xl btn ${size} ${
                             toggle === true
                                 ? 'bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-white'
                                 : 'btn-ghost'
@@ -33,7 +39,7 @@ export const ToggleButton: FC<PropsWithChildren> = ({children}) => {
                     </button>
                     <button
                         onClick={onChangeSecondButton}
-                        className={`rounded-none rounded-r-xl btn ${
+                        className={`rounded-none rounded-r-xl btn ${size} ${
                             toggle === false
                                 ? 'bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-white'
                                 : 'btn-ghost'
