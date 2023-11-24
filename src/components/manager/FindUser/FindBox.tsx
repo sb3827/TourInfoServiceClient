@@ -1,5 +1,5 @@
 import React, {FC} from 'react'
-import {FindUserInfo, SubBox} from '../../index'
+import {Button, FindUserInfo, SubBox, Subtitle} from '../../index'
 import {UserData} from '../../../data/manager/index'
 
 type FindBoxProps = {}
@@ -37,6 +37,34 @@ export const FindBox: FC<FindBoxProps> = ({}) => {
     /////////////////////////////////////////////////////////////
     return (
         <SubBox>
+            <div className="flex items-center w-full border-b-2  min-w-max">
+                <div className="w-3/4 p-3 ">
+                    <div className="flex w-full ">
+                        <div>
+                            <Subtitle className="w-40 p-3 min-w-fit">이름</Subtitle>
+                        </div>
+                        <div>
+                            <Subtitle className="w-40 p-3 min-w-fit">아이디</Subtitle>
+                        </div>
+                        <div>
+                            <Subtitle className="w-40 p-3 min-w-fit">이메일</Subtitle>
+                        </div>
+                        <div>
+                            <Subtitle className="w-40 p-3 min-w-fit">전화번호</Subtitle>
+                        </div>
+                        <div>
+                            <Subtitle className="w-40 p-3 min-w-fit">가입일자</Subtitle>
+                        </div>
+                        <div>
+                            <Subtitle className="w-40 p-3 min-w-fit">
+                                사업자 여부
+                            </Subtitle>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex justify-end w-1/4 p-3 mr-16 min-w-fit"></div>
+            </div>
+
             {usersDummy.map((users, index) => (
                 <FindUserInfo key={index} users={users} />
             ))}

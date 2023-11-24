@@ -25,8 +25,8 @@ export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
     }
 
     return (
-        <div className="flex items-center w-full border-b-2 min-w-fit ">
-            <div className="w-3/4 p-3 m-5 rounded-lg">
+        <div className="flex items-center w-full border-b-2 min-w-max ">
+            <div className="w-3/4 p-3">
                 <div className="flex w-full ">
                     <UserInfo text={waitUser.userName} />
                     <UserInfo text={waitUser.userId} />
@@ -35,19 +35,19 @@ export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
                     <UserInfo text={waitUser.businessNum} />
                 </div>
             </div>
-            <div className="flex justify-around p-3 m-5 min-w-fit">
+            <div className="flex justify-around p-3 min-w-fit">
                 <Button
                     value="조회"
-                    className="text-gray-500 bg-gradient-to-r from-lime-300 via-lime-400 to-lime-500"
+                    className="bg-white text-green-700 hover:text-white border border-green-700 hover:bg-green-800  focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 "
                     onClick={() => onCheck([waitUser.businessNum])}
                 />
                 <Button
                     value="승인"
-                    className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700"
+                    className="bg-white text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 "
                 />
                 <Button
                     value="삭제"
-                    className="bg-gradient-to-r from-red-400 via-red-500 to-red-600"
+                    className="bg-white text-red-700 hover:text-white border border-red-700 hover:bg-red-800  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600"
                 />
             </div>
         </div>
