@@ -4,7 +4,6 @@ import {
     FindBox,
     ReportBox,
     SearchInput,
-    Sidebar,
     Subtitle,
     ToggleButton,
     WaitBox
