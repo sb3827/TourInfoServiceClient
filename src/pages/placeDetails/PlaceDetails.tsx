@@ -17,7 +17,7 @@ import {faList} from '@fortawesome/free-solid-svg-icons'
 type PlaceDetailsProps = {}
 
 export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
-    // 더미 검색 결과 데이터 (7개의 더미 데이터 생성, 테스트를 위한 하드코딩) 추후 배열의 길이로 반복해야함
+    // 더미 데이터 (7개의 더미 데이터 생성, 테스트를 위한 하드코딩) 추후 배열의 길이로 반복해야함
     const userBoards = Array.from({length: 7}, (_, index) => ({
         no: {index},
         name: `제목`,
@@ -27,7 +27,7 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
     }))
     // 더미 데이터
 
-    // 더미 검색 결과 데이터 (7개의 더미 데이터 생성, 테스트를 위한 하드코딩)
+    // 더미 데이터
     const ADBoards = Array.from({length: 7}, (_, index) => ({
         no: {index},
         name: `제목`,
@@ -60,10 +60,9 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
             {/* 추후 게시글의 썸네일과 연동시켜야함 */}
             <div className="flex w-4/6 h-64 border rounded-lg border--30">
                 <Slider>
-                    <div>Thumbnail 1</div>
-                    <div>Thumbnail 2</div>
-                    <div>Thumbnail 3</div>
-                    <div>Thumbnail 4</div>
+                    {userBoards.map((result, index) => (
+                        <Board imageUrl={result.imageUrl} />
+                    ))}
                 </Slider>
             </div>
 
