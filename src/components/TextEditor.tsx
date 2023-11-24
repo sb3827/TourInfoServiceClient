@@ -1,34 +1,37 @@
 import type {FC} from 'react'
-import {Editor} from '@tinymce/tinymce-react'
+import CustomEditor from 'ckeditor5-custom-build/build/ckeditor'
+import {CKEditor} from '@ckeditor/ckeditor5-react'
 
-interface TextEditorProps {
-  initialValue?: string
-  width: string
-  height: string
+type TextEditorProps = {
+    initialValue?: string
+    width?: string
+    height?: string
 }
 
 export const TextEditor: FC<TextEditorProps> = ({initialValue, width, height}) => {
-  return (
-    <Editor
-      apiKey={process.env.TINY_MCE_API_KEY} //Environment Variable(.env)
-      init={{
-        resize: false,
-        width: width,
-        height: height,
-        plugins:
-          'ai mentions autolink charmap emoticons image link lists searchreplace table visualblocks checklist mediaembed casechange formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
-        toolbar:
-          'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'Author name',
-        mergetags_list: [
-          {value: 'First.Name', title: 'First Name'},
-          {value: 'Email', title: 'Email'}
-        ],
-        ai_request: (request: any, respondWith: any) =>
-          respondWith.string(() => Promise.reject('See docs to implement AI Assistant'))
-      }}
-      initialValue={initialValue}
-    />
-  )
+    return (
+        <CKEditor
+            editor={CustomEditor}
+            config={{
+                placeholder: initialValue || '내용을 입력하세요'
+            }}
+            onReady={editor => {
+                // You can store the "editor" and use when it is needed.
+                console.log('Editor is ready to use!', editor)
+            }}
+            onChange={(event, editor) => {
+                const data = editor.getData()
+                console.log({event, editor, data})
+            }}
+            onBlur={(event, editor) => {
+                console.log('Blur.', editor)
+            }}
+            onFocus={(event, editor) => {
+                console.log('Focus.', editor)
+            }}
+            onError={(error, {willEditorRestart}) => {
+                console.log('Error.')
+            }}
+        />
+    )
 }
