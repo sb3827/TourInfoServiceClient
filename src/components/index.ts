@@ -3,9 +3,9 @@ export * from './Button'
 export * from './SearchInput'
 export * from './Input'
 export * from './Rating'
+export * from './Box'
 
 // /manager
-export * from './manager/Box'
 
 export * from './manager/SubBox'
 export * from './manager/UserInfo'
