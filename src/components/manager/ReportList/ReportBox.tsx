@@ -1,5 +1,5 @@
-import React, {FC} from 'react'
-import {ReportInfo, SubBox, Subtitle} from '../../index'
+import {FC} from 'react'
+import {ReportInfo, SubBox, Subtitle, UserInfoItemBox} from '../../index'
 import {ReportData} from '../../../data/manager'
 
 //신고 박스
@@ -35,8 +35,8 @@ export const ReportBox: FC<ReportBoxProps> = ({}) => {
 
     return (
         <SubBox>
-            <div className="p-3 border-b-2 min-w-fit">
-                <div className="flex justify-between w-full ">
+            <UserInfoItemBox widthFull={true} justifyAround="justify-around">
+                <div className="flex justify-around w-full">
                     <div>
                         <Subtitle className="w-40 p-3 min-w-fit">신고날짜</Subtitle>
                     </div>
@@ -50,7 +50,7 @@ export const ReportBox: FC<ReportBoxProps> = ({}) => {
                         <Subtitle className="w-40 p-3 min-w-fit">신고 유저</Subtitle>
                     </div>
                 </div>
-            </div>
+            </UserInfoItemBox>
             {reportDummy.map((reportData, index) => (
                 <ReportInfo key={index} reportData={reportData} />
             ))}

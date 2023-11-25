@@ -1,7 +1,7 @@
-import React, {FC} from 'react'
-import {Button, UserInfo} from '../../index'
+import {FC} from 'react'
+import {Button, UserInfo, UserInfoItemBox} from '../../index'
 import {postBusinessCheck} from '../../../api/Business/BusinessCheck'
-import {WaitUserData} from '../../../data/manager'
+import {WaitUserData} from '../../../data/manager/index'
 
 // 유저 정보 한줄 - 추후 UserInfo로 prop 추가해줘야함
 
@@ -25,16 +25,15 @@ export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
     }
 
     return (
-        <div className="flex items-center w-full border-b-2 min-w-max ">
-            <div className="w-3/4 p-3">
-                <div className="flex w-full ">
-                    <UserInfo text={waitUser.userName} />
-                    <UserInfo text={waitUser.userId} />
-                    <UserInfo text={waitUser.userEmail} />
-                    <UserInfo text={waitUser.phoneNum} />
-                    <UserInfo text={waitUser.businessNum} />
-                </div>
+        <UserInfoItemBox widthFull={false} isButton={true}>
+            <div className="flex">
+                <UserInfo text={waitUser.userName} />
+                <UserInfo text={waitUser.userId} />
+                <UserInfo text={waitUser.userEmail} />
+                <UserInfo text={waitUser.phoneNum} />
+                <UserInfo text={waitUser.businessNum} />
             </div>
+
             <div className="flex justify-around p-3 min-w-fit">
                 <Button
                     value="조회"
@@ -50,6 +49,6 @@ export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
                     className="bg-white text-red-700 hover:text-white border border-red-700 hover:bg-red-800  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600"
                 />
             </div>
-        </div>
+        </UserInfoItemBox>
     )
 }
