@@ -2,6 +2,8 @@ import {FC, PropsWithChildren} from 'react'
 import {Body, Caption} from './Texts'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
+import {DropdownIcon} from './Button'
+import {dropdownText} from "../dummy data/sb's dummy"
 
 type CommentProps = {
     img: string //img src
@@ -22,7 +24,13 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = props => {
             </div>
             <div className="flex flex-col w-5/6">
                 <div className="flex justify-end mx-4 my-4">
-                    <FontAwesomeIcon icon={faEllipsisVertical} size="xl" />
+                    <DropdownIcon texts={dropdownText}>
+                        <FontAwesomeIcon
+                            className="hover:cursor-pointer"
+                            icon={faEllipsisVertical}
+                            size="xl"
+                        />
+                    </DropdownIcon>
                 </div>
                 <div className="flex mx-6">
                     <Body className="mx-6 text-ellipsis">{props.comment}</Body>
