@@ -26,3 +26,10 @@ export const dummyText = `<p>111111111111111111111111111</p>
 // dropdown dummy
 export const dropdownText = ['댓글 달기', '수정', '삭제', '신고']
 export const postText = ['수정', '신고']
+
+// slider src dummy
+export const imgsrcs = [
+    'https://via.placeholder.com/600x400',
+    'https://via.placeholder.com/600x400',
+    'https://via.placeholder.com/600x400'
+]
