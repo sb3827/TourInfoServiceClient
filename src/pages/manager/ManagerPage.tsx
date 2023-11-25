@@ -4,7 +4,6 @@ import {
     FindBox,
     ReportBox,
     SearchInput,
-    Sidebar,
     Subtitle,
     ToggleButton,
     WaitBox
@@ -27,15 +26,15 @@ export const Manager: FC<ManagerProps> = ({}) => {
 
     return (
         <Box>
-            <ToggleButton>
+            <ToggleButton size="w-48">
                 <Subtitle
                     value="회원대기 목록"
-                    className="flex flex-row-reverse items-center ml-5 text-left">
+                    className="flex flex-row-reverse items-center text-left">
                     <FontAwesomeIcon icon={faList} className="m-1" />
                 </Subtitle>
                 <Subtitle
                     value="신고 목록"
-                    className="flex flex-row-reverse items-center ml-5 text-left">
+                    className="flex flex-row-reverse items-center text-left">
                     <FontAwesomeIcon icon={faBell} className="m-1" />
                 </Subtitle>
                 <WaitBox />

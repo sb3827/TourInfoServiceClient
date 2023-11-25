@@ -1,5 +1,5 @@
-import React, {FC, useState} from 'react'
-import {Button, ReportModal, UserInfo} from '../../index'
+import {FC, useState} from 'react'
+import {Button, ReportModal, UserInfo, UserInfoItemBox} from '../../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
 import {ReportData} from '../../../data/manager/index'
@@ -17,14 +17,18 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
     const closeModal = () => setModalOpen(false)
     return (
         <div>
-            <div className="p-3 m-5 border-b-2 cursor-pointer" onClick={openModal}>
-                <div className="flex justify-between w-full ">
+            <UserInfoItemBox
+                widthFull={true}
+                pointer={true}
+                justifyAround="justify-around"
+                onClick={openModal}>
+                <div className="flex justify-around w-full">
                     <UserInfo text={reportData.reportDate.toDateString()} />
                     <UserInfo text={reportData.listNum.toString()} />
                     <UserInfo text={reportData.userId} />
                     <UserInfo text={reportData.reportedUser} />
                 </div>
-            </div>
+            </UserInfoItemBox>
             <ReportModal isOpen={isModalOpen} onClose={closeModal}>
                 <div className="flex flex-row items-center justify-center">
                     <FontAwesomeIcon icon={faBell} className="mr-2" />
