@@ -1,5 +1,6 @@
 import {FC, PropsWithChildren} from 'react'
 import {Input, Button} from '../../components'
+import {Link} from 'react-router-dom'
 
 type LoginProps = {}
 
@@ -32,17 +33,17 @@ export const Login: FC<PropsWithChildren<LoginProps>> = () => {
               </div>
             </div>
             <div className="flex flex-row items-center space-x-10">
-              <a href="/pages/Signup" className="text-blue-500 hover:underline">
+              <Link to="/pages/Signup">
                 Go to Signup
-              </a>
+              </Link>
               <Button
                 value="Login"
                 onClick={() => console.log('Button clicked')}
               >
               </Button>
-              <a href="/pages/FindId" className="text-blue-500 hover:underline">
+              <Link to="/pages/FindId">
                 Forget ID/PW?
-              </a>
+              </Link>
             </div>
           </section>
         </div>
