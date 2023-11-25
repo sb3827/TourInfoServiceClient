@@ -13,7 +13,6 @@ export const Rating: FC = () => {
                 type="radio"
                 name="rating-7"
                 className="bg-orange-400 mask mask-star-2"
-                checked
             />
             <input
                 type="radio"
@@ -29,7 +28,6 @@ export const Rating: FC = () => {
                 type="radio"
                 name="rating-7"
                 className="bg-orange-400 mask mask-star-2"
-                checked
             />
         </div>
     )
