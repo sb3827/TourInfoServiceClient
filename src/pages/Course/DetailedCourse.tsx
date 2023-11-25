@@ -1,5 +1,5 @@
 import {FC, PropsWithChildren, useState} from 'react'
-import {Title, Map, TextBox, DropdownIcon} from '../../components'
+import {Title, Map, TextBox, DropdownIcon, Slider} from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
@@ -9,7 +9,7 @@ import {
     faEllipsisVertical
 } from '@fortawesome/free-solid-svg-icons'
 import {DailyCourse} from '../DailyCourse'
-import {dummyText, postText} from "../../dummy data/sb's dummy"
+import {dummyText, postText, imgsrcs} from "../../dummy data/sb's dummy"
 
 type DetailedCourseType = {
     title: string
@@ -108,7 +108,15 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = ({title
             <div className="my-2">
                 {/*body*/}
                 <div className="flex flex-row justify-center">
-                    img
+                    <Slider className="w-1/3">
+                        {imgsrcs.map((addr, index) => (
+                            <img
+                                className="mx-auto my-auto"
+                                key={index}
+                                src={addr}
+                                alt="img"></img>
+                        ))}
+                    </Slider>
                     <Map width="600px" height="400px"></Map>
                 </div>
                 <div className="my-2">{dailyCourses}</div>
