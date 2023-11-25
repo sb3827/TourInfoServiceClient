@@ -11,8 +11,7 @@ type ButtonProps = ReactButtonProps & {value?: string}
 
 export const Button = forwardRef<HTMLInputElement, ButtonProps>((props, ref) => {
     const {className: _className, ...buttonProps} = props
-    // const className = `btn m-1 p-5 ${styles} border rounded-lg text-white`
-    const className = ['btn m-1 p-5 border rounded-lg text-white', _className].join(' ')
+    const className = ['btn m-1 p-5 border rounded-lg', _className].join(' ')
 
     return (
         <button className={className} onClick={props.onClick}>
