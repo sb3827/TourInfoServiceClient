@@ -1,6 +1,7 @@
 import React, {
     Children,
     DetailedHTMLProps,
+    FC,
     HTMLAttributes,
     PropsWithChildren
 } from 'react'
@@ -14,7 +15,7 @@ type UserInfoItemBoxProps = ReactDivProps &
         pointer?: boolean
         isButton?: boolean
     }
-export const UserInfoItemBox: React.FC<UserInfoItemBoxProps> = ({
+export const UserInfoItemBox: FC<UserInfoItemBoxProps> = ({
     children,
     onClick,
     widthFull,
