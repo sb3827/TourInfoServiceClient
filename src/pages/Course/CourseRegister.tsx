@@ -2,11 +2,13 @@ import {FC, PropsWithChildren, useState} from 'react'
 import {TextEditor, Input, Button, Rating} from '../../components'
 import {DailyCourse} from '../DailyCourse'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlus, faMinus} from '@fortawesome/free-solid-svg-icons'
+import {faPlus, faMinus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 
-type CourseRegisterProps = {}
+type CourseRegisterProps = {
+    isModify: boolean // true: 수정, false: 등록
+}
 
-export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = () => {
+export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props => {
     const [days, setDays] = useState<number>(1) // day state
     // create day box for each
     const dailyCourses = Array.from({length: days}).map((_, index) => (
@@ -20,14 +22,27 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = () => 
     function daysMinus() {
         if (days !== 1) setDays(days - 1)
     }
+    // left arrow button
+    function backPage() {
+        // 뒤로가기 로직
+        alert('뒤로가기 만들어줘')
+    }
     return (
         <div>
+            <div className="flex justify-start mx-10 my-6">
+                <FontAwesomeIcon
+                    className="hover:cursor-pointer"
+                    icon={faArrowLeft}
+                    size="2xl"
+                    onClick={backPage}
+                />
+            </div>
             <div className="w-10/12 mx-auto">
                 <Input
                     className="my-2 border-black"
                     size={70}
                     placeholder="제목을 입력하세요"></Input>
-                <div>장바구니 목록s</div>
+                <div>장바구니 목록s: 해창씨 어서 해줘요</div>
                 <div>
                     <div className="flex justify-end mb-2 mr-3">
                         <FontAwesomeIcon
@@ -52,8 +67,9 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = () => 
                     <TextEditor width="1000px" height="80vh"></TextEditor>
                 </div>
                 <div className="flex flex-row justify-end mx-6 my-2">
-                    <Button>취소</Button>
-                    <Button>등록</Button>
+                    {props.isModify && <Button className="btn-error" value={'삭제'} />}
+                    {props.isModify && <Button className="btn-warning" value={'수정'} />}
+                    {props.isModify || <Button className="btn-success" value={'등록'} />}
                 </div>
             </div>
         </div>
