@@ -30,9 +30,17 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
                 value={searchValue}
                 onChange={onChangeSearch}
             />
-            <div className="flex justify-center w-full h-screen mb-32">
+            {/* 여행지 필터링 하드코딩 */}
+            <div className="flex justify-center w-3/6 h-20 bg-slate-300">
+                <div className="w-1/3 h-20 border-2">Tourist attractions</div>
+                <div className="w-1/3 h-20 border-2">Restaurant</div>
+                <div className="w-1/3 h-20 border-2">Accommodation</div>
+            </div>
+            {/* 여행지 필터링 하드코딩 */}
+
+            <div className="flex justify-center w-full h-screen ">
                 <div className="flex w-5/6 h-5/6">
-                    <div className="w-2/6 p-3 overflow-y-auto border rounded-lg border--300">
+                    <div className="w-2/6 overflow-y-auto border rounded-lg border--300">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
                         {/* 더미 검색 결과에 대해 SearchResult 컴포넌트 여러 번 렌더링 */}
                         {searchResults.map(result => (
@@ -44,7 +52,7 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
                             />
                         ))}
                     </div>
-                    <div className="w-4/6 p-3 border border-gray-300 rounded-lg">
+                    <div className="w-4/6 border border-gray-300 rounded-lg">
                         {/* MapAPI 컴포넌트 */}
                         <Map width="100%" height="100%"></Map>
                     </div>
