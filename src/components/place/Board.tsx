@@ -17,7 +17,7 @@ export const Board: FC<BoardProps> = ({no, name, id, date, imageUrl}) => {
         <div>
             {/* 게시글 더미데이터 */}
             <div className="flex items-center w-full border-b-2">
-                <div className="w-3/4 p-3 m-5 rounded-lg">
+                <div className="w-3/4 rounded-lg">
                     <div className="flex justify-between w-full">
                         <div>{no}</div>
                         <div>{name}</div>
