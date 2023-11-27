@@ -1,5 +1,5 @@
 import {FC, PropsWithChildren, useState} from 'react'
-import {Box, SearchInput, CourseInfo} from '../../components/index'
+import {Box, SearchInput, CourseInfo, Slider} from '../../components/index'
 
 type CourseSearchProps = {}
 
@@ -13,11 +13,7 @@ export const CourseSearch: FC<CourseSearchProps> = () => {
     }
 
     // 더미 검색 결과 데이터 (7개의 더미 데이터 생성, 테스트를 위한 하드코딩) 추후 배열의 길이로 반복해야함
-    const CourseInfos = Array.from({length: 7}, (_, index) => ({
-        title: `제목`,
-        information: '코스정보',
-        id: `id`,
-        date: `YYYY-MM-DD`,
+    const CourseImageInfos = Array.from({length: 3}, (_, index) => ({
         imageUrl: `이미지` // 더미 이미지 URL로 대체 가능
     }))
     // 더미 데이터
@@ -29,21 +25,80 @@ export const CourseSearch: FC<CourseSearchProps> = () => {
                 value={searchValue}
                 onChange={onChangeSearch}
             />
-            <div className="flex justify-center w-full h-screen mb-32">
-                <div className="flex w-5/6 h-5/6">
-                    <div className="w-full p-3 overflow-y-auto border rounded-lg border--300">
-                        {/* 검색 결과를 보여줄 컴포넌트 */}
-                        {CourseInfos.map((result, index) => (
-                            <CourseInfo
-                                title={result.title}
-                                information={result.information}
-                                id={result.id}
-                                date={result.date}
-                                imageUrl={result.imageUrl}
-                            />
-                        ))}
+            {/* 검색 결과 하드코딩*/}
+            <div className="justify-center w-5/6 h-screen overflow-y-auto ">
+                <div className="flex w-full h-64">
+                    <div className="w-1/3 h-64 ">
+                        <Slider>
+                            {CourseImageInfos.map((result, index) => (
+                                <CourseInfo imageUrl={result.imageUrl} />
+                            ))}
+                        </Slider>
+                    </div>
+                    <div className="w-2/3">
+                        <CourseInfo
+                            title="제목1"
+                            information="정보"
+                            id="id"
+                            date="YYYY-MM-DD"
+                        />
                     </div>
                 </div>
+
+                <div className="flex w-full h-64">
+                    <div className="w-1/3 h-64 ">
+                        <Slider>
+                            {CourseImageInfos.map((result, index) => (
+                                <CourseInfo imageUrl={result.imageUrl} />
+                            ))}
+                        </Slider>
+                    </div>
+                    <div className="w-2/3">
+                        <CourseInfo
+                            title="제목2"
+                            information="정보"
+                            id="id"
+                            date="YYYY-MM-DD"
+                        />
+                    </div>
+                </div>
+
+                <div className="flex w-full h-64">
+                    <div className="w-1/3 h-64 ">
+                        <Slider>
+                            {CourseImageInfos.map((result, index) => (
+                                <CourseInfo imageUrl={result.imageUrl} />
+                            ))}
+                        </Slider>
+                    </div>
+                    <div className="w-2/3">
+                        <CourseInfo
+                            title="제목3"
+                            information="정보"
+                            id="id"
+                            date="YYYY-MM-DD"
+                        />
+                    </div>
+                </div>
+
+                <div className="flex w-full h-64">
+                    <div className="w-1/3 h-64 ">
+                        <Slider>
+                            {CourseImageInfos.map((result, index) => (
+                                <CourseInfo imageUrl={result.imageUrl} />
+                            ))}
+                        </Slider>
+                    </div>
+                    <div className="w-2/3">
+                        <CourseInfo
+                            title="제목4"
+                            information="정보"
+                            id="id"
+                            date="YYYY-MM-DD"
+                        />
+                    </div>
+                </div>
+                {/* 검색 결과 하드코딩*/}
             </div>
         </Box>
     )
