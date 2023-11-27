@@ -4,9 +4,9 @@ export * from './SearchInput'
 export * from './Input'
 export * from './Rating'
 export * from './Box'
+export * from './Footer'
 
 // /manager
-
 export * from './manager/SubBox'
 export * from './manager/UserInfo'
 export * from './manager/ToggleButton'
