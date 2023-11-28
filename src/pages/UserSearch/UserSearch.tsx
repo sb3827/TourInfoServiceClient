@@ -20,7 +20,7 @@ export const UserSearch: FC<UserSearchProps> = ({}) => {
                 onChange={onChangeSearch}
             />
             <div className="flex justify-center w-full h-screen">
-                <div className="flex w-5/6 h-5/6">
+                <div className="flex w-4/6 h-4/6">
                     <div className="w-full overflow-y-auto border rounded-lg border--300">
                         <SearchUserInfo profileImage="" information="정보" id="ID" />
                         <SearchUserInfo profileImage="" information="정보" id="ID" />
