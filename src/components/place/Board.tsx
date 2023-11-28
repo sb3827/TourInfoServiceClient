@@ -1,39 +1,29 @@
-import {FC} from 'react'
+import React, {FC} from 'react'
+import {Slider} from '../index'
 
 type BoardProps = {
-    no?: number
-    name?: string
-    id?: string
-    date?: string
-    imageUrl?: string
+    title: string
+    imageUrl: string
+    rating: string
+    like: string
 }
 
-export const Board: FC<BoardProps> = ({no, name, id, date, imageUrl}) => {
-    // 썸네일 이미지 렌더링 부분
-    const renderImage = imageUrl && <img src={imageUrl} alt="Board Image" />
+export const Board: FC<BoardProps> = ({title, imageUrl, rating, like}) => {
+    // 추후 length 값을 배열로 나타내야함
+    const imageArray = Array.from({length: 3}, (_, index) => (
+        <figure key={index}>
+            <img src={imageUrl} alt="Image" />
+        </figure>
+    ))
 
-    // 게시판 내용 렌더링 부분
-    const renderBoardContent = (
-        <div>
-            {/* 게시글 더미데이터 */}
-            <div className="flex items-center w-full border-b-2">
-                <div className="w-3/4 rounded-lg">
-                    <div className="flex justify-between w-full">
-                        <div>{no}</div>
-                        <div>{name}</div>
-                        <div>{id}</div>
-                        <div>{date}</div>
-                    </div>
-                </div>
+    return (
+        <div className="w-full shadow-xl card bg-base-100">
+            <Slider>{imageArray}</Slider>
+            <div className="flex justify-between card-body">
+                <h2 className="card-title">
+                    {title} {rating} {like}
+                </h2>
             </div>
         </div>
     )
-
-    // 썸네일 이미지와 게시판 내용을 반환
-    if (imageUrl) {
-        return <div>{renderImage}</div>
-    }
-
-    // 썸네일 이미지가 없는 경우에는 게시판 내용만 반환
-    return renderBoardContent
 }
