@@ -53,5 +53,22 @@ export * from './course/CourseInfo'
 //user
 export * from './user/SearchUserInfo'
 
-//daisyUI
-export * from './daisyUI/Card'
+// /mypage
+export * from './myPage/ChangeInfo'
+export * from './myPage/MyLikes'
+export * from './myPage/WritingButton'
+
+// /mypage/ShowMyWriting
+export * from './myPage/ShowMyWriting/MyCourseBox'
+export * from './myPage/ShowMyWriting/MyPostBox'
+export * from './myPage/ShowMyWriting/MyReplyBox'
+
+// /mypage/ShowPersonalMap
+export * from './myPage/ShowPersonalMap/PersonalMap'
+
+// /mypage/ShowUserInfo
+export * from './myPage/ShowUserInfo/MyFollowerBox'
+export * from './myPage/ShowUserInfo/ProfileBox'
+export * from './myPage/ShowUserInfo/UserAvatar'
+export * from './myPage/ShowUserInfo/ShowMyFollowing'
+>>>>>>> 99b24697e5f3d319997eb4805d53e5a6b5b93567
