@@ -2,15 +2,6 @@ import {useState} from 'react'
 import {Title} from '../../components'
 import {EventTargetContext} from 'react-naver-maps'
 
-{
-    /* <img
-src="https://images.unsplash.com/photo-1655722723663-75b47de17a31?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-alt="Login image"
-className="hidden w-full rounded-lg md:block h-fit opacity-90"
-style={{objectFit: 'cover', objectPosition: 'left'}}
-/> */
-}
-
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')
     const [userPassword, setUserPassword] = useState<string>('')
