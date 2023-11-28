@@ -12,11 +12,13 @@ export const SearchUserInfo: FC<SearchResultProps> = ({
     id
 }) => {
     return (
-        <div className="flex items-center text-2xl border rounded-lg h-44 border--300 bg-slate-300">
-            <div className="flex w-1/3 h-full border-2">
-                <img src={profileImage} alt="Image" />
+        <div className="flex text-2xl border h-44 bg-slate-300">
+            <div className="avatar">
+                <div className="border-2 rounded-full ">
+                    <img src={profileImage} />
+                </div>
             </div>
-            <div className="w-2/3 h-full border-2">
+            <div className="w-full h-full border-2">
                 <div>{information}</div>
                 <div>{id}</div>
             </div>
