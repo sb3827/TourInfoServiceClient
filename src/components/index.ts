@@ -35,6 +35,7 @@ export * from './Texts'
 export * from './place/Slider'
 export * from './place/SearchInfo'
 export * from './place/Board'
+export * from './place/BoardToggle'
 
 // reply component
 export * from './Comment'
@@ -51,3 +52,6 @@ export * from './course/CourseInfo'
 
 //user
 export * from './user/SearchUserInfo'
+
+//daisyUI
+export * from './daisyUI/Card'
