@@ -8,7 +8,7 @@ type UserInfoProps = {
 
 export const UserInfo: FC<UserInfoProps> = ({text}) => {
     return (
-        <div className="p-3 w-40 min-w-fit">
+        <div className="w-40 p-3 min-w-fit">
             <span>{text}</span>
         </div>
     )

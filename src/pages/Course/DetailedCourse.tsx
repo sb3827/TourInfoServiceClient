@@ -1,9 +1,15 @@
 import {FC, PropsWithChildren, useState} from 'react'
-import {Title, Map} from '../../components'
+import {Title, Map, TextBox, DropdownIcon, Slider} from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faHeart, faBagShopping, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
+import {
+    faHeart,
+    faBagShopping,
+    faArrowLeft,
+    faEllipsisVertical
+} from '@fortawesome/free-solid-svg-icons'
 import {DailyCourse} from '../DailyCourse'
+import {dummyText, postText, imgsrcs} from "../../dummy data/sb's dummy"
 
 type DetailedCourseType = {
     title: string
@@ -25,6 +31,12 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = ({title
         setPick(!pick)
     }
 
+    // left arrow button
+    function backPage() {
+        // 뒤로가기 로직
+        alert('뒤로가기 만들어줘')
+    }
+
     const dailyCourses = Array.from({length: days}).map((_, index) => (
         <DailyCourse key={index} day={index + 1} isRegister={false} />
     ))
@@ -32,8 +44,20 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = ({title
         <div>
             <div className="my-2">
                 {/*header*/}
-                <div className="flex justify-start mx-10 my-6">
-                    <FontAwesomeIcon icon={faArrowLeft} size="2xl" />
+                <div className="flex justify-between mx-10 my-6">
+                    <FontAwesomeIcon
+                        className="hover:cursor-pointer"
+                        icon={faArrowLeft}
+                        size="2xl"
+                        onClick={backPage}
+                    />
+                    <DropdownIcon texts={postText}>
+                        <FontAwesomeIcon
+                            className="hover:cursor-pointer"
+                            icon={faEllipsisVertical}
+                            size="2xl"
+                        />
+                    </DropdownIcon>
                 </div>
                 <Title>{title}</Title>
                 <div className="flex flex-row justify-end">
@@ -84,11 +108,19 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = ({title
             <div className="my-2">
                 {/*body*/}
                 <div className="flex flex-row justify-center">
-                    img
+                    <Slider className="w-1/3">
+                        {imgsrcs.map((addr, index) => (
+                            <img
+                                className="mx-auto my-auto"
+                                key={index}
+                                src={addr}
+                                alt="img"></img>
+                        ))}
+                    </Slider>
                     <Map width="600px" height="400px"></Map>
                 </div>
                 <div className="my-2">{dailyCourses}</div>
-                <div>글....</div>
+                <TextBox data={dummyText}></TextBox>
             </div>
             <div className="my-2">
                 {/*footer*/}

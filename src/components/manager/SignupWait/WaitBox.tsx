@@ -1,5 +1,5 @@
-import React, {FC} from 'react'
-import {SubBox, WaitUser} from '../../index'
+import {FC} from 'react'
+import {SubBox, Subtitle, UserInfoItemBox, WaitUser} from '../../index'
 import {WaitUserData} from '../../../data/manager/index'
 
 //회원 대기 목록 컴포넌트 합체 - 추후 WaitUser에 props 추가하여야하고 반복문으로 수정해야함
@@ -35,6 +35,25 @@ export const WaitBox: FC<WaitBoxProps> = ({}) => {
 
     return (
         <SubBox>
+            <UserInfoItemBox widthFull={false}>
+                <div className="flex">
+                    <div>
+                        <Subtitle className="w-40 p-3 min-w-fit">이름</Subtitle>
+                    </div>
+                    <div>
+                        <Subtitle className="w-40 p-3 min-w-fit">아이디</Subtitle>
+                    </div>
+                    <div>
+                        <Subtitle className="w-40 p-3 min-w-fit">이메일</Subtitle>
+                    </div>
+                    <div>
+                        <Subtitle className="w-40 p-3 min-w-fit">전화번호</Subtitle>
+                    </div>
+                    <div>
+                        <Subtitle className="w-40 p-3 min-w-fit">사업자 번호</Subtitle>
+                    </div>
+                </div>
+            </UserInfoItemBox>
             {waitDummy.map((waitUser, index) => (
                 <WaitUser key={index} waitUser={waitUser} />
             ))}

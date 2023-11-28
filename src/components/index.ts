@@ -1,15 +1,16 @@
 export * from './TextEditor' // custom TinyMCE Editor
 export * from './Button'
 export * from './SearchInput'
-export * from './input'
+export * from './Input'
 export * from './Rating'
+export * from './Box'
 
 // /manager
-export * from './manager/Box'
 
 export * from './manager/SubBox'
 export * from './manager/UserInfo'
 export * from './manager/ToggleButton'
+export * from './manager/UserInfoItemBox'
 
 // /manager/FindUser
 export * from './manager/FindUser/FindBox'
