@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react'
-import {Box, SearchInput, Map, SearchInfo} from '../../components/index'
+import {Box, SearchInput, Map, SearchInfo, Button} from '../../components/index'
 
 // 장소검색 페이지
 
@@ -18,8 +18,9 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
     const searchResults = Array.from({length: 7}, (_, index) => ({
         name: `장소 ${index + 1}`,
         address: `주소`,
-        information: `정보`,
-        imageUrl: `이미지 URL` // 더미 이미지 URL로 대체 가능
+        rating: `별점`,
+        imageUrl: `이미지 URL`, // 더미 이미지 URL로 대체 가능
+        reviewCount: '리뷰'
     }))
     // 더미 데이터
 
@@ -30,13 +31,14 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
                 value={searchValue}
                 onChange={onChangeSearch}
             />
-            {/* 여행지 필터링 하드코딩 */}
-            <div className="flex justify-center w-3/6 h-20 bg-slate-300">
-                <div className="w-1/3 h-20 border-2">Tourist attractions</div>
-                <div className="w-1/3 h-20 border-2">Restaurant</div>
-                <div className="w-1/3 h-20 border-2">Accommodation</div>
+            <div className="flex justify-center w-3/6 h-20 ">
+                <Button
+                    value="Tourist Attraction"
+                    className="bg-gradient-to-r bg-slate-400"
+                />
+                <Button value="Restaurant" className="bg-gradient-to-r bg-slate-400" />
+                <Button value="Accommodation" className="bg-gradient-to-r bg-slate-400" />
             </div>
-            {/* 여행지 필터링 하드코딩 */}
 
             <div className="flex justify-center w-full h-screen ">
                 <div className="flex w-5/6 h-5/6">
@@ -47,8 +49,9 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
                             <SearchInfo
                                 name={result.name}
                                 address={result.address}
-                                information={result.information}
+                                rating={result.rating}
                                 imageUrl={result.imageUrl}
+                                reviewCount={result.reviewCount}
                             />
                         ))}
                     </div>
