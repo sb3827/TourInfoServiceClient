@@ -19,7 +19,7 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
 
     return (
         <div>
-            <div className="h-full ml-auto opacity-70">
+            <div className="h-full ml-auto">
                 <div>{children}</div>
                 <div
                     className={`rounded-tr-3xl fixed top-0 w-14 h-full bg-gradient-to-b from-blue-300  transition-all pt-4 flex-col items-center  ${
