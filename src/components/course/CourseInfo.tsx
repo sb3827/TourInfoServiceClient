@@ -1,33 +1,27 @@
 import React, {FC} from 'react'
+import {Slider} from '../index'
 
 type CourseInfoProps = {
-    title?: string
-    information?: string
-    id?: string
-    date?: string
-    imageUrl?: string
+    title: string
+    imageUrl: string
+    rating: string
+    like: string
 }
 
-export const CourseInfo: FC<CourseInfoProps> = ({
-    title,
-    information,
-    id,
-    date,
-    imageUrl
-}) => {
-    const renderImage = imageUrl && <img src={imageUrl} alt="Image" />
-
-    if (imageUrl) {
-        return <div>{renderImage}</div>
-    }
-
+export const CourseInfo: FC<CourseInfoProps> = ({title, imageUrl, rating, like}) => {
+    // 추후 length 값을 배열로 나타내야함
+    const imageArray = Array.from({length: 3}, (_, index) => (
+        <figure key={index}>
+            <img src={imageUrl} alt="Image" />
+        </figure>
+    ))
     return (
-        <div className="flex items-center text-2xl">
-            <div className="w-full h-64 border-2 border--300">
-                <div>{title}</div>
-                <div>{information}</div>
-                <div>{date}</div>
-                <div>{id}</div>
+        <div className="w-full shadow-xl card bg-base-100">
+            <Slider>{imageArray}</Slider>
+            <div className="flex justify-between card-body">
+                <h2 className="card-title">
+                    {title} {rating} {like}
+                </h2>
             </div>
         </div>
     )
