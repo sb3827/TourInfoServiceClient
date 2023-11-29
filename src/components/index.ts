@@ -71,4 +71,3 @@ export * from './myPage/ShowUserInfo/MyFollowerBox'
 export * from './myPage/ShowUserInfo/ProfileBox'
 export * from './myPage/ShowUserInfo/UserAvatar'
 export * from './myPage/ShowUserInfo/ShowMyFollowing'
->>>>>>> 99b24697e5f3d319997eb4805d53e5a6b5b93567
