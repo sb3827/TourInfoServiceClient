@@ -1,6 +1,5 @@
 import {useState} from 'react'
-import {LoginUseButton, OAuthButton, Title} from '../../components'
-import LoginInput from '../../components/Login/LoginInput'
+import {LoginInput, LoginUseButton, OAuthButton, Title} from '../../components'
 import google from '../../assets/google.svg'
 
 export const Login = () => {
@@ -31,7 +30,7 @@ export const Login = () => {
 
     return (
         <div className="flex justify-center">
-            <div className="box-border flex flex-col items-center justify-center w-full h-screen lg:max-w-screen-xl">
+            <div className="box-border flex flex-col items-center justify-center w-full h-screen lg:max-w-screen-xl ">
                 <section className="h-screen">
                     <div className="container h-full px-6 py-24">
                         <Title className="mb-10">야! 먹고놀자</Title>
@@ -39,15 +38,13 @@ export const Login = () => {
                             <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
                                 <div>
                                     <img
-                                        // src="https://cdn.pixabay.com/photo/2016/01/09/18/27/camera-1130731_1280.jpg"
                                         src="https://images.unsplash.com/photo-1655722723663-75b47de17a31?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                         className="md:w-full lg:w-10/12 rounded-xl opacity-90"
                                         alt="Login image"
                                     />
                                 </div>
                             </div>
-
-                            <div className="h-full p-8 border rounded-lg md:w-8/12 lg:ml-6 lg:w-5/12">
+                            <div className="h-full p-8 border rounded-lg shadow-xl md:w-8/12 lg:ml-6 lg:w-5/12">
                                 <div>
                                     <Title className="my-6">LOGIN</Title>
                                     {/* 이메일 입력 창 */}
@@ -81,7 +78,6 @@ export const Login = () => {
                                             OR
                                         </p>
                                     </div>
-
                                     <OAuthButton color="bg-slate-100">
                                         {/* 구글 로고 */}
                                         <img className="mr-2" src={google} />
