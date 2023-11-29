@@ -1,21 +1,26 @@
 import {useState} from 'react'
-import {Title} from '../../components'
+import {Button, LoginUseButton, OAuthButton, Title} from '../../components'
 import {EventTargetContext} from 'react-naver-maps'
+import LoginInput from '../../components/Login/LoginInput'
 
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')
     const [userPassword, setUserPassword] = useState<string>('')
 
     //아이디 state 변경
-    function onUserEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUserEmail(e.target.value)
+    function onUserEmailChange(value: string) {
+        setUserEmail(value)
     }
 
     //비밀번호 state 변경
-    function onUserPasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUserPassword(e.target.value)
+    function onUserPasswordChange(value: string) {
+        setUserPassword(value)
     }
-    console.log(userEmail, userPassword)
+
+    //로그인 버튼
+    function onLoginClick() {
+        console.log(userEmail, userPassword)
+    }
 
     return (
         <div className="flex justify-center">
@@ -26,6 +31,7 @@ export const Login = () => {
                         <div className="flex flex-wrap items-center justify-center h-fit g-6 lg:justify-center">
                             <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
                                 <div>
+                                    {/* 추후 병합 후 assets파일로 옮길 예정 */}
                                     <img
                                         // src="https://cdn.pixabay.com/photo/2016/01/09/18/27/camera-1130731_1280.jpg"
                                         src="https://images.unsplash.com/photo-1655722723663-75b47de17a31?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -36,51 +42,20 @@ export const Login = () => {
                             </div>
 
                             <div className="h-full p-8 border rounded-lg md:w-8/12 lg:ml-6 lg:w-5/12">
-                                <div className="">
+                                <div>
                                     <Title className="my-6">LOGIN</Title>
                                     {/* 이메일 입력 창 */}
-                                    <div
-                                        className="relative mb-6"
-                                        data-te-input-wrapper-init>
-                                        <input
-                                            type="text"
-                                            className="border rounded-lg focus:border-primary-focus  peer block min-h-[auto] w-full bg-transparent px-3 pt-3 pb-2 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                                            id="exampleFormControlInput3"
-                                            value={userEmail}
-                                            onChange={onUserEmailChange}
-                                        />
-                                        <label
-                                            htmlFor="exampleFormControlInput3"
-                                            className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${
-                                                userEmail
-                                                    ? 'translate-y-[-0.7rem] scale-[0.75]'
-                                                    : ''
-                                            } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
-                                            Email
-                                        </label>
-                                    </div>
+                                    <LoginInput
+                                        value={userEmail}
+                                        text="Email"
+                                        onChange={onUserEmailChange}
+                                    />
                                     {/* 비밀번호 입력창 */}
-                                    <div
-                                        className="relative mb-6 "
-                                        data-te-input-wrapper-init>
-                                        <input
-                                            type="password"
-                                            className="focus:border-primary-focus border rounded-lg peer block min-h-[auto] w-full bg-transparent px-3 pt-3 pb-2 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                                            id="exampleFormControlInput33"
-                                            value={userPassword}
-                                            onChange={onUserPasswordChange}
-                                        />
-                                        <label
-                                            htmlFor="exampleFormControlInput33"
-                                            className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${
-                                                userPassword
-                                                    ? 'translate-y-[-0.7rem] scale-[0.75]'
-                                                    : ''
-                                            } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
-                                            Password
-                                        </label>
-                                    </div>
-
+                                    <LoginInput
+                                        value={userPassword}
+                                        text="Password"
+                                        onChange={onUserPasswordChange}
+                                    />
                                     <div className="flex items-center justify-end mb-6">
                                         <a
                                             href="#!"
@@ -88,21 +63,12 @@ export const Login = () => {
                                             아이디/비밀번호 찾기
                                         </a>
                                     </div>
-
-                                    <button
-                                        type="submit"
-                                        className="mb-3 inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                                        data-te-ripple-init
-                                        data-te-ripple-color="light">
+                                    <LoginUseButton
+                                        className="mb-3"
+                                        onClick={onLoginClick}>
                                         Login
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                                        data-te-ripple-init
-                                        data-te-ripple-color="light">
-                                        Signup
-                                    </button>
+                                    </LoginUseButton>
+                                    <LoginUseButton>Sign Up</LoginUseButton>
 
                                     <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
                                         <p className="mx-4 mb-0 font-semibold text-center text-slate-600 dark:text-neutral-200">
@@ -110,13 +76,8 @@ export const Login = () => {
                                         </p>
                                     </div>
 
-                                    <a
-                                        className="bg-slate-100 mb-3 flex w-full items-center justify-center rounded px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                                        href="#!"
-                                        role="button"
-                                        data-te-ripple-init
-                                        data-te-ripple-color="light">
-                                        {/* 구글 로고 */}
+                                    <OAuthButton color="bg-slate-100">
+                                        {/* 구글 로고 - 추후 병합 후에 assets파일로 옮길 예정 */}
                                         <svg
                                             className="mr-2"
                                             width="15"
@@ -150,17 +111,14 @@ export const Login = () => {
                                             />
                                         </svg>
                                         Continue with Google
-                                    </a>
-                                    <a
-                                        className="mb-3 flex w-full items-center justify-center rounded bg-naverLogo px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#03c75a] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(e,199,90,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-naverLogo focus:shadow-[0_8px_9px_-4px_rgba(3,199,90,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(3,199,90,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
-                                        href="#!"
-                                        role="button"
-                                        data-te-ripple-init
-                                        data-te-ripple-color="light">
+                                    </OAuthButton>
+                                    <OAuthButton
+                                        textColor="text-white"
+                                        color="bg-naverLogo">
                                         {/* 네이버 로고 */}
                                         <p className="mr-2 font-extrabold ">N</p>
                                         Continue with Naver
-                                    </a>
+                                    </OAuthButton>
                                 </div>
                             </div>
                         </div>
