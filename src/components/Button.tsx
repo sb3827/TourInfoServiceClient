@@ -115,8 +115,6 @@ export const OAuthButton: FC<PropsWithChildren<OAuthButtonProps>> = ({
             role="button"
             data-te-ripple-init
             data-te-ripple-color="light">
-            {/* <p className="mr-2 font-extrabold ">N</p> */}
-            {/* Continue with Naver */}
             {children}
         </a>
     )
