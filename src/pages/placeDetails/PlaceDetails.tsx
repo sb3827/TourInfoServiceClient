@@ -52,10 +52,26 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
                 </Subtitle>
                 <SubBox>
                     {/* 더미 데이터 */}
-                    <Board title="제목" rating="별점" like="좋아요" imageUrl=""></Board>
-                    <Board title="제목" rating="별점" like="좋아요" imageUrl=""></Board>
-                    <Board title="제목" rating="별점" like="좋아요" imageUrl=""></Board>
-                    <Board title="제목" rating="별점" like="좋아요" imageUrl=""></Board>
+                    <Board
+                        title="제목"
+                        rating="별점"
+                        likeCount="좋아요 수"
+                        imageUrl=""></Board>
+                    <Board
+                        title="제목"
+                        rating="별점"
+                        likeCount="좋아요 수"
+                        imageUrl=""></Board>
+                    <Board
+                        title="제목"
+                        rating="별점"
+                        likeCount="좋아요 수"
+                        imageUrl=""></Board>
+                    <Board
+                        title="제목"
+                        rating="별점"
+                        likeCount="좋아요 수"
+                        imageUrl=""></Board>
                     {/* 더미데이터 (하드코딩)*/}
                 </SubBox>
                 <SubBox>
@@ -63,18 +79,18 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
                     <Board
                         title="제목"
                         rating="별점"
-                        like="좋아요"
-                        imageUrl="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"></Board>
+                        likeCount="좋아요"
+                        imageUrl="https://ak-d.tripcdn.com/images/0104112000arpecetF935_D_560_420.jpg"></Board>
                     <Board
                         title="제목"
                         rating="별점"
-                        like="좋아요"
-                        imageUrl="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"></Board>
+                        likeCount="좋아요"
+                        imageUrl="https://ak-d.tripcdn.com/images/0104112000arpecetF935_D_560_420.jpg"></Board>
                     <Board
                         title="제목"
                         rating="별점"
-                        like="좋아요"
-                        imageUrl="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"></Board>
+                        likeCount="좋아요"
+                        imageUrl="https://ak-d.tripcdn.com/images/0104112000arpecetF935_D_560_420.jpg"></Board>
                 </SubBox>
                 {/* 더미데이터 (하드코딩)*/}
             </BoardToggle>

@@ -15,19 +15,20 @@ export const UserSearch: FC<UserSearchProps> = ({}) => {
     return (
         <Box>
             <SearchInput
-                className="w-4/6 mb-4"
+                className="w-3/6 mb-4"
                 value={searchValue}
                 onChange={onChangeSearch}
             />
             <div className="flex justify-center w-full h-screen">
                 <div className="flex w-4/6 h-4/6">
                     <div className="w-full overflow-y-auto border rounded-lg border--300">
-                        <SearchUserInfo profileImage="" information="정보" id="ID" />
-                        <SearchUserInfo profileImage="" information="정보" id="ID" />
-                        <SearchUserInfo profileImage="" information="정보" id="ID" />
-                        <SearchUserInfo profileImage="" information="정보" id="ID" />
-                        <SearchUserInfo profileImage="" information="정보" id="ID" />
-                        <SearchUserInfo profileImage="" information="정보" id="ID" />
+                        <SearchUserInfo
+                            name="홍희범"
+                            profileImage="https://isplus.com/data/isp/image/2023/05/08/isp20230508000297.600x.0.jpg"
+                            followingCount={30}
+                            ReviewCount={20}
+                            email="ghdgmlqja@navmer.com"
+                        />
                     </div>
                 </div>
             </div>

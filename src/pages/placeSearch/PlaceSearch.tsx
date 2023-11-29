@@ -20,7 +20,7 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
         address: `주소`,
         rating: `별점`,
         imageUrl: `이미지 URL`, // 더미 이미지 URL로 대체 가능
-        reviewCount: '리뷰'
+        reviewCount: `리뷰 수`
     }))
     // 더미 데이터
 
