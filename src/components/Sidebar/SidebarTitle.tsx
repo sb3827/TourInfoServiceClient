@@ -20,7 +20,7 @@ export const SidebarTitle: FC<PropsWithChildren<SidebarTitleProps>> = ({
             {children}
             {isOpen ? (
                 <div className="flex flex-col items-center w-full h-full">
-                    <img src={UserImage} className="w-1/2 rounded-full" />
+                    <img src={UserImage} className="w-1/2 rounded-full cursor-pointer" />
                     <Subtitle className="my-3 text-center">user</Subtitle>
                 </div>
             ) : (
