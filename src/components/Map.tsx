@@ -1,4 +1,12 @@
-import {FC, useState, useCallback} from 'react'
+import {
+    FC,
+    useState,
+    useCallback,
+    PropsWithChildren,
+    RefAttributes,
+    useRef,
+    useEffect
+} from 'react'
 import {
     Container as MapDiv,
     NaverMap,
@@ -65,4 +73,56 @@ export const Map: FC<MapProps> = ({width, height}) => {
             </MapDiv>
         </NavermapsProvider>
     )
+}
+
+export const Nmap: FC<PropsWithChildren<RefAttributes<naver.maps.Map>>> = () => {
+    const mapElement = useRef(null)
+
+    useEffect(() => {
+        const {naver} = window
+        if (!mapElement.current || !naver) return
+        // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
+        const location = new naver.maps.LatLng(35.153289, 129.0597855)
+        // const maxBoundary = new naver.maps.LatLngBounds(
+        //     new naver.maps.LatLng(lat, lng),
+        //     new naver.maps.LatLng(lat, lng));
+        const mapOptions: naver.maps.MapOptions = {
+            disableDoubleClickZoom: true, // 더블 클릭 줌 해제
+            draggable: true, // default true
+            center: location,
+            zoom: 16, // default zoom
+            minZoom: 6, // min zoom
+            maxZoom: 21, // max zoom
+            zoomControl: true,
+            zoomControlOptions: {
+                position: naver.maps.Position.TOP_RIGHT
+            },
+            // maxBounds: maxBoundary , // 최대 경계
+            tileTransition: true, // 타일 fadeIn 효과
+            mapDataControl: false, // 저작권 표시
+            logoControl: false, // 로고표시
+            scaleControl: false // 축적 표시
+        }
+
+        const map = new naver.maps.Map(mapElement.current, mapOptions)
+
+        const polyline = new naver.maps.Polyline({
+            map: map,
+            path: [],
+            strokeColor: '#5347AA',
+            strokeWeight: 2
+        })
+
+        naver.maps.Event.addListener(map, 'click', function (e) {
+            const path = polyline.getPath()
+            path.push(e.coord)
+
+            new naver.maps.Marker({
+                map: map,
+                position: e.coord
+            })
+        })
+    }, [])
+
+    return <div ref={mapElement} style={{minHeight: '300px'}}></div>
 }
