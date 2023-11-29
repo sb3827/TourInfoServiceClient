@@ -5,10 +5,10 @@ type CourseInfoProps = {
     title: string
     imageUrl: string
     rating: string
-    like: string
+    likeCount: string
 }
 
-export const CourseInfo: FC<CourseInfoProps> = ({title, imageUrl, rating, like}) => {
+export const CourseInfo: FC<CourseInfoProps> = ({title, imageUrl, rating, likeCount}) => {
     // 추후 length 값을 배열로 나타내야함
     const imageArray = Array.from({length: 3}, (_, index) => (
         <figure key={index}>
@@ -20,7 +20,7 @@ export const CourseInfo: FC<CourseInfoProps> = ({title, imageUrl, rating, like})
             <Slider>{imageArray}</Slider>
             <div className="flex justify-between card-body">
                 <h2 className="card-title">
-                    {title} {rating} {like}
+                    {title} {rating} {likeCount}
                 </h2>
             </div>
         </div>
