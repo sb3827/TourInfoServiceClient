@@ -49,10 +49,17 @@ export const BusinessMemberSignup = () => {
     // 가입하기 버튼 클릭시 이벤트
     function onSignupClicked() {
         console.log(
+            'email : ',
             userEmail + selectValue,
+            'businessCode : ',
+            businessCode,
+            'userPassword : ',
             userPassword,
+            'userName : ',
             userName,
+            'userBirthDate : ',
             userBirthDate,
+            'userPhoneNumber : ',
             userPhoneNumber
         )
         if (userPassword !== repeatPassword) {
