@@ -132,7 +132,7 @@ export const Signup = () => {
                                         />
                                         <label
                                             htmlFor="exampleFormControlInput33"
-                                            className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${userPassword
+                                            className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${repeatPassword
                                                 ? 'translate-y-[-0.7rem] scale-[0.75]'
                                                 : ''
                                                 } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
@@ -152,7 +152,7 @@ export const Signup = () => {
                                         />
                                         <label
                                             htmlFor="exampleFormControlInput33"
-                                            className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${userPassword
+                                            className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${userName
                                                 ? 'translate-y-[-0.7rem] scale-[0.75]'
                                                 : ''
                                                 } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
@@ -172,7 +172,7 @@ export const Signup = () => {
                                         />
                                         <label
                                             htmlFor="exampleFormControlInput33"
-                                            className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${userPassword
+                                            className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${userBirthDate
                                                 ? 'translate-y-[-0.7rem] scale-[0.75]'
                                                 : ''
                                                 } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
@@ -191,7 +191,7 @@ export const Signup = () => {
                                         />
                                         <label
                                             htmlFor="exampleFormControlInput33"
-                                            className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${userPassword
+                                            className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${userPhoneNumber
                                                 ? 'translate-y-[-0.7rem] scale-[0.75]'
                                                 : ''
                                                 } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
