@@ -15,12 +15,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     return <input ref={ref} {...inputProps} className={className} />
 })
 
-// 로그인 input
+// 로그인 input props로 input값(value) onChange이벤트, placeHolder값(text) 넣어서 사용, className은 선택
 type LoginInputProps = {
     value: string //input value
     onChange: (value: string) => void // onChange Event
     className?: string
-    text?: string //placeHolder
+    text: string //placeHolder
 }
 
 export const LoginInput: React.FC<LoginInputProps> = ({
