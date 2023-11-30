@@ -35,14 +35,14 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
                         />
                     </div>
                     <SidebarTitle isOpen={isOpen} />
+                    <SidebarItem sideTitle="Yum" isOpen={isOpen}>
+                        <p className="font-bold text-blue-500">Ya!</p>
+                    </SidebarItem>
                     <SidebarItem sideTitle="장소 게시판" isOpen={isOpen}>
                         <FontAwesomeIcon icon={faMapLocationDot} color="#4169E1" />
                     </SidebarItem>
                     <SidebarItem sideTitle="코스 게시판" isOpen={isOpen}>
                         <FontAwesomeIcon icon={faRoute} color="#4169E1" />
-                    </SidebarItem>
-                    <SidebarItem sideTitle="먹고놀자" isOpen={isOpen}>
-                        <p className="font-bold text-blue-500">Ya!</p>
                     </SidebarItem>
                 </div>
             </div>
