@@ -21,10 +21,13 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
             <div className="h-full ml-auto">
                 <div>{children}</div>
                 <div
-                    className={`rounded-tr-3xl fixed top-0 w-14 h-full bg-gradient-to-b from-blue-300  transition-all duration-200 pt-4 flex-col items-center  ${
+                    className={` rounded-tr-3xl fixed top-0 w-14 h-full bg-gradient-to-b from-blue-300  transition-all duration-200 pt-4 flex-col items-center  ${
                         isOpen ? 'w-64' : ''
                     }`}>
-                    <div className="flex items-center justify-end px-4 text-2xl h-14">
+                    <div
+                        className={`flex items-center px-4 text-2xl h-14 ${
+                            isOpen ? 'justify-end' : ' justify-center'
+                        }`}>
                         <FontAwesomeIcon
                             className="cursor-pointer"
                             icon={isOpen ? faAnglesLeft : faBars}
