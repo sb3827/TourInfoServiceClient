@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react'
 import {Spot} from './../../Spot'
-import {MyPocketModal} from './../../index'
+import {MyPocketModal} from './MyPocketModal'
 
 type MyPocketListProps = {}
 
