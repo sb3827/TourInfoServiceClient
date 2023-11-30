@@ -8,7 +8,7 @@ const Footer: FC<FooterProps> = ({}) => {
             <div className="flex-row items-center justify-center py-2">
                 <p className="m-2">배낭 가져와 - 야! 먹고놀자</p>
                 <p className="m-2">
-                    Git Hub :
+                    Git Hub :&nbsp;
                     <a
                         href="https://github.com/sb3827/TourInfoServiceClient"
                         className="text-gray-300 underline cursor-pointer hover:text-gray-300 hover:underline">
