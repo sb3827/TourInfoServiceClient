@@ -34,12 +34,12 @@ export const Login = () => {
                 <section className="h-full">
                     <div className="container h-full px-6 py-20">
                         <Title className="mb-10 text-4xl">야! 먹고놀자</Title>
-                        <div className="flex flex-wrap items-center justify-center h-fit g-6 lg:justify-center">
-                            <div className="hidden mb-0 mr-5 md:block md:w-full lg:block lg:w-1/3">
+                        <div className="flex flex-wrap items-center justify-center h-fit g-6">
+                            <div className="hidden mb-0 mr-5 md:block md:w-2/3 md:ml-5 md:mr-0 lg:block lg:w-1/3">
                                 <div className="flex justify-center">
                                     <img
                                         src="https://images.unsplash.com/photo-1655722723663-75b47de17a31?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        className="md:w-full lg:w-full rounded-xl opacity-90 "
+                                        className="w-full rounded-xl opacity-90 "
                                         alt="Login image"
                                     />
                                 </div>
