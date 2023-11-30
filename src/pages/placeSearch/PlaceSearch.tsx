@@ -1,11 +1,52 @@
 import React, {FC, useState} from 'react'
-import {Box, SearchInput, Map, SearchInfo, Button} from '../../components/index'
+import {
+    Box,
+    SearchInput,
+    Map,
+    SearchInfo,
+    Button,
+    SearchMap
+} from '../../components/index'
 
 // 장소검색 페이지
 
 type PlaceSearchProps = {}
 
 export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
+    const dummy = [
+        {
+            name: '장소1',
+            lat: 37.5666805,
+            lng: 126.9784147,
+            road: 'a',
+            local: 'a',
+            eng: 'a'
+        },
+        {
+            name: '장소2',
+            lat: 37.3595704,
+            lng: 127.105399,
+            road: 'b',
+            local: 'b',
+            eng: 'b'
+        },
+        {
+            name: '장소3',
+            lat: 37.2366805,
+            lng: 126.1184147,
+            road: 'c',
+            local: 'c',
+            eng: 'c'
+        },
+        {
+            name: '장소4',
+            lat: 37.6866805,
+            lng: 126.3584147,
+            road: 'd',
+            local: 'd',
+            eng: 'd'
+        }
+    ]
     //검색 값
     const [searchValue, setSearchValue] = useState<string>('')
 
@@ -13,16 +54,6 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
     function onChangeSearch(value: string) {
         setSearchValue(value)
     }
-
-    // 더미 검색 결과 데이터 (7개의 더미 데이터 생성)
-    const searchResults = Array.from({length: 7}, (_, index) => ({
-        name: `장소 ${index + 1}`,
-        address: `주소`,
-        rating: `별점`,
-        imageUrl: `이미지 URL`, // 더미 이미지 URL로 대체 가능
-        reviewCount: `리뷰 수`
-    }))
-    // 더미 데이터
 
     return (
         <Box>
@@ -44,20 +75,17 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
                 <div className="flex w-5/6 h-5/6">
                     <div className="w-2/6 overflow-y-auto border rounded-lg border--300">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
-                        {/* 더미 검색 결과에 대해 SearchResult 컴포넌트 여러 번 렌더링 */}
-                        {searchResults.map(result => (
-                            <SearchInfo
-                                name={result.name}
-                                address={result.address}
-                                rating={result.rating}
-                                imageUrl={result.imageUrl}
-                                reviewCount={result.reviewCount}
-                            />
-                        ))}
+                        <SearchInfo
+                            name="장소"
+                            address="주소"
+                            rating={4}
+                            imageUrl="이미지"
+                            reviewCount={5}
+                        />
                     </div>
                     <div className="w-4/6 border border-gray-300 rounded-lg">
                         {/* MapAPI 컴포넌트 */}
-                        <Map width="100%" height="100%"></Map>
+                        <SearchMap places={dummy}></SearchMap>
                     </div>
                 </div>
             </div>
