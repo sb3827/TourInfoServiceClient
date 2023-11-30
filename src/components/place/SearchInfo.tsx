@@ -4,9 +4,9 @@ import {Button} from '../index'
 type SearchResultProps = {
     name: string
     address: string
-    rating: string
+    rating: number
     imageUrl: string
-    reviewCount: string
+    reviewCount: number
 }
 
 export const SearchInfo: FC<SearchResultProps> = ({
@@ -37,8 +37,8 @@ export const SearchInfo: FC<SearchResultProps> = ({
                 </div>
                 <div>{name}</div>
                 <div>{address}</div>
-                <div>{rating}</div>
-                <div>{reviewCount}</div>
+                <div>별점{rating}</div>
+                <div>리뷰 수{reviewCount}</div>
             </div>
             {activeIndex === 0 && (
                 <div className="collapse-content">
