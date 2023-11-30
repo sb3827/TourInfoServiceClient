@@ -30,20 +30,16 @@ export const BoardToggle: FC<PropsWithChildren<ToggleButtonProps>> = ({
                 <div className="flex">
                     <button
                         onClick={onChangeFirstButton}
-                        className={`grid h-16 flex-grow card bg-base-300 rounded-box place-items-center : ${size} ${
-                            toggle === true
-                                ? 'bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 text-white'
-                                : 'btn-ghost'
+                        className={`grid h-16 flex-grow place-items-center : ${size} ${
+                            toggle === true ? 'btn btn-ghost' : 'btn btn-ghost'
                         }`}>
                         {result[0]}
                     </button>
                     <div className="divider divider-horizontal"></div>
                     <button
                         onClick={onChangeSecondButton}
-                        className={`grid h-16 flex-grow card bg-base-300 rounded-box place-items-center ${size} ${
-                            toggle === false
-                                ? 'bg-gradient-to-r from-purple-300 via-purple-400 to-purple-500 text-white'
-                                : 'btn-ghost'
+                        className={`grid h-16  flex-grow  place-items-center ${size} ${
+                            toggle === false ? 'btn btn-ghost' : 'btn btn-ghost'
                         } `}>
                         {result[1]}
                     </button>
