@@ -32,8 +32,8 @@ export const Login = () => {
         <div className="flex justify-center">
             <div className="box-border flex flex-col items-center justify-center w-full h-screen lg:max-w-screen-xl ">
                 <section className="h-screen">
-                    <div className="container h-full px-6 py-24">
-                        <Title className="mb-10">야! 먹고놀자</Title>
+                    <div className="container h-full px-6 py-20">
+                        <Title className="mb-10 text-4xl">야! 먹고놀자</Title>
                         <div className="flex flex-wrap items-center justify-center h-fit g-6 lg:justify-center">
                             <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
                                 <div>
@@ -46,7 +46,7 @@ export const Login = () => {
                             </div>
                             <div className="h-full p-8 border rounded-lg shadow-xl md:w-8/12 lg:ml-6 lg:w-5/12">
                                 <div>
-                                    <Title className="my-6">LOGIN</Title>
+                                    <Title className="my-6 text-3xl">LOGIN</Title>
                                     {/* 이메일 입력 창 */}
                                     <LoginInput
                                         value={userEmail}
