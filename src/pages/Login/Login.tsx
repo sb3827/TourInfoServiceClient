@@ -73,7 +73,7 @@ export const Login = () => {
                                     </LoginUseButton>
                                     <LoginUseButton>Sign Up</LoginUseButton>
 
-                                    <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                                    <div className="my-3 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
                                         <p className="mx-4 mb-0 font-semibold text-center text-slate-600 dark:text-neutral-200">
                                             OR
                                         </p>
@@ -87,7 +87,9 @@ export const Login = () => {
                                         textColor="text-white"
                                         color="bg-naverLogo">
                                         {/* 네이버 로고 */}
-                                        <p className="mr-2 font-extrabold ">N</p>
+                                        <span className="pb-1 mr-2 font-sans font-bold">
+                                            N
+                                        </span>
                                         Continue with Naver
                                     </OAuthButton>
                                 </div>
