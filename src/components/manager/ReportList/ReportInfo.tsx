@@ -44,19 +44,19 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 </p>
                 <div className="flex justify-around mt-5">
                     <Button
-                        className="w-1/4 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700"
+                        className="w-1/4 btn-info"
                         onClick={closeModal}
                         value="게시글로 이동"
                     />
                     <Button
-                        className="w-1/4 bg-gradient-to-r from-red-400 via-red-500 to-red-600"
+                        className="w-1/4 btn-primary"
                         onClick={closeModal}
-                        value="제재"
+                        value="처리"
                     />
                     <Button
-                        className="w-1/4 btn-neutral"
+                        className="w-1/4 bg-gradient-to-r from-red-400 via-red-500 to-red-600"
                         onClick={closeModal}
-                        value="닫기"
+                        value="유저 제재"
                     />
                 </div>
             </ReportModal>
