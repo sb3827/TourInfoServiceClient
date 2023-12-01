@@ -11,7 +11,7 @@ type SearchInputProps = {
 }
 
 export const SearchInput: FC<SearchInputProps> = ({value, onChange, className}) => {
-    const inputStyle = `flex items-center ${className} p-2 ml-10 bg-white border border-gray-300 rounded-2xl`
+    const inputStyle = `flex items-center ${className} p-2 ml-5 bg-white border border-gray-300 rounded-2xl`
     return (
         <div className={inputStyle}>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
