@@ -4,9 +4,9 @@ export * from './SearchInput'
 export * from './Input'
 export * from './Rating'
 export * from './Box'
+export * from './Footer'
 
 // /manager
-
 export * from './manager/SubBox'
 export * from './manager/UserInfo'
 export * from './manager/ToggleButton'
@@ -51,3 +51,22 @@ export * from './course/CourseInfo'
 
 //user
 export * from './user/SearchUserInfo'
+
+// /mypage
+export * from './myPage/ChangeInfo'
+export * from './myPage/MyLikes'
+export * from './myPage/WritingButton'
+
+// /mypage/ShowMyWriting
+export * from './myPage/ShowMyWriting/MyCourseBox'
+export * from './myPage/ShowMyWriting/MyPostBox'
+export * from './myPage/ShowMyWriting/MyReplyBox'
+
+// /mypage/ShowPersonalMap
+export * from './myPage/ShowPersonalMap/PersonalMap'
+
+// /mypage/ShowUserInfo
+export * from './myPage/ShowUserInfo/MyFollowerBox'
+export * from './myPage/ShowUserInfo/ProfileBox'
+export * from './myPage/ShowUserInfo/UserAvatar'
+export * from './myPage/ShowUserInfo/ShowMyFollowing'
