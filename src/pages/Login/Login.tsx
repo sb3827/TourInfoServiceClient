@@ -35,7 +35,10 @@ export const Login = () => {
                 <section className="h-full">
                     <div className="container h-full px-6 py-20">
                         <Title className="flex justify-center mb-10">
-                            <img src={mainLogo} className="sm:w-32 md:w-52 lg:w-64" />
+                            <img
+                                src={mainLogo}
+                                className="w-32 sm:w-32 md:w-52 lg:w-64"
+                            />
                         </Title>
                         <div className="flex flex-wrap items-center justify-center h-fit g-6">
                             <div className="hidden mb-0 mr-5 md:w-2/3 md:ml-5 md:mr-0 lg:block lg:w-1/3">
@@ -47,7 +50,7 @@ export const Login = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="p-8 ml-5 border rounded-lg shadow-xl md:w-8/12 lg:w-1/3">
+                            <div className="w-full p-8 ml-5 border rounded-lg shadow-xl sm:w-fit md:w-fit lg:w-1/3">
                                 <Title className="mb-6 text-3xl">LOGIN</Title>
                                 {/* 이메일 입력 창 */}
                                 <LoginInput
