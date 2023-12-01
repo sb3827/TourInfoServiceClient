@@ -21,8 +21,10 @@ export const Manager: FC<ManagerProps> = ({}) => {
     //검색 값
     const [selectValue, setSelectValue] = useState<string>('all')
     const [searchValue, setSearchValue] = useState<string>('')
+    const [reportSelectValue, setReportSelectValue] = useState<string>('all')
+    const [reportSearchValue, setReportSearchValue] = useState<string>('')
 
-    //입력때마다 검색값 업데이트
+    //사용자 검색 input 입력때마다 검색값 업데이트
     function onChangeSearch(value: string) {
         setSearchValue(value)
     }
@@ -31,9 +33,24 @@ export const Manager: FC<ManagerProps> = ({}) => {
         setSelectValue(e.target.value)
     }
 
-    //검색 버튼 누르기 테스트
+    //사용자 검색 버튼 누르기 테스트
     function onSubmitSearch() {
-        console.log(selectValue, searchValue)
+        console.log('사용자 검색 : ', selectValue, searchValue)
+    }
+
+    //신고 검색 input 입력때마다 검색값 업데이트
+    function onChangeReportSearch(value: string) {
+        setReportSearchValue(value)
+    }
+
+    //신고 검색 select 값 업데이트
+    function onChangeReportSelect(e: React.ChangeEvent<HTMLSelectElement>) {
+        setReportSelectValue(e.target.value)
+    }
+
+    //신고 검색 버튼 누르기 테스트
+    function onSubmitReportSearch() {
+        console.log('신고 검색 : ', reportSelectValue, reportSearchValue)
     }
 
     return (
@@ -85,21 +102,25 @@ export const Manager: FC<ManagerProps> = ({}) => {
                     <Subtitle value="신고 목록" className="flex items-center w-full">
                         <DropdownSelect>
                             <select
-                                onChange={onChangeSelect}
-                                value={selectValue}
+                                onChange={onChangeReportSelect}
+                                value={reportSelectValue}
                                 className="block w-full py-3 pl-3 pr-10 leading-tight border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline">
                                 <option value="all">전체</option>
-                                <option value="nomal">처리 중</option>
-                                <option value="business">처리 완료</option>
+                                <option value="reporting">처리 중</option>
+                                <option value="reported">처리 완료</option>
+                                <option value="board_reporting">게시글 처리 중</option>
+                                <option value="board_reported">게시글 처리 완료</option>
+                                <option value="reply_reporting">댓글 처리 중</option>
+                                <option value="reply_reported">댓글 처리 완료</option>
                             </select>
                         </DropdownSelect>
                         <SearchInput
                             className="w-1/2"
-                            value={searchValue}
-                            onChange={onChangeSearch}
+                            value={reportSearchValue}
+                            onChange={onChangeReportSearch}
                         />
                         <Button
-                            onClick={onSubmitSearch}
+                            onClick={onSubmitReportSearch}
                             value="검색"
                             className="text-center text-white bg-purple-600"
                         />
