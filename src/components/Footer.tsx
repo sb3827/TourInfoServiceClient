@@ -4,7 +4,7 @@ type FooterProps = {}
 
 const Footer: FC<FooterProps> = ({}) => {
     return (
-        <div className="items-center justify-center hidden w-full mt-8 text-xs text-center text-gray-300 md:flex bg-slate-600">
+        <div className="items-center justify-center hidden w-full text-xs text-center text-gray-300 md:flex bg-slate-600">
             <div className="flex-row items-center justify-center py-2">
                 <p className="m-2">배낭 가져와 - 야! 먹고놀자</p>
                 <p className="m-2">
