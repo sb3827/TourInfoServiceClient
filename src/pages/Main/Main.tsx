@@ -1,8 +1,8 @@
 import {FC, useState} from 'react'
-import {SearchInput, Slider, Title, Subtitle} from '../../components'
+import {SearchInput, Slider, Title, Subtitle, Footer} from '../../components'
 import dummyPic from '../../dummy data/dummypic.jpg'
 import dummyPic2 from '../../dummy data/dummypic2.jpg'
-import {MainItem, MostLikedMainItem, MostLikedCourseItem, Footer} from './index'
+import {MainItem, MostLikedMainItem, MostLikedCourseItem} from './index'
 
 type MainProps = {}
 
