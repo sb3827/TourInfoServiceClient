@@ -79,7 +79,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({}) => {
                                         value="Accommodation"></Button>
                                 </div>
                                 <div className="w-5/6 bg-gray-200 border h-80">
-                                    <Map width="100%" height="100%"></Map>
+                                    <h1>지도</h1>
                                 </div>
                                 <div className="flex justify-center">
                                     {/* 별점 조회 컴포넌트 추가 예정 */}
