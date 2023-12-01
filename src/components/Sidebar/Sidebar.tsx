@@ -35,12 +35,16 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
                         />
                     </div>
                     <SidebarTitle isOpen={isOpen} />
+                    {/* 서버 연결후 로그인 하지 않은 회원과 관리자 로그인했을때 SidebarItem 바꿔줄 필요 있음 */}
+                    {/* 메인 페이지로 이동 */}
                     <SidebarItem sideTitle="Yum" isOpen={isOpen}>
                         <p className="font-bold text-blue-500">Ya!</p>
                     </SidebarItem>
+                    {/* 장소 게시판으로 이동 */}
                     <SidebarItem sideTitle="장소 게시판" isOpen={isOpen}>
                         <FontAwesomeIcon icon={faMapLocationDot} color="#4169E1" />
                     </SidebarItem>
+                    {/* 코스 게시판으로 이동 */}
                     <SidebarItem sideTitle="코스 게시판" isOpen={isOpen}>
                         <FontAwesomeIcon icon={faRoute} color="#4169E1" />
                     </SidebarItem>
