@@ -94,5 +94,4 @@ export const Login = () => {
             </div>
         </div>
     )
->>>>>>> c5c177da371fc3d91ea6b63e166bc2d9d57eb564
 }
