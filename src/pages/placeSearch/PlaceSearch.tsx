@@ -1,18 +1,18 @@
-import React, {FC, useState} from 'react'
+import React, {FC, useState, useEffect} from 'react'
 import {
     Box,
     SearchInput,
-    Map,
     SearchInfo,
-    Button,
-    SearchMap
+    SearchMap,
 } from '../../components/index'
 
 // 장소검색 페이지
+//NOTE - dummy값에서 필터링된 배열을 SearchMap에 넘겼는데 지도에는 변화가 없어요.. 검색하기 전과 후로 나눠야될까요??
 
 type PlaceSearchProps = {}
 
 export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
+    // dummy
     const dummy = [
         {
             name: '장소1',
@@ -20,7 +20,11 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
             lng: 126.9784147,
             road: 'a',
             local: 'a',
-            eng: 'a'
+            eng: 'a',
+            rating: 1,
+            reviewCount: 3,
+            imageUrl: 'Image',
+            category: 'Attraction'
         },
         {
             name: '장소2',
@@ -28,7 +32,11 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
             lng: 127.105399,
             road: 'b',
             local: 'b',
-            eng: 'b'
+            eng: 'b',
+            rating: 3,
+            reviewCount: 4,
+            imageUrl: 'Image',
+            category: 'Restaurant'
         },
         {
             name: '장소3',
@@ -36,7 +44,11 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
             lng: 126.1184147,
             road: 'c',
             local: 'c',
-            eng: 'c'
+            eng: 'c',
+            rating: 4,
+            reviewCount: 5,
+            imageUrl: 'Image',
+            category: 'Accommodation'
         },
         {
             name: '장소4',
@@ -44,48 +56,113 @@ export const PlaceSearch: FC<PlaceSearchProps> = ({}) => {
             lng: 126.3584147,
             road: 'd',
             local: 'd',
-            eng: 'd'
+            eng: 'd',
+            rating: 2,
+            reviewCount: 6,
+            imageUrl: 'Image',
+            category: 'Attraction'
         }
     ]
+    // dummy
     //검색 값
-    const [searchValue, setSearchValue] = useState<string>('')
+    const [searchValue, setSearchValue] = useState<string>('');
+    const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const [matchingPlaces, setMatchingPlaces] = useState<any[]>([]);
 
-    //입력때마다 검색값 업데이트
+    // 입력때마다 검색값 업데이트
     function onChangeSearch(value: string) {
-        setSearchValue(value)
+        setSearchValue(value);
+        
     }
+
+
+    //KeyPress
+    function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
+        
+        if (e.key === 'Enter') {
+            if (searchValue.trim() === '') {
+                setMatchingPlaces([]); // 검색값이 비어있을 때, 결과를 비웁니다.
+                // console.log({matchingPlaces})
+    
+            } else {
+                filterPlaces(searchValue, selectedCategory);
+                // console.log({matchingPlaces})
+            }
+
+        }
+    }
+    //Category
+    function handleCategoryChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        const selectedValue = e.target.value;
+        if (searchValue.trim() === '') {
+            setMatchingPlaces([]); // 검색값이 비어있을 때, 결과를 비웁니다.
+        } else{
+            setSelectedCategory(selectedValue);
+            filterPlaces(searchValue,selectedValue);
+        }
+    }
+
+
+    // 더미에서 검색필터 추후 데이터베이스 값으로 바꿔야함
+    function filterPlaces(value: string, category: string) {
+        const matches = dummy.filter(
+            (place) =>
+                (place.name.toLowerCase().includes(value.toLowerCase()) ||
+                    place.road.toLowerCase().includes(value.toLowerCase()) ||
+                    place.local.toLowerCase().includes(value.toLowerCase()) ||
+                    place.eng.toLowerCase().includes(value.toLowerCase())) &&
+                (category === '' || place.category === category)
+        );
+        setMatchingPlaces(matches);
+    }
+
+   
+
 
     return (
         <Box>
-            <SearchInput
-                className="w-4/6 mb-4"
-                value={searchValue}
-                onChange={onChangeSearch}
-            />
-            <div className="flex justify-center w-3/6 h-20 ">
-                <Button
-                    value="Tourist Attraction"
-                    className="bg-gradient-to-r bg-slate-400"
-                />
-                <Button value="Restaurant" className="bg-gradient-to-r bg-slate-400" />
-                <Button value="Accommodation" className="bg-gradient-to-r bg-slate-400" />
+             <div className="flex justify-center w-3/6 h-15">
+                <SearchInput
+                    className="w-full mr-2"
+                    value={searchValue}
+                    onChange={onChangeSearch}
+                    onKeyDown={handleKeyPress}
+                    />
+                    
+                <select
+                    className="p-2 border border-gray-300 rounded-xl"
+                    value={selectedCategory}
+                    onChange={handleCategoryChange}
+                >
+                    <option value="">All</option>
+                    <option value="Attraction">Attraction</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Accommodation">Accommodation</option>
+                </select>
             </div>
+
+
 
             <div className="flex justify-center w-full h-screen ">
                 <div className="flex w-5/6 h-5/6">
                     <div className="w-2/6 overflow-y-auto border rounded-lg border--300">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
+                        {matchingPlaces.length > 0 &&  (
+                    matchingPlaces.map((place, index) => (
                         <SearchInfo
-                            name="장소"
-                            address="주소"
-                            rating={4}
-                            imageUrl="이미지"
-                            reviewCount={5}
+                            key={index}
+                            name={place.name}
+                            address={place.local}
+                            rating={place.rating}
+                            imageUrl={place.imageUrl}
+                            reviewCount={place.reviewCount}
                         />
+                    ))
+                )}
                     </div>
                     <div className="w-4/6 border border-gray-300 rounded-lg">
                         {/* MapAPI 컴포넌트 */}
-                        <SearchMap places={dummy}></SearchMap>
+                        <SearchMap places={ matchingPlaces.length > 0 ? matchingPlaces : dummy} className='w-full h-full' />
                     </div>
                 </div>
             </div>
