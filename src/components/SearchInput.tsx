@@ -8,9 +8,10 @@ type SearchInputProps = {
     value: string
     onChange: (value: string) => void
     className: string
+    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
-export const SearchInput: FC<SearchInputProps> = ({value, onChange, className}) => {
+export const SearchInput: FC<SearchInputProps> = ({value, onChange, className, onKeyDown}) => {
     const inputStyle = `flex items-center ${className} p-2 ml-10 bg-white border border-gray-300 rounded-2xl`
     return (
         <div className={inputStyle}>
@@ -19,6 +20,7 @@ export const SearchInput: FC<SearchInputProps> = ({value, onChange, className}) 
                 className="w-full p-1 font-medium border-0 outline-0"
                 value={value}
                 onChange={e => onChange(e.target.value)}
+                onKeyDown={onKeyDown}
             />
         </div>
     )
