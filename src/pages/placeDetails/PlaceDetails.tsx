@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react'
 import {
     Box,
-    Map,
+    SearchMap,
     ToggleButton,
     SubBox,
     Subtitle,
@@ -18,6 +18,21 @@ import {faList, faStar} from '@fortawesome/free-solid-svg-icons'
 type PlaceDetailsProps = {}
 
 export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
+    const dummy = [
+        {
+            name: '장소1',
+            lat: 37.5666805,
+            lng: 126.9784147,
+            road: 'a',
+            local: 'a',
+            eng: 'a',
+            rating: 1,
+            reviewCount: 3,
+            imageUrl: 'Image',
+            category: 'Attraction'
+        }
+    ]
+
     return (
         <Box>
             <div className="flex justify-center w-full h-96">
@@ -27,9 +42,8 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
                             {/* 대표이미지 어디서 가져오죠*/}
                             <div>대표이미지</div>
                         </div>
-
                         {/* MapAPI 컴포넌트 */}
-                        <Map width="100%" height="100%"></Map>
+                        <SearchMap places={dummy} className="w-full h-full" />
                     </Slider>
                 </div>
             </div>
