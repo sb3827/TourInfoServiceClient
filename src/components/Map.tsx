@@ -741,7 +741,9 @@ export const SearchMap: FC<PropsWithChildren<SearchMapProps>> = ({places, ...pro
         function getClickHandler(seq: number) {
             return function (e: any) {
                 var marker = markers[seq],
-                    infoWindow = infoWindows[seq]
+                    infoWindow = infoWindows[seq],
+                    position = marker.getPosition()
+                map.panTo(position)
 
                 if (infoWindow.getMap()) {
                     infoWindow.close()
@@ -755,7 +757,7 @@ export const SearchMap: FC<PropsWithChildren<SearchMapProps>> = ({places, ...pro
             naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i))
         }
         infoWindows[0].open(map, markers[0])
-    }, [])
+    }, [places])
 
     return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
 }
