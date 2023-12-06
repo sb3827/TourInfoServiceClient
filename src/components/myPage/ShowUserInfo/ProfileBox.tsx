@@ -1,22 +1,21 @@
-import {Box, UserAvatar, UserInfo} from './../../index'
+import {Box, UserAvatar, UserInfo, ShowFollowModal, ShowTotalLikes} from './../../index'
+import {Button} from './../../Button'
 
 export const ProfileBox = () => {
     return (
         <div>
-            <div className="flex items-center justify-center bg-gray-500 rounded-3xl ">
-                <Box>
+            <div>
+                <Box className=" rounded-3xl">
+                    <h1 className="mb-4 text-3xl text-black">My Profile</h1>
                     <UserAvatar />
-                    <UserInfo text="이름" />
-                    <button className="inline cursor-pointer hover:underline">
-                        팔로잉
-                    </button>
-                    <span> 100</span>
-                    <button className="inline cursor-pointer hover:underline">
-                        팔로워
-                    </button>
-                    <span> 100</span>
-                    <UserInfo text="찜목록" />
-                    <button className="cursor-pointer hover:underline">정보 수정</button>
+                    <br />
+                    <h1 className="text-3xl ">문영현</h1>
+                    <br />
+                    <ShowFollowModal />
+                    <br />
+                    <ShowTotalLikes />
+                    <br />
+                    <Button value="정보 수정" className="text-white bg-gray-400" />
                 </Box>
             </div>
         </div>
