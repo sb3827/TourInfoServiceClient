@@ -12,10 +12,9 @@ export const MyModifyPage = () => {
                 </button>
             </div>
             <div className="w-2/3">
-                <ChangeInfo text="아이디" />
+                <ChangeInfo text="이메일" />
                 <ChangeInfo text="비밀번호" />
                 <ChangeInfo text="비밀번호 확인" />
-                <ChangeInfo text="이메일" />
                 <ChangeInfo text="이름" />
                 <ChangeInfo text="전화번호" />
             </div>

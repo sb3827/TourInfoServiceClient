@@ -2,7 +2,7 @@ import {FC} from 'react'
 
 type FooterProps = {}
 
-const Footer: FC<FooterProps> = ({}) => {
+export const Footer: FC<FooterProps> = ({}) => {
     return (
         <div className="items-center justify-center hidden w-full mt-8 text-xs text-center text-gray-300 md:flex bg-slate-600">
             <div className="flex-row items-center justify-center py-2">
@@ -20,5 +20,3 @@ const Footer: FC<FooterProps> = ({}) => {
         </div>
     )
 }
-
-export default Footer
