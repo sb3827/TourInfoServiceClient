@@ -1,4 +1,5 @@
 import {ProfileBox, PersonalMap, WritingButton} from './../../components/index'
+import {SimpleMap} from './../../components/SimpleMap'
 
 export const MyPage = () => {
     return (
@@ -9,7 +10,7 @@ export const MyPage = () => {
                     <ProfileBox />
                 </div>
                 <div className="w-1/2 mt-8 mr-32">
-                    <PersonalMap />
+                    <SimpleMap />
                 </div>
             </div>
             <div className="mt-8">
