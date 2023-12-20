@@ -1,4 +1,4 @@
-import {FC, useState} from 'react'
+import {FC, useEffect, useState} from 'react'
 import {
     Box,
     Button,
@@ -12,6 +12,8 @@ import {
 } from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell, faList, faUser} from '@fortawesome/free-solid-svg-icons'
+import {getAllReport} from '../../api/Report/Report'
+import {ReportResponseData} from '../../data/manager'
 
 //관리자 페이지
 
@@ -23,6 +25,9 @@ export const Manager: FC<ManagerProps> = ({}) => {
     const [searchValue, setSearchValue] = useState<string>('')
     const [reportSelectValue, setReportSelectValue] = useState<string>('all')
     const [reportSearchValue, setReportSearchValue] = useState<string>('')
+
+    //검색 결과 데이터
+    const [reportData, setReportData] = useState<ReportResponseData | null>(null)
 
     //사용자 검색 input 입력때마다 검색값 업데이트
     function onChangeSearch(value: string) {
@@ -50,8 +55,22 @@ export const Manager: FC<ManagerProps> = ({}) => {
 
     //신고 검색 버튼 누르기 테스트
     function onSubmitReportSearch() {
-        console.log('신고 검색 : ', reportSelectValue, reportSearchValue)
+        onReportList()
     }
+
+    //신고 조회
+    async function onReportList() {
+        try {
+            const data = await getAllReport(reportSelectValue, reportSearchValue)
+            setReportData(data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        onReportList()
+    }, [])
 
     return (
         <Box>
@@ -127,7 +146,7 @@ export const Manager: FC<ManagerProps> = ({}) => {
                     </Subtitle>
                 </div>
             </div>
-            <ReportBox />
+            <ReportBox reportData={reportData} />
         </Box>
     )
 }
