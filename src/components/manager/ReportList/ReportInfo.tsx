@@ -23,10 +23,10 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 justifyAround="justify-around"
                 onClick={openModal}>
                 <div className="flex justify-around w-full">
-                    <UserInfo text={reportData.reportDate.toDateString()} />
-                    <UserInfo text={reportData.listNum.toString()} />
-                    <UserInfo text={reportData.userId} />
-                    <UserInfo text={reportData.reportedUser} />
+                    <UserInfo text={reportData.regDate.toString()} />
+                    <UserInfo text={reportData.sno.toString()} />
+                    <UserInfo text={reportData.complainant} />
+                    <UserInfo text={reportData.defendant} />
                 </div>
             </UserInfoItemBox>
             <ReportModal isOpen={isModalOpen} onClose={closeModal}>
@@ -35,12 +35,12 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                     <h1 className="text-xl font-bold">신고</h1>
                 </div>
 
-                <p className="mt-4">날짜 : {reportData.reportDate.toDateString()}</p>
-                <p className="mt-4">게시글 번호 : {reportData.listNum.toString()}</p>
-                <p className="mt-4">아이디 : {reportData.userId}</p>
-                <p className="mt-4">신고 유저 : {reportData.reportedUser}</p>
+                <p className="mt-4">날짜 : {reportData.regDate.toString()}</p>
+                <p className="mt-4">게시글 번호 : {reportData.sno.toString()}</p>
+                <p className="mt-4">아이디 : {reportData.complainant}</p>
+                <p className="mt-4">신고 유저 : {reportData.defendant}</p>
                 <p className="mt-4 break-all">
-                    신고 사유 :<br /> -{reportData.reportDetail}
+                    신고 사유 :<br /> -{reportData.message}
                 </p>
                 <div className="flex justify-around mt-5">
                     <Button
