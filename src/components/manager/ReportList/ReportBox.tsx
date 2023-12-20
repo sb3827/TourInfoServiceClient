@@ -1,38 +1,14 @@
 import {FC} from 'react'
 import {ReportInfo, SubBox, Subtitle, UserInfoItemBox} from '../../index'
-import {ReportData} from '../../../data/manager'
+import {ReportResponseData} from '../../../data/manager'
 
 //신고 박스
 
-type ReportBoxProps = {}
+type ReportBoxProps = {
+    reportData: ReportResponseData | null
+}
 
-export const ReportBox: FC<ReportBoxProps> = ({}) => {
-    //더미 데이터///////////////
-    const reportDummy: ReportData[] = [
-        {
-            reportDate: new Date(),
-            listNum: 1,
-            userId: 'test',
-            reportedUser: 'reportUser',
-            reportDetail: 'test...1'
-        },
-        {
-            reportDate: new Date(),
-            listNum: 2,
-            userId: 'test1',
-            reportedUser: 'reportUser2',
-            reportDetail: 'test...2'
-        },
-        {
-            reportDate: new Date(),
-            listNum: 3,
-            userId: 'test3',
-            reportedUser: 'reportUser3',
-            reportDetail: 'test...3'
-        }
-    ]
-    ///////////////////////////
-
+export const ReportBox: FC<ReportBoxProps> = ({reportData}) => {
     return (
         <SubBox>
             <UserInfoItemBox widthFull={true} justifyAround="justify-around">
@@ -51,8 +27,8 @@ export const ReportBox: FC<ReportBoxProps> = ({}) => {
                     </div>
                 </div>
             </UserInfoItemBox>
-            {reportDummy.map((reportData, index) => (
-                <ReportInfo key={index} reportData={reportData} />
+            {reportData?.data.map(reportData => (
+                <ReportInfo key={reportData.sno} reportData={reportData} />
             ))}
         </SubBox>
     )
