@@ -23,9 +23,9 @@ export const disciplinary = async (
     reason: string
 ): Promise<ReportCheckData> => {
     const response = await reportAxios.post('/report/disciplinary', {
-        sno: sno,
-        mno: mno,
-        reason: reason
+        sno,
+        mno,
+        reason
     })
     return response.data
 }
