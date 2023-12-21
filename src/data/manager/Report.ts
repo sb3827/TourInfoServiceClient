@@ -30,3 +30,9 @@ export type ReportData = {
     message: string
     regDate: string
 }
+
+//신고 업데이트등 요청 결과
+export type ReportCheckData = {
+    result: boolean
+    data: number
+}
