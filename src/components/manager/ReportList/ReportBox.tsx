@@ -30,11 +30,11 @@ export const ReportBox: FC<ReportBoxProps> = ({reportData}) => {
                     </div>
                 </div>
             </UserInfoItemBox>
-            {reportData?.data.length != 0 &&
+            {reportData?.data.length !== 0 &&
                 reportData?.data.map(reportData => (
                     <ReportInfo key={reportData.sno} reportData={reportData} />
                 ))}
-            {reportData?.data.length == 0 ? (
+            {reportData?.data.length === 0 ? (
                 <p className="mt-4 text-lg">검색 결과가 존재하지 않습니다...</p>
             ) : (
                 ''

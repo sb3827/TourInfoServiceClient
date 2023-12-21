@@ -23,7 +23,7 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
     async function onCheckReport() {
         try {
             const data = await checkReport(reportData.sno)
-            if (data.data == -1) {
+            if (data.data === -1) {
                 alert('이미 처리된 신고 입니다.')
             } else {
                 closeModal()
@@ -40,13 +40,13 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 reportData.defendant_mno,
                 reportData.message
             )
-            if (data.data == -1 && data.result == false) {
+            if (data.data === -1 && data.result === false) {
                 alert('이미 정지된 유저입니다.')
-            } else if (data.data == -2) {
+            } else if (data.data === -2) {
                 alert('신고 정보가 이상합니다.')
-            } else if (data.data == -3) {
+            } else if (data.data === -3) {
                 alert('신고가 존재하지 않습니다.')
-            } else if (data.result == true) {
+            } else if (data.result === true) {
                 closeModal()
             }
         } catch (err) {
@@ -55,14 +55,16 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
     }
 
     return (
-        <div className={`${reportData.isDone == true ? 'bg-orange-200' : ''}`}>
+        <div className={`${reportData.isDone === true ? 'bg-orange-200' : ''}`}>
             <UserInfoItemBox
                 widthFull={true}
                 pointer={true}
                 justifyAround="justify-around"
                 onClick={openModal}>
                 <div className="flex justify-around w-full">
-                    <UserInfo text={reportData.isDone == true ? '처리 완료' : '처리중'} />
+                    <UserInfo
+                        text={reportData.isDone === true ? '처리 완료' : '처리중'}
+                    />
                     <UserInfo text={reportData.regDate.toString()} />
                     <UserInfo text={reportData.sno.toString()} />
                     <UserInfo text={reportData.complainant} />
@@ -80,10 +82,10 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 <p className="mt-4">아이디 : {reportData.complainant}</p>
                 <p className="mt-4">신고 유저 : {reportData.defendant}</p>
                 <p className="mt-4 break-all">
-                    신고 사유 :<br /> -{reportData.message}
+                    신고 사유 :<br /> - {reportData.message}
                 </p>
                 <TextBox data={reportData.content} />
-                {reportData.isDone == false ? (
+                {reportData.isDone === false ? (
                     <div className="flex justify-around mt-5">
                         <Button
                             className="w-1/4 btn-primary"
