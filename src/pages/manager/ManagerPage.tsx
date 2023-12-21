@@ -53,11 +53,6 @@ export const Manager: FC<ManagerProps> = ({}) => {
         setReportSelectValue(e.target.value)
     }
 
-    //신고 검색 버튼 누르기 테스트
-    function onSubmitReportSearch() {
-        onReportList()
-    }
-
     //신고 조회
     async function onReportList() {
         try {
@@ -65,6 +60,12 @@ export const Manager: FC<ManagerProps> = ({}) => {
             setReportData(data)
         } catch (err) {
             console.log(err)
+        }
+    }
+
+    function onReportSearch(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === 'Enter') {
+            onReportList()
         }
     }
 
@@ -137,9 +138,10 @@ export const Manager: FC<ManagerProps> = ({}) => {
                             className="w-1/2"
                             value={reportSearchValue}
                             onChange={onChangeReportSearch}
+                            onKeyDown={onReportSearch}
                         />
                         <Button
-                            onClick={onSubmitReportSearch}
+                            onClick={onReportList}
                             value="검색"
                             className="text-center text-white bg-purple-600"
                         />
