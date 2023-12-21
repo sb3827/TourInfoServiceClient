@@ -69,6 +69,7 @@ export const Manager: FC<ManagerProps> = ({}) => {
         }
     }
 
+    //추후에 제재나 처리완료를 했을경우 redux를 통해서 랜더링 되도록 수정해야함
     useEffect(() => {
         onReportList()
     }, [])
