@@ -43,8 +43,8 @@ export * from './Comment'
 export * from './Spot'
 
 //Sidebar
-export * from './Sidebar/Sidebar'
 export * from './Sidebar/SidebarItem'
+export * from './Sidebar/SidebarTitle'
 
 //course
 export * from './course/CourseInfo'
@@ -79,3 +79,10 @@ export * from './myPage/MyPocket/MyPocketLiked'
 export * from './myPage/MyPocket/CourseLikedList'
 export * from './myPage/MyPocket/PlaceLikedList'
 export * from './myPage/MyPocket/MyPocketModal'
+
+//Sidebar
+export * from './Sidebar/SidebarItem'
+export * from './Sidebar/SidebarTitle'
+
+//Footer
+export * from './Footer'
