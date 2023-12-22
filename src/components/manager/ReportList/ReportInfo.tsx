@@ -55,13 +55,16 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
     }
 
     return (
-        <div className={`${reportData.isDone === true ? 'bg-orange-200' : ''}`}>
+        <div>
             <UserInfoItemBox
                 widthFull={true}
                 pointer={true}
                 justifyAround="justify-around"
                 onClick={openModal}>
-                <div className="flex justify-around w-full">
+                <div
+                    className={`flex justify-around w-full ${
+                        reportData.isDone === true ? 'bg-orange-200 rounded-lg' : ''
+                    }`}>
                     <UserInfo
                         text={reportData.isDone === true ? '처리 완료' : '처리중'}
                     />
@@ -81,10 +84,12 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 <p className="mt-4">게시글 번호 : {reportData.sno.toString()}</p>
                 <p className="mt-4">아이디 : {reportData.complainant}</p>
                 <p className="mt-4">신고 유저 : {reportData.defendant}</p>
-                <p className="mt-4 break-all">
+                <p className="my-4 break-all">
                     신고 사유 :<br /> - {reportData.message}
                 </p>
-                <TextBox data={reportData.content} />
+                <div className="overflow-auto max-h-52">
+                    <TextBox data={reportData.content} />
+                </div>
                 {reportData.isDone === false ? (
                     <div className="flex justify-around mt-5">
                         <Button
