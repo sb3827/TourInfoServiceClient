@@ -10,8 +10,12 @@ export const SidebarTitle: FC<PropsWithChildren<SidebarTitleProps>> = ({
     children,
     isOpen
 }) => {
+    //마이페이지로 이동
+    function onMypage() {}
+
     return (
         <div
+            onClick={onMypage}
             className={`flex items-center justify-center px-4 ${
                 !isOpen
                     ? 'h-14 hover:bg-sky-200 hover:border-r-8 hover:border-r-blue-700 cursor-pointer'
