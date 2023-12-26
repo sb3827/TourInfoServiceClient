@@ -56,18 +56,22 @@ export const Manager = () => {
     }
 
     //신고 조회
-    async function onReportList() {
+    async function onReportList(
+        e?: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>
+    ) {
+        //키보드로 입력이 들어왔는데 Enter가 아닌경우 return
+        if (
+            e?.type === 'keydown' &&
+            (e as React.KeyboardEvent<HTMLInputElement>).key !== 'Enter'
+        ) {
+            return
+        }
+
         try {
             const data = await getAllReport(reportSelectValue, reportSearchValue)
             setReportData(data)
         } catch (err) {
             console.log(err)
-        }
-    }
-
-    function onReportSearch(e: React.KeyboardEvent<HTMLInputElement>) {
-        if (e.key === 'Enter') {
-            onReportList()
         }
     }
 
@@ -140,7 +144,7 @@ export const Manager = () => {
                             className="w-1/2"
                             value={reportSearchValue}
                             onChange={onChangeReportSearch}
-                            onKeyDown={onReportSearch}
+                            onKeyDown={onReportList}
                         />
                         <Button
                             onClick={onReportList}
