@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {
     Box,
     Button,
@@ -56,16 +56,15 @@ export const Manager = () => {
     }
 
     //신고 조회
-    const onReportList = useCallback(async () => {
+    async function onReportList() {
         try {
             const data = await getAllReport(reportSelectValue, reportSearchValue)
             setReportData(data)
         } catch (err) {
             console.log(err)
         }
-    }, [reportSelectValue, reportSearchValue])
+    }
 
-    //검색 조회
     function onReportSearch(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === 'Enter') {
             onReportList()
@@ -74,7 +73,7 @@ export const Manager = () => {
 
     useEffect(() => {
         onReportList()
-    }, [onReportList, doneCheck])
+    }, [doneCheck])
 
     return (
         <Box>
