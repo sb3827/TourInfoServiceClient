@@ -4,6 +4,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
 import {ReportData} from '../../../data/manager/index'
 import {checkReport, disciplinary} from '../../../api/Report/Report'
+import {useDispatch} from 'react-redux'
+import {setIsDone} from '../../../store/slices/ReportSlice'
 
 //신고 정보
 
@@ -12,6 +14,8 @@ type ReportInfoProps = {
 }
 
 export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
+    const dispatch = useDispatch()
+
     const [isModalOpen, setModalOpen] = useState<boolean>(false)
 
     const openModal = () => {
@@ -26,6 +30,7 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
             if (data.data === -1) {
                 alert('이미 처리된 신고 입니다.')
             } else {
+                dispatch(setIsDone(true))
                 closeModal()
             }
         } catch (err) {
@@ -47,6 +52,7 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
             } else if (data.data === -3) {
                 alert('신고가 존재하지 않습니다.')
             } else if (data.result === true) {
+                dispatch(setIsDone(true))
                 closeModal()
             }
         } catch (err) {
@@ -74,6 +80,7 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                     <UserInfo text={reportData.defendant} />
                 </div>
             </UserInfoItemBox>
+            {/* 모달 창 */}
             <ReportModal isOpen={isModalOpen} onClose={closeModal}>
                 <div className="flex flex-row items-center justify-center">
                     <FontAwesomeIcon icon={faBell} className="mr-2" />
