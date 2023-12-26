@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {
     Box,
     Button,
@@ -7,19 +7,21 @@ import {
     ReportBox,
     SearchInput,
     Subtitle,
-    ToggleButton,
     WaitBox
 } from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell, faList, faUser} from '@fortawesome/free-solid-svg-icons'
 import {getAllReport} from '../../api/Report/Report'
 import {ReportResponseData} from '../../data/manager'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../store/rootReducer'
 
 //관리자 페이지
 
-type ManagerProps = {}
+export const Manager = () => {
+    //새로고침에 필요한 값 불러오기
+    const doneCheck = useSelector((state: RootState) => state.report.isDone)
 
-export const Manager: FC<ManagerProps> = ({}) => {
     //검색 값
     const [selectValue, setSelectValue] = useState<string>('all')
     const [searchValue, setSearchValue] = useState<string>('')
@@ -54,25 +56,25 @@ export const Manager: FC<ManagerProps> = ({}) => {
     }
 
     //신고 조회
-    async function onReportList() {
+    const onReportList = useCallback(async () => {
         try {
             const data = await getAllReport(reportSelectValue, reportSearchValue)
             setReportData(data)
         } catch (err) {
             console.log(err)
         }
-    }
+    }, [reportSelectValue, reportSearchValue])
 
+    //검색 조회
     function onReportSearch(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === 'Enter') {
             onReportList()
         }
     }
 
-    //추후에 제재나 처리완료를 했을경우 redux를 통해서 랜더링 되도록 수정해야함
     useEffect(() => {
         onReportList()
-    }, [])
+    }, [onReportList, doneCheck])
 
     return (
         <Box>
