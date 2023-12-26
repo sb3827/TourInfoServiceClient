@@ -11,10 +11,11 @@ import {
 } from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell, faList, faUser} from '@fortawesome/free-solid-svg-icons'
-import {getAllReport} from '../../api/Report/Report'
+
 import {ReportResponseData} from '../../data/manager'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
+import {getAllReport} from '../../api'
 
 //관리자 페이지
 
@@ -72,6 +73,7 @@ export const Manager = () => {
             setReportData(data)
         } catch (err) {
             console.log(err)
+            alert('서버와 연결이 끊겼습니다.')
         }
     }
 

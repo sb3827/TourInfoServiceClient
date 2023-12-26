@@ -3,9 +3,9 @@ import {Button, ReportModal, TextBox, UserInfo, UserInfoItemBox} from '../../ind
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
 import {ReportData} from '../../../data/manager/index'
-import {checkReport, disciplinary} from '../../../api/Report/Report'
 import {useDispatch} from 'react-redux'
 import {setIsDone} from '../../../store/slices/ReportSlice'
+import {checkReport, disciplinary} from '../../../api'
 
 //신고 정보
 
