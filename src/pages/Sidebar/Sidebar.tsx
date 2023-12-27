@@ -4,15 +4,20 @@ import {
     faBars,
     faAnglesLeft,
     faRoute,
-    faMapLocationDot,
-    faRightFromBracket
+    faMapLocationDot
 } from '@fortawesome/free-solid-svg-icons'
 import {Outlet, useNavigate} from 'react-router-dom'
 import {SidebarItem, SidebarTitle} from '../../components'
+import Cookies from 'js-cookie'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../store/rootReducer'
+import {SidebarRoute} from '../../routers'
 
 type SidebarProps = {}
 
 export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
+    const user = useSelector((state: RootState) => state.login.user)
+
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const handleTrigger = () => setIsOpen(!isOpen)
@@ -29,9 +34,6 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
 
     //코스 게시글 페이지로 이동
     function onCourse() {}
-
-    //로그아웃
-    function onLogout() {}
 
     return (
         <div className="z-50">
@@ -51,7 +53,7 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
                             onClick={handleTrigger}
                         />
                     </div>
-                    <SidebarTitle isOpen={isOpen} />
+                    {user && <SidebarTitle isOpen={isOpen} />}
                     {/* 서버 연결후 로그인 하지 않은 회원과 관리자 로그인했을때 SidebarItem 바꿔줄 필요 있음 */}
                     {/* 메인 페이지로 이동 */}
                     <SidebarItem sideTitle="Yum" isOpen={isOpen} onClick={onMain}>
@@ -71,9 +73,8 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
                         onClick={onCourse}>
                         <FontAwesomeIcon icon={faRoute} color="#4169E1" />
                     </SidebarItem>
-                    <SidebarItem sideTitle="Logout" isOpen={isOpen} onClick={onLogout}>
-                        <FontAwesomeIcon icon={faRightFromBracket} color="#4169E1" />
-                    </SidebarItem>
+
+                    <SidebarRoute isOpen={isOpen} />
                 </div>
             </div>
             <Outlet />
