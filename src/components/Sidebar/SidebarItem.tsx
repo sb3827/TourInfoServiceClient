@@ -22,7 +22,7 @@ export const SidebarItem: FC<PropsWithChildren<SidebarItemProps>> = ({
                 className={
                     !isOpen
                         ? `hidden w-0 h-0 px-4 uppercase whitespace-nowrap overflow-hidden text-ellipsis `
-                        : `flex justify-center w-full h-auto text-white`
+                        : `flex justify-center w-full h-auto`
                 }>
                 {sideTitle}
             </span>
