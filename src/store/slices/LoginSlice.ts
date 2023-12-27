@@ -15,7 +15,7 @@ const initialState: CommonState = {
     role: null
 }
 
-export const ReportSlice = createSlice({
+export const LoginSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
@@ -26,4 +26,6 @@ export const ReportSlice = createSlice({
     }
 })
 
-export const {setUsers} = ReportSlice.actions
+export const {setUsers} = LoginSlice.actions
+
+export default LoginSlice
