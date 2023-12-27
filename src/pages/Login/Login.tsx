@@ -54,13 +54,16 @@ export const Login = () => {
                     //secure:true
                     expires: expiryDate
                 })
-                console.log('쿠키,로컬,redux 완료')
                 navigate('/')
             } catch (err) {
-                console.log(err)
+                alert('로그인 실패')
             }
         }
-        console.log(userEmail, userPassword)
+    }
+
+    //메인 페이지로 이동
+    function onMain() {
+        navigate('/')
     }
 
     //아이디 비밀번호 찾기로 이동
@@ -76,8 +79,10 @@ export const Login = () => {
         <div className="flex justify-center">
             <div className="flex flex-col items-center justify-center w-full ">
                 <section className="h-full">
-                    <div className="container h-full px-6 py-20">
-                        <Title className="flex justify-center mb-10">
+                    <div className="container h-full px-6 py-24">
+                        <Title
+                            className="flex justify-center cursor-pointer mb-14"
+                            onClick={onMain}>
                             <img
                                 src={mainLogo}
                                 className="w-32 sm:w-32 md:w-52 lg:w-64"
@@ -107,18 +112,20 @@ export const Login = () => {
                                     text="Password"
                                     onChange={onUserPasswordChange}
                                 />
-                                <div className="flex items-center justify-end mb-6">
+                                <div className="flex items-center justify-between px-2 mb-6">
                                     <p
                                         onClick={onFind}
                                         className="text-sm text-gray-400 transition-all duration-150 ease-in-out cursor-pointer hover:font-bold hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600">
                                         아이디/비밀번호 찾기
                                     </p>
+                                    <p
+                                        onClick={onSignup}
+                                        className="text-sm text-gray-400 transition-all duration-150 ease-in-out cursor-pointer hover:font-bold hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600">
+                                        회원가입
+                                    </p>
                                 </div>
                                 <LoginUseButton className="mb-3" onClick={onLoginClick}>
                                     Login
-                                </LoginUseButton>
-                                <LoginUseButton onClick={onSignup}>
-                                    Sign Up
                                 </LoginUseButton>
 
                                 <div className="my-3 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
