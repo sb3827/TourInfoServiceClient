@@ -2,10 +2,18 @@ import {useState} from 'react'
 import {LoginInput, LoginUseButton, OAuthButton, Title} from '../../components'
 import google from '../../assets/google.svg'
 import mainLogo from '../../assets/mainLogo.png'
+import {useNavigate} from 'react-router-dom'
+import {loginRequest} from '../../api/Login/Login'
+import {useDispatch} from 'react-redux'
+import {setUsers} from '../../store/slices/LoginSlice'
+import {setCookie} from '../../util/cookie'
+import {setWithTokenExpire} from '../../util/localStorage'
 
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')
     const [userPassword, setUserPassword] = useState<string>('')
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     //아이디 state 변경
     function onUserEmailChange(value: string) {
@@ -18,15 +26,50 @@ export const Login = () => {
     }
 
     //로그인 버튼 클릭 이벤트
-    function onLoginClick() {
+    async function onLoginClick() {
         if (userEmail === '') {
             alert('이메일을 입력하세요')
             return
         } else if (userPassword === '') {
             alert('비밀번호를 입력하세요')
             return
+        } else {
+            try {
+                const data = await loginRequest(userEmail, userPassword)
+                const {token, refreshToken} = data
+
+                //토큰은 localStorage에 저장
+                localStorage.setItem('token', token)
+                setWithTokenExpire('token', token)
+
+                //추후 role 넣어줘야함
+                dispatch(setUsers({user: userEmail, role: null}))
+
+                //refreshToken은 쿠키에 저장
+                const expiryDate = new Date()
+                expiryDate.setHours(expiryDate.getHours() + 3)
+                setCookie('refreshToken', refreshToken, {
+                    path: '/',
+                    //추후에 https로 배포할 경우 주석 제거
+                    //secure:true
+                    expires: expiryDate
+                })
+                console.log('쿠키,로컬,redux 완료')
+                navigate('/')
+            } catch (err) {
+                console.log(err)
+            }
         }
         console.log(userEmail, userPassword)
+    }
+
+    //아이디 비밀번호 찾기로 이동
+    function onFind() {
+        navigate('/find-userInfo')
+    }
+    //회원가입으로 이동
+    function onSignup() {
+        navigate('/sign-up')
     }
 
     return (
@@ -65,16 +108,18 @@ export const Login = () => {
                                     onChange={onUserPasswordChange}
                                 />
                                 <div className="flex items-center justify-end mb-6">
-                                    <a
-                                        href="#!"
-                                        className="text-sm text-gray-400 transition-all duration-150 ease-in-out hover:font-bold hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600">
+                                    <p
+                                        onClick={onFind}
+                                        className="text-sm text-gray-400 transition-all duration-150 ease-in-out cursor-pointer hover:font-bold hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600">
                                         아이디/비밀번호 찾기
-                                    </a>
+                                    </p>
                                 </div>
                                 <LoginUseButton className="mb-3" onClick={onLoginClick}>
                                     Login
                                 </LoginUseButton>
-                                <LoginUseButton>Sign Up</LoginUseButton>
+                                <LoginUseButton onClick={onSignup}>
+                                    Sign Up
+                                </LoginUseButton>
 
                                 <div className="my-3 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
                                     <p className="mx-4 mb-0 font-semibold text-center text-slate-600 dark:text-neutral-200">
