@@ -8,12 +8,14 @@ import {useDispatch} from 'react-redux'
 import {setUsers} from '../../store/slices/LoginSlice'
 import {setCookie} from '../../util/cookie'
 import {setWithTokenExpire} from '../../util/localStorage'
+import LoadingSppinner from '../../components/LoadingSpinner'
 
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')
     const [userPassword, setUserPassword] = useState<string>('')
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [loading, setLoading] = useState<Boolean>(false)
 
     //아이디 state 변경
     function onUserEmailChange(value: string) {
@@ -27,11 +29,14 @@ export const Login = () => {
 
     //로그인 버튼 클릭 이벤트
     async function onLoginClick() {
+        setLoading(true)
         if (userEmail === '') {
             alert('이메일을 입력하세요')
+            setLoading(false)
             return
         } else if (userPassword === '') {
             alert('비밀번호를 입력하세요')
+            setLoading(false)
             return
         } else {
             try {
@@ -59,6 +64,7 @@ export const Login = () => {
                 alert('로그인 실패')
             }
         }
+        setLoading(false)
     }
 
     //메인 페이지로 이동
@@ -77,6 +83,7 @@ export const Login = () => {
 
     return (
         <div className="flex justify-center">
+            {loading ? <LoadingSppinner /> : ''}
             <div className="flex flex-col items-center justify-center w-full ">
                 <section className="h-full">
                     <div className="container h-full px-6 py-24">
@@ -93,7 +100,7 @@ export const Login = () => {
                                 <div className="flex justify-center">
                                     <img
                                         src="https://images.unsplash.com/photo-1655722723663-75b47de17a31?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        className="w-full rounded-xl opacity-90 "
+                                        className="w-full rounded-xl "
                                         alt="Login image"
                                     />
                                 </div>
