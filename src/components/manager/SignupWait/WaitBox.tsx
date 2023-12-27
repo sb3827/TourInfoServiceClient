@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import {SubBox, Subtitle, UserInfoItemBox, WaitUser} from '../../index'
-import {WaitUserData} from '../../../data/manager/index'
+import {WaitUserData} from '../../../data/User/User'
 
 //회원 대기 목록 컴포넌트 합체 - 추후 WaitUser에 props 추가하여야하고 반복문으로 수정해야함
 

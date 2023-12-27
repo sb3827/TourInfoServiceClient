@@ -1,7 +1,7 @@
 import {FC} from 'react'
 import {Button, UserInfo, UserInfoItemBox} from '../../index'
 import {postBusinessCheck} from '../../../api/Business/BusinessCheck'
-import {WaitUserData} from '../../../data/manager/index'
+import {WaitUserData} from '../../../data/User/User'
 
 // 유저 정보 한줄 - 추후 UserInfo로 prop 추가해줘야함
 
