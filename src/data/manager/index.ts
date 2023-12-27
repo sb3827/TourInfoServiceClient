@@ -1,2 +1,2 @@
 export * from './Report'
-export * from './User'
+export * from './Business'
