@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import {FindUserInfo, SubBox, Subtitle, UserInfoItemBox} from '../../index'
-import {UserData} from '../../../data/manager/index'
+import {UserData} from '../../../data/User/User'
 
 type FindBoxProps = {}
 
