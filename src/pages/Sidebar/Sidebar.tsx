@@ -4,7 +4,8 @@ import {
     faBars,
     faAnglesLeft,
     faRoute,
-    faMapLocationDot
+    faMapLocationDot,
+    faRightFromBracket
 } from '@fortawesome/free-solid-svg-icons'
 import {Outlet, useNavigate} from 'react-router-dom'
 import {SidebarItem, SidebarTitle} from '../../components'
@@ -28,6 +29,9 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
 
     //코스 게시글 페이지로 이동
     function onCourse() {}
+
+    //로그아웃
+    function onLogout() {}
 
     return (
         <div className="z-50">
@@ -66,6 +70,9 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
                         isOpen={isOpen}
                         onClick={onCourse}>
                         <FontAwesomeIcon icon={faRoute} color="#4169E1" />
+                    </SidebarItem>
+                    <SidebarItem sideTitle="Logout" isOpen={isOpen} onClick={onLogout}>
+                        <FontAwesomeIcon icon={faRightFromBracket} color="#4169E1" />
                     </SidebarItem>
                 </div>
             </div>
