@@ -5,19 +5,19 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 //dispatch를 이용해서 reducers에 접근하여 값 변경 할 수 있음
 
 interface CommonState {
-    isDone: Boolean | null
+    isDone: number
 }
 
 const initialState: CommonState = {
-    isDone: null
+    isDone: 0
 }
 
 export const ReportSlice = createSlice({
     name: 'report',
     initialState,
     reducers: {
-        setIsDone(state, action: PayloadAction<Boolean>) {
-            state.isDone = action.payload
+        setIsDone(state) {
+            state.isDone += 1
         }
     }
 })
