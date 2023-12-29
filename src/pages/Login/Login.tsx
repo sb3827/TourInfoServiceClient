@@ -1,6 +1,5 @@
 import {useState} from 'react'
-import {LoginInput, LoginUseButton, OAuthButton, Title} from '../../components'
-import google from '../../assets/google.svg'
+import {LoginInput, LoginUseButton, Title} from '../../components'
 import mainLogo from '../../assets/mainLogo.png'
 import {useNavigate} from 'react-router-dom'
 import {loginRequest} from '../../api/Login/Login'
@@ -9,6 +8,9 @@ import {setUsers} from '../../store/slices/LoginSlice'
 import {setCookie} from '../../util/cookie'
 import {setWithTokenExpire} from '../../util/localStorage'
 import LoadingSppinner from '../../components/LoadingSpinner'
+import Kakao from '../../assets/kakao_btn.png'
+import Google from '../../assets/google_btn.png'
+import Naver from '../../assets/naver_btn.png'
 
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')
@@ -44,7 +46,6 @@ export const Login = () => {
                 const {token, refreshToken} = data
 
                 //토큰은 localStorage에 저장
-                localStorage.setItem('token', token)
                 setWithTokenExpire('token', token)
 
                 //추후 role 넣어줘야함
@@ -80,7 +81,31 @@ export const Login = () => {
     function onSignup() {
         navigate('/sign-up')
     }
-
+    //네이버 로그인
+    // async function onNaver() {
+    //     try {
+    //         const data = await naverLoginRequest()
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }
+    //카카오 로그인
+    // async function onKakao() {
+    //     try {
+    //         const data = await kakaoLoginRequest()
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }
+    // //구글 로그인
+    // async function onGoogle() {
+    //     try {
+    //         const data = await googleLoginRequest()
+    //     } catch (e) {
+    //         console.log(e)
+    //         alert(e)
+    //     }
+    // }
     return (
         <div className="flex justify-center">
             {loading ? <LoadingSppinner /> : ''}
@@ -106,33 +131,37 @@ export const Login = () => {
                                 </div>
                             </div>
                             <div className="w-full p-8 ml-5 border rounded-lg shadow-xl sm:w-fit md:w-fit lg:w-1/3">
-                                <Title className="mb-6 text-3xl">LOGIN</Title>
+                                <Title className="mt-6 mb-8 text-3xl">LOGIN</Title>
                                 {/* 이메일 입력 창 */}
                                 <LoginInput
+                                    className="mb-6"
                                     value={userEmail}
                                     text="Email"
                                     onChange={onUserEmailChange}
                                 />
                                 {/* 비밀번호 입력창 */}
                                 <LoginInput
+                                    className="mb-3"
                                     value={userPassword}
                                     text="Password"
                                     onChange={onUserPasswordChange}
                                 />
-                                <div className="flex items-center justify-between px-2 mb-6">
+                                <div className="flex items-center justify-end px-2 mb-3">
                                     <p
                                         onClick={onFind}
                                         className="text-sm text-gray-400 transition-all duration-150 ease-in-out cursor-pointer hover:font-bold hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600">
                                         아이디/비밀번호 찾기
                                     </p>
-                                    <p
-                                        onClick={onSignup}
-                                        className="text-sm text-gray-400 transition-all duration-150 ease-in-out cursor-pointer hover:font-bold hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600">
-                                        회원가입
-                                    </p>
                                 </div>
-                                <LoginUseButton className="mb-3" onClick={onLoginClick}>
+                                <LoginUseButton
+                                    className="mb-3 bg-primary"
+                                    onClick={onLoginClick}>
                                     Login
+                                </LoginUseButton>
+                                <LoginUseButton
+                                    className="bg-darkGreen"
+                                    onClick={onSignup}>
+                                    회원가입
                                 </LoginUseButton>
 
                                 <div className="my-3 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
@@ -140,18 +169,25 @@ export const Login = () => {
                                         OR
                                     </p>
                                 </div>
-                                <OAuthButton color="bg-slate-100">
-                                    {/* 구글 로고 */}
-                                    <img className="mr-2" src={google} />
-                                    Continue with Google
-                                </OAuthButton>
-                                <OAuthButton textColor="text-white" color="bg-naverLogo">
-                                    {/* 네이버 로고 */}
-                                    <span className="pb-1 mr-2 font-sans font-bold">
-                                        N
-                                    </span>
-                                    Continue with Naver
-                                </OAuthButton>
+                                <div className="flex justify-center">
+                                    <div className="flex justify-between w-3/5">
+                                        <a
+                                            href="http://localhost:8080/oauth2/authorization/naver"
+                                            className="w-1/6 cursor-pointer hover:translate-y-0.5 hover:duration-150">
+                                            <img src={Naver} alt="네이버 로그인" />
+                                        </a>
+                                        <a
+                                            href="http://localhost:8080/oauth2/authorization/kakao"
+                                            className="w-1/6 cursor-pointer hover:translate-y-0.5 hover:duration-150">
+                                            <img src={Kakao} alt="카카로 로그인" />
+                                        </a>
+                                        <a
+                                            href="http://localhost:8080/oauth2/authorization/google"
+                                            className="w-1/6 cursor-pointer hover:translate-y-0.5 hover:duration-150">
+                                            <img src={Google} alt="구글 로그인" />
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
