@@ -16,7 +16,7 @@ export const SidebarItem: FC<PropsWithChildren<SidebarItemProps>> = ({
     return (
         <div
             onClick={onClick}
-            className="flex items-center justify-center px-4 text-left transition-all duration-100 cursor-pointer h-14 hover:bg-sky-200 hover:border-r-8 hover:border-r-blue-700">
+            className="flex items-center justify-center px-4 text-left transition-all duration-100 cursor-pointer h-14 hover:bg-green-200 hover:border-r-8 hover:border-r-green-900">
             {children}
             <span
                 className={
