@@ -16,12 +16,15 @@ import {ReportResponseData} from '../../data/manager'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {getAllReport} from '../../api'
+import {useDispatch} from 'react-redux'
+import {setReportSearch} from '../../store/slices/SearchSlice'
 
 //관리자 페이지
 
 export const Manager = () => {
     //새로고침에 필요한 값 불러오기
     const doneCheck = useSelector((state: RootState) => state.report.isDone)
+    const dispatch = useDispatch()
 
     //검색 값
     const [selectValue, setSelectValue] = useState<string>('all')
@@ -69,11 +72,14 @@ export const Manager = () => {
         }
 
         try {
+            dispatch(setReportSearch(true))
             const data = await getAllReport(reportSelectValue, reportSearchValue)
             setReportData(data)
+            dispatch(setReportSearch(false))
         } catch (err) {
             console.log(err)
             alert('서버와 연결이 끊겼습니다.')
+            dispatch(setReportSearch(false))
         }
     }
 

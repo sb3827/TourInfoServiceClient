@@ -1,6 +1,14 @@
 import {FC} from 'react'
-import {ReportInfo, SubBox, Subtitle, UserInfoItemBox} from '../../index'
+import {
+    LoadingSppinnerSmall,
+    ReportInfo,
+    SubBox,
+    Subtitle,
+    UserInfoItemBox
+} from '../../index'
 import {ReportResponseData} from '../../../data/manager'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../../store/rootReducer'
 
 //신고 박스
 
@@ -9,8 +17,10 @@ type ReportBoxProps = {
 }
 
 export const ReportBox: FC<ReportBoxProps> = ({reportData}) => {
+    const searchLoading = useSelector((state: RootState) => state.search.reportSearch)
+
     return (
-        <SubBox>
+        <SubBox className="relative">
             <UserInfoItemBox widthFull={true} justifyAround="justify-around">
                 <div className="flex justify-around w-full">
                     <div>
@@ -30,6 +40,7 @@ export const ReportBox: FC<ReportBoxProps> = ({reportData}) => {
                     </div>
                 </div>
             </UserInfoItemBox>
+            {searchLoading && <LoadingSppinnerSmall />}
             {reportData?.data.length !== 0 &&
                 reportData?.data.map(reportData => (
                     <ReportInfo key={reportData.sno} reportData={reportData} />

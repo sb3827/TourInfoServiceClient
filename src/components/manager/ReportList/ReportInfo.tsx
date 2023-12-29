@@ -6,6 +6,7 @@ import {ReportData} from '../../../data/manager/index'
 import {useDispatch} from 'react-redux'
 import {setIsDone} from '../../../store/slices/ReportSlice'
 import {checkReport, disciplinary} from '../../../api'
+import {setReportSearch} from '../../../store/slices/SearchSlice'
 
 //신고 정보
 
@@ -25,20 +26,25 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
 
     //신고 확인
     async function onCheckReport() {
+        dispatch(setReportSearch(true))
         try {
             const data = await checkReport(reportData.sno)
             if (data.data === -1) {
                 alert('이미 처리된 신고 입니다.')
+                dispatch(setReportSearch(false))
             } else {
-                dispatch(setIsDone(true))
+                dispatch(setIsDone())
+                dispatch(setReportSearch(false))
                 closeModal()
             }
         } catch (err) {
             console.log(err)
+            dispatch(setReportSearch(false))
         }
     }
     //제재
     async function onDisiplinary() {
+        dispatch(setReportSearch(true))
         try {
             const data = await disciplinary(
                 reportData.sno,
@@ -46,17 +52,22 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 reportData.message
             )
             if (data.data === -1 && data.result === false) {
+                dispatch(setReportSearch(false))
                 alert('이미 정지된 유저입니다.')
             } else if (data.data === -2) {
+                dispatch(setReportSearch(false))
                 alert('신고 정보가 이상합니다.')
             } else if (data.data === -3) {
+                dispatch(setReportSearch(false))
                 alert('신고가 존재하지 않습니다.')
             } else if (data.result === true) {
-                dispatch(setIsDone(true))
+                dispatch(setIsDone())
+                dispatch(setReportSearch(false))
                 closeModal()
             }
         } catch (err) {
             console.log(err)
+            dispatch(setReportSearch(false))
         }
     }
 
