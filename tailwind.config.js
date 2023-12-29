@@ -4,8 +4,8 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                lightBrown: '#86913f',
-                darkGreen: '#5e9149'
+                lightBrown: '#86913f', //로고 Yum 색
+                darkGreen: '#5e9149' //로고 Ya색
             }
         }
     },
