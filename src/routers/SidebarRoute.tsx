@@ -1,6 +1,4 @@
-import {FC} from 'react'
-import {useSelector} from 'react-redux'
-import {RootState} from '../store/rootReducer'
+import {FC, useState} from 'react'
 import {SidebarItem} from '../components'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
@@ -13,13 +11,17 @@ import Cookies from 'js-cookie'
 import {logoutRequest} from '../api/Login/Login'
 import {useDispatch} from 'react-redux'
 import {setUsers} from '../store/slices/LoginSlice'
+import LoadingSppinner from '../components/LoadingSpinner'
+import {getWithTokenExpire} from '../util/localStorage'
 
 type SidebarRouteProps = {
     isOpen: boolean
 }
 
 export const SidebarRoute: FC<SidebarRouteProps> = ({isOpen}) => {
-    const user = useSelector((state: RootState) => state.login.user)
+    const [loading, setLoading] = useState(false)
+
+    const user = getWithTokenExpire('token')
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -30,15 +32,19 @@ export const SidebarRoute: FC<SidebarRouteProps> = ({isOpen}) => {
 
     //로그아웃
     async function onLogout() {
+        setLoading(true)
         try {
             const data = await logoutRequest()
-            localStorage.removeItem('token')
-            Cookies.remove('refreshToken')
-            dispatch(setUsers({user: null, role: null}))
-            navigate('/login')
+            setLoading(false)
         } catch (e) {
+            setLoading(false)
             return e
         }
+        localStorage.removeItem('token')
+        Cookies.remove('refreshToken')
+        dispatch(setUsers({user: null, role: null}))
+        navigate('/login')
+        setLoading(false)
     }
 
     //회원가입
@@ -47,17 +53,18 @@ export const SidebarRoute: FC<SidebarRouteProps> = ({isOpen}) => {
     }
     return (
         <>
+            {loading && <LoadingSppinner />}
             {user !== null ? (
                 <SidebarItem sideTitle="Logout" isOpen={isOpen} onClick={onLogout}>
-                    <FontAwesomeIcon icon={faRightFromBracket} color="#4169E1" />
+                    <FontAwesomeIcon icon={faRightFromBracket} />
                 </SidebarItem>
             ) : (
                 <>
                     <SidebarItem sideTitle="LogIn" isOpen={isOpen} onClick={onLogIn}>
-                        <FontAwesomeIcon icon={faRightToBracket} color="#4169E1" />
+                        <FontAwesomeIcon icon={faRightToBracket} />
                     </SidebarItem>
                     <SidebarItem sideTitle="Sign-up" isOpen={isOpen} onClick={onSignup}>
-                        <FontAwesomeIcon icon={faUserPlus} color="#4169E1" />
+                        <FontAwesomeIcon icon={faUserPlus} />
                     </SidebarItem>
                 </>
             )}
