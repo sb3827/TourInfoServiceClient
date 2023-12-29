@@ -1,9 +1,8 @@
 import './App.css'
 import {Login, Main, Manager, NotFound, Sidebar} from './pages'
-
 import {Footer} from './components'
 import {Route, Routes} from 'react-router-dom'
-import {BoardRoute, MyPageRoute} from './routers'
+import {BoardRoute, MyPageRoute, Oauth2Route} from './routers'
 import {Signup} from './pages/Signup'
 import {Find} from './pages/Find'
 
@@ -25,6 +24,7 @@ function App() {
                     <Route path="/sign-up" element={<Signup />} />
                     <Route path="/find-userinfo" element={<Find />} />
                 </Route>
+                <Route path="/oauth2" element={<Oauth2Route />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </div>
