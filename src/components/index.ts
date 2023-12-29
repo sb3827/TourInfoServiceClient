@@ -6,6 +6,9 @@ export * from './Rating'
 export * from './Box'
 export * from './Footer'
 
+// Main
+export * from './Main/MainItem'
+
 // /manager
 export * from './manager/SubBox'
 export * from './manager/UserInfo'
