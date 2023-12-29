@@ -1,5 +1,5 @@
 import {FC, useState} from 'react'
-import {SidebarItem} from '../components'
+import {LoadingSppinner, SidebarItem} from '../components'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
     faRightFromBracket,
@@ -10,9 +10,8 @@ import {useNavigate} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import {logoutRequest} from '../api/Login/Login'
 import {useDispatch} from 'react-redux'
-import {setUsers} from '../store/slices/LoginSlice'
-import LoadingSppinner from '../components/LoadingSpinner'
 import {getWithTokenExpire} from '../util/localStorage'
+import {setUser} from '../store/slices/LoginSlice'
 
 type SidebarRouteProps = {
     isOpen: boolean
@@ -42,7 +41,7 @@ export const SidebarRoute: FC<SidebarRouteProps> = ({isOpen}) => {
         }
         localStorage.removeItem('token')
         Cookies.remove('refreshToken')
-        dispatch(setUsers({user: null, role: null}))
+        dispatch(setUser({mno: null, role: null}))
         navigate('/login')
         setLoading(false)
     }

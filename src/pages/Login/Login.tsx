@@ -1,16 +1,15 @@
 import {useState} from 'react'
-import {LoginInput, LoginUseButton, Title} from '../../components'
+import {LoadingSppinner, LoginInput, LoginUseButton, Title} from '../../components'
 import mainLogo from '../../assets/mainLogo.png'
 import {useNavigate} from 'react-router-dom'
 import {loginRequest} from '../../api/Login/Login'
 import {useDispatch} from 'react-redux'
-import {setUsers} from '../../store/slices/LoginSlice'
 import {setCookie} from '../../util/cookie'
 import {setWithTokenExpire} from '../../util/localStorage'
-import LoadingSppinner from '../../components/LoadingSpinner'
 import Kakao from '../../assets/kakao_btn.png'
 import Google from '../../assets/google_btn.png'
 import Naver from '../../assets/naver_btn.png'
+import {setMno} from '../../store/slices/LoginSlice'
 
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')
@@ -43,13 +42,13 @@ export const Login = () => {
         } else {
             try {
                 const data = await loginRequest(userEmail, userPassword)
-                const {token, refreshToken} = data
+                const {token, refreshToken} = data.response.tokens
 
                 //토큰은 localStorage에 저장
                 setWithTokenExpire('token', token)
 
                 //추후 role 넣어줘야함
-                dispatch(setUsers({user: userEmail, role: null}))
+                dispatch(setMno(data.response.mno))
 
                 //refreshToken은 쿠키에 저장
                 const expiryDate = new Date()
@@ -81,34 +80,9 @@ export const Login = () => {
     function onSignup() {
         navigate('/sign-up')
     }
-    //네이버 로그인
-    // async function onNaver() {
-    //     try {
-    //         const data = await naverLoginRequest()
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
-    //카카오 로그인
-    // async function onKakao() {
-    //     try {
-    //         const data = await kakaoLoginRequest()
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
-    // //구글 로그인
-    // async function onGoogle() {
-    //     try {
-    //         const data = await googleLoginRequest()
-    //     } catch (e) {
-    //         console.log(e)
-    //         alert(e)
-    //     }
-    // }
     return (
         <div className="flex justify-center">
-            {loading ? <LoadingSppinner /> : ''}
+            {loading && <LoadingSppinner />}
             <div className="flex flex-col items-center justify-center w-full ">
                 <section className="h-full">
                     <div className="container h-full px-6 py-24">
