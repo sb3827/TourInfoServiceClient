@@ -14,9 +14,9 @@ import {setMno} from '../../store/slices/LoginSlice'
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')
     const [userPassword, setUserPassword] = useState<string>('')
+    const [loading, setLoading] = useState<Boolean>(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [loading, setLoading] = useState<Boolean>(false)
 
     //아이디 state 변경
     function onUserEmailChange(value: string) {

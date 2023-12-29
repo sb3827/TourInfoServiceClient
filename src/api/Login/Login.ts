@@ -1,13 +1,13 @@
 import {LoginResponseData} from '../../data/User/User'
-import {refreshAxios} from '../Refresh/axios'
-import {loginAxios} from './axios'
+import {commonAxios} from '../Axios/CommonAxios'
+import {refreshAxios} from '../Axios/RefreshAxios'
 
 //로그인
 export const loginRequest = async (
     email: string,
     password: string
 ): Promise<LoginResponseData> => {
-    const response = await loginAxios.post('/auth/login', {email, password})
+    const response = await commonAxios.post('/auth/login', {email, password})
     return response.data
 }
 

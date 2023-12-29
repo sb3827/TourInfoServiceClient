@@ -1,5 +1,5 @@
 import {ReportCheckData, ReportResponseData} from '../../data/manager'
-import {refreshAxios} from '../Refresh/axios'
+import {refreshAxios} from '../Axios/RefreshAxios'
 
 //신고 들고오기
 export const getAllReport = async (
