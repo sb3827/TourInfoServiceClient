@@ -4,7 +4,8 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                naverLogo: '#03c75a'
+                lightBrown: '#86913f',
+                darkGreen: '#5e9149'
             }
         }
     },
