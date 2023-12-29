@@ -30,7 +30,7 @@ export const LoginInput: React.FC<LoginInputProps> = ({
     text
 }) => {
     return (
-        <div className="relative mb-6" data-te-input-wrapper-init>
+        <div className={`relative ${className}`} data-te-input-wrapper-init>
             <input
                 type={text?.toLowerCase() === 'password' ? 'password' : 'text'}
                 className="border rounded-lg focus:border-primary-focus  peer block min-h-[auto] w-full bg-transparent px-3 pt-3 pb-2 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
