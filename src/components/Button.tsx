@@ -1,5 +1,6 @@
 import {
     ButtonHTMLAttributes,
+    Children,
     DetailedHTMLProps,
     FC,
     forwardRef,
@@ -103,5 +104,21 @@ export const LoginUseButton: FC<PropsWithChildren<ReactButtonProps>> = props => 
             onClick={props.onClick}>
             {props.children}
         </button>
+    )
+}
+
+type Oauth2ButtonProps = {
+    oauth2: string
+}
+export const Oauth2LoginButton: FC<PropsWithChildren<Oauth2ButtonProps>> = ({
+    children,
+    oauth2
+}) => {
+    return (
+        <a
+            href={`http://localhost:8080/oauth2/authorization/${oauth2}`}
+            className="w-1/6 cursor-pointer hover:translate-y-0.5 hover:duration-150">
+            {children}
+        </a>
     )
 }
