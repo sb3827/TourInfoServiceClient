@@ -80,7 +80,9 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 onClick={openModal}>
                 <div
                     className={`flex justify-around w-full ${
-                        reportData.isDone === true ? 'bg-orange-200 rounded-lg' : ''
+                        reportData.isDone === true
+                            ? 'bg-darkGreen text-white rounded-lg'
+                            : ''
                     }`}>
                     <UserInfo
                         text={reportData.isDone === true ? '처리 완료' : '처리중'}
