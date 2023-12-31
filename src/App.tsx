@@ -2,7 +2,7 @@ import './App.css'
 import {Login, Main, Manager, NotFound, Sidebar} from './pages'
 import {Footer} from './components'
 import {Route, Routes} from 'react-router-dom'
-import {BoardRoute, MyPageRoute, Oauth2Route} from './routers'
+import {BoardRoute, LoginRoute, MyPageRoute, Oauth2Route} from './routers'
 import {Signup} from './pages/Signup'
 import {Find} from './pages/Find'
 
@@ -20,7 +20,7 @@ function App() {
                         <Route path="board/*" element={<BoardRoute />} />
                         <Route path="mypage/*" element={<MyPageRoute />} />
                     </Route>
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={<LoginRoute />} />
                     <Route path="/sign-up" element={<Signup />} />
                     <Route path="/find-userinfo" element={<Find />} />
                 </Route>
