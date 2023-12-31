@@ -34,8 +34,8 @@ function App() {
                         <Route path="/find-userinfo" element={<Find />} />
                         <Route path="/oauth2" element={<Oauth2Route />} />
                     </Route>
+                    <Route path="*" element={<NotFound />} />
                 </Route>
-                <Route path="*" element={<NotFound />} />
             </Routes>
         </div>
     )

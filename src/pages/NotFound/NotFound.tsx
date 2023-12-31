@@ -4,8 +4,8 @@ type NotFoundProps = {}
 
 export const NotFound: FC<NotFoundProps> = ({}) => {
     return (
-        <>
-            <div>NotFound Component</div>
-        </>
+        <div className="flex items-center justify-center w-screen h-screen">
+            <div className="h-1/2">NotFound Page &#x1F623;</div>
+        </div>
     )
 }
