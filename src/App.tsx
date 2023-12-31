@@ -1,6 +1,6 @@
 import './App.css'
 import {Login, Main, Manager, NotFound, Sidebar} from './pages'
-import {Footer} from './components'
+import {Footer, Logo} from './components'
 import {Route, Routes} from 'react-router-dom'
 import {AuthRoute, BoardRoute, MyPageRoute, Oauth2Route} from './routers'
 import {Signup} from './pages/Signup'
@@ -13,7 +13,13 @@ function App() {
     return (
         <div className="App">
             <Routes>
-                <Route element={<Footer />}>
+                <Route
+                    element={
+                        <>
+                            <Logo />
+                            <Footer />
+                        </>
+                    }>
                     <Route element={<Sidebar />}>
                         <Route path="/" element={<Main />} />
                         <Route path="manager" element={<Manager />} />
