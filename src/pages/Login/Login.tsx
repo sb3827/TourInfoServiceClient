@@ -1,5 +1,11 @@
 import {useState} from 'react'
-import {LoadingSppinner, LoginInput, LoginUseButton, Title} from '../../components'
+import {
+    LoadingSppinner,
+    LoginInput,
+    LoginUseButton,
+    Oauth2LoginButton,
+    Title
+} from '../../components'
 import mainLogo from '../../assets/mainLogo.png'
 import {useNavigate} from 'react-router-dom'
 import {loginRequest} from '../../api/Login/Login'
@@ -145,21 +151,15 @@ export const Login = () => {
                                 </div>
                                 <div className="flex justify-center">
                                     <div className="flex justify-between w-3/5">
-                                        <a
-                                            href="http://localhost:8080/oauth2/authorization/naver"
-                                            className="w-1/6 cursor-pointer hover:translate-y-0.5 hover:duration-150">
+                                        <Oauth2LoginButton oauth2="naver">
                                             <img src={Naver} alt="네이버 로그인" />
-                                        </a>
-                                        <a
-                                            href="http://localhost:8080/oauth2/authorization/kakao"
-                                            className="w-1/6 cursor-pointer hover:translate-y-0.5 hover:duration-150">
+                                        </Oauth2LoginButton>
+                                        <Oauth2LoginButton oauth2="kakao">
                                             <img src={Kakao} alt="카카로 로그인" />
-                                        </a>
-                                        <a
-                                            href="http://localhost:8080/oauth2/authorization/google"
-                                            className="w-1/6 cursor-pointer hover:translate-y-0.5 hover:duration-150">
+                                        </Oauth2LoginButton>
+                                        <Oauth2LoginButton oauth2="google">
                                             <img src={Google} alt="구글 로그인" />
-                                        </a>
+                                        </Oauth2LoginButton>
                                     </div>
                                 </div>
                             </div>
