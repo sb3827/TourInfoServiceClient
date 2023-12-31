@@ -5,6 +5,7 @@ export * from './Input'
 export * from './Rating'
 export * from './Box'
 export * from './Footer'
+export * from './Logo'
 
 // Main
 export * from './Main/MainItem'

@@ -3,10 +3,10 @@ import {
     LoadingSppinner,
     LoginInput,
     LoginUseButton,
+    Logo,
     Oauth2LoginButton,
     Title
 } from '../../components'
-import mainLogo from '../../assets/mainLogo.png'
 import {useNavigate} from 'react-router-dom'
 import {loginRequest} from '../../api/Login/Login'
 import {useDispatch} from 'react-redux'
@@ -91,15 +91,8 @@ export const Login = () => {
             {loading && <LoadingSppinner />}
             <div className="flex flex-col items-center justify-center w-full ">
                 <section className="h-full">
-                    <div className="container h-full px-6 py-24">
-                        <Title
-                            className="flex justify-center cursor-pointer mb-14"
-                            onClick={onMain}>
-                            <img
-                                src={mainLogo}
-                                className="w-32 sm:w-32 md:w-52 lg:w-64"
-                            />
-                        </Title>
+                    <div className="container h-full px-6 pt-16 pb-24">
+                        <Logo />
                         <div className="flex flex-wrap items-center justify-center h-fit g-6">
                             <div className="hidden mb-0 mr-5 md:w-2/3 md:ml-5 md:mr-0 lg:block lg:w-1/3">
                                 <div className="flex justify-center">
