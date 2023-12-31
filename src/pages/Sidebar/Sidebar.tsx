@@ -4,7 +4,8 @@ import {
     faBars,
     faAnglesLeft,
     faRoute,
-    faMapLocationDot
+    faMapLocationDot,
+    faFaceSmileBeam
 } from '@fortawesome/free-solid-svg-icons'
 import {Outlet, useNavigate} from 'react-router-dom'
 import {SidebarItem, SidebarTitle} from '../../components'
@@ -37,6 +38,11 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
     //코스 게시글 페이지로 이동
     function onCourse() {
         navigate('/board/course')
+    }
+
+    //유저 검색 페이지로 이동
+    function onFindUser() {
+        navigate('/search-user')
     }
 
     return (
@@ -76,6 +82,12 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
                         isOpen={isOpen}
                         onClick={onCourse}>
                         <FontAwesomeIcon icon={faRoute} />
+                    </SidebarItem>
+                    <SidebarItem
+                        sideTitle="유저 검색"
+                        isOpen={isOpen}
+                        onClick={onFindUser}>
+                        <FontAwesomeIcon icon={faFaceSmileBeam} />
                     </SidebarItem>
 
                     <SidebarRoute isOpen={isOpen} />
