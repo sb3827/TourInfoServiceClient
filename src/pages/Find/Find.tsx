@@ -17,7 +17,6 @@ export const Find: React.FC<FindProps> = () => {
                 <div className="box-border flex flex-col items-center justify-center w-full h-screen lg:max-w-screen-xl">
                     <section className="h-screen">
                         <div className="container h-full px-6 py-24">
-                            <Title className="mb-10">야! 먹고놀자</Title>
                             <div className="flex flex-wrap items-center justify-center h-fit g-6 lg:justify-center">
                                 {/* Tab buttons */}
                                 <div role="tablist" className="tabs tabs-lifted">

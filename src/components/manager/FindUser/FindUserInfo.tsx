@@ -1,6 +1,6 @@
 import {FC, useState} from 'react'
 import {Button, ReportModal, UserInfo, UserInfoItemBox} from '../../index'
-import {UserData, suspendDate} from '../../../data/manager/index'
+import {UserData, suspendDate} from '../../../data/User/User'
 
 type FindUserInfoProps = {
     users: UserData

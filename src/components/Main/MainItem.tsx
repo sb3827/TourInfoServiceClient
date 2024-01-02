@@ -44,7 +44,7 @@ export const MostLikedMainItem: FC<PropsWithChildren<MainItemProps>> = props => 
 export const MostLikedCourseItem: FC<PropsWithChildren<MainItemProps>> = props => {
     return (
         <div
-            className="flex-row mx-4 overflow-hidden bg-white border-2 rounded-lg shadow-md hover:border-indigo-400 hover:cursor-pointer hover:border-solid"
+            className="flex-row flex-1 mx-4 overflow-hidden bg-white border-2 rounded-lg shadow-md hover:border-indigo-400 hover:cursor-pointer hover:border-solid"
             onClick={props.onClick}>
             <img
                 src={props.image}

@@ -1,42 +1,31 @@
 import {FC} from 'react'
-import {ReportInfo, SubBox, Subtitle, UserInfoItemBox} from '../../index'
-import {ReportData} from '../../../data/manager'
+import {
+    LoadingSppinnerSmall,
+    ReportInfo,
+    SubBox,
+    Subtitle,
+    UserInfoItemBox
+} from '../../index'
+import {ReportResponseData} from '../../../data/manager'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../../store/rootReducer'
 
 //신고 박스
 
-type ReportBoxProps = {}
+type ReportBoxProps = {
+    reportData: ReportResponseData | null
+}
 
-export const ReportBox: FC<ReportBoxProps> = ({}) => {
-    //더미 데이터///////////////
-    const reportDummy: ReportData[] = [
-        {
-            reportDate: new Date(),
-            listNum: 1,
-            userId: 'test',
-            reportedUser: 'reportUser',
-            reportDetail: 'test...1'
-        },
-        {
-            reportDate: new Date(),
-            listNum: 2,
-            userId: 'test1',
-            reportedUser: 'reportUser2',
-            reportDetail: 'test...2'
-        },
-        {
-            reportDate: new Date(),
-            listNum: 3,
-            userId: 'test3',
-            reportedUser: 'reportUser3',
-            reportDetail: 'test...3'
-        }
-    ]
-    ///////////////////////////
+export const ReportBox: FC<ReportBoxProps> = ({reportData}) => {
+    const searchLoading = useSelector((state: RootState) => state.search.reportSearch)
 
     return (
-        <SubBox>
+        <SubBox className="relative">
             <UserInfoItemBox widthFull={true} justifyAround="justify-around">
                 <div className="flex justify-around w-full">
+                    <div>
+                        <Subtitle className="w-40 p-3 min-w-fit">상태</Subtitle>
+                    </div>
                     <div>
                         <Subtitle className="w-40 p-3 min-w-fit">신고날짜</Subtitle>
                     </div>
@@ -51,9 +40,16 @@ export const ReportBox: FC<ReportBoxProps> = ({}) => {
                     </div>
                 </div>
             </UserInfoItemBox>
-            {reportDummy.map((reportData, index) => (
-                <ReportInfo key={index} reportData={reportData} />
-            ))}
+            {searchLoading && <LoadingSppinnerSmall />}
+            {reportData?.data.length !== 0 &&
+                reportData?.data.map(reportData => (
+                    <ReportInfo key={reportData.sno} reportData={reportData} />
+                ))}
+            {reportData?.data.length === 0 ? (
+                <p className="mt-4 text-lg">검색 결과가 존재하지 않습니다...</p>
+            ) : (
+                ''
+            )}
         </SubBox>
     )
 }

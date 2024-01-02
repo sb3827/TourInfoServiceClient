@@ -9,12 +9,13 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 
 // import required modules
-import {Navigation} from 'swiper/modules'
+import {Autoplay, Navigation, Virtual} from 'swiper/modules'
 
 import {makeClassName} from '../textUtil'
-import {cleanSelection} from '@ckeditor/ckeditor5-engine/src/conversion/downcasthelpers'
 
-type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
+    preView?: number
+}
 
 // children으로 전달된 요소들을 React.Children.map을 사용하여 반복,
 // children에 포함된 각 요소들을 배열로 변환
@@ -38,5 +39,32 @@ export const Slider: FC<PropsWithChildren<DivProps>> = ({
                 {slides}
             </Swiper>
         </div>
+    )
+}
+
+//메인 슬라이더
+export const MainSlider: FC<PropsWithChildren<DivProps>> = ({
+    children,
+    className: _className,
+    ...props
+}) => {
+    return (
+        <>
+            <Swiper
+                className="w-full"
+                modules={[Autoplay, Virtual, Navigation]}
+                slidesPerView={props.preView}
+                initialSlide={1}
+                centeredSlides={true}
+                spaceBetween={30}
+                navigation={true}
+                autoplay={{
+                    delay: 10 * 1000,
+                    disableOnInteraction: false
+                }}
+                virtual>
+                {children}
+            </Swiper>
+        </>
     )
 }

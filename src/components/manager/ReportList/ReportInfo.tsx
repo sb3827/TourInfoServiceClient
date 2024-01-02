@@ -1,8 +1,12 @@
 import {FC, useState} from 'react'
-import {Button, ReportModal, UserInfo, UserInfoItemBox} from '../../index'
+import {Button, ReportModal, TextBox, UserInfo, UserInfoItemBox} from '../../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
 import {ReportData} from '../../../data/manager/index'
+import {useDispatch} from 'react-redux'
+import {setIsDone} from '../../../store/slices/ReportSlice'
+import {checkReport, disciplinary} from '../../../api'
+import {setReportSearch} from '../../../store/slices/SearchSlice'
 
 //신고 정보
 
@@ -11,10 +15,62 @@ type ReportInfoProps = {
 }
 
 export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
+    const dispatch = useDispatch()
+
     const [isModalOpen, setModalOpen] = useState<boolean>(false)
 
-    const openModal = () => setModalOpen(true)
+    const openModal = () => {
+        setModalOpen(true)
+    }
     const closeModal = () => setModalOpen(false)
+
+    //신고 확인
+    async function onCheckReport() {
+        dispatch(setReportSearch(true))
+        try {
+            const data = await checkReport(reportData.sno)
+            if (data.data === -1) {
+                alert('이미 처리된 신고 입니다.')
+                dispatch(setReportSearch(false))
+            } else {
+                dispatch(setIsDone())
+                dispatch(setReportSearch(false))
+                closeModal()
+            }
+        } catch (err) {
+            console.log(err)
+            dispatch(setReportSearch(false))
+        }
+    }
+    //제재
+    async function onDisiplinary() {
+        dispatch(setReportSearch(true))
+        try {
+            const data = await disciplinary(
+                reportData.sno,
+                reportData.defendant_mno,
+                reportData.message
+            )
+            if (data.data === -1 && data.result === false) {
+                dispatch(setReportSearch(false))
+                alert('이미 정지된 유저입니다.')
+            } else if (data.data === -2) {
+                dispatch(setReportSearch(false))
+                alert('신고 정보가 이상합니다.')
+            } else if (data.data === -3) {
+                dispatch(setReportSearch(false))
+                alert('신고가 존재하지 않습니다.')
+            } else if (data.result === true) {
+                dispatch(setIsDone())
+                dispatch(setReportSearch(false))
+                closeModal()
+            }
+        } catch (err) {
+            console.log(err)
+            dispatch(setReportSearch(false))
+        }
+    }
+
     return (
         <div>
             <UserInfoItemBox
@@ -22,43 +78,58 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 pointer={true}
                 justifyAround="justify-around"
                 onClick={openModal}>
-                <div className="flex justify-around w-full">
-                    <UserInfo text={reportData.reportDate.toDateString()} />
-                    <UserInfo text={reportData.listNum.toString()} />
-                    <UserInfo text={reportData.userId} />
-                    <UserInfo text={reportData.reportedUser} />
+                <div
+                    className={`flex justify-around w-full ${
+                        reportData.isDone === true
+                            ? 'bg-darkGreen text-white rounded-lg'
+                            : ''
+                    }`}>
+                    <UserInfo
+                        text={reportData.isDone === true ? '처리 완료' : '처리중'}
+                    />
+                    <UserInfo text={reportData.regDate.toString()} />
+                    <UserInfo text={reportData.sno.toString()} />
+                    <UserInfo text={reportData.complainant} />
+                    <UserInfo text={reportData.defendant} />
                 </div>
             </UserInfoItemBox>
+            {/* 모달 창 */}
             <ReportModal isOpen={isModalOpen} onClose={closeModal}>
                 <div className="flex flex-row items-center justify-center">
                     <FontAwesomeIcon icon={faBell} className="mr-2" />
                     <h1 className="text-xl font-bold">신고</h1>
                 </div>
 
-                <p className="mt-4">날짜 : {reportData.reportDate.toDateString()}</p>
-                <p className="mt-4">게시글 번호 : {reportData.listNum.toString()}</p>
-                <p className="mt-4">아이디 : {reportData.userId}</p>
-                <p className="mt-4">신고 유저 : {reportData.reportedUser}</p>
-                <p className="mt-4 break-all">
-                    신고 사유 :<br /> -{reportData.reportDetail}
+                <p className="mt-4">날짜 : {reportData.regDate.toString()}</p>
+                <p className="mt-4">게시글 번호 : {reportData.sno.toString()}</p>
+                <p className="mt-4">아이디 : {reportData.complainant}</p>
+                <p className="mt-4">신고 유저 : {reportData.defendant}</p>
+                <p className="my-4 break-all">
+                    신고 사유 :<br /> - {reportData.message}
                 </p>
-                <div className="flex justify-around mt-5">
-                    <Button
-                        className="w-1/4 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700"
-                        onClick={closeModal}
-                        value="게시글로 이동"
-                    />
-                    <Button
-                        className="w-1/4 bg-gradient-to-r from-red-400 via-red-500 to-red-600"
-                        onClick={closeModal}
-                        value="제재"
-                    />
-                    <Button
-                        className="w-1/4 btn-neutral"
-                        onClick={closeModal}
-                        value="닫기"
-                    />
+                <div className="overflow-auto max-h-52">
+                    <TextBox data={reportData.content} />
                 </div>
+                {reportData.isDone === false ? (
+                    <div className="flex justify-around mt-5">
+                        <Button
+                            className="w-1/4 btn-primary"
+                            onClick={() => {
+                                onCheckReport()
+                            }}
+                            value="처리"
+                        />
+                        <Button
+                            className="w-1/4 bg-gradient-to-r from-red-400 via-red-500 to-red-600"
+                            onClick={() => {
+                                onDisiplinary()
+                            }}
+                            value="유저 제재"
+                        />
+                    </div>
+                ) : (
+                    ''
+                )}
             </ReportModal>
         </div>
     )

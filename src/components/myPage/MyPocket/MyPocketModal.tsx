@@ -257,11 +257,13 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                     </div>
                                     <div className="w-4/6 border border-gray-300 rounded-lg">
                                         {/* MapAPI 컴포넌트 */}
-                                        <SearchMap
-                                            className="w-100%"
-                                            places={dummy}
-                                            style={{height: '100%'}}
-                                        />
+                                        {!RegisterSpotModal && (
+                                            <SearchMap
+                                                className="w-100%"
+                                                places={dummy}
+                                                style={{height: '100%'}}
+                                            />
+                                        )}
                                     </div>
                                 </div>
                             </div>

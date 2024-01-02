@@ -5,6 +5,10 @@ export * from './Input'
 export * from './Rating'
 export * from './Box'
 export * from './Footer'
+export * from './Logo'
+
+// Main
+export * from './Main/MainItem'
 
 // /manager
 export * from './manager/SubBox'
@@ -43,8 +47,8 @@ export * from './Comment'
 export * from './Spot'
 
 //Sidebar
-export * from './Sidebar/Sidebar'
 export * from './Sidebar/SidebarItem'
+export * from './Sidebar/SidebarTitle'
 
 //course
 export * from './course/CourseInfo'
@@ -79,3 +83,13 @@ export * from './myPage/MyPocket/MyPocketLiked'
 export * from './myPage/MyPocket/CourseLikedList'
 export * from './myPage/MyPocket/PlaceLikedList'
 export * from './myPage/MyPocket/MyPocketModal'
+
+//Sidebar
+export * from './Sidebar/SidebarItem'
+export * from './Sidebar/SidebarTitle'
+
+//LoadingSpinner
+export * from './LoadingSpinner'
+
+//Footer
+export * from './Footer'

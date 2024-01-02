@@ -1,3 +1,22 @@
+// 로그인 데이터
+//store 저장값
+export type LoginUserData = {
+    mno: number | null
+    role: string | null
+}
+
+//api 통신 값
+export type LoginResponseData = {
+    response: {
+        tokens: {
+            token: string
+            refreshToken: string
+        }
+        mno: number
+    }
+}
+
+//수정 해야함
 //일반 유저 정보
 export type UserData = {
     userName: string

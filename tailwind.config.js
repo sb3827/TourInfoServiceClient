@@ -4,7 +4,8 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                naverLogo: '#03c75a'
+                lightBrown: '#86913f', //로고 Yum 색
+                darkGreen: '#5e9149' //로고 Ya색
             }
         }
     },
