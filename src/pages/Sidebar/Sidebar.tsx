@@ -1,34 +1,31 @@
-import {FC, PropsWithChildren, useState} from 'react'
+import {useState} from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
-    faBars,
     faAnglesLeft,
     faRoute,
     faMapLocationDot,
-    faFaceSmileBeam
+    faAnglesRight,
+    faUserGear,
+    faFaceLaughBeam
 } from '@fortawesome/free-solid-svg-icons'
 import {Outlet, useNavigate} from 'react-router-dom'
-import {SidebarItem, SidebarTitle} from '../../components'
+import {SidebarItem} from '../../components'
+import {SidebarRoute} from '../../routers'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {SidebarRoute} from '../../routers'
-import {getCookie} from '../../util/cookie'
-
-type SidebarProps = {}
-
-export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
-    const user = getCookie('refreshToken')
-
+export const Sidebar = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const handleTrigger = () => setIsOpen(!isOpen)
 
+    const role = useSelector((state: RootState) => state.login.role)
+
     const navigate = useNavigate()
 
     //메인 페이지로 이동
-    function onMain() {
-        navigate('/')
-    }
+    // function onMain() {
+    //     navigate('/')
+    // }
 
     //장소 게시글 페이지로 이동
     function onPlace() {
@@ -45,52 +42,70 @@ export const Sidebar: FC<PropsWithChildren<SidebarProps>> = ({children}) => {
         navigate('/search-user')
     }
 
+    //관리자 페이지로
+    function onManager() {
+        navigate('/manager')
+    }
+
     return (
-        <div className="z-50">
+        <div className="z-50 ">
             <div className="h-full ml-auto">
-                <div>{children}</div>
                 <div
-                    className={`z-50 rounded-tr-3xl fixed top-0 w-14 h-full bg-gradient-to-b from-darkGreen transition-all duration-200 pt-4 flex-col items-center  ${
-                        isOpen ? 'w-64' : ''
+                    className={` opacity-90 z-50 rounded-tr-3xl rounded-br-3xl fixed top-0 bg-lightGreen transition-all duration-200 flex-col items-center  ${
+                        isOpen ? 'w-64 h-full' : 'w-10'
                     }`}>
                     <div
-                        className={`flex items-center px-4 text-2xl h-14 ${
-                            isOpen ? 'justify-end' : ' justify-center'
+                        className={`bg-darkGreen  flex items-center px-4 text-2xl h-14  ${
+                            isOpen
+                                ? 'justify-end rounded-tr-2xl'
+                                : ' justify-center rounded-r-2xl'
                         }`}>
                         <FontAwesomeIcon
                             className="cursor-pointer"
-                            icon={isOpen ? faAnglesLeft : faBars}
+                            color="white"
+                            icon={isOpen ? faAnglesLeft : faAnglesRight}
                             onClick={handleTrigger}
                         />
                     </div>
-                    {user && <SidebarTitle isOpen={isOpen} />}
-                    {/* 서버 연결후 로그인 하지 않은 회원과 관리자 로그인했을때 SidebarItem 바꿔줄 필요 있음 */}
-                    {/* 메인 페이지로 이동 */}
-                    <SidebarItem sideTitle="Yum" isOpen={isOpen} onClick={onMain}>
-                        <p className="font-bold">Ya!</p>
-                    </SidebarItem>
-                    {/* 장소 게시판으로 이동 */}
-                    <SidebarItem
-                        sideTitle="장소 게시판"
-                        isOpen={isOpen}
-                        onClick={onPlace}>
-                        <FontAwesomeIcon icon={faMapLocationDot} />
-                    </SidebarItem>
-                    {/* 코스 게시판으로 이동 */}
-                    <SidebarItem
-                        sideTitle="코스 게시판"
-                        isOpen={isOpen}
-                        onClick={onCourse}>
-                        <FontAwesomeIcon icon={faRoute} />
-                    </SidebarItem>
-                    <SidebarItem
-                        sideTitle="유저 검색"
-                        isOpen={isOpen}
-                        onClick={onFindUser}>
-                        <FontAwesomeIcon icon={faFaceSmileBeam} />
-                    </SidebarItem>
-
-                    <SidebarRoute isOpen={isOpen} />
+                    {isOpen && (
+                        <div className="flex flex-col justify-between h-5/6">
+                            <div>
+                                <SidebarRoute />
+                                {/* 장소 게시판으로 이동  */}
+                                <SidebarItem sideTitle="장소 게시판" onClick={onPlace}>
+                                    <FontAwesomeIcon
+                                        icon={faMapLocationDot}
+                                        color="white"
+                                    />
+                                </SidebarItem>
+                                {/* 코스 게시판으로 이동 */}
+                                <SidebarItem sideTitle="코스 게시판" onClick={onCourse}>
+                                    <FontAwesomeIcon icon={faRoute} color="white" />
+                                </SidebarItem>
+                                <SidebarItem sideTitle="유저 검색" onClick={onFindUser}>
+                                    <FontAwesomeIcon
+                                        icon={faFaceLaughBeam}
+                                        color="white"
+                                    />
+                                </SidebarItem>
+                                {role === 'ADMIN' && (
+                                    <SidebarItem
+                                        sideTitle="관리자 페이지"
+                                        onClick={onManager}>
+                                        <FontAwesomeIcon
+                                            icon={faUserGear}
+                                            color="white"
+                                        />
+                                    </SidebarItem>
+                                )}
+                            </div>
+                            <div className="-mb-10">
+                                <p className="text-sm italic font-thin text-stone-100">
+                                    Discovery of Travel
+                                </p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
             <Outlet />
