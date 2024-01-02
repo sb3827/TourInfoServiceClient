@@ -7,8 +7,7 @@ import {
     MostLikedCourseItem,
     MostLikedMainItem,
     CoursePostMap,
-    MainSlider,
-    Logo
+    MainSlider
 } from '../../components'
 import dummyPic from '../../dummy data/dummypic.jpg'
 import dummyPic2 from '../../dummy data/dummypic2.jpg'
