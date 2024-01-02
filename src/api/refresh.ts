@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig, InternalAxiosRequestConfig} from 'axios'
+import axios, {AxiosRequestConfig} from 'axios'
 import Cookie from 'js-cookie'
 import {getCookie} from '../util/cookie'
 import {getWithTokenExpire, setWithTokenExpire} from '../util/localStorage'

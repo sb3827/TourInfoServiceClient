@@ -3,7 +3,6 @@ import {
     LoadingSppinner,
     LoginInput,
     LoginUseButton,
-    Logo,
     Oauth2LoginButton,
     Title
 } from '../../components'
@@ -71,11 +70,6 @@ export const Login = () => {
             }
         }
         setLoading(false)
-    }
-
-    //메인 페이지로 이동
-    function onMain() {
-        navigate('/')
     }
 
     //아이디 비밀번호 찾기로 이동
