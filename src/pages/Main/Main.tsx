@@ -47,28 +47,25 @@ export const Main: FC<MainProps> = () => {
                             text="장소"
                             filterChange={onSetFilterValue}
                             color={
-                                filterValue === 'place' ? 'bg-lightBrown text-white' : ''
+                                filterValue === 'place' ? 'bg-lightGreen text-white' : ''
                             }>
-                            <FontAwesomeIcon
-                                icon={faMapLocationDot}
-                                color="bg-lightBrown"
-                            />
+                            <FontAwesomeIcon icon={faMapLocationDot} />
                         </MainFilter>
                         <MainFilter
                             text="코스"
                             filterChange={onSetFilterValue}
                             color={
-                                filterValue === 'course' ? 'bg-lightBrown text-white' : ''
+                                filterValue === 'course' ? 'bg-lightGreen text-white' : ''
                             }>
-                            <FontAwesomeIcon icon={faRoute} color="bg-lightBrown" />
+                            <FontAwesomeIcon icon={faRoute} />
                         </MainFilter>
                         <MainFilter
                             text="유저"
                             filterChange={onSetFilterValue}
                             color={
-                                filterValue === 'user' ? 'bg-lightBrown text-white' : ''
+                                filterValue === 'user' ? 'bg-lightGreen text-white' : ''
                             }>
-                            <FontAwesomeIcon icon={faUsers} color="bg-lightBrown" />
+                            <FontAwesomeIcon icon={faUsers} />
                         </MainFilter>
                     </div>
                     <div className="flex justify-center w-full mb-12">
