@@ -74,7 +74,9 @@ export const SidebarUser: FC<PropsWithChildren<SidebarUserProps>> = ({children})
                     src={imgSrc ? imgSrc : UserImage}
                     className="w-1/2 rounded-full cursor-pointer"
                 />
-                <Subtitle className="my-4 text-center text-white">{userName}</Subtitle>
+                <Subtitle className="my-4 font-light text-center text-white">
+                    {userName}
+                </Subtitle>
                 <div
                     className="flex items-center my-2 mr-3 cursor-pointer"
                     onClick={onLogout}>
