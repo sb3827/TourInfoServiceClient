@@ -6,3 +6,6 @@ export * from './Report/Report'
 
 //Login
 export * from './Login/Login'
+
+//PlaceSearch
+export * from './PlaceSearch/PlaceSearch'
