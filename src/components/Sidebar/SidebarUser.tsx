@@ -1,4 +1,4 @@
-import {FC, PropsWithChildren, useState} from 'react'
+import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import UserImage from '../../assets/profileImage.jpeg'
 import {LoadingSppinner, Subtitle} from '../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -7,12 +7,19 @@ import {useNavigate} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import {logoutRequest} from '../../api'
 import Cookies from 'js-cookie'
-import {setUser} from '../../store/slices/LoginSlice'
+import {setRole, setUser} from '../../store/slices/LoginSlice'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../store/rootReducer'
+import {getUserInfo} from '../../api/Member/Member'
 
-type SidebarTitleProps = {}
+type SidebarUserProps = {}
 
-export const SidebarTitle: FC<PropsWithChildren<SidebarTitleProps>> = ({children}) => {
+export const SidebarUser: FC<PropsWithChildren<SidebarUserProps>> = ({children}) => {
     const [loading, setLoading] = useState(false)
+    const mno = useSelector((state: RootState) => state.login.mno)
+
+    const [userName, setUserName] = useState<string>('')
+    const [imgSrc, setImgSrc] = useState<string>('')
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -20,6 +27,20 @@ export const SidebarTitle: FC<PropsWithChildren<SidebarTitleProps>> = ({children
     //마이페이지로 이동
     function onMypage() {
         navigate('/mypage')
+    }
+
+    //회원 정보 들고오기
+    async function onUserInfo() {
+        try {
+            const data = mno && (await getUserInfo(mno))
+            if (data) {
+                dispatch(setRole(data.role))
+                setUserName(data.name)
+                setImgSrc(data.image)
+            }
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     //로그아웃
@@ -39,6 +60,10 @@ export const SidebarTitle: FC<PropsWithChildren<SidebarTitleProps>> = ({children
         setLoading(false)
     }
 
+    useEffect(() => {
+        onUserInfo()
+    }, [])
+
     return (
         <div className="flex items-center justify-center w-full px-4 ">
             {loading && <LoadingSppinner />}
@@ -46,10 +71,10 @@ export const SidebarTitle: FC<PropsWithChildren<SidebarTitleProps>> = ({children
             <div className="flex flex-col items-center w-full h-full ">
                 <img
                     onClick={onMypage}
-                    src={UserImage}
+                    src={imgSrc ? imgSrc : UserImage}
                     className="w-1/2 rounded-full cursor-pointer"
                 />
-                <Subtitle className="my-4 text-center text-white">user</Subtitle>
+                <Subtitle className="my-4 text-center text-white">{userName}</Subtitle>
                 <div
                     className="flex items-center my-2 mr-3 cursor-pointer"
                     onClick={onLogout}>
