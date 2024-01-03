@@ -14,6 +14,7 @@ export const BoardRoute: FC<BoardRouteProps> = ({}) => {
             <Route path="/place">
                 <Route index element={<PlaceSearch />} />
                 <Route path=":pno" element={<PlaceDetails />} />
+                <Route path="posting:bno" element={<PostPlace title="" />} />
                 <Route
                     path="posting/register"
                     element={<PostRegister isModify={false} />}
