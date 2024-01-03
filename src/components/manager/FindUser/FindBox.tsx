@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import {FindUserInfo, SubBox, Subtitle, UserInfoItemBox} from '../../index'
-import {UserData} from '../../../data/manager/index'
+import {UserData} from '../../../data/User/User'
 
 type FindBoxProps = {}
 
@@ -15,7 +15,8 @@ export const FindBox: FC<FindBoxProps> = ({}) => {
             userEmail: 'email@test.com',
             phoneNum: '01011112222',
             regDate: new Date(),
-            businessCheck: true
+            businessCheck: true,
+            suspendDate: '0'
         },
         {
             userName: '일반 유저',
@@ -23,7 +24,8 @@ export const FindBox: FC<FindBoxProps> = ({}) => {
             userEmail: 'email123@test.com',
             phoneNum: '01098765432',
             regDate: new Date(),
-            businessCheck: false
+            businessCheck: false,
+            suspendDate: new Date()
         },
         {
             userName: '일반 유저2',
@@ -31,7 +33,8 @@ export const FindBox: FC<FindBoxProps> = ({}) => {
             userEmail: 'test@test.com',
             phoneNum: '01099999999',
             regDate: new Date(),
-            businessCheck: false
+            businessCheck: false,
+            suspendDate: '0'
         }
     ]
     /////////////////////////////////////////////////////////////

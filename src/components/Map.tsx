@@ -402,11 +402,14 @@ export const PlacePostMap: FC<PropsWithChildren<PlacePostMapProps>> = ({
 // FIXME 결과 값 리턴 이벤트 @ckd9968
 // 마커 하나 찍는 지도 (장소 등록)
 export const ChooseMap: FC<
-    PropsWithChildren<
+    {
+        // 추가
+        onAddressChange: (address: string) => void
+    } & PropsWithChildren<
         RefAttributes<naver.maps.Map> &
             DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
     >
-> = ({...props}) => {
+> = ({onAddressChange, ...props}) => {
     const mapElement = useRef(null)
 
     useEffect(() => {
@@ -482,6 +485,7 @@ export const ChooseMap: FC<
 
                     // infowindow의 내용을 업데이트합니다.
                     infowindow.setContent(contentString.join(''))
+                    onAddressChange(result.local) // 지번 주소 보내주기
                 } catch (error) {
                     console.error(error)
                 }

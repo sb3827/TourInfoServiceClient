@@ -4,9 +4,13 @@ export * from './SearchInput'
 export * from './Input'
 export * from './Rating'
 export * from './Box'
+export * from './Footer'
+export * from './Logo'
+
+// Main
+export * from './Main/MainItem'
 
 // /manager
-
 export * from './manager/SubBox'
 export * from './manager/UserInfo'
 export * from './manager/ToggleButton'
@@ -44,8 +48,8 @@ export * from './Comment'
 export * from './Spot'
 
 //Sidebar
-export * from './Sidebar/Sidebar'
 export * from './Sidebar/SidebarItem'
+export * from './Sidebar/SidebarTitle'
 
 //course
 export * from './course/CourseInfo'
@@ -71,3 +75,22 @@ export * from './myPage/ShowUserInfo/MyFollowerBox'
 export * from './myPage/ShowUserInfo/ProfileBox'
 export * from './myPage/ShowUserInfo/UserAvatar'
 export * from './myPage/ShowUserInfo/ShowMyFollowing'
+export * from './myPage/ShowUserInfo/ShowTotalLikes'
+export * from './myPage/ShowUserInfo/ShowFollowModal'
+
+// /mypage/MyPocket
+export * from './myPage/MyPocket/MyPocketList'
+export * from './myPage/MyPocket/MyPocketLiked'
+export * from './myPage/MyPocket/CourseLikedList'
+export * from './myPage/MyPocket/PlaceLikedList'
+export * from './myPage/MyPocket/MyPocketModal'
+
+//Sidebar
+export * from './Sidebar/SidebarItem'
+export * from './Sidebar/SidebarTitle'
+
+//LoadingSpinner
+export * from './LoadingSpinner'
+
+//Footer
+export * from './Footer'
