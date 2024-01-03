@@ -1,11 +1,12 @@
 import {FC} from 'react'
 import {Button, UserInfo, UserInfoItemBox} from '../../index'
 import {postBusinessCheck} from '../../../api/Business/BusinessCheck'
-import {WaitUserData} from '../../../data/User/User'
+import {SignupWaitData} from '../../../data/User/User'
+import {signupApprove, signupReject} from '../../../api/Manager/Manager'
 
 // 유저 정보 한줄 - 추후 UserInfo로 prop 추가해줘야함
 
-type WaitUserProps = {waitUser: WaitUserData}
+type WaitUserProps = {waitUser: SignupWaitData}
 
 export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
     //사업자 확인 - 조회 버튼 누를시 사업자 번호 넘겨서 확인
@@ -24,29 +25,64 @@ export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
         }
     }
 
+    //회원가입 승인
+    async function onApprove(mno: number) {
+        try {
+            const data = await signupApprove(mno)
+
+            if (data.mno === mno.toString()) {
+                alert('회원가입 승인 하였습니다.')
+            } else {
+                alert('회원가입 승인 실패 하였습니다.')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    //회원가입 거절
+    async function onReject(mno: number) {
+        try {
+            const data = await signupReject(mno)
+
+            if (data.mno === mno.toString()) {
+                alert('회원가입 거절 하였습니다.')
+            } else {
+                alert('회원가입 거절 실패 하였습니다.')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     return (
         <UserInfoItemBox widthFull={false} isButton={true}>
             <div className="flex">
-                <UserInfo text={waitUser.userName} />
-                <UserInfo text={waitUser.userId} />
-                <UserInfo text={waitUser.userEmail} />
-                <UserInfo text={waitUser.phoneNum} />
-                <UserInfo text={waitUser.businessNum} />
+                <UserInfo text={waitUser.mno.toString()} />
+                <UserInfo text={waitUser.name} />
+                <UserInfo text={waitUser.email} />
+                <UserInfo text={waitUser.businessId} />
             </div>
 
             <div className="flex justify-around p-3 min-w-fit">
                 <Button
                     value="조회"
                     className="bg-white text-green-700 hover:text-white border border-green-700 hover:bg-green-800  focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 "
-                    onClick={() => onCheck([waitUser.businessNum])}
+                    onClick={() => onCheck([waitUser.businessId.toString()])}
                 />
                 <Button
                     value="승인"
                     className="bg-white text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 "
+                    onClick={() => {
+                        onApprove(waitUser.mno)
+                    }}
                 />
                 <Button
                     value="삭제"
                     className="bg-white text-red-700 hover:text-white border border-red-700 hover:bg-red-800  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600"
+                    onClick={() => {
+                        onReject(waitUser.mno)
+                    }}
                 />
             </div>
         </UserInfoItemBox>
