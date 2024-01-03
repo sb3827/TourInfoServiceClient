@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {LoginUserData} from '../../data/User/User'
 
 interface CommonState {
     reportSearch: Boolean
