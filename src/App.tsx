@@ -6,6 +6,7 @@ import {AuthRoute, BoardRoute, MyPageRoute, Oauth2Route} from './routers'
 import {Signup} from './pages/Signup'
 import {Find} from './pages/Find'
 import {UserSearch} from './pages/UserSearch'
+import {ManagerRoute} from './routers/ManagerRoute'
 
 function App() {
     return (
@@ -20,7 +21,9 @@ function App() {
                     }>
                     <Route element={<Sidebar />}>
                         <Route path="/" element={<Main />} />
-                        <Route path="manager" element={<Manager />} />
+                        <Route element={<ManagerRoute />}>
+                            <Route path="manager" element={<Manager />} />
+                        </Route>
                         {/* 아직 작성x - 추후 수정 */}
                         <Route path="board/*" element={<BoardRoute />} />
                         <Route path="mypage/*" element={<MyPageRoute />} />
