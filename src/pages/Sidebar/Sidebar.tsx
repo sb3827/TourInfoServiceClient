@@ -67,45 +67,37 @@ export const Sidebar = () => {
                             onClick={handleTrigger}
                         />
                     </div>
-                    {isOpen && (
-                        <div className="flex flex-col justify-between h-5/6">
-                            <div>
-                                <SidebarRoute />
-                                {/* 장소 게시판으로 이동  */}
-                                <SidebarItem sideTitle="장소 게시판" onClick={onPlace}>
-                                    <FontAwesomeIcon
-                                        icon={faMapLocationDot}
-                                        color="white"
-                                    />
+                    <div
+                        className={`flex flex-col justify-between h-5/6 ${
+                            isOpen ? 'block' : 'hidden'
+                        }`}>
+                        <div>
+                            <SidebarRoute />
+                            {/* 장소 게시판으로 이동  */}
+                            <SidebarItem sideTitle="장소 게시판" onClick={onPlace}>
+                                <FontAwesomeIcon icon={faMapLocationDot} color="white" />
+                            </SidebarItem>
+                            {/* 코스 게시판으로 이동 */}
+                            <SidebarItem sideTitle="코스 게시판" onClick={onCourse}>
+                                <FontAwesomeIcon icon={faRoute} color="white" />
+                            </SidebarItem>
+                            <SidebarItem sideTitle="유저 검색" onClick={onFindUser}>
+                                <FontAwesomeIcon icon={faFaceLaughBeam} color="white" />
+                            </SidebarItem>
+                            {role === 'ADMIN' && (
+                                <SidebarItem
+                                    sideTitle="관리자 페이지"
+                                    onClick={onManager}>
+                                    <FontAwesomeIcon icon={faUserGear} color="white" />
                                 </SidebarItem>
-                                {/* 코스 게시판으로 이동 */}
-                                <SidebarItem sideTitle="코스 게시판" onClick={onCourse}>
-                                    <FontAwesomeIcon icon={faRoute} color="white" />
-                                </SidebarItem>
-                                <SidebarItem sideTitle="유저 검색" onClick={onFindUser}>
-                                    <FontAwesomeIcon
-                                        icon={faFaceLaughBeam}
-                                        color="white"
-                                    />
-                                </SidebarItem>
-                                {role === 'ADMIN' && (
-                                    <SidebarItem
-                                        sideTitle="관리자 페이지"
-                                        onClick={onManager}>
-                                        <FontAwesomeIcon
-                                            icon={faUserGear}
-                                            color="white"
-                                        />
-                                    </SidebarItem>
-                                )}
-                            </div>
-                            <div className="-mb-10">
-                                <p className="text-sm italic font-thin text-stone-100">
-                                    Discovery of Travel
-                                </p>
-                            </div>
+                            )}
                         </div>
-                    )}
+                        <div className="-mb-10">
+                            <p className="text-sm italic font-thin text-stone-100">
+                                Discovery of Travel
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <Outlet />
