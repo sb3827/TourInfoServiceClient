@@ -2,6 +2,7 @@ import {FC, PropsWithChildren} from 'react'
 import {Input, TextEditor, Button, Rating} from '../../components'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons'
+import {useNavigate} from 'react-router-dom'
 
 type PostRegisterProps = {
     isModify: boolean // true: 수정, false: 등록
@@ -9,10 +10,11 @@ type PostRegisterProps = {
 
 // 장소 포스팅 등록
 export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
+    const navigate = useNavigate()
     // left arrow button
     function backPage() {
         // 뒤로가기 로직
-        alert('뒤로가기 만들어줘')
+        navigate(-1)
     }
     return (
         <div className="w-10/12 mx-auto">
