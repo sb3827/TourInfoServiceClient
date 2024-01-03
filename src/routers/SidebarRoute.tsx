@@ -1,5 +1,5 @@
 import {FC} from 'react'
-import {SidebarTitle} from '../components'
+import {SidebarUser} from '../components'
 import {getWithTokenExpire} from '../util/localStorage'
 import {getCookie} from '../util/cookie'
 import {SidebarLogin} from '../components/Sidebar/SidebarLogin'
@@ -12,7 +12,7 @@ export const SidebarRoute: FC<SidebarRouteProps> = () => {
 
     return (
         <div className="py-5 mb-10 bg-darkGreen rounded-b-3xl">
-            {refreshToken || user !== null ? <SidebarTitle /> : <SidebarLogin />}
+            {refreshToken || user !== null ? <SidebarUser /> : <SidebarLogin />}
         </div>
     )
 }
