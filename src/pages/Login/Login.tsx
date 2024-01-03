@@ -23,6 +23,9 @@ export const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
+    //이메일 검증
+    const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
+
     //아이디 state 변경
     function onUserEmailChange(value: string) {
         setUserEmail(value)
@@ -34,8 +37,24 @@ export const Login = () => {
     }
 
     //로그인 버튼 클릭 이벤트
-    async function onLoginClick() {
+    async function onLoginClick(
+        e?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement>
+    ) {
+        //키보드로 입력이 들어왔는데 Enter가 아닌경우 return
+        if (
+            e?.type === 'keydown' &&
+            (e as React.KeyboardEvent<HTMLInputElement>).key !== 'Enter'
+        ) {
+            return
+        }
+
         setLoading(true)
+        if (!email_regex.test(userEmail)) {
+            alert('이메일 형식이 아닙니다.')
+            setLoading(false)
+            return
+        }
+
         if (userEmail === '') {
             alert('이메일을 입력하세요')
             setLoading(false)
@@ -99,19 +118,21 @@ export const Login = () => {
                             <div className="w-full p-8 ml-5 border rounded-lg shadow-xl sm:w-fit md:w-fit lg:w-1/3">
                                 <Title className="mt-6 mb-8 text-3xl">LOGIN</Title>
                                 {/* 이메일 입력 창 */}
-                                <LoginInput
-                                    className="mb-6"
-                                    value={userEmail}
-                                    text="Email"
-                                    onChange={onUserEmailChange}
-                                />
-                                {/* 비밀번호 입력창 */}
-                                <LoginInput
-                                    className="mb-3"
-                                    value={userPassword}
-                                    text="Password"
-                                    onChange={onUserPasswordChange}
-                                />
+                                <div onKeyDown={onLoginClick}>
+                                    <LoginInput
+                                        className="mb-6"
+                                        value={userEmail}
+                                        text="Email"
+                                        onChange={onUserEmailChange}
+                                    />
+                                    {/* 비밀번호 입력창 */}
+                                    <LoginInput
+                                        className="mb-3"
+                                        value={userPassword}
+                                        text="Password"
+                                        onChange={onUserPasswordChange}
+                                    />
+                                </div>
                                 <div className="flex items-center justify-end px-2 mb-3">
                                     <p
                                         onClick={onFind}
