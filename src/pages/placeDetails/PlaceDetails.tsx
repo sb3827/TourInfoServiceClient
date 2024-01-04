@@ -43,7 +43,7 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
                             <div>대표이미지</div>
                         </div>
                         {/* MapAPI 컴포넌트 */}
-                        <SearchMap places={dummy} className="w-full h-full" />
+                        {/* <SearchMap places={dummy} className="w-full h-full" /> */}
                     </Slider>
                 </div>
             </div>
