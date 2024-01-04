@@ -16,6 +16,17 @@ export type LoginResponseData = {
     }
 }
 
+//유저 검색(관리자)
+export type ManagerSearchUserData = {
+    mno: number
+    name: string
+    email: string
+    phone: string
+    regDate: string
+    role: string
+    expDate: string
+}
+
 //회원가입 대기 조회
 export type SignupWaitData = {
     mno: number
@@ -38,18 +49,6 @@ export type UserInfoData = {
     phone: string
     birth: Date
     role: string
-}
-
-//수정 해야함
-//일반 유저 정보
-export type UserData = {
-    userName: string
-    userId: string
-    userEmail: string
-    phoneNum: string
-    regDate: Date
-    businessCheck: Boolean
-    suspendDate?: string | Date
 }
 
 //사업자 회원가입 대기 정보
