@@ -3,7 +3,7 @@ import {refresh, refreshErrorHandle} from '../refresh'
 import {getWithTokenExpire} from '../../util/localStorage'
 
 export const refreshAxios = axios.create({
-    baseURL: process.env.REACT_APP_YAYAUM_ADDRESS,
+    baseURL: process.env.REACT_APP_DOT_ADDRESS,
     headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${getWithTokenExpire('token')}`
