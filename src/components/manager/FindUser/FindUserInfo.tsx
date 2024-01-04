@@ -1,8 +1,9 @@
-import {FC, useState} from 'react'
+import {FC, useEffect, useState} from 'react'
 import {Button, ReportModal, UserInfo, UserInfoItemBox} from '../../index'
 import {ManagerSearchUserData} from '../../../data/User/User'
 import {getUserDisciplinary} from '../../../api'
 import {DisciplinaryUserData} from '../../../data/manager'
+import {userDelete} from '../../../api/Manager/Manager'
 
 type FindUserInfoProps = {
     users: ManagerSearchUserData
@@ -17,6 +18,7 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
     const openModal = () => setModalOpen(true)
     const closeModal = () => setModalOpen(false)
 
+    //유저 제재 조회
     async function onDisciplinaryAll() {
         try {
             const data = await getUserDisciplinary(users.mno)
@@ -26,6 +28,28 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
             alert('서버와 연결이 끊겼습니다.')
         }
     }
+
+    //회원 삭제
+    async function onRemoveUser() {
+        const remind = window.confirm('회원을 탈퇴 시키겠습니까?')
+        if (remind) {
+            try {
+                const data = await userDelete(users.mno)
+
+                if (data.mno === users.mno.toString()) {
+                    alert('회원 삭제 하였습니다.')
+                } else {
+                    alert('회원 삭제를 실패 하였습니다.')
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        }
+    }
+
+    useEffect(() => {
+        onDisciplinaryAll()
+    }, [])
 
     return (
         <div>
@@ -49,6 +73,7 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
                     <Button
                         value="탈퇴"
                         className="bg-white text-red-700 hover:text-white border border-red-700 hover:bg-red-800  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 "
+                        onClick={onRemoveUser}
                     />
                 </div>
             </UserInfoItemBox>
