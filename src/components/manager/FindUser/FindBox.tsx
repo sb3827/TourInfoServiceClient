@@ -47,6 +47,11 @@ export const FindBox: FC<FindBoxProps> = ({userData}) => {
             {userData?.map((users, index) => (
                 <FindUserInfo key={index} users={users} />
             ))}
+            {userData?.length === 0 ? (
+                <p className="mt-4 text-lg">검색 결과가 존재하지 않습니다...</p>
+            ) : (
+                ''
+            )}
         </SubBox>
     )
 }

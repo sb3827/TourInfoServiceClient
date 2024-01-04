@@ -59,6 +59,11 @@ export const WaitBox: FC<WaitBoxProps> = ({}) => {
                 waitData.map((waitUser, index) => (
                     <WaitUser key={index} waitUser={waitUser} />
                 ))}
+            {waitData?.length === 0 ? (
+                <p className="mt-4 text-lg">검색 결과가 존재하지 않습니다...</p>
+            ) : (
+                ''
+            )}
         </SubBox>
     )
 }
