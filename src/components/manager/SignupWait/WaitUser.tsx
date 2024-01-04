@@ -2,7 +2,7 @@ import {FC} from 'react'
 import {Button, UserInfo, UserInfoItemBox} from '../../index'
 import {postBusinessCheck} from '../../../api/Business/BusinessCheck'
 import {SignupWaitData} from '../../../data/User/User'
-import {signupApprove, signupReject} from '../../../api/Manager/Manager'
+import {signupApprove, userDelete} from '../../../api/Manager/Manager'
 
 // 유저 정보 한줄 - 추후 UserInfo로 prop 추가해줘야함
 
@@ -43,7 +43,7 @@ export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
     //회원가입 거절
     async function onReject(mno: number) {
         try {
-            const data = await signupReject(mno)
+            const data = await userDelete(mno)
 
             if (data.mno === mno.toString()) {
                 alert('회원가입 거절 하였습니다.')
