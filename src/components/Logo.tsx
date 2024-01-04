@@ -12,8 +12,8 @@ export const Logo = ({}) => {
         <div>
             <Title
                 onClick={onMain}
-                className="flex justify-center mt-10 cursor-pointer -mb-9">
-                <img src={mainLogo} className="w-40 sm:w-40 md:w-44 lg:w-52" />
+                className="flex justify-center mt-10 -mb-6 cursor-pointer">
+                <img src={mainLogo} className="w-40 sm:w-40 md:w-44 lg:w-48" />
             </Title>
         </div>
     )
