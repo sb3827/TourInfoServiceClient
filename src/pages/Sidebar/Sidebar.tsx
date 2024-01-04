@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
     faAnglesLeft,
@@ -13,19 +13,19 @@ import {SidebarItem} from '../../components'
 import {SidebarRoute} from '../../routers'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
+import {getCookie} from '../../util/cookie'
+import {useDispatch} from 'react-redux'
+import {setUser} from '../../store/slices/LoginSlice'
 export const Sidebar = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const handleTrigger = () => setIsOpen(!isOpen)
 
     const role = useSelector((state: RootState) => state.login.role)
+    const dispatch = useDispatch()
+    const refreshToken = getCookie('refreshToken')
 
     const navigate = useNavigate()
-
-    //메인 페이지로 이동
-    // function onMain() {
-    //     navigate('/')
-    // }
 
     //장소 게시글 페이지로 이동
     function onPlace() {
@@ -46,6 +46,11 @@ export const Sidebar = () => {
     function onManager() {
         navigate('/manager')
     }
+    useEffect(() => {
+        if (!refreshToken) {
+            dispatch(setUser({mno: null, role: null}))
+        }
+    }, [])
 
     return (
         <div className="z-50 ">
