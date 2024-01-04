@@ -15,7 +15,7 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
         // 토큰 갱신 서버통신
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_YAYAUM_ADDRESS}/auth/newToken`,
+                `${process.env.REACT_APP_DOT_ADDRESS}/auth/newToken`,
                 body
             )
             token = response.data.token
