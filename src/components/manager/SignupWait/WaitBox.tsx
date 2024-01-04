@@ -8,6 +8,8 @@ import {
 } from '../../index'
 import {SignupWaitData} from '../../../data/User/User'
 import {getSignupWait} from '../../../api/Manager/Manager'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../../store/rootReducer'
 
 //회원 대기 목록 컴포넌트 합체 - 추후 WaitUser에 props 추가하여야하고 반복문으로 수정해야함
 
@@ -15,6 +17,8 @@ type WaitBoxProps = {}
 
 export const WaitBox: FC<WaitBoxProps> = ({}) => {
     const [waitData, setWaitData] = useState<Array<SignupWaitData>>()
+    const userCheck = useSelector((state: RootState) => state.manager.isDone)
+
     const [loading, setLoading] = useState<Boolean>(false)
 
     //회원 대기 조회
@@ -26,13 +30,12 @@ export const WaitBox: FC<WaitBoxProps> = ({}) => {
             setLoading(false)
         } catch (err) {
             console.log(err)
-            alert('서버와 연결이 끊겼습니다.')
             setLoading(false)
         }
     }
     useEffect(() => {
         onSignupWaitList()
-    }, [])
+    }, [userCheck])
 
     return (
         <SubBox className="relative">

@@ -4,12 +4,16 @@ import {ManagerSearchUserData} from '../../../data/User/User'
 import {getUserDisciplinary} from '../../../api'
 import {DisciplinaryUserData} from '../../../data/manager'
 import {userDelete} from '../../../api/Manager/Manager'
+import {useDispatch} from 'react-redux'
+import {setUserCheck} from '../../../store/slices/ManagerSlice'
 
 type FindUserInfoProps = {
     users: ManagerSearchUserData
 }
 
 export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
+    const dispatch = useDispatch()
+
     const [isModalOpen, setModalOpen] = useState<boolean>(false)
     const [disciplinaryData, setDisciplinaryData] = useState<DisciplinaryUserData | null>(
         null
@@ -25,7 +29,6 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
             setDisciplinaryData(data)
         } catch (err) {
             console.log(err)
-            alert('서버와 연결이 끊겼습니다.')
         }
     }
 
@@ -37,6 +40,7 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
                 const data = await userDelete(users.mno)
 
                 if (data.mno === users.mno.toString()) {
+                    dispatch(setUserCheck())
                     alert('회원 삭제 하였습니다.')
                 } else {
                     alert('회원 삭제를 실패 하였습니다.')

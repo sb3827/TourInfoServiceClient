@@ -3,12 +3,16 @@ import {Button, UserInfo, UserInfoItemBox} from '../../index'
 import {postBusinessCheck} from '../../../api/Business/BusinessCheck'
 import {SignupWaitData} from '../../../data/User/User'
 import {signupApprove, userDelete} from '../../../api/Manager/Manager'
+import {useDispatch} from 'react-redux'
+import {setUserCheck} from '../../../store/slices/ManagerSlice'
 
 // 유저 정보 한줄 - 추후 UserInfo로 prop 추가해줘야함
 
 type WaitUserProps = {waitUser: SignupWaitData}
 
 export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
+    const dispatch = useDispatch()
+
     //사업자 확인 - 조회 버튼 누를시 사업자 번호 넘겨서 확인
     async function onCheck(b_no: string[]) {
         try {
@@ -29,8 +33,8 @@ export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
     async function onApprove(mno: number) {
         try {
             const data = await signupApprove(mno)
-
-            if (data.mno === mno.toString()) {
+            if (data.mno == mno.toString()) {
+                dispatch(setUserCheck())
                 alert('회원가입 승인 하였습니다.')
             } else {
                 alert('회원가입 승인 실패 하였습니다.')
@@ -44,8 +48,8 @@ export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
     async function onReject(mno: number) {
         try {
             const data = await userDelete(mno)
-
-            if (data.mno === mno.toString()) {
+            if (data.mno == mno.toString()) {
+                dispatch(setUserCheck())
                 alert('회원가입 거절 하였습니다.')
             } else {
                 alert('회원가입 거절 실패 하였습니다.')

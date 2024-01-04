@@ -26,6 +26,7 @@ import {ManagerSearchUserData} from '../../data/User/User'
 export const Manager = () => {
     //새로고침에 필요한 값 불러오기
     const doneCheck = useSelector((state: RootState) => state.report.isDone)
+    const userCheck = useSelector((state: RootState) => state.manager.isDone)
     const dispatch = useDispatch()
 
     //검색 값
@@ -67,7 +68,6 @@ export const Manager = () => {
             dispatch(setManagerSearch(false))
         } catch (err) {
             console.log(err)
-            alert('서버와 연결이 끊겼습니다.')
             dispatch(setManagerSearch(false))
         }
     }
@@ -109,7 +109,7 @@ export const Manager = () => {
     useEffect(() => {
         onSearchUsers()
         onReportList()
-    }, [doneCheck])
+    }, [doneCheck, userCheck])
 
     return (
         <Box>
