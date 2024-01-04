@@ -26,6 +26,6 @@ export const signupApprove = async (mno: number): Promise<MnoData> => {
 
 //회원가입 거절
 export const userDelete = async (mno: number): Promise<MnoData> => {
-    const response = await refreshAxios.put(`/users/delete?mno=${mno}`)
+    const response = await refreshAxios.delete(`/users/delete?mno=${mno}`)
     return response.data
 }
