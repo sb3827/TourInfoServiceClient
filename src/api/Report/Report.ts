@@ -1,5 +1,15 @@
-import {ReportCheckData, ReportResponseData} from '../../data/manager'
+import {
+    DisciplinaryUserData,
+    ReportCheckData,
+    ReportResponseData
+} from '../../data/manager'
 import {refreshAxios} from '../Axios/RefreshAxios'
+
+//회원 제재내역 들고오기
+export const getUserDisciplinary = async (mno: number): Promise<DisciplinaryUserData> => {
+    const response = await refreshAxios.get(`/report/all/${mno}`)
+    return response.data
+}
 
 //신고 들고오기
 export const getAllReport = async (

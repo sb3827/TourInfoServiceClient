@@ -1,6 +1,6 @@
 // dummy data example
 // reply dummy
-export const array = ['img', 'user', 'reply....', '2023.12.25']
+export const array = ['img', 'user', 'reply test test test', '2023.12.25']
 
 // text dummy
 export const dummyText = `<p>111111111111111111111111111</p>

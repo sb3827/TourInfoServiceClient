@@ -686,27 +686,25 @@ export const SearchMap: FC<PropsWithChildren<SearchMapProps>> = ({places, ...pro
 
             const infowindow = new naver.maps.InfoWindow({
                 content: [
-                    '<div class="iw_inner">',
-                    `   <h1>${place.name}</h1>`,
+                    '<div class="p-4">',
+                    `   <h1 class="text-darkGreen">${place.name}</h1>`,
                     '   <div>',
-                    '       <p>',
-                    `           [도로명 주소] ${place.road} <br />`,
-                    `           [지  번 주소] ${place.local}<br />`,
-                    `           [영문명 주소] ${place.eng}<br />`,
-                    '       </p>',
+                    `       <p >[ 도로명 주소 ]<p />`,
+                    `       <p class='text-sm mb-1.5'>${place.road} <p />`,
+                    `       <p>[ 지번 주소 ]<p/>`,
+                    `       <p class='text-sm mb-1.5'>${place.local}<p/>`,
+                    `       <p>[ 영문명 주소 ] <p />`,
+                    `       <p class='text-sm'>${place.eng}<p />`,
                     '   </div>',
                     '</div>'
                 ].join(''),
-
                 //maxWidth: 140,
-                backgroundColor: '#eee',
-                borderColor: '#2db400',
-                borderWidth: 5,
-                anchorSize: new naver.maps.Size(30, 30),
+                backgroundColor: '#fff',
+                borderColor: 'lightGreen',
+                borderWidth: 2,
+                anchorSize: new naver.maps.Size(20, 20),
                 anchorSkew: true,
-                anchorColor: '#eee',
-
-                pixelOffset: new naver.maps.Point(20, -20)
+                anchorColor: '#fff'
             })
             infoWindows.push(infowindow)
         })
@@ -761,7 +759,7 @@ export const SearchMap: FC<PropsWithChildren<SearchMapProps>> = ({places, ...pro
         infoWindows[0].open(map, markers[0])
     }, [places])
 
-    return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
+    return <div ref={mapElement} {...props}></div>
 }
 
 function getCenter(latlngs: LatLng[]): naver.maps.LatLng {

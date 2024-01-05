@@ -48,7 +48,8 @@ export * from './Spot'
 
 //Sidebar
 export * from './Sidebar/SidebarItem'
-export * from './Sidebar/SidebarTitle'
+export * from './Sidebar/SidebarUser'
+export * from './Sidebar/SidebarLogin'
 
 //course
 export * from './course/CourseInfo'
@@ -86,7 +87,8 @@ export * from './myPage/MyPocket/MyPocketModal'
 
 //Sidebar
 export * from './Sidebar/SidebarItem'
-export * from './Sidebar/SidebarTitle'
+export * from './Sidebar/SidebarUser'
+export * from './Sidebar/SidebarLogin'
 
 //LoadingSpinner
 export * from './LoadingSpinner'

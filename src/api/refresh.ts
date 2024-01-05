@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig, InternalAxiosRequestConfig} from 'axios'
+import axios, {AxiosRequestConfig} from 'axios'
 import Cookie from 'js-cookie'
 import {getCookie} from '../util/cookie'
 import {getWithTokenExpire, setWithTokenExpire} from '../util/localStorage'
@@ -13,13 +13,16 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
             refreshToken
         }
         // 토큰 갱신 서버통신
-        const response = await axios.post(
-            `${process.env.REACT_APP_YAYAUM_ADDRESS}/auth/newToken`,
-            body
-        )
-
-        token = response.data.token
-        setWithTokenExpire('token', token)
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_DOT_ADDRESS}/auth/newToken`,
+                body
+            )
+            token = response.data.token
+            setWithTokenExpire('token', token)
+        } catch (err) {
+            console.log(err)
+        }
     }
     if (!config.headers) {
         config.headers = {}

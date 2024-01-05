@@ -12,16 +12,16 @@ const initialState: CommonState = {
     isDone: 0
 }
 
-export const ReportSlice = createSlice({
-    name: 'report',
+export const ManagerSlice = createSlice({
+    name: 'manager',
     initialState,
     reducers: {
-        setIsDone(state) {
+        setUserCheck(state) {
             state.isDone += 1
         }
     }
 })
 
-export const {setIsDone} = ReportSlice.actions
+export const {setUserCheck} = ManagerSlice.actions
 
-export default ReportSlice
+export default ManagerSlice
