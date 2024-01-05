@@ -30,7 +30,9 @@ export const replyData = [
         parent_rno: null
     }
 ]
-///
+//
+
+//bno 받아와서 부모댓글 조회 기능 만들어 줘야함
 
 // 댓글 part 작성+list
 export const Reply: FC<PropsWithChildren<ReplyProps>> = () => {

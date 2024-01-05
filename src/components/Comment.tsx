@@ -30,8 +30,8 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({reply}) => {
 
     return (
         <div className="flex flex-col">
-            <div className="flex justify-center w-full mx-auto mb-1 border rounded-lg border-lightGreen">
-                <div className="flex flex-col items-center justify-center">
+            <div className="flex justify-center w-full mx-auto border-b border-lightGreen">
+                <div className="flex flex-col items-center justify-center ">
                     <div>
                         <img className="w-10" src={reply.src ? reply.src : dummyImage} />
                     </div>
@@ -59,7 +59,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({reply}) => {
             {/* 테스트 */}
             {replyData && !viewReply && (
                 <p
-                    className="mb-6 text-sm duration-100 cursor-pointer hover:font-bold "
+                    className="mb-6 text-sm text-green-800 duration-100 cursor-pointer hover:font-bold "
                     onClick={onOpenReply}>
                     대댓글 보기
                 </p>

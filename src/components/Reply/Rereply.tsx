@@ -1,7 +1,7 @@
 import React from 'react'
 import {DropdownIcon} from '../Button'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
+import {faArrowTurnUp, faEllipsisVertical, faL} from '@fortawesome/free-solid-svg-icons'
 import {dropdownText} from "../../dummy data/sb's dummy"
 import {Body, Caption} from '../Texts'
 import dummyImage from '../../assets/profileImage.jpeg'
@@ -15,10 +15,13 @@ type RereplyProps = {
 export const Rereply: React.FC<RereplyProps> = ({viewReply, reReplyData}) => {
     return (
         <div
-            className={`duration-1000 flex items-end justify-end w-full ${
+            className={`border-b border-lightGreen flex items-end justify-end w-full ${
                 viewReply ? '' : 'hidden '
             }`}>
-            <div className="flex justify-center w-11/12 mb-5 border-b border-l border-r rounded-bl-2xl border-lightGreen">
+            <div className="flex justify-center w-11/12 ">
+                <div className="flex items-center justify-center mr-5">
+                    <FontAwesomeIcon icon={faArrowTurnUp} rotation={90} />
+                </div>
                 <div className="flex flex-col items-center justify-center">
                     <div>
                         <img
