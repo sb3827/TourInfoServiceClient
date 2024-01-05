@@ -10,6 +10,8 @@ import {
     HTMLAttributes
 } from 'react'
 
+import {PlaceData} from '../data/placeSearch'
+
 export type Address = {
     road: string // 도로명
     local: string // 지번
@@ -637,7 +639,7 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
 }
 
 type SearchMapProps = {
-    places: PlaceProps[]
+    places: PlaceData[]
 } & RefAttributes<naver.maps.Map> &
     DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 // 마커들 (검색 페이지)
@@ -690,9 +692,9 @@ export const SearchMap: FC<PropsWithChildren<SearchMapProps>> = ({places, ...pro
                     `   <h1>${place.name}</h1>`,
                     '   <div>',
                     '       <p>',
-                    `           [도로명 주소] ${place.road} <br />`,
-                    `           [지  번 주소] ${place.local}<br />`,
-                    `           [영문명 주소] ${place.eng}<br />`,
+                    `           [도로명 주소] ${place.roadAddress} <br />`,
+                    `           [지  번 주소] ${place.localAddress}<br />`,
+                    `           [영문명 주소] ${place.engAddress}<br />`,
                     '       </p>',
                     '   </div>',
                     '</div>'

@@ -15,6 +15,7 @@ import {
 
 //TODO - zoomControl 중첩 문제 해결
 //FIXME - 상백,영현 zoomControl 중첩되는 문제 해결해주세요
+//FIXME - SearchInfo 컴포넌트 바껴서 다시 PlaceSearch 다시 작성 부탁드려요.
 
 type MyPocketModalProps = {
     selectedComponent?: number
@@ -157,7 +158,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                 <div className="flex w-5/6 h-full">
                                     <div className="w-1/4 mr-2 overflow-y-auto border rounded-lg border--300">
                                         {/* 검색 결과를 보여줄 컴포넌트 */}
-                                        {matchingPlaces.length > 0 ? (
+                                        {/* {matchingPlaces.length > 0 ? (
                                             matchingPlaces.map((place, index) => (
                                                 <SearchInfo
                                                     key={index}
@@ -253,17 +254,17 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                                     </div>
                                                 ) : null}
                                             </div>
-                                        )}
+                                        )} */}
                                     </div>
                                     <div className="w-4/6 border border-gray-300 rounded-lg">
                                         {/* MapAPI 컴포넌트 */}
-                                        {!RegisterSpotModal && (
+                                        {/* {!RegisterSpotModal && (
                                             <SearchMap
                                                 className="w-100%"
                                                 places={dummy}
                                                 style={{height: '100%'}}
                                             />
-                                        )}
+                                        )} */}
                                     </div>
                                 </div>
                             </div>
