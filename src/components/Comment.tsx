@@ -70,7 +70,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({reply}) => {
 
             {viewReply && (
                 <p
-                    className="mb-6 text-sm duration-100 cursor-pointer hover:font-bold "
+                    className="mb-6 text-sm duration-100 cursor-pointer  hover:font-bold"
                     onClick={onCloseReply}>
                     - 닫기 -
                 </p>
