@@ -137,7 +137,7 @@ export const Manager = () => {
                         <Button
                             onClick={onSearchUsers}
                             value="검색"
-                            className="text-center text-white bg-purple-600"
+                            className="text-center text-white bg-darkGreen"
                         />
                     </Subtitle>
                 </div>
@@ -182,7 +182,7 @@ export const Manager = () => {
                         <Button
                             onClick={onReportList}
                             value="검색"
-                            className="text-center text-white bg-purple-600"
+                            className="text-center text-white bg-darkGreen"
                         />
                     </Subtitle>
                 </div>

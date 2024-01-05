@@ -81,7 +81,7 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 <div
                     className={`flex justify-around w-full ${
                         reportData.isDone === true
-                            ? 'bg-darkGreen text-white rounded-lg'
+                            ? 'bg-lightGreen text-white rounded-lg'
                             : ''
                     }`}>
                     <UserInfo
