@@ -4,7 +4,6 @@ import {CourseRegister, DetailedCourse, NotFound, PostPlace, PostRegister} from 
 import {PlaceSearch} from '../pages/placeSearch'
 import {PlaceDetails} from '../pages/placeDetails'
 import {CourseSearch} from '../pages/CourseSearch'
-import {CoursePostMap} from '../components'
 
 type BoardRouteProps = {}
 
@@ -14,7 +13,7 @@ export const BoardRoute: FC<BoardRouteProps> = ({}) => {
             <Route path="/place">
                 <Route index element={<PlaceSearch />} />
                 <Route path=":pno" element={<PlaceDetails />} />
-                <Route path="posting:bno" element={<PostPlace title="" />} />
+                <Route path="posting" element={<PostPlace title="" />} />
                 <Route
                     path="posting/register"
                     element={<PostRegister isModify={false} />}
@@ -24,7 +23,7 @@ export const BoardRoute: FC<BoardRouteProps> = ({}) => {
             </Route>
             <Route path="/course">
                 <Route index element={<CourseSearch />} />
-                <Route path=":bno" element={<DetailedCourse title="test" />} />
+                <Route path="posting" element={<DetailedCourse title="test" />} />
                 <Route
                     path="posting/register"
                     element={<CourseRegister isModify={false} />}
