@@ -1,77 +1,43 @@
 import {useState} from 'react'
 import {Title, Subtitle, DropdownSelect, Button} from '../../components'
+import {FindPasswordRequest} from '../../api/Find/Find'
+import {useDispatch} from 'react-redux'
+import {setEmail} from '../../store/slices/FindSlice'
 
 export const FindPassword = () => {
     const [userEmail, setUserEmail] = useState<string>('')
-    const [userPassword, setUserPassword] = useState<string>('')
-    const [repeatPassword, setRepeatPassword] = useState<string>('')
-    const [userName, setUserName] = useState<string>('')
-    const [userBirthDate, setUserBirthDate] = useState<string>('')
-    const [userPhoneNumber, setUserPhoneNumber] = useState<string>('')
-    const [selectValue, setSelectValue] = useState<string>('@naver.com')
-    const [businessCode, setBusinessCode] = useState<string>('')
-
-    // 이메일 도메인 select
-    function onChangeSelect(e: React.ChangeEvent<HTMLSelectElement>) {
-        setSelectValue(e.target.value)
-    }
+    const dispatch = useDispatch()
 
     //이메일 state 변경
     function onUserEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
         setUserEmail(e.target.value)
     }
 
-    function onChangeBusinessCode(e: React.ChangeEvent<HTMLInputElement>) {
-        setBusinessCode(e.target.value)
-    }
-    //비밀번호 state 변경
-    function onUserPasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUserPassword(e.target.value)
-    }
-    function onRepeatPasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setRepeatPassword(e.target.value)
-    }
-    // 이름 state 변경
-    function onUserNameChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUserName(e.target.value)
-    }
-
-    // 생년월일 state 변경
-    function onUserBirthDateChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUserBirthDate(e.target.value)
-    }
-
-    // 휴대폰번호 state 변경
-    function onUserPhoneNumberChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUserPhoneNumber(e.target.value)
-    }
-
-    // 가입하기 버튼 클릭시 이벤트
-    function onSignupClicked() {
-        console.log(
-            'email : ',
-            userEmail + selectValue,
-            'businessCode : ',
-            businessCode,
-            'userPassword : ',
-            userPassword,
-            'userName : ',
-            userName,
-            'userBirthDate : ',
-            userBirthDate,
-            'userPhoneNumber : ',
-            userPhoneNumber
-        )
-        if (userPassword !== repeatPassword) {
-            alert('비밀번호가 일치하지 않습니다!')
+    // 비밀번호 찾기 버튼 클릭시 이벤트
+    async function onPasswordFindClicked() {
+        if (userEmail === '') {
+            alert('이메일을 입력하세요')
             return
+        }
+        try {
+            console.log('email : ', userEmail)
+            const data = await FindPasswordRequest(userEmail)
+            dispatch(setEmail(userEmail))
+            if (data.result) {
+                alert('이메일로 임시비밀번호를 전송하였습니다')
+            } else {
+                alert('일치하는 회원정보가 없습니다')
+            }
+        } catch (error) {
+            alert('요청실패')
+            console.log(error)
         }
     }
 
     return (
         <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
             <div className="">
-                <Title className="my-6 text-blue-400">계정 찾기</Title>
+                <Title className="my-6 text-[#609966]">비밀번호 찾기</Title>
 
                 {/* 이메일 입력 창 */}
                 <div className="relative flex flex-row mb-6" data-te-input-wrapper-init>
@@ -90,15 +56,10 @@ export const FindPassword = () => {
                         이메일
                     </label>
                 </div>
-
-                <button
-                    type="button"
-                    className="mb-3 inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                    onClick={onSignupClicked}>
-                    비밀번호 찾기
-                </button>
+                <Button
+                    value="비밀번호 찾기"
+                    onClick={onPasswordFindClicked}
+                    className="bg-[#8EB682] hover:bg-[#609966]"></Button>
             </div>
         </div>
     )
