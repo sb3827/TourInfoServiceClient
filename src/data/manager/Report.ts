@@ -1,3 +1,16 @@
+//유저 제재 내역 전체 조회
+export type DisciplinaryUserData = {
+    result: boolean
+    data: Array<{
+        dno: number
+        complainant_mno: number
+        mno: number
+        reason: string
+        strDate: string
+        expDate: string
+    }>
+}
+
 //신고 정보 요청 결과
 export type ReportResponseData = {
     result: boolean

@@ -17,13 +17,16 @@ import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {getAllReport} from '../../api'
 import {useDispatch} from 'react-redux'
-import {setReportSearch} from '../../store/slices/SearchSlice'
+import {setManagerSearch, setReportSearch} from '../../store/slices/SearchSlice'
+import {managerSearchUser} from '../../api/Manager/Manager'
+import {ManagerSearchUserData} from '../../data/User/User'
 
 //관리자 페이지
 
 export const Manager = () => {
     //새로고침에 필요한 값 불러오기
     const doneCheck = useSelector((state: RootState) => state.report.isDone)
+    const userCheck = useSelector((state: RootState) => state.manager.isDone)
     const dispatch = useDispatch()
 
     //검색 값
@@ -32,7 +35,9 @@ export const Manager = () => {
     const [reportSelectValue, setReportSelectValue] = useState<string>('all')
     const [reportSearchValue, setReportSearchValue] = useState<string>('')
 
-    //검색 결과 데이터
+    //유저 검색 결과 데이터
+    const [userData, setUserData] = useState<ManagerSearchUserData[] | null>(null)
+    //신고 검색 결과 데이터
     const [reportData, setReportData] = useState<ReportResponseData | null>(null)
 
     //사용자 검색 input 입력때마다 검색값 업데이트
@@ -44,9 +49,27 @@ export const Manager = () => {
         setSelectValue(e.target.value)
     }
 
-    //사용자 검색 버튼 누르기 테스트
-    function onSubmitSearch() {
-        console.log('사용자 검색 : ', selectValue, searchValue)
+    //사용자 검색
+    async function onSearchUsers(
+        e?: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>
+    ) {
+        //키보드로 입력이 들어왔는데 Enter가 아닌경우 return
+        if (
+            e?.type === 'keydown' &&
+            (e as React.KeyboardEvent<HTMLInputElement>).key !== 'Enter'
+        ) {
+            return
+        }
+
+        try {
+            dispatch(setManagerSearch(true))
+            const data = await managerSearchUser(selectValue, searchValue)
+            setUserData(data)
+            dispatch(setManagerSearch(false))
+        } catch (err) {
+            console.log(err)
+            dispatch(setManagerSearch(false))
+        }
     }
 
     //신고 검색 input 입력때마다 검색값 업데이트
@@ -84,8 +107,9 @@ export const Manager = () => {
     }
 
     useEffect(() => {
+        onSearchUsers()
         onReportList()
-    }, [doneCheck])
+    }, [doneCheck, userCheck])
 
     return (
         <Box>
@@ -99,25 +123,26 @@ export const Manager = () => {
                                 value={selectValue}
                                 className="block w-full py-3 pl-3 pr-10 leading-tight border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline">
                                 <option value="all">전체</option>
-                                <option value="nomal">일반 유저</option>
+                                <option value="normal">일반 유저</option>
                                 <option value="business">사업자</option>
-                                <option value="freeze">정지된 유저</option>
+                                <option value="disciplinary">정지된 유저</option>
                             </select>
                         </DropdownSelect>
                         <SearchInput
                             className="w-1/2"
                             value={searchValue}
                             onChange={onChangeSearch}
+                            onKeyDown={onSearchUsers}
                         />
                         <Button
-                            onClick={onSubmitSearch}
+                            onClick={onSearchUsers}
                             value="검색"
-                            className="text-center text-white bg-purple-600"
+                            className="text-center text-white bg-darkGreen"
                         />
                     </Subtitle>
                 </div>
             </div>
-            <FindBox />
+            <FindBox userData={userData} />
 
             <div className="w-2/3 ml-4">
                 <div className="flex items-center m-5">
@@ -157,7 +182,7 @@ export const Manager = () => {
                         <Button
                             onClick={onReportList}
                             value="검색"
-                            className="text-center text-white bg-purple-600"
+                            className="text-center text-white bg-darkGreen"
                         />
                     </Subtitle>
                 </div>

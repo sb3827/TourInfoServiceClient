@@ -1,12 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {LoginUserData} from '../../data/User/User'
 
 interface CommonState {
     reportSearch: Boolean
+    managerSearch: Boolean
 }
 
 const initialState: CommonState = {
-    reportSearch: false
+    reportSearch: false,
+    managerSearch: false
 }
 
 export const SearchSlice = createSlice({
@@ -15,10 +16,13 @@ export const SearchSlice = createSlice({
     reducers: {
         setReportSearch(state, action: PayloadAction<Boolean>) {
             state.reportSearch = action.payload
+        },
+        setManagerSearch(state, action: PayloadAction<Boolean>) {
+            state.managerSearch = action.payload
         }
     }
 })
 
-export const {setReportSearch} = SearchSlice.actions
+export const {setReportSearch, setManagerSearch} = SearchSlice.actions
 
 export default SearchSlice
