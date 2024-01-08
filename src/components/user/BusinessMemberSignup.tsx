@@ -1,15 +1,31 @@
 import {useState} from 'react'
 import {Title, Subtitle, DropdownSelect, Button} from '../../components'
+import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
+import {useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+import {
+    setEmail,
+    setPassword,
+    setBirth,
+    setPhone,
+    setName,
+    setRole
+} from '../../store/slices/SignupSlice'
+import {SignupData} from '../../data/Signup/Signup'
 
 export const BusinessMemberSignup = () => {
     const [userEmail, setUserEmail] = useState<string>('')
+    const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
     const [userPassword, setUserPassword] = useState<string>('')
     const [repeatPassword, setRepeatPassword] = useState<string>('')
     const [userName, setUserName] = useState<string>('')
     const [userBirthDate, setUserBirthDate] = useState<string>('')
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>('')
     const [selectValue, setSelectValue] = useState<string>('@naver.com')
-    const [businessCode, setBusinessCode] = useState<string>('')
+    const [userBusinessCode, setUserBusinessCode] = useState<string>('')
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     // 이메일 도메인 select
     function onChangeSelect(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -22,7 +38,7 @@ export const BusinessMemberSignup = () => {
     }
 
     function onChangeBusinessCode(e: React.ChangeEvent<HTMLInputElement>) {
-        setBusinessCode(e.target.value)
+        setUserBusinessCode(e.target.value)
     }
     //비밀번호 state 변경
     function onUserPasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -46,34 +62,71 @@ export const BusinessMemberSignup = () => {
         setUserPhoneNumber(e.target.value)
     }
 
-    // 가입하기 버튼 클릭시 이벤트
-    function onSignupClicked() {
-        console.log(
-            'email : ',
-            userEmail + selectValue,
-            'businessCode : ',
-            businessCode,
-            'userPassword : ',
-            userPassword,
-            'userName : ',
-            userName,
-            'userBirthDate : ',
-            userBirthDate,
-            'userPhoneNumber : ',
-            userPhoneNumber
-        )
-        if (userPassword !== repeatPassword) {
-            alert('비밀번호가 일치하지 않습니다!')
+    // 이메일 중복 체크 버튼 클릭 이벤트
+    async function onEmailCheckClicked() {
+        if (userEmail === '') {
+            alert('이메일을 입력하세요')
             return
+        } else {
+            try {
+                const isDuplicate = await duplicatedEmailCheckRequest(
+                    userEmail + selectValue
+                )
+                dispatch(setEmail(userEmail + selectValue))
+
+                alert(
+                    isDuplicate ? '이미 가입된 이메일입니다' : '사용 가능한 이메일입니다'
+                )
+                if (!isDuplicate) {
+                    setIsEmailChecked(true)
+                }
+            } catch (error) {
+                alert('이메일 중복 체크 실패')
+            }
         }
+    }
+
+    // 가입하기 버튼 클릭시 이벤트
+    async function onSignupClicked() {
+        if (isEmailChecked === true) {
+            if (userPassword !== repeatPassword) {
+                alert('비밀번호가 일치하지 않습니다!')
+                return
+            }
+            try {
+                const data: SignupData = {
+                    email: userEmail + selectValue,
+                    password: userPassword,
+                    birth: userBirthDate,
+                    phone: userPhoneNumber,
+                    name: userName,
+                    role: 'BUSINESSPERSON'
+                }
+                const result = await signupRequest(data)
+                dispatch(setEmail(userEmail + selectValue))
+                dispatch(setPassword(userPassword))
+                dispatch(setBirth(userBirthDate))
+                dispatch(setPhone(userPhoneNumber))
+                dispatch(setName(userName))
+                dispatch(setRole('MEMBER'))
+
+                navigate('/login')
+            } catch (error) {
+                alert('회원가입 신청 실패')
+            }
+        }
+        alert('이메일 중복 확인을 해주세요!')
+        return
     }
 
     return (
         <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
             <div className="">
-                <Title className="my-6 text-blue-400">야! 먹고놀자 계정 만들기</Title>
-                <Subtitle>야! 먹고놀자는 당신의 비즈니스를 홍보하고</Subtitle>
-                <Subtitle className="mb-8">
+                <Title className="my-6 text-[#609966]">야! 먹고놀자 계정 만들기</Title>
+                <Subtitle className="text-[#8EB682]">
+                    야! 먹고놀자는 당신의 비즈니스를 홍보하고
+                </Subtitle>
+                <Subtitle className="mb-8 text-[#8EB682]">
                     고객들에게 도달할 수 있는 기회를 제공합니다.
                 </Subtitle>
                 {/* 이메일 입력 창 */}
@@ -105,7 +158,8 @@ export const BusinessMemberSignup = () => {
                     </DropdownSelect>
                     <Button
                         value="중복확인"
-                        className="ml-4 text-gray-600 bg-blue-100 hover:bg-blue-400 "></Button>
+                        className="ml-4 text-gray-600 bg-green-100 hover:bg-green-400 "
+                        onClick={onEmailCheckClicked}></Button>
                 </div>
                 {/* 사업자 번호 입력 창 */}
                 <div className="relative flex flex-row mb-6" data-te-input-wrapper-init>
@@ -113,19 +167,19 @@ export const BusinessMemberSignup = () => {
                         type="text"
                         className="border rounded-lg focus:border-primary-focus  peer block min-h-[auto] w-full bg-transparent px-3 pt-3 pb-2 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                         id="exampleFormControlInput3"
-                        value={businessCode}
+                        value={userBusinessCode}
                         onChange={onChangeBusinessCode}
                     />
                     <label
                         htmlFor="exampleFormControlInput3"
                         className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${
-                            businessCode ? 'translate-y-[-0.7rem] scale-[0.75]' : ''
+                            userBusinessCode ? 'translate-y-[-0.7rem] scale-[0.75]' : ''
                         } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
                         사업자 번호
                     </label>
                     <Button
                         value="인증"
-                        className="ml-4 text-gray-600 bg-blue-100 hover:bg-blue-400 "></Button>
+                        className="ml-4 text-gray-600 bg-green-100 hover:bg-green-400 "></Button>
                 </div>
                 {/* 비밀번호 입력창 */}
                 <div className="relative mb-6 " data-te-input-wrapper-init>
@@ -211,14 +265,11 @@ export const BusinessMemberSignup = () => {
                     </label>
                 </div>
 
-                <button
+                <Button
                     type="button"
-                    className="mb-3 inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                    onClick={onSignupClicked}>
-                    가입하기
-                </button>
+                    value="가입하기"
+                    className="px-40 text-gray-600 bg-green-200 hover:bg-green-400"
+                    onClick={onSignupClicked}></Button>
             </div>
         </div>
     )

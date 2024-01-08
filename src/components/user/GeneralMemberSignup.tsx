@@ -1,14 +1,30 @@
 import {useState} from 'react'
 import {Title, Subtitle, DropdownSelect, Button} from '../../components'
+import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
+import {useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+import {
+    setEmail,
+    setPassword,
+    setBirth,
+    setPhone,
+    setName,
+    setRole
+} from '../../store/slices/SignupSlice'
+import {SignupData} from '../../data/Signup/Signup'
 
 export const GeneralMemberSignup = () => {
     const [userEmail, setUserEmail] = useState<string>('')
+    const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
     const [userPassword, setUserPassword] = useState<string>('')
     const [repeatPassword, setRepeatPassword] = useState<string>('')
     const [userName, setUserName] = useState<string>('')
     const [userBirthDate, setUserBirthDate] = useState<string>('')
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>('')
     const [selectValue, setSelectValue] = useState<string>('@naver.com')
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     // 이메일 도메인 select
     function onChangeSelect(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -42,34 +58,74 @@ export const GeneralMemberSignup = () => {
         setUserPhoneNumber(e.target.value)
     }
 
-    // 가입하기 버튼 클릭시 이벤트
-    function onSignupClicked() {
-        console.log(
-            'email : ',
-            userEmail + selectValue,
-            'userPassword : ',
-            userPassword,
-            'userName : ',
-            userName,
-            'userBirthDate : ',
-            userBirthDate,
-            'userPhoneNumber : ',
-            userPhoneNumber
-        )
-        if (userPassword !== repeatPassword) {
-            alert('비밀번호가 일치하지 않습니다!')
+    // 이메일 중복 체크 버튼 클릭 이벤트
+    async function onEmailCheckClicked() {
+        if (userEmail === '') {
+            alert('이메일을 입력하세요')
             return
+        } else {
+            try {
+                const isDuplicate = await duplicatedEmailCheckRequest(
+                    userEmail + selectValue
+                )
+                dispatch(setEmail(userEmail + selectValue))
+
+                alert(
+                    isDuplicate ? '이미 가입된 이메일입니다' : '사용 가능한 이메일입니다'
+                )
+                if (!isDuplicate) {
+                    setIsEmailChecked(true)
+                }
+            } catch (error) {
+                alert('이메일 중복 체크 실패')
+            }
         }
+    }
+
+    // 가입하기 버튼 클릭시 이벤트
+    async function onSignupClicked() {
+        if (isEmailChecked === true) {
+            if (userPassword !== repeatPassword) {
+                alert('비밀번호가 일치하지 않습니다!')
+                return
+            }
+            try {
+                const data: SignupData = {
+                    email: userEmail + selectValue,
+                    password: userPassword,
+                    birth: userBirthDate,
+                    phone: userPhoneNumber,
+                    name: userName,
+                    role: 'MEMBER'
+                }
+                const result = await signupRequest(data)
+
+                dispatch(setEmail(userEmail + selectValue))
+                dispatch(setPassword(userPassword))
+                dispatch(setBirth(userBirthDate))
+                dispatch(setPhone(userPhoneNumber))
+                dispatch(setName(userName))
+                dispatch(setRole('MEMBER'))
+
+                navigate('/login')
+            } catch (error) {
+                alert('회원가입 신청 실패')
+            }
+        }
+        alert('이메일 중복 확인을 해주세요!')
+        return
     }
 
     return (
         <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
             <div className="">
-                <Title className="my-6 text-blue-400">야! 먹고놀자 계정 만들기</Title>
-                <Subtitle>개성 있는 여행을 위한 맞춤형 계획을 세우세요.</Subtitle>
-                <Subtitle className="mb-8">
+                <Title className="my-6 text-[#609966]">여행의발견 계정 만들기</Title>
+                <Subtitle className="text-[#8EB682]">
+                    개성 있는 여행을 위한 맞춤형 계획을 세우세요.
+                </Subtitle>
+                <Subtitle className="mb-8 text-[#8EB682]">
                     {' '}
-                    야! 먹고놀자와 함께라면 여행은 더욱 특별해집니다.
+                    DoT와 함께라면 여행은 더욱 특별해집니다.
                 </Subtitle>
                 {/* 이메일 입력 창 */}
                 <div className="relative flex flex-row mb-6" data-te-input-wrapper-init>
@@ -100,7 +156,8 @@ export const GeneralMemberSignup = () => {
                     </DropdownSelect>
                     <Button
                         value="중복확인"
-                        className="ml-4 text-gray-600 bg-blue-100 hover:bg-blue-400 "></Button>
+                        className="ml-4 text-gray-600 bg-green-100 hover:bg-green-400 "
+                        onClick={onEmailCheckClicked}></Button>
                 </div>
                 {/* 비밀번호 입력창 */}
                 <div className="relative mb-6 " data-te-input-wrapper-init>
@@ -186,14 +243,11 @@ export const GeneralMemberSignup = () => {
                     </label>
                 </div>
 
-                <button
+                <Button
                     type="button"
-                    className="mb-3 inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                    onClick={onSignupClicked}>
-                    가입하기
-                </button>
+                    value="가입하기"
+                    className="px-40 text-gray-600 bg-green-200 hover:bg-green-400"
+                    onClick={onSignupClicked}></Button>
             </div>
         </div>
     )
