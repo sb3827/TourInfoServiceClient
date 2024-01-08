@@ -1,11 +1,12 @@
 export * from './TextEditor' // custom TinyMCE Editor
 export * from './Button'
 export * from './SearchInput'
-export * from './Input'
+export * from './input'
 export * from './Rating'
 export * from './Box'
 export * from './Footer'
 export * from './Logo'
+export * from './SimpleMap'
 
 // Main
 export * from './Main/MainItem'
