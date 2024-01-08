@@ -65,15 +65,15 @@ export const GeneralMemberSignup = () => {
             return
         } else {
             try {
-                const isDuplicate = await duplicatedEmailCheckRequest(
-                    userEmail + selectValue
-                )
+                const data = await duplicatedEmailCheckRequest(userEmail + selectValue)
                 dispatch(setEmail(userEmail + selectValue))
 
                 alert(
-                    isDuplicate ? '이미 가입된 이메일입니다' : '사용 가능한 이메일입니다'
+                    data.isDuplicate
+                        ? '이미 가입된 이메일입니다'
+                        : '사용 가능한 이메일입니다'
                 )
-                if (!isDuplicate) {
+                if (!data.isDuplicate) {
                     setIsEmailChecked(true)
                 }
             } catch (error) {
@@ -99,21 +99,22 @@ export const GeneralMemberSignup = () => {
                     role: 'MEMBER'
                 }
                 const result = await signupRequest(data)
-
                 dispatch(setEmail(userEmail + selectValue))
                 dispatch(setPassword(userPassword))
                 dispatch(setBirth(userBirthDate))
                 dispatch(setPhone(userPhoneNumber))
                 dispatch(setName(userName))
                 dispatch(setRole('MEMBER'))
-
+                alert('회원가입성공! 이메일 인증을 진행해주세요')
                 navigate('/login')
             } catch (error) {
                 alert('회원가입 신청 실패')
+                console.log(error)
             }
+        } else {
+            alert('이메일 중복 확인을 해주세요!')
+            return
         }
-        alert('이메일 중복 확인을 해주세요!')
-        return
     }
 
     return (
