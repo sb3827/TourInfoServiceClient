@@ -1,9 +1,13 @@
 import {useState} from 'react'
 import {Title, Subtitle, DropdownSelect, Button} from '../../components'
+import {FindEmailRequest} from '../../api/Find/Find'
+import {useDispatch} from 'react-redux'
+import {setName, setPhone} from '../../store/slices/FindSlice'
 
 export const FindEmail = () => {
     const [userName, setUserName] = useState<string>('')
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>('')
+    const dispatch = useDispatch()
 
     // 이름 state 변경
     function onUserNameChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -16,14 +20,31 @@ export const FindEmail = () => {
     }
 
     // 이메일 찾기 버튼 클릭시 이벤트
-    function onSignupClicked() {
-        console.log('userName : ', userName, 'userPhoneNumber : ', userPhoneNumber)
+    async function onEmailFindClicked() {
+        if (userName === '') {
+            alert('이름을 입력하세요')
+            return
+        }
+        if (userPhoneNumber === '') {
+            alert('휴대폰 번호를 입력하세요')
+            return
+        }
+        try {
+            console.log('userName : ', userName, 'userPhoneNumber : ', userPhoneNumber)
+            const data = await FindEmailRequest(userName, userPhoneNumber)
+            dispatch(setName(userName))
+            dispatch(setPhone(userPhoneNumber))
+            alert('가입한 이메일 : ' + data.email)
+        } catch (error) {
+            alert('요청 실패')
+            console.log(error)
+        }
     }
 
     return (
         <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
             <div className="">
-                <Title className="my-6 text-blue-400">계정 찾기</Title>
+                <Title className="my-6 text-[#609966]">계정 찾기</Title>
 
                 {/* 이름 입력창 */}
                 <div className="relative mb-6 " data-te-input-wrapper-init>
@@ -60,14 +81,10 @@ export const FindEmail = () => {
                     </label>
                 </div>
 
-                <button
-                    type="button"
-                    className="mb-3 inline-block w-full rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                    onClick={onSignupClicked}>
-                    이메일 찾기
-                </button>
+                <Button
+                    value="이메일 찾기"
+                    onClick={onEmailFindClicked}
+                    className="bg-[#8EB682] hover:bg-[#609966]"></Button>
             </div>
         </div>
     )
