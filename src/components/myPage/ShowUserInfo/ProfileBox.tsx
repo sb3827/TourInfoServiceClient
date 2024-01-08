@@ -1,4 +1,4 @@
-import {Box, UserAvatar, UserInfo, ShowFollowModal, ShowTotalLikes} from './../../index'
+import {Box, UserAvatar, ShowFollowModal, ShowTotalLikes} from './../../index'
 import {Button} from './../../Button'
 
 export const ProfileBox = () => {
