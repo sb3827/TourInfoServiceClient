@@ -3,14 +3,7 @@ import {Title, Subtitle, DropdownSelect, Button, SignupInput} from '../../compon
 import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
 import {useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
-import {
-    setEmail,
-    setPassword,
-    setBirth,
-    setPhone,
-    setName,
-    setRole
-} from '../../store/slices/SignupSlice'
+import {setEmail} from '../../store/slices/SignupSlice'
 import {SignupData} from '../../data/Signup/Signup'
 
 export const GeneralMemberSignup = () => {

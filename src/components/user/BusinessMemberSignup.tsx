@@ -105,11 +105,14 @@ export const BusinessMemberSignup = () => {
         }
         try {
             const data = await postBusinessCheck([userBusinessCode])
-            if (data.data[0].b_stt === '계속사업자') {
+            if (
+                // data.data[0].b_stt === "계속사업자"
+                data.data[0].tax_type !== '국세청에 등록되지 않은 사업자등록번호입니다.'
+            ) {
                 alert('사업자 인증 성공')
                 setIsBussinesscodeChecked(true)
             } else {
-                alert('사업자 번호가 올바르지 않습니다')
+                alert('국세청에 등록되지 않은 사업자등록번호입니다.')
             }
         } catch (error) {
             alert('사업자 번호 인증 요청 실패')
