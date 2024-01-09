@@ -1,19 +1,3 @@
-// 장소 정보 요청 결과
-export type PlaceResponseData = {
-    data: Array<{
-        pno: number
-        name: string
-        lng: number
-        lat: number
-        roadAddress: string
-        localAddress: string
-        engAddress: string
-        category: string
-        cart: number
-        regDate: string
-    }>
-}
-
 // 장소 정보
 export type PlaceData = {
     pno: number
@@ -26,4 +10,24 @@ export type PlaceData = {
     category: string
     cart: string
     regDate: string
+}
+
+//장소별 장소 정보
+export type PlaceBoardData = {
+    pno: number
+    bno: number
+    title: string
+    src: string[]
+    replyCount: number
+    writer: string
+    regdate: string
+    likes: number
+    score: number
+    ad: boolean
+    lng: number
+    lat: number
+    roadAddress: string
+    localAddress: string
+    engAddress: string
+    name: string
 }

@@ -1,37 +1,50 @@
 import React, {FC, useState} from 'react'
+import { useEffect } from "react";
 import {
     Box,
     SearchMap,
-    ToggleButton,
     SubBox,
     Subtitle,
     Board,
     Button,
     Slider,
-    BoardToggle
+    BoardToggle,
+    
 } from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faList, faStar} from '@fortawesome/free-solid-svg-icons'
+import { useParams, useNavigate } from "react-router-dom"
+import {getPlaceDetailsInfo} from '../../api'
+import {PlaceBoardData} from '../../data/placeSearch'
+import {faList} from '@fortawesome/free-solid-svg-icons'
 
-// 장소상세 페이지
+// 장소 상세 페이지
 
-type PlaceDetailsProps = {}
 
-export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
-    const dummy = [
-        {
-            name: '장소1',
-            lat: 37.5666805,
-            lng: 126.9784147,
-            road: 'a',
-            local: 'a',
-            eng: 'a',
-            rating: 1,
-            reviewCount: 3,
-            imageUrl: 'Image',
-            category: 'Attraction'
+export const PlaceDetails = () => {
+
+    const [boardData, setBoardData] = useState<PlaceBoardData[] | null>(null);
+    const { pno } = useParams();
+    const navigate = useNavigate();
+
+    
+
+    useEffect(() => {
+        async function fetchData(pnoParam: string | undefined) {
+            const pnoNumber = pnoParam ? Number(pno) : undefined; // pno를 숫자로 변환
+            try {
+                if (pnoNumber !== undefined) {
+                    const data = await getPlaceDetailsInfo(pnoNumber);
+                    setBoardData(data);
+                    console.log(data);
+                }
+            } catch (err) {
+                console.log(err);
+                alert('서버와 연결이 끊겼습니다.');
+            }
         }
-    ]
+        fetchData(pno); // fetchData 함수를 실행하여 초기 데이터를 가져옴
+    }, [pno]); // 빈 배열을 전달하여 컴포넌트가 처음 마운트될 때만 실행
+    
 
     return (
         <Box>
@@ -39,20 +52,19 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
                 <div className="w-2/3">
                     <Slider>
                         <div className="border-gray-300 rounded-lg ">
-                            {/* 대표이미지 어디서 가져오죠*/}
-                            <div>대표이미지</div>
+                            <div>
+                            {boardData && boardData.length > 0 && boardData[0]?.src && boardData[0]?.src.length > 0 && (
+                            <img src={boardData[0].src[0]} alt="Image" />)}
+                            </div>
                         </div>
                         {/* MapAPI 컴포넌트 */}
-                        {/* <SearchMap places={dummy} className="w-full h-full" /> */}
+                        {boardData && (
+                            <SearchMap places={boardData} className="w-full h-full" innerRef={null} />
+                        )}
                     </Slider>
                 </div>
             </div>
-
-            {/* 게시글 작성버튼, 추후에 게시글 작성 페이지로 이동하게 만들어야함 */}
-            <div className="flex justify-end w-4/6">
-                <Button value="게시글 작성" className="bg-gradient-to-r bg-slate-500" />
-            </div>
-
+            
             <BoardToggle>
                 <Subtitle
                     value="유저 게시글"
@@ -65,48 +77,17 @@ export const PlaceDetails: FC<PlaceDetailsProps> = ({}) => {
                     <FontAwesomeIcon icon={faList} className="m-1" />
                 </Subtitle>
                 <SubBox>
-                    {/* 더미 데이터 */}
-                    <Board
-                        title="제목"
-                        rating="별점"
-                        likeCount="좋아요 수"
-                        imageUrl=""></Board>
-                    <Board
-                        title="제목"
-                        rating="별점"
-                        likeCount="좋아요 수"
-                        imageUrl=""></Board>
-                    <Board
-                        title="제목"
-                        rating="별점"
-                        likeCount="좋아요 수"
-                        imageUrl=""></Board>
-                    <Board
-                        title="제목"
-                        rating="별점"
-                        likeCount="좋아요 수"
-                        imageUrl=""></Board>
-                    {/* 더미데이터 (하드코딩)*/}
+                    {boardData &&
+                     boardData.map((data: PlaceBoardData) => (
+                       !data.ad && <Board placeBoardData = {data}  />
+                     ))}
                 </SubBox>
                 <SubBox>
-                    {/* 더미데이터 (하드코딩)*/}
-                    <Board
-                        title="제목"
-                        rating="별점"
-                        likeCount="좋아요"
-                        imageUrl="https://ak-d.tripcdn.com/images/0104112000arpecetF935_D_560_420.jpg"></Board>
-                    <Board
-                        title="제목"
-                        rating="별점"
-                        likeCount="좋아요"
-                        imageUrl="https://ak-d.tripcdn.com/images/0104112000arpecetF935_D_560_420.jpg"></Board>
-                    <Board
-                        title="제목"
-                        rating="별점"
-                        likeCount="좋아요"
-                        imageUrl="https://ak-d.tripcdn.com/images/0104112000arpecetF935_D_560_420.jpg"></Board>
+                {boardData &&
+                     boardData.map((data: PlaceBoardData) => (
+                        data.ad && <Board placeBoardData = {data}  />
+                     ))}
                 </SubBox>
-                {/* 더미데이터 (하드코딩)*/}
             </BoardToggle>
         </Box>
     )

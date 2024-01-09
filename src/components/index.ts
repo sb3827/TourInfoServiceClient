@@ -94,3 +94,6 @@ export * from './LoadingSpinner'
 
 //Footer
 export * from './Footer'
+
+//BoardBox
+export * from './place/BoardBox'

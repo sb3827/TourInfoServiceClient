@@ -1,18 +1,26 @@
-import React, {FC, useState, useEffect} from 'react'
-import {Box, SearchInput, SearchInfo, SearchMap, Button} from '../../components/index'
+import React, {FC, useRef, useState} from 'react'
+import {Box, SearchInput, SearchInfo, SearchMap, Button, SearchMapRef} from '../../components/index'
 import {PlaceData} from '../../data/placeSearch'
 import {getSearchPlaceInfo} from '../../api'
-import {useSelector} from 'react-redux'
 
 // 장소 검색 페이지
 
-export const PlaceSearch = () => {
+export type PlaceSearchProps = {
+}
+export const PlaceSearch:FC<PlaceSearchProps> = () => {
+    const searchMapRef = useRef<SearchMapRef | null>(null)
+    // 새로고침에 필요한 값 불러오기
+
     //검색 값
     const [searchValue, setSearchValue] = useState<string>('')
     const [selectedCategory, setSelectedCategory] = useState<string>('')
 
     // 검색 결과 데이터
     const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null)
+
+    function onMap(index: number) {
+        searchMapRef.current?.setLocation(index)
+    }
 
     // 입력때마다 검색값 업데이트
     function onChangeSearch(value: string) {
@@ -76,15 +84,13 @@ export const PlaceSearch = () => {
                     <div className="z-0 w-1/2 overflow-y-auto border rounded-lg border--300">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
                         {placeInfoData &&
-                            placeInfoData.map((data: PlaceData) => (
-                                <SearchInfo placeInfoData={data} />
+                            placeInfoData.map((data: PlaceData, index) => (
+                                <SearchInfo placeInfoData={data} mapClick={() => onMap(index)}/>
                             ))}
                     </div>
                     <div className="w-1/2 border border-gray-300 rounded-lg">
                         {/* MapAPI 컴포넌트 */}
-                        {placeInfoData && (
-                            <SearchMap places={placeInfoData} className="w-full h-full" />
-                        )}
+                        <SearchMap places={placeInfoData} className="w-full h-full" innerRef={searchMapRef} />
                     </div>
                 </div>
             </div>

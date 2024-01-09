@@ -1,32 +1,30 @@
 import React, {FC} from 'react'
+import { UserSearchData } from "../../data/User/User";
+import { useNavigate } from "react-router-dom"
 
 type SearchResultProps = {
-    name: string
-    profileImage: string
-    followingCount: number
-    ReviewCount: number
-    email: string
+    userInfo : UserSearchData | null
 }
 
-export const SearchUserInfo: FC<SearchResultProps> = ({
-    name,
-    profileImage,
-    followingCount,
-    ReviewCount,
-    email
-}) => {
+export const SearchUserInfo: FC<SearchResultProps> = ({ userInfo }) => {
+
+    const navigate = useNavigate();
+
+    const handleReviewClick = () => {
+        navigate(``)
+    }
+
     return (
-        <div className="shadow stats">
+        <div className="w-full h-40 shadow stats">
             <div className="stat">
                 <div className="stat-figure text-secondary">
                     <img
-                        src={profileImage}
+                        src={userInfo?.profileImage}
                         alt="profileImage"
-                        className="w-16 rounded-full"
+                        className="w-24 rounded-full"
                     />
                 </div>
-                <div className="stat-value">{name}</div>
-                <div className="stat-title">{email}</div>
+                <div className="mt-4 mb-4 stat-value">{userInfo?.name}</div>
             </div>
 
             <div className="stat">
@@ -44,7 +42,7 @@ export const SearchUserInfo: FC<SearchResultProps> = ({
                     </svg>
                 </div>
                 <div className="stat-title">Total Following</div>
-                <div className="stat-value text-primary">{followingCount}</div>
+                <div className="stat-value text-primary">{userInfo?.following}</div>
             </div>
 
             <div className="stat">
@@ -61,8 +59,8 @@ export const SearchUserInfo: FC<SearchResultProps> = ({
                             d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
                 </div>
-                <div className="stat-title">Page Reviews</div>
-                <div className="stat-value text-secondary">{ReviewCount}</div>
+                <div className="stat-title">Total Follower</div>
+                <div className="stat-value text-secondary">{userInfo?.follower}</div>
             </div>
         </div>
     )
