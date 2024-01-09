@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {Title, Subtitle, DropdownSelect, Button} from '../../components'
+import {Title, Subtitle, DropdownSelect, Button, SignupInput} from '../../components'
 import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
 import {useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
@@ -15,16 +15,19 @@ import {SignupData} from '../../data/Signup/Signup'
 
 export const GeneralMemberSignup = () => {
     const [userEmail, setUserEmail] = useState<string>('')
-    const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
+    const [selectValue, setSelectValue] = useState<string>('@naver.com')
     const [userPassword, setUserPassword] = useState<string>('')
     const [repeatPassword, setRepeatPassword] = useState<string>('')
     const [userName, setUserName] = useState<string>('')
     const [userBirthDate, setUserBirthDate] = useState<string>('')
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>('')
-    const [selectValue, setSelectValue] = useState<string>('@naver.com')
+    const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    //이메일 검증
+    const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
 
     // 이메일 도메인 select
     function onChangeSelect(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -32,58 +35,74 @@ export const GeneralMemberSignup = () => {
     }
 
     //이메일 state 변경
-    function onUserEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUserEmail(e.target.value)
+    function onUserEmailChange(value: string) {
+        setUserEmail(value)
     }
 
     //비밀번호 state 변경
-    function onUserPasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUserPassword(e.target.value)
+    function onUserPasswordChange(value: string) {
+        setUserPassword(value)
     }
-    function onRepeatPasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setRepeatPassword(e.target.value)
+    function onRepeatPasswordChange(value: string) {
+        setRepeatPassword(value)
     }
     // 이름 state 변경
-    function onUserNameChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUserName(e.target.value)
+    function onUserNameChange(value: string) {
+        setUserName(value)
     }
 
     // 생년월일 state 변경
-    function onUserBirthDateChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUserBirthDate(e.target.value)
+    function onUserBirthDateChange(value: string) {
+        setUserBirthDate(value)
     }
 
     // 휴대폰번호 state 변경
-    function onUserPhoneNumberChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setUserPhoneNumber(e.target.value)
+    function onUserPhoneNumberChange(value: string) {
+        setUserPhoneNumber(value)
     }
 
     // 이메일 중복 체크 버튼 클릭 이벤트
-    async function onEmailCheckClicked() {
+    async function onEmailCheckClicked(
+        e?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement>
+    ) {
+        if (e?.type === 'keydown') {
+            return
+        }
         if (userEmail === '') {
             alert('이메일을 입력하세요')
             return
-        } else {
-            try {
-                const data = await duplicatedEmailCheckRequest(userEmail + selectValue)
-                dispatch(setEmail(userEmail + selectValue))
+        }
+        if (!email_regex.test(userEmail + selectValue)) {
+            alert('이메일 형식이 아닙니다.')
+            return
+        }
+        try {
+            const data = await duplicatedEmailCheckRequest(userEmail + selectValue)
+            dispatch(setEmail(userEmail + selectValue))
 
-                alert(
-                    data.isDuplicate
-                        ? '이미 가입된 이메일입니다'
-                        : '사용 가능한 이메일입니다'
-                )
-                if (!data.isDuplicate) {
-                    setIsEmailChecked(true)
-                }
-            } catch (error) {
-                alert('이메일 중복 체크 실패')
+            alert(
+                data.isDuplicate ? '이미 가입된 이메일입니다' : '사용 가능한 이메일입니다'
+            )
+            if (!data.isDuplicate) {
+                setIsEmailChecked(true)
             }
+        } catch (error) {
+            alert('이메일 중복 체크 실패')
+            console.log(error)
         }
     }
 
     // 가입하기 버튼 클릭시 이벤트
-    async function onSignupClicked() {
+    async function onSignupClicked(
+        e?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement>
+    ) {
+        //키보드로 입력이 들어왔는데 Enter가 아닌경우 return
+        if (
+            e?.type === 'keydown' &&
+            (e as React.KeyboardEvent<HTMLInputElement>).key !== 'Enter'
+        ) {
+            return
+        }
         if (isEmailChecked === true) {
             if (userPassword !== repeatPassword) {
                 alert('비밀번호가 일치하지 않습니다!')
@@ -100,15 +119,10 @@ export const GeneralMemberSignup = () => {
                 }
                 const result = await signupRequest(data)
                 dispatch(setEmail(userEmail + selectValue))
-                dispatch(setPassword(userPassword))
-                dispatch(setBirth(userBirthDate))
-                dispatch(setPhone(userPhoneNumber))
-                dispatch(setName(userName))
-                dispatch(setRole('MEMBER'))
                 alert('회원가입성공! 이메일 인증을 진행해주세요')
                 navigate('/login')
             } catch (error) {
-                alert('회원가입 신청 실패')
+                alert('회원가입 요청 실패')
                 console.log(error)
             }
         } else {
@@ -128,120 +142,72 @@ export const GeneralMemberSignup = () => {
                     {' '}
                     DoT와 함께라면 여행은 더욱 특별해집니다.
                 </Subtitle>
-                {/* 이메일 입력 창 */}
-                <div className="relative flex flex-row mb-6" data-te-input-wrapper-init>
-                    <input
-                        type="email"
-                        className="border rounded-lg focus:border-primary-focus  peer block min-h-[auto] w-full bg-transparent px-3 pt-3 pb-2 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                        id="exampleFormControlInput3"
-                        value={userEmail}
-                        onChange={onUserEmailChange}
-                    />
-                    <label
-                        htmlFor="exampleFormControlInput3"
-                        className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${
-                            userEmail ? 'translate-y-[-0.7rem] scale-[0.75]' : ''
-                        } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
-                        이메일
-                    </label>
-                    <DropdownSelect>
-                        <div className="relative">
-                            <select
-                                onChange={onChangeSelect}
-                                value={selectValue}
-                                className="block py-3 pl-3 pr-10 leading-tight bg-white border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline">
-                                <option value="@naver.com">@naver.com</option>
-                                <option value="@google.com">@google.com</option>
-                            </select>
-                        </div>
-                    </DropdownSelect>
-                    <Button
-                        value="중복확인"
-                        className="ml-4 text-gray-600 bg-green-100 hover:bg-green-400 "
-                        onClick={onEmailCheckClicked}></Button>
-                </div>
-                {/* 비밀번호 입력창 */}
-                <div className="relative mb-6 " data-te-input-wrapper-init>
-                    <input
-                        type="password"
-                        className="focus:border-primary-focus border rounded-lg peer block min-h-[auto] w-full bg-transparent px-3 pt-3 pb-2 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                        id="exampleFormControlInput33"
+
+                <div onKeyDown={onSignupClicked}>
+                    {/* 이메일 입력 창 */}
+                    <div className="relative flex flex-row">
+                        <SignupInput
+                            value={userEmail}
+                            type="email"
+                            text="이메일"
+                            onChange={onUserEmailChange}
+                        />
+                        <DropdownSelect>
+                            <div className="relative mt-1">
+                                <select
+                                    onChange={onChangeSelect}
+                                    value={selectValue}
+                                    className="block py-3 pl-3 pr-10 leading-tight bg-white border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline">
+                                    <option value="@naver.com">@naver.com</option>
+                                    <option value="@google.com">@google.com</option>
+                                    <option value="@kako.com">@kakao.com</option>
+                                </select>
+                            </div>
+                        </DropdownSelect>
+                        <Button
+                            value="중복확인"
+                            className="ml-4 text-gray-600 bg-green-100 hover:bg-green-400 "
+                            onClick={onEmailCheckClicked}></Button>
+                    </div>
+                    {/* 비밀번호 입력창 */}
+                    <SignupInput
+                        className="my-6"
                         value={userPassword}
+                        type="password"
+                        text="비밀번호"
                         onChange={onUserPasswordChange}
                     />
-                    <label
-                        htmlFor="exampleFormControlInput33"
-                        className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${
-                            userPassword ? 'translate-y-[-0.7rem] scale-[0.75]' : ''
-                        } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
-                        비밀번호
-                    </label>
-                </div>
-                {/* 비밀번호 재입력창 */}
-                <div className="relative mb-6 " data-te-input-wrapper-init>
-                    <input
-                        type="password"
-                        className="focus:border-primary-focus border rounded-lg peer block min-h-[auto] w-full bg-transparent px-3 pt-3 pb-2 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                        id="exampleFormControlInput33"
+                    {/* 비밀번호 재입력창 */}
+                    <SignupInput
+                        className="mb-6"
                         value={repeatPassword}
+                        type="password"
+                        text="비밀번호 재입력"
                         onChange={onRepeatPasswordChange}
                     />
-                    <label
-                        htmlFor="exampleFormControlInput33"
-                        className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${
-                            repeatPassword ? 'translate-y-[-0.7rem] scale-[0.75]' : ''
-                        } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
-                        비밀번호 재입력
-                    </label>
-                </div>
-                {/* 이름 입력창 */}
-                <div className="relative mb-6 " data-te-input-wrapper-init>
-                    <input
-                        type="text"
-                        className="focus:border-primary-focus border rounded-lg peer block min-h-[auto] w-full bg-transparent px-3 pt-3 pb-2 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                        id="exampleFormControlInput33"
+                    {/* 이름 입력창 */}
+                    <SignupInput
+                        className="mb-6"
                         value={userName}
+                        type="userName"
+                        text="이름"
                         onChange={onUserNameChange}
                     />
-                    <label
-                        htmlFor="exampleFormControlInput33"
-                        className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${
-                            userName ? 'translate-y-[-0.7rem] scale-[0.75]' : ''
-                        } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
-                        이름
-                    </label>
-                </div>
-                {/* 생년월일 입력창 */}
-                <div className="relative mb-6 " data-te-input-wrapper-init>
-                    <input
-                        type="date"
-                        className="focus:border-primary-focus border rounded-lg peer block min-h-[auto] w-full bg-transparent px-3 pt-3 pb-2 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                        id="exampleFormControlInput33"
+                    {/* 생년월일 입력창 */}
+                    <SignupInput
+                        className="mb-6"
                         value={userBirthDate}
+                        type="date"
                         onChange={onUserBirthDateChange}
                     />
-                    <label
-                        htmlFor="exampleFormControlInput33"
-                        className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${
-                            userBirthDate ? 'translate-y-[-0.7rem] scale-[0.75]' : ''
-                        } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}></label>
-                </div>
-                {/* 휴대폰번호 입력창 */}
-                <div className="relative mb-6 " data-te-input-wrapper-init>
-                    <input
-                        type="tel"
-                        className="focus:border-primary-focus border rounded-lg peer block min-h-[auto] w-full bg-transparent px-3 pt-3 pb-2 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                        id="exampleFormControlInput33"
+                    {/* 휴대폰번호 입력창 */}
+                    <SignupInput
+                        className="mb-6"
                         value={userPhoneNumber}
+                        type="phoneNumber"
+                        text="전화번호"
                         onChange={onUserPhoneNumberChange}
                     />
-                    <label
-                        htmlFor="exampleFormControlInput33"
-                        className={`pointer-events-none absolute left-3 top-1 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.7rem] peer-focus:scale-[0.75] peer-focus:text-primary ${
-                            userPhoneNumber ? 'translate-y-[-0.7rem] scale-[0.75]' : ''
-                        } motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}>
-                        전화번호
-                    </label>
                 </div>
 
                 <Button
