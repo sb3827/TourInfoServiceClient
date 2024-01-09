@@ -10,7 +10,7 @@ export const rootReducer = combineReducers({
     report: ReportSlice.reducer,
     login: LoginSlice.reducer,
     search: SearchSlice.reducer,
-    signup: SignupSlice.reducer
+    signup: SignupSlice.reducer,
     manager: ManagerSlice.reducer
 })
 
