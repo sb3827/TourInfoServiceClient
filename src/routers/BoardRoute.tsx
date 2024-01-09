@@ -4,6 +4,7 @@ import {CourseRegister, DetailedCourse, NotFound, PostRegister} from '../pages'
 import {PlaceSearch} from '../pages/placeSearch'
 import {PlaceDetails} from '../pages/placeDetails'
 import {CourseSearch} from '../pages/CourseSearch'
+import { PostPlace } from "../pages/Place/PostPlace";
 
 type BoardRouteProps = {}
 
