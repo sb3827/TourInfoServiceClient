@@ -20,12 +20,13 @@ export const Board: FC<BoardProps> = ({placeBoardData}) => {
         <p>이미지가 없어요!</p>
       );
 
+      //FIXME 상백 - 장소 포스팅 페이지로 이동시키고싶어요
       const handleReviewClick = () => {
-        navigate(`/board/place/posting/${placeBoardData?.bno}`)
+        navigate(`/board/place/posting/bno=${placeBoardData?.bno}`)
     }
 
     return (
-        <div className="shadow-xl card lg:card-side bg-base-100">
+        <div className="border border-gray-200 shadow-xl card lg:card-side bg-base-100">
             <div className="w-1/2 h-72">
                 <Slider>{imageArray}</Slider>
             </div>

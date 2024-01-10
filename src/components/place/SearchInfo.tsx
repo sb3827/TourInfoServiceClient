@@ -13,6 +13,8 @@ type SearchResultProps = {
 export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => {
     const navigate = useNavigate();
 
+    
+
     const handleReviewClick = () => {
         if (placeInfoData && placeInfoData.pno) { // 예상되는 pno 데이터가 있다면
             const { pno } = placeInfoData;
@@ -29,8 +31,8 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
     }
 
     return (
-            <div className="w-full cursor-pointer border-slate-500 card lg:card-side " onClick={props.mapClick}>
-                <div className="w-1/2 h-64">
+            <div className="w-full border border-gray-200 cursor-pointer card lg:card-side rounded-xl" onClick={props.mapClick}>
+                <div className="w-1/2 h-64 border border-gray-200 rounded-xl">
                     {placeInfoData.image ? <img src={placeInfoData.image} alt="Image" /> : <div>이미지가 없어요!</div> }
                         
                 </div>

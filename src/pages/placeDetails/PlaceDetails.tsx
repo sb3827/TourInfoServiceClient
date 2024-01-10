@@ -7,14 +7,15 @@ import {
     Subtitle,
     Board,
     Slider,
+    BoardBox,
     BoardToggle,
-    
 } from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { useParams, useNavigate } from "react-router-dom"
 import {getPlaceDetailsInfo} from '../../api'
 import {PlaceBoardData} from '../../data/placeSearch'
 import {faList} from '@fortawesome/free-solid-svg-icons'
+
 
 // 장소 상세 페이지
 
@@ -47,18 +48,10 @@ export const PlaceDetails = () => {
         <Box>
             <div className="flex justify-center w-full h-96">
                 <div className="w-2/3">
-                    <Slider>
-                        <div className="border-gray-300 rounded-lg ">
-                            <div>
-                            {boardData && boardData.length > 0 && boardData[0]?.src && boardData[0]?.src.length > 0 && (
-                            <img src={boardData[0].src[0]} alt="Image" />)}
-                            </div>
-                        </div>
-                        {/* MapAPI 컴포넌트 */}
+                    
                         {boardData && (
                             <SearchMap places={boardData} className="w-full h-full" innerRef={null} />
                         )}
-                    </Slider>
                 </div>
             </div>
             
@@ -73,18 +66,18 @@ export const PlaceDetails = () => {
                     className="flex flex-row-reverse items-center text-left">
                     <FontAwesomeIcon icon={faList} className="m-1" />
                 </Subtitle>
-                <SubBox>
+                <BoardBox>
                     {boardData &&
                      boardData.map((data: PlaceBoardData) => (
                        !data.ad && <Board placeBoardData = {data}  />
                      ))}
-                </SubBox>
-                <SubBox>
+                </BoardBox>
+                <BoardBox>
                 {boardData &&
                      boardData.map((data: PlaceBoardData) => (
                         data.ad && <Board placeBoardData = {data}  />
                      ))}
-                </SubBox>
+                </BoardBox>
             </BoardToggle>
         </Box>
     )

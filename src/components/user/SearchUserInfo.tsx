@@ -1,6 +1,8 @@
 import React, {FC} from 'react'
+import { Button } from "../../components/index";
 import { UserSearchData } from "../../data/User/User";
 import { useNavigate } from "react-router-dom"
+import { postFollow, deleteFollow } from "../../api/UserSearch/UserSearch";
 
 type SearchResultProps = {
     userInfo : UserSearchData | null
@@ -10,12 +12,17 @@ export const SearchUserInfo: FC<SearchResultProps> = ({ userInfo }) => {
 
     const navigate = useNavigate();
 
+    
+
+
+
+    // 미구현
     const handleReviewClick = () => {
         navigate(``)
     }
 
     return (
-        <div className="w-full h-40 shadow stats">
+        <div className="flex w-full h-40 border border-gray-200 shadow stats ">
             <div className="stat">
                 <div className="stat-figure text-secondary">
                     <img
@@ -24,43 +31,23 @@ export const SearchUserInfo: FC<SearchResultProps> = ({ userInfo }) => {
                         className="w-24 rounded-full"
                     />
                 </div>
-                <div className="mt-4 mb-4 stat-value">{userInfo?.name}</div>
+                <div className="mt-8 stat-value">{userInfo?.name}</div>
             </div>
 
             <div className="stat">
-                <div className="stat-figure text-primary">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        className="inline-block w-8 h-8 stroke-current">
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                    </svg>
-                </div>
+                <div className="stat-title">Total Follower</div>
+                <div className="text-rose-500 stat-value">{userInfo?.followers}</div>
+            </div>
+            <div className="stat">
                 <div className="stat-title">Total Following</div>
                 <div className="stat-value text-primary">{userInfo?.followings}</div>
             </div>
 
-            <div className="stat">
-                <div className="stat-figure text-secondary">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        className="inline-block w-8 h-8 stroke-current">
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                    </svg>
+            <div className='stat'>
+                <div className='mt-2'>
+                <Button  className="w-32 h-20 text-2xl text-darkGreen" value={'프로필'} />
+                <Button  className="w-32 h-20 text-2xl text-darkGreen" value={'팔로우'} />
                 </div>
-                <div className="stat-title">Total Follower</div>
-                <div className="stat-value text-secondary">{userInfo?.followers}</div>
             </div>
         </div>
     )

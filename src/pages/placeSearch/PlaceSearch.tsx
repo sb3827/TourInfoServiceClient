@@ -5,9 +5,8 @@ import {getSearchPlaceInfo} from '../../api'
 
 // 장소 검색 페이지
 
-export type PlaceSearchProps = {
-}
-export const PlaceSearch:FC<PlaceSearchProps> = () => {
+
+export const PlaceSearch = () => {
     const searchMapRef = useRef<SearchMapRef | null>(null)
     // 새로고침에 필요한 값 불러오기
 
@@ -81,7 +80,7 @@ export const PlaceSearch:FC<PlaceSearchProps> = () => {
 
             <div className="flex justify-center w-full h-screen ">
                 <div className="flex w-5/6 h-5/6">
-                    <div className="z-0 w-1/2 overflow-y-auto border rounded-lg border--300">
+                    <div className="w-1/2 overflow-y-auto border rounded-lg border--300">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
                         {placeInfoData &&
                             placeInfoData.map((data: PlaceData, index) => (
