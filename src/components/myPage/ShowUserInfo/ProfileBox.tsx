@@ -5,6 +5,8 @@ import {useNavigate} from 'react-router-dom'
 import {userProfile} from './../../../data/User/User'
 import {ShowUserProfile} from './../../../api/MyPage/ShowUserInfo'
 
+//TODO - 로그인 mno 받아와서 name 받아오기
+
 type ProfileProps = {}
 
 export const ProfileBox: FC<ProfileProps> = () => {
