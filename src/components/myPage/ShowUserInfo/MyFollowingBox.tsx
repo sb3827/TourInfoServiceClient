@@ -22,8 +22,7 @@ export const MyFollowingBox: FC = () => {
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
-    useEffect(() => {
-        const fetchData = async () => {
+    const fetchData = async () => {
             try {
                 const userFollowingData = await ShowUserFollowings(userMno)
                 setUserFollowings(userFollowingData)
@@ -32,6 +31,8 @@ export const MyFollowingBox: FC = () => {
                 console.error('에러 발생', error)
             }
         }
+
+    useEffect(() => {
         fetchData()
     }, [])
 
