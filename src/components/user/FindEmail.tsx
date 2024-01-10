@@ -2,14 +2,13 @@ import {useState} from 'react'
 import {Title, Subtitle, DropdownSelect, Button, LoginInput} from '../../components'
 import {FindEmailRequest} from '../../api/Find/Find'
 import {useDispatch} from 'react-redux'
-import {setName, setPhone} from '../../store/slices/FindSlice'
 
 export const FindEmail = () => {
     const [userName, setUserName] = useState<string>('')
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>('')
     const dispatch = useDispatch()
     // 전화번호 검증
-    var phone_regex = /^(\d{3})-(\d{4})-(\d{4})$/
+    var phone_regex = /^010-([0-9]{3,4})-([0-9]{4})$/
 
     // 이름 state 변경
     function onUserNameChange(value: string) {

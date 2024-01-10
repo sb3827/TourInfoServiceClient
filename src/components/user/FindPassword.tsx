@@ -2,7 +2,6 @@ import {useState} from 'react'
 import {Title, Subtitle, DropdownSelect, Button, LoginInput} from '../../components'
 import {FindPasswordRequest} from '../../api/Find/Find'
 import {useDispatch} from 'react-redux'
-import {setEmail} from '../../store/slices/FindSlice'
 
 export const FindPassword = () => {
     const [userEmail, setUserEmail] = useState<string>('')
