@@ -53,6 +53,9 @@ export * from './Sidebar/SidebarLogin'
 
 //course
 export * from './course/CourseInfo'
+export * from './course/CourseRegist/CartItem'
+export * from './course/CourseRegist/CourseList'
+export * from './course/CourseRegist/DayItem'
 
 //user
 export * from './user/SearchUserInfo'
