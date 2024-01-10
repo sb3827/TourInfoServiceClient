@@ -6,7 +6,6 @@ import {
     SubBox,
     Subtitle,
     Board,
-    Button,
     Slider,
     BoardToggle,
     
@@ -24,9 +23,7 @@ export const PlaceDetails = () => {
 
     const [boardData, setBoardData] = useState<PlaceBoardData[] | null>(null);
     const { pno } = useParams();
-    const navigate = useNavigate();
 
-    
 
     useEffect(() => {
         async function fetchData(pnoParam: string | undefined) {
