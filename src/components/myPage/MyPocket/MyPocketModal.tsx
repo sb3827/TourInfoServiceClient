@@ -1,6 +1,6 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
-import React, {useState, FC, ChangeEvent} from 'react'
+import React, {useState, FC, ChangeEvent, useRef} from 'react'
 import {
     Button,
     Box,
@@ -8,49 +8,25 @@ import {
     SearchInfo,
     SearchMap,
     ChooseMap,
-    Input
+    Input,
+    SearchMapRef
 } from './../../index'
+import {PlaceData} from './../../../data/placeSearch'
+import {registerPlace} from './../../../api/index'
+import {getSearchPlaceInfo} from './../../../api'
 
 //FIXME - SearchInfo 컴포넌트 바껴서 다시 PlaceSearch 다시 작성 부탁드려요.
-
-import {registerPlace} from './../../../api/index'
 
 type MyPocketModalProps = {
     selectedComponent?: number
 }
 
 export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
-    const dummy = [
-        {
-            name: '장소1',
-            lat: 37.5666805,
-            lng: 126.9784147,
-            road: '부산 진구',
-            local: '부산 진구',
-            eng: 'a',
-            rating: 1,
-            reviewCount: 3,
-            imageUrl: 'Image',
-            category: 'LODGMENT'
-        },
-        {
-            name: '장소2',
-            lat: 37.3595704,
-            lng: 127.105399,
-            road: 'b',
-            local: 'b',
-            eng: 'b',
-            rating: 3,
-            reviewCount: 4,
-            imageUrl: 'Image',
-            category: 'SIGHT'
-        }
-    ]
-
     //검색 값
     const [searchValue, setSearchValue] = useState<string>('')
     const [selectedCategory, setSelectedCategory] = useState<string>('SIGHT')
-    const [matchingPlaces, setMatchingPlaces] = useState<any[]>([])
+    const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null)
+    const searchMapRef = useRef<SearchMapRef | null>(null)
 
     const [SpotModal, setSpotModal] = useState(false)
     const [RegisterSpotModal, setRegisterSpotModal] = useState(false)
@@ -70,7 +46,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
     const closeSpotModal = () => {
         setSpotModal(false)
         setSearchValue('')
-        setMatchingPlaces([])
+        setPlaceInfoData([])
     }
 
     const openRegisterSpotModal = () => {
@@ -80,6 +56,10 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
     const closeRegisterSpotModal = () => {
         setRegisterSpotModal(false)
         setPlaceLocal('') // 모달창 닫으면 초기화
+    }
+
+    function onMap(index: number) {
+        searchMapRef.current?.setLocation(index)
     }
 
     // 장소 이름
@@ -113,10 +93,10 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
         setSelectedCategory(e.target.value)
     }
 
-    function filterPlaces(
+    async function onPlaceList(
         e?: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>
     ) {
-        //키를 눌렀는데 엔터가 아니면 return
+        //키보드로 입력이 들어왔는데 Enter가 아닌경우 return
         if (
             e?.type === 'keydown' &&
             (e as React.KeyboardEvent<HTMLInputElement>).key !== 'Enter'
@@ -124,15 +104,14 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
             return
         }
 
-        const matches = dummy.filter(
-            place =>
-                (place.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-                    place.road.toLowerCase().includes(searchValue.toLowerCase()) ||
-                    place.local.toLowerCase().includes(searchValue.toLowerCase()) ||
-                    place.eng.toLowerCase().includes(searchValue.toLowerCase())) &&
-                (selectedCategory === '' || place.category === selectedCategory)
-        )
-        setMatchingPlaces(matches)
+        try {
+            const data = await getSearchPlaceInfo(selectedCategory, searchValue)
+            setPlaceInfoData(data)
+            console.log(data)
+        } catch (err) {
+            console.log(err)
+            alert('서버와 연결이 끊겼습니다.')
+        }
     }
 
     return (
@@ -165,11 +144,11 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                 className="w-2/5 ml-1"
                                 value={searchValue}
                                 onChange={onChangeSearch}
-                                onKeyDown={filterPlaces}
+                                onKeyDown={onPlaceList}
                             />
                             {/* 클릭시 들고오도록 수정 */}
                             <Button
-                                onClick={filterPlaces}
+                                onClick={onPlaceList}
                                 className="text-white bg-darkGreen"
                                 value={'검색'}
                             />
@@ -182,17 +161,15 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                     {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}
                                     <div className="w-1/4 mr-2 overflow-y-auto border rounded-lg border--300">
                                         {/* 검색 결과를 보여줄 컴포넌트 */}
-                                        {/* matchingPlaces.map((place, index) => (
-                                                <SearchInfo
-                                                    key={index}
-                                                    name={place.name}
-                                                    address={place.local}
-                                                    rating={place.rating}
-                                                    imageUrl={place.imageUrl}
-                                                    reviewCount={place.reviewCount}
-                                                />
-                                            ))} */}
-
+                                        {placeInfoData &&
+                                            placeInfoData.map(
+                                                (data: PlaceData, index) => (
+                                                    <SearchInfo
+                                                        placeInfoData={data}
+                                                        mapClick={() => onMap(index)}
+                                                    />
+                                                )
+                                            )}
                                         <button
                                             onClick={openRegisterSpotModal}
                                             className="flex justify-center w-full h-40 mt-8 hover:cursor-pointer">
@@ -202,6 +179,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                             />
                                         </button>
                                     </div>
+
                                     {/* 장소등록 모달 */}
                                     <div>
                                         {RegisterSpotModal ? (
@@ -285,16 +263,20 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                         ) : null}
                                     </div>
                                     <div className="w-4/6 border border-gray-300 rounded-lg">
-                                        {/* {!RegisterSpotModal && (
-                                            <SearchMap
-                                                places={
-                                                    matchingPlaces.length > 0
-                                                        ? matchingPlaces
-                                                        : dummy
-                                                }
-                                                className="w-full h-full"
-                                            />
-                                        )}  */}
+                                        {!RegisterSpotModal &&
+                                            (placeInfoData ? (
+                                                <SearchMap
+                                                    places={placeInfoData}
+                                                    className="w-full h-full"
+                                                    innerRef={searchMapRef}
+                                                />
+                                            ) : (
+                                                <SearchMap
+                                                    places={null}
+                                                    className="w-full h-full"
+                                                    innerRef={searchMapRef}
+                                                />
+                                            ))}
                                     </div>
                                 </div>
                             </div>
