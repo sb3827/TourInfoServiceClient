@@ -1,11 +1,10 @@
-import {Input} from './../../components/input'
 import {user} from './../../data/User/User'
 import {useState, useEffect, useRef, ChangeEvent} from 'react'
 import {ShowUserInfo, onChangeUserData} from './../../api/MyPage/ShowUserInfo'
 import {Button} from './../../components/Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {MyPocketModal} from './../../components/index'
+import {Input, MyPocketModal} from './../../components/index'
 
 //TODO 수정하기 버튼 클릭 시 다시 마이페이지로 이동, margin/padding 조정, 이미지 업로드 수정
 
@@ -73,19 +72,18 @@ export const MyModifyPage = () => {
         }
     }
 
-
-     const fetchData = async () => {
-            try {
-                const userData = await ShowUserInfo(userMno)
-                setUser(userData)
-                setProfileImage(userData.image)
-                setUserName(userData.name)
-                setUserPhone(userData.phone)
-                console.log(userData)
-            } catch (error) {
-                console.error('error', error)
-            }
+    const fetchData = async () => {
+        try {
+            const userData = await ShowUserInfo(userMno)
+            setUser(userData)
+            setProfileImage(userData.image)
+            setUserName(userData.name)
+            setUserPhone(userData.phone)
+            console.log(userData)
+        } catch (error) {
+            console.error('error', error)
         }
+    }
     useEffect(() => {
         fetchData()
     }, [])
