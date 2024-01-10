@@ -19,7 +19,7 @@ export const SearchUserInfo: FC<SearchResultProps> = ({ userInfo }) => {
             <div className="stat">
                 <div className="stat-figure text-secondary">
                     <img
-                        src={userInfo?.profileImage}
+                        src={userInfo?.image}
                         alt="profileImage"
                         className="w-24 rounded-full"
                     />
@@ -42,7 +42,7 @@ export const SearchUserInfo: FC<SearchResultProps> = ({ userInfo }) => {
                     </svg>
                 </div>
                 <div className="stat-title">Total Following</div>
-                <div className="stat-value text-primary">{userInfo?.following}</div>
+                <div className="stat-value text-primary">{userInfo?.followings}</div>
             </div>
 
             <div className="stat">
@@ -60,7 +60,7 @@ export const SearchUserInfo: FC<SearchResultProps> = ({ userInfo }) => {
                     </svg>
                 </div>
                 <div className="stat-title">Total Follower</div>
-                <div className="stat-value text-secondary">{userInfo?.follower}</div>
+                <div className="stat-value text-secondary">{userInfo?.followers}</div>
             </div>
         </div>
     )
