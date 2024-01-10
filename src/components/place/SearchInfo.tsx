@@ -4,22 +4,11 @@ import {Button, Map, SearchMap} from '../index'
 import {PlaceData} from '../../data/placeSearch'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCartShopping } from '@fortawesome/free-solid-svg-icons'
-import { PlaceSearch } from '../../pages/placeSearch';
 
 type SearchResultProps = {
     placeInfoData: PlaceData | null
     mapClick: () => void
 }
-
-export type PlacePass = {
-    name: string
-    lng: number
-    lat: number
-    roadAddress: string
-    localAddress: string
-    engAddress: string
-}
-
 
 export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => {
     const navigate = useNavigate();
@@ -33,15 +22,6 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
         }
 
     }
-    
-    const hendlePositionClick = () => {
-        if (placeInfoData) {
-            const dataToPass = [placeInfoData]
-            // console.log(e)
-        } else {
-            console.error("No placeInfoData available");
-        }
-    }
 
     if (!placeInfoData) {
         // placeInfoData가 없을 때의 처리
@@ -51,8 +31,8 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
     return (
             <div className="w-full cursor-pointer border-slate-500 card lg:card-side " onClick={props.mapClick}>
                 <div className="w-1/2 h-64">
-                        {/* 추후 수정 */}
-                        <img src='image' alt="Image" />
+                    {placeInfoData.image ? <img src={placeInfoData.image} alt="Image" /> : <div>이미지가 없어요!</div> }
+                        
                 </div>
                 <div className=" card-body">
                     <div className="flex justify-start">
