@@ -111,7 +111,6 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
                     size={70}
                     placeholder="제목을 입력하세요"
                     ref={titleRef}></Input>
-                <div>장바구니 목록s: 해창씨 어서 해줘요</div>
                 <div>
                     <div className="flex justify-end mb-2 ml-3">
                         <FontAwesomeIcon
@@ -127,7 +126,6 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
                             onClick={daysPlus}
                         />
                     </div>
-                    {/* 테스트 코드 */}
                     <CourseList />
                 </div>
                 <div className="flex flex-row justify-end my-2">
