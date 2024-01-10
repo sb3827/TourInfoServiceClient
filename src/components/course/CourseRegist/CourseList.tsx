@@ -4,25 +4,19 @@ import {RootState} from '../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 import {addItemAtPosition, moveItem} from '../../../store/slices/CourseSlice'
 import {useDispatch} from 'react-redux'
-import {CartItem, DayItem} from '../../index'
+import {CartItem, DayItem, Item} from '../../index'
 
 type DndProps = {}
 
 //STUB -  더미
 const dummy: Item[] = [
-    {img: 'image1.jpg', pname: 'Product 1'},
-    {img: 'image2.jpg', pname: 'Product 2'},
-    {img: 'image3.jpg', pname: 'Product 3'},
-    {img: 'image4.jpg', pname: 'Product 4'},
-    {img: 'image5.jpg', pname: 'Product 5'}
+    {pno: 1, src: 'image1.jpg', name: 'Product 1'},
+    {pno: 2, src: 'image2.jpg', name: 'Product 2'},
+    {pno: 3, src: 'image3.jpg', name: 'Product 3'},
+    {pno: 4, src: 'image4.jpg', name: 'Product 4'},
+    {pno: 5, src: 'image5.jpg', name: 'Product 5'}
 ]
 //
-
-//STUB - 더미 타입
-export type Item = {
-    img: string
-    pname: string
-}
 
 export const CourseList: FC<DndProps> = ({}) => {
     //이 더미 데이터는 추후에 장바구니 데이터로 바꿔야함
@@ -42,7 +36,7 @@ export const CourseList: FC<DndProps> = ({}) => {
 
         for (let i = 0; i < day[dropId].length; i++) {
             if (
-                day[Number(result.destination.droppableId.split('-')[1])][i].pname ==
+                day[Number(result.destination.droppableId.split('-')[1])][i].name ==
                     result.draggableId.split('-')[0] &&
                 !(result.source.droppableId === result.destination.droppableId)
             ) {
@@ -96,7 +90,7 @@ export const CourseList: FC<DndProps> = ({}) => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             {/* 장바구니 데이터 */}
-            <CartItem items={items} />
+            {items && <CartItem items={items} dragDisable={false} />}
 
             {/* 요일 데이터 */}
             <DayItem />
