@@ -7,10 +7,16 @@ import {Draggable, Droppable} from 'react-beautiful-dnd'
 import {Spot} from '../../Spot'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../../store/rootReducer'
+import {Item} from './CourseList'
+import {FC} from 'react'
 
-export const DayItem = () => {
+type DayItemProps = {
+    day: Item[][]
+    create: boolean
+}
+
+export const DayItem: FC<DayItemProps> = ({day, create}) => {
     const dispatch = useDispatch()
-    const day = useSelector((state: RootState) => state.course)
 
     //요일 삭제
     const onDeleteDay = (dayIndex: number) => {
@@ -34,21 +40,26 @@ export const DayItem = () => {
                     <div className="flex justify-between">
                         <Subtitle className="flex ">{dayIndex + 1}일차</Subtitle>
                         <div className="flex ">
-                            <FontAwesomeIcon
-                                icon={faPlus}
-                                size="1x"
-                                className="cursor-pointer"
-                                onClick={() => onAddDay(dayIndex)}
-                            />
-                            <FontAwesomeIcon
-                                icon={faMinus}
-                                size="1x"
-                                className="cursor-pointer"
-                                onClick={() => onDeleteDay(dayIndex)}
-                            />
+                            {create && (
+                                <>
+                                    <FontAwesomeIcon
+                                        icon={faPlus}
+                                        size="1x"
+                                        className="cursor-pointer"
+                                        onClick={() => onAddDay(dayIndex)}
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faMinus}
+                                        size="1x"
+                                        className="cursor-pointer"
+                                        onClick={() => onDeleteDay(dayIndex)}
+                                    />
+                                </>
+                            )}
                         </div>
                     </div>
                     <Droppable
+                        isDropDisabled={create}
                         droppableId={`droppable-${dayIndex}`}
                         direction="horizontal">
                         {provided => (
@@ -58,6 +69,7 @@ export const DayItem = () => {
                                 className="flex w-full h-20 ">
                                 {dayItem.map((item, index) => (
                                     <Draggable
+                                        isDragDisabled={!create}
                                         key={item.pname + index}
                                         //추후에 pname대신에 pno를 주는게 맞을거 같음
                                         draggableId={
@@ -74,10 +86,12 @@ export const DayItem = () => {
                                                     onClick={() =>
                                                         onDeleteItem(dayIndex, index)
                                                     }>
-                                                    <FontAwesomeIcon
-                                                        icon={faCircleMinus}
-                                                        style={{color: '#c2c2c2'}}
-                                                    />
+                                                    {create && (
+                                                        <FontAwesomeIcon
+                                                            icon={faCircleMinus}
+                                                            style={{color: '#c2c2c2'}}
+                                                        />
+                                                    )}
                                                 </div>
                                                 <Spot
                                                     key={item.pname + index}
