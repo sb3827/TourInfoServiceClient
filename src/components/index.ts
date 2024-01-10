@@ -6,6 +6,7 @@ export * from './Rating'
 export * from './Box'
 export * from './Footer'
 export * from './Logo'
+export * from './SimpleMap'
 
 // Main
 export * from './Main/MainItem'
