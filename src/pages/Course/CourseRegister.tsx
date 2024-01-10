@@ -1,28 +1,33 @@
-import {FC, PropsWithChildren, useEffect, useRef, useState} from 'react'
+import {FC, PropsWithChildren, useEffect, useRef} from 'react'
 import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
-import {DailyCourse} from '../DailyCourse'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faMinus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate, useSearchParams} from 'react-router-dom'
-import {coursePostLoad, deleteBoard, placePostLoad} from '../../api/Board/board'
+import {coursePostLoad, deleteBoard} from '../../api/Board/board'
+import {useDispatch} from 'react-redux'
+import {addDay, deleteAll, deleteDay} from '../../store/slices/PlaceSlice'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../store/rootReducer'
+import {CourseList} from '../../components/course/CourseRegist/CourseList'
 
 type CourseRegisterProps = {
     isModify: boolean // true: 수정, false: 등록
 }
 
 export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props => {
-    const [days, setDays] = useState<number>(1) // day state
-    // create day box for each
-    const dailyCourses = Array.from({length: days}).map((_, index) => (
-        <DailyCourse key={index} day={index + 1} isRegister={true} />
-    ))
+    //코스 등록시 추가적으로 로직 필요 -> 아래 콘솔보고 할것
+    const day = useSelector((state: RootState) => state.placRegist)
+    console.log(day)
+
+    const dispatch = useDispatch()
+
     // plus day box
     function daysPlus() {
-        setDays(days + 1)
+        dispatch(addDay())
     }
     // minus day box
     function daysMinus() {
-        if (days !== 1) setDays(days - 1)
+        dispatch(deleteDay())
     }
 
     const navigate = useNavigate()
@@ -81,6 +86,9 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     }
 
     useEffect(() => {
+        //새로 고침시 초기화
+        dispatch(deleteAll())
+
         if (props.isModify) {
             console.log('modify page')
             loadPage()
@@ -119,7 +127,8 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
                             onClick={daysPlus}
                         />
                     </div>
-                    {dailyCourses}
+                    {/* 테스트 코드 */}
+                    <CourseList />
                 </div>
                 <div className="flex flex-row justify-end my-2">
                     <Rating ref={starRef} />
