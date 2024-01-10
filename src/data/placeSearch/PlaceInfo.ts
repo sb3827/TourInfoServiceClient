@@ -10,6 +10,7 @@ export type PlaceData = {
     category: string
     cart: string
     regDate: string
+    image: string
 }
 
 //장소별 장소 정보
