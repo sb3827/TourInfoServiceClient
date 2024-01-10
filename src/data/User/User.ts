@@ -69,12 +69,12 @@ export type suspendDate = {
 
 // 사용자 정보
 export type user = {
-    mno: number
+    mno: number | null
     image: string
     name: string
     email: string
     phone: string
-    birth: Date
+    birth: string | null
     role: string
 }
 
@@ -92,7 +92,7 @@ export type userProfile = {
 export type userBoard = {
     bno: number
     title: string
-    name: string
+    writer: string
     regdate: string
 }
 
@@ -110,6 +110,12 @@ export type userReply = {
 export type userCourse = {
     bno: number
     title: string
-    name: string
+    writer: string
     regdate: string
+}
+
+export type userFollows = {
+    mno: number
+    name: string
+    image: string
 }
