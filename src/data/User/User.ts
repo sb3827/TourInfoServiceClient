@@ -71,7 +71,7 @@ export type suspendDate = {
 export type UserSearchData = {
     mno: number
     name: string
-    profileImage: string
-    following: number
-    follower: number
+    image: string
+    followings: number
+    followers: number
 }
