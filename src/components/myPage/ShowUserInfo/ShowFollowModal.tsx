@@ -2,13 +2,15 @@ import React, {FC, useState} from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faUser, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {MyFollowerBox} from './MyFollowerBox'
+import {MyFollowingBox} from './MyFollowingBox'
 import {Subtitle} from './../../Texts'
 
 type ShowFollowModalProps = {
-    // 팔로잉 수, 팔로워 수 받아올 것
+    following: string
+    follower: string
 }
 
-export const ShowFollowModal: FC<ShowFollowModalProps> = ({}) => {
+export const ShowFollowModal: FC<ShowFollowModalProps> = ({following, follower}) => {
     const [showModal, setShowModal] = useState(false)
 
     // 모달을 열거나 닫는 함수
@@ -29,7 +31,9 @@ export const ShowFollowModal: FC<ShowFollowModalProps> = ({}) => {
                     />
                 </button>
                 <button onClick={openModal}>
-                    <span className="text-4xl cursor-pointer hover:underline">100</span>
+                    <span className="text-4xl cursor-pointer hover:underline">
+                        {following}
+                    </span>
                 </button>
                 <button onClick={openModal} className="ml-12 mr-4">
                     <FontAwesomeIcon
@@ -38,7 +42,9 @@ export const ShowFollowModal: FC<ShowFollowModalProps> = ({}) => {
                     />
                 </button>
                 <button onClick={openModal} className="">
-                    <span className="text-4xl cursor-pointer hover:underline">100</span>
+                    <span className="text-4xl cursor-pointer hover:underline">
+                        {follower}
+                    </span>
                 </button>
                 {showModal ? (
                     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-500 bg-opacity-75">
@@ -61,7 +67,7 @@ export const ShowFollowModal: FC<ShowFollowModalProps> = ({}) => {
                             </div>
                             <div className="flex flex-row">
                                 <div className="w-1/2 p-4">
-                                    <MyFollowerBox />
+                                    <MyFollowingBox />
                                 </div>
                                 <div className="w-1/2 p-4">
                                     <MyFollowerBox />
