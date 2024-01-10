@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {
     LoadingSppinner,
     LoginInput,
@@ -6,6 +6,7 @@ import {
     Oauth2LoginButton,
     Title
 } from '../../components'
+import {useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import {loginRequest} from '../../api/Login/Login'
 import {useDispatch} from 'react-redux'
@@ -15,6 +16,7 @@ import Kakao from '../../assets/kakao_btn.png'
 import Google from '../../assets/google_btn.png'
 import Naver from '../../assets/naver_btn.png'
 import {setMno} from '../../store/slices/LoginSlice'
+import {RootState} from '../../store/rootReducer'
 
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')
@@ -22,6 +24,11 @@ export const Login = () => {
     const [loading, setLoading] = useState<Boolean>(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    const emailFromSignup = useSelector((state: RootState) => state.signup.email)
+    useEffect(() => {
+        setUserEmail(String(emailFromSignup || ''))
+    }, [])
 
     //이메일 검증
     const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
