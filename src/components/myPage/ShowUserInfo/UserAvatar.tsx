@@ -3,9 +3,11 @@ import {FC, useState, useRef, ChangeEvent} from 'react'
 
 // 프로필 이미지 등록 기능
 
-type UserAvatarProps = {}
+type UserAvatarProps = {
+    src: string
+}
 
-export const UserAvatar: FC<UserAvatarProps> = ({}) => {
+export const UserAvatar: FC<UserAvatarProps> = ({src}) => {
     const [imageSrc, setImageSrc] = useState(image)
     const fileInput = useRef<HTMLInputElement | null>(null)
 
