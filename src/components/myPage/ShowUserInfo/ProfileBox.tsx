@@ -13,7 +13,7 @@ export const ProfileBox: FC<ProfileProps> = () => {
     const navigate = useNavigate()
 
     function onModify() {
-        navigate('/modify')
+        navigate('/mypage/modify')
     }
 
     useEffect(() => {
@@ -34,7 +34,12 @@ export const ProfileBox: FC<ProfileProps> = () => {
             <div>
                 <Box className=" rounded-3xl">
                     <h1 className="mb-4 text-3xl text-black">My Profile</h1>
-                    <UserAvatar src={userProfile ? userProfile.image : ''} />
+                    <img
+                        src={userProfile ? userProfile.image : ''}
+                        alt="프로필이미지"
+                        className="w-48 h-48 rounded-full "
+                    />
+                    {/* <UserAvatar src={userProfile ? userProfile.image : ''} /> */}
                     <br />
                     <h1 className="text-3xl ">{userProfile ? userProfile.name : ''}</h1>
                     <br />
