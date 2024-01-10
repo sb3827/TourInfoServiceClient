@@ -10,7 +10,11 @@ import {
     ChooseMap,
     Input
 } from './../../index'
+
+//FIXME - SearchInfo 컴포넌트 바껴서 다시 PlaceSearch 다시 작성 부탁드려요.
+
 import {registerPlace} from './../../../api/index'
+
 
 type MyPocketModalProps = {
     selectedComponent?: number
@@ -179,7 +183,11 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                     {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}
                                     <div className="w-1/4 mr-2 overflow-y-auto border rounded-lg border--300">
                                         {/* 검색 결과를 보여줄 컴포넌트 */}
+//<<<<<<< feat/9/pages
+                                        {/* {matchingPlaces.length > 0 ? (
+//=======
                                         {matchingPlaces.length > 0 &&
+//>>>>>>> develop
                                             matchingPlaces.map((place, index) => (
                                                 <SearchInfo
                                                     key={index}
@@ -280,10 +288,18 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                                     </div>
                                                 </div>
                                             </div>
+//<<<<<<< feat/9/pages
+                                        )} */}
+                                    </div>
+                                    <div className="w-4/6 border border-gray-300 rounded-lg">
+                                        {/* MapAPI 컴포넌트 */}
+                                        {/* {!RegisterSpotModal && (
+//=======
                                         ) : null}
                                     </div>
                                     <div className="w-4/6 border border-gray-300 rounded-lg">
                                         {!RegisterSpotModal && (
+//>>>>>>> develop
                                             <SearchMap
                                                 places={
                                                     matchingPlaces.length > 0
@@ -292,7 +308,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                                 }
                                                 className="w-full h-full"
                                             />
-                                        )}
+                                        )} */}
                                     </div>
                                 </div>
                             </div>

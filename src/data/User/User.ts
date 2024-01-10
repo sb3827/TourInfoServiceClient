@@ -67,6 +67,16 @@ export type suspendDate = {
     suspendReason: string
 }
 
+
+// 유저 검색 정보
+export type UserSearchData = {
+    mno: number
+    name: string
+    image: string
+    followings: number
+    followers: number
+}
+
 // 사용자 정보
 export type user = {
     mno: number | null

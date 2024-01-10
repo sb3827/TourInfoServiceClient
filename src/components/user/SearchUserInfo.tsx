@@ -1,24 +1,53 @@
 import React, {FC} from 'react'
+import { Button } from "../../components/index";
+import { UserSearchData } from "../../data/User/User";
+import { useNavigate } from "react-router-dom"
+import { postFollow, deleteFollow } from "../../api/UserSearch/UserSearch";
 
 type SearchResultProps = {
-    profileImage: string
-    information: string
-    id: string
+    userInfo : UserSearchData | null
 }
 
-export const SearchUserInfo: FC<SearchResultProps> = ({
-    profileImage,
-    information,
-    id
-}) => {
+export const SearchUserInfo: FC<SearchResultProps> = ({ userInfo }) => {
+
+    const navigate = useNavigate();
+
+    
+
+
+
+    // 미구현
+    const handleReviewClick = () => {
+        navigate(``)
+    }
+
     return (
-        <div className="flex items-center h-64 p-4 m-2 text-2xl border rounded-lg border--300 bg-slate-300">
-            <div className="flex w-1/3 pr-4">
-                <img src={profileImage} alt="" />
+        <div className="flex w-full h-40 border border-gray-200 shadow stats ">
+            <div className="stat">
+                <div className="stat-figure text-secondary">
+                    <img
+                        src={userInfo?.image}
+                        alt="profileImage"
+                        className="w-24 rounded-full"
+                    />
+                </div>
+                <div className="mt-8 stat-value">{userInfo?.name}</div>
             </div>
-            <div className="w-2/3">
-                <div className="mb-4">{information}</div>
-                <div className="mb-4">{id}</div>
+
+            <div className="stat">
+                <div className="stat-title">Total Follower</div>
+                <div className="text-rose-500 stat-value">{userInfo?.followers}</div>
+            </div>
+            <div className="stat">
+                <div className="stat-title">Total Following</div>
+                <div className="stat-value text-primary">{userInfo?.followings}</div>
+            </div>
+
+            <div className='stat'>
+                <div className='mt-2'>
+                <Button  className="w-32 h-20 text-2xl text-darkGreen" value={'프로필'} />
+                <Button  className="w-32 h-20 text-2xl text-darkGreen" value={'팔로우'} />
+                </div>
             </div>
         </div>
     )
