@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {LoginUserData} from '../../data/User/User'
 
 // 개별 객체에 대한 인터페이스 정의
 interface Item {
@@ -38,11 +37,11 @@ type CommonState = Item[][]
 
 const initialState: CommonState = []
 
-export const PlaceRegistSlice = createSlice({
+export const CourseSlice = createSlice({
     name: 'placeItem',
     initialState,
     reducers: {
-        deleteAll(state) {
+        deleteAll() {
             return initialState
         },
         addDay(state) {
@@ -134,6 +133,6 @@ export const {
     deleteItem,
     moveItem,
     addItemAtPosition
-} = PlaceRegistSlice.actions
+} = CourseSlice.actions
 
-export default PlaceRegistSlice
+export default CourseSlice

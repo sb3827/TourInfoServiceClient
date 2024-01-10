@@ -5,7 +5,7 @@ import {faPlus, faMinus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {coursePostLoad, deleteBoard} from '../../api/Board/board'
 import {useDispatch} from 'react-redux'
-import {addDay, deleteAll, deleteDay} from '../../store/slices/PlaceSlice'
+import {addDay, deleteAll, deleteDay} from '../../store/slices/CourseSlice'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
@@ -16,7 +16,7 @@ type CourseRegisterProps = {
 
 export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props => {
     //코스 등록시 추가적으로 로직 필요 -> 아래 콘솔보고 할것
-    const day = useSelector((state: RootState) => state.placRegist)
+    const day = useSelector((state: RootState) => state.course)
     console.log(day)
 
     const dispatch = useDispatch()

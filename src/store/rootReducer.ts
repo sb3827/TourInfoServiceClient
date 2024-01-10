@@ -3,7 +3,7 @@ import ReportSlice from './slices/ReportSlice'
 import LoginSlice from './slices/LoginSlice'
 import SearchSlice from './slices/SearchSlice'
 import ManagerSlice from './slices/ManagerSlice'
-import PlaceRegistSlice from './slices/PlaceSlice'
+import CourseSlice from './slices/CourseSlice'
 
 //리듀서 등록
 export const rootReducer = combineReducers({
@@ -11,7 +11,7 @@ export const rootReducer = combineReducers({
     login: LoginSlice.reducer,
     search: SearchSlice.reducer,
     manager: ManagerSlice.reducer,
-    placRegist: PlaceRegistSlice.reducer
+    course: CourseSlice.reducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

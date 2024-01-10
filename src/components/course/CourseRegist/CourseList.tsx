@@ -2,7 +2,7 @@ import {FC} from 'react'
 import {DragDropContext, OnDragEndResponder} from 'react-beautiful-dnd'
 import {RootState} from '../../../store/rootReducer'
 import {useSelector} from 'react-redux'
-import {addItemAtPosition, moveItem} from '../../../store/slices/PlaceSlice'
+import {addItemAtPosition, moveItem} from '../../../store/slices/CourseSlice'
 import {useDispatch} from 'react-redux'
 import {CartItem, DayItem} from '../../index'
 
@@ -28,7 +28,7 @@ export const CourseList: FC<DndProps> = ({}) => {
     //이 더미 데이터는 추후에 장바구니 데이터로 바꿔야함
     const items = dummy
 
-    const day = useSelector((state: RootState) => state.placRegist)
+    const day = useSelector((state: RootState) => state.course)
     const dispatch = useDispatch()
 
     const onDragEnd: OnDragEndResponder = result => {

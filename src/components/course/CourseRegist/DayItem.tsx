@@ -2,7 +2,7 @@ import {Subtitle} from '../../Texts'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCircleMinus, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {useDispatch} from 'react-redux'
-import {addDayAtPosition, deleteDay, deleteItem} from '../../../store/slices/PlaceSlice'
+import {addDayAtPosition, deleteDay, deleteItem} from '../../../store/slices/CourseSlice'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
 import {Spot} from '../../Spot'
 import {useSelector} from 'react-redux'
@@ -10,7 +10,7 @@ import {RootState} from '../../../store/rootReducer'
 
 export const DayItem = () => {
     const dispatch = useDispatch()
-    const day = useSelector((state: RootState) => state.placRegist)
+    const day = useSelector((state: RootState) => state.course)
 
     //요일 삭제
     const onDeleteDay = (dayIndex: number) => {
