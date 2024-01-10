@@ -22,8 +22,7 @@ export const MyFollowerBox: FC = () => {
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
-    useEffect(() => {
-        const fetchData = async () => {
+     const fetchData = async () => {
             try {
                 const userFollowerData = await ShowUserFollowers(userMno)
                 setUserFollowers(userFollowerData)
@@ -32,6 +31,8 @@ export const MyFollowerBox: FC = () => {
                 console.error('에러 발생', error)
             }
         }
+
+    useEffect(() => {
         fetchData()
     }, [])
 
