@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Title} from '../../components'
-import {GeneralMemberSignup, BusinessMemberSignup} from './index'
+import {GeneralMemberSignup, BusinessMemberSignup} from '../../components'
 
 interface SignupProps {}
 
