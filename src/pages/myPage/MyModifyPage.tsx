@@ -73,8 +73,8 @@ export const MyModifyPage = () => {
         }
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
+
+     const fetchData = async () => {
             try {
                 const userData = await ShowUserInfo(userMno)
                 setUser(userData)
@@ -86,6 +86,7 @@ export const MyModifyPage = () => {
                 console.error('error', error)
             }
         }
+    useEffect(() => {
         fetchData()
     }, [])
 
