@@ -1,10 +1,10 @@
-import {ProfileBox, PersonalMap, WritingButton} from './../../components/index'
-import {SimpleMap} from './../../components/SimpleMap'
+import {useState, useEffect} from 'react'
+import {ProfileBox, SimpleMap, WritingButton} from './../../components/index'
+import {ShowUserInfo} from './../../api/MyPage/ShowUserInfo'
 
 export const MyPage = () => {
     return (
         <div>
-            <h1 className="flex items-center justify-center mt-4">마이페이지</h1>
             <div className="flex flex-row">
                 <div className="w-1/2 mt-8 ml-32 mr-8">
                     <ProfileBox />
@@ -13,7 +13,7 @@ export const MyPage = () => {
                     <SimpleMap />
                 </div>
             </div>
-            <div className="mt-8">
+            <div className="mt-4">
                 <WritingButton />
             </div>
         </div>

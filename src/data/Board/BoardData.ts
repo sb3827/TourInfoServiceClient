@@ -1,3 +1,5 @@
+import internal from "stream"
+
 export type ResponseBoard = {
     bno: number
     title: string
@@ -13,4 +15,15 @@ export type ResponseBoard = {
 
 export type ResponseDeleteResult = {
     bno: number
+}
+
+export type CourseBoardListData = {
+    bno : number
+    title: string
+    likes: number
+    score: number
+    writer: string
+    regDate: string
+    srcList: string[]
+    ad: boolean
 }
