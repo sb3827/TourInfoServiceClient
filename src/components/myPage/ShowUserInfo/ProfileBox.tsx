@@ -18,8 +18,7 @@ export const ProfileBox: FC<ProfileProps> = () => {
         navigate('/mypage/modify')
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
+     const fetchData = async () => {
             try {
                 const userProfileData = await ShowUserProfile('이해창')
                 setUserProfile(userProfileData)
@@ -28,6 +27,8 @@ export const ProfileBox: FC<ProfileProps> = () => {
                 console.error('에러 발생', error)
             }
         }
+
+    useEffect(() => {
         fetchData()
     }, [])
 
