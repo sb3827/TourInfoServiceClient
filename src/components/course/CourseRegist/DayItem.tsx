@@ -59,7 +59,7 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                         </div>
                     </div>
                     <Droppable
-                        isDropDisabled={create}
+                        isDropDisabled={!create}
                         droppableId={`droppable-${dayIndex}`}
                         direction="horizontal">
                         {provided => (
