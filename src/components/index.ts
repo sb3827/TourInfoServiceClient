@@ -6,6 +6,7 @@ export * from './Rating'
 export * from './Box'
 export * from './Footer'
 export * from './Logo'
+export * from './SimpleMap'
 
 // Main
 export * from './Main/MainItem'
@@ -59,6 +60,10 @@ export * from './course/CourseRegist/DayItem'
 
 //user
 export * from './user/SearchUserInfo'
+export * from './user/BusinessMemberSignup'
+export * from './user/GeneralMemberSignup'
+export * from './user/FindEmail'
+export * from './user/FindPassword'
 
 // /mypage
 export * from './myPage/ChangeInfo'

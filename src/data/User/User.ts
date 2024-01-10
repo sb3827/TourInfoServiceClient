@@ -66,3 +66,56 @@ export type suspendDate = {
     suspendEndDate: Date
     suspendReason: string
 }
+
+// 사용자 정보
+export type user = {
+    mno: number | null
+    image: string
+    name: string
+    email: string
+    phone: string
+    birth: string | null
+    role: string
+}
+
+// 사용자 프로필
+export type userProfile = {
+    mno: number
+    name: string
+    followings: number
+    followers: number
+    cart: number
+    image: string
+}
+
+// 사용자가 작성한 장소 포스팅 게시글
+export type userBoard = {
+    bno: number
+    title: string
+    writer: string
+    regdate: string
+}
+
+// 사용자가 작성한 댓글 ( 게시글 번호, 게시글 제목, 댓글 내용, 등록 날짜 )
+export type userReply = {
+    rno: number
+    mno: number
+    bno: number
+    title: string
+    text: string
+    regdate: string
+}
+
+// 사용자가 작성한 코스 게시글
+export type userCourse = {
+    bno: number
+    title: string
+    writer: string
+    regdate: string
+}
+
+export type userFollows = {
+    mno: number
+    name: string
+    image: string
+}

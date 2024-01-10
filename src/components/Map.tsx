@@ -404,12 +404,23 @@ export const PlacePostMap: FC<PropsWithChildren<PlacePostMapProps>> = ({
 export const ChooseMap: FC<
     {
         // 추가
-        onAddressChange: (address: string) => void
+        onRoadAddressChange: (road: string) => void
+        onLocalAddressChange: (local: string) => void
+        onEngAddressChange: (eng: string) => void
+        onLngChange: (lng: number) => void
+        onLatChange: (lat: number) => void
     } & PropsWithChildren<
         RefAttributes<naver.maps.Map> &
             DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
     >
-> = ({onAddressChange, ...props}) => {
+> = ({
+    onRoadAddressChange,
+    onLocalAddressChange,
+    onEngAddressChange,
+    onLngChange,
+    onLatChange,
+    ...props
+}) => {
     const mapElement = useRef(null)
 
     useEffect(() => {
@@ -485,7 +496,11 @@ export const ChooseMap: FC<
 
                     // infowindow의 내용을 업데이트합니다.
                     infowindow.setContent(contentString.join(''))
-                    onAddressChange(result.local) // 지번 주소 보내주기
+                    onRoadAddressChange(result.road) // 주소 보내주기
+                    onLocalAddressChange(result.local) // 주소 보내주기
+                    onEngAddressChange(result.eng) // 주소 보내주기
+                    onLatChange(e.coord._lat)
+                    onLngChange(e.coord._lng)
                 } catch (error) {
                     console.error(error)
                 }
