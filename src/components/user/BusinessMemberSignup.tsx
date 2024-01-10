@@ -23,7 +23,8 @@ export const BusinessMemberSignup = () => {
     const navigate = useNavigate()
 
     //이메일 검증
-    const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
+    const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+    const phone_regex = /^010-([0-9]{3,4})-([0-9]{4})$/
 
     // 이메일 도메인 select
     function onChangeSelect(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -59,6 +60,15 @@ export const BusinessMemberSignup = () => {
     // 휴대폰번호 state 변경
     function onUserPhoneNumberChange(value: string) {
         setUserPhoneNumber(value)
+    }
+
+    // 회원가입 데이터 유효성 검사
+    function validateInput(message: string, condition: boolean) {
+        if (!condition) {
+            alert(message)
+            return true // 유효하지 않은 경우 true 반환
+        }
+        return false // 유효한 경우 false 반환
     }
 
     // 이메일 중복 체크 버튼 클릭 이벤트
@@ -132,16 +142,21 @@ export const BusinessMemberSignup = () => {
             return
         }
 
-        if (userPassword !== repeatPassword) {
-            alert('비밀번호가 일치하지 않습니다!')
-            return
-        }
-        if (!isEmailChecked) {
-            alert('이메일 중복 체크를 해주세요')
-            return
-        }
-        if (!isBussinesscodeChecked) {
-            alert('사업자 번호를 인증 해주세요')
+        if (
+            validateInput('비밀번호를 입력해주세요', !userPassword) ||
+            validateInput(
+                '비밀번호가 일치하지 않습니다!',
+                userPassword !== repeatPassword
+            ) ||
+            validateInput('이름을 입력해주세요', !userName) ||
+            validateInput('생년월일을 선택해주세요', !userBirthDate) ||
+            validateInput('이메일 중복 체크를 해주세요', !isEmailChecked) ||
+            validateInput('사업자 번호를 인증 해주세요', !isBussinesscodeChecked) ||
+            validateInput(
+                '올바른 전화번호 형식이 아닙니다',
+                !phone_regex.test(userPhoneNumber)
+            )
+        ) {
             return
         }
         try {
@@ -250,7 +265,7 @@ export const BusinessMemberSignup = () => {
                 className="mb-6"
                 value={userPhoneNumber}
                 type="phoneNumber"
-                text="전화번호"
+                text="전화번호(- 포함)"
                 onChange={onUserPhoneNumberChange}
             />
 

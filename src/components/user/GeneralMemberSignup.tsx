@@ -21,6 +21,7 @@ export const GeneralMemberSignup = () => {
 
     //이메일 검증
     const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
+    const phone_regex = /^010-([0-9]{3,4})-([0-9]{4})$/
 
     // 이메일 도메인 select
     function onChangeSelect(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -31,7 +32,6 @@ export const GeneralMemberSignup = () => {
     function onUserEmailChange(value: string) {
         setUserEmail(value)
     }
-
     //비밀번호 state 변경
     function onUserPasswordChange(value: string) {
         setUserPassword(value)
@@ -43,15 +43,22 @@ export const GeneralMemberSignup = () => {
     function onUserNameChange(value: string) {
         setUserName(value)
     }
-
     // 생년월일 state 변경
     function onUserBirthDateChange(value: string) {
         setUserBirthDate(value)
     }
-
     // 휴대폰번호 state 변경
     function onUserPhoneNumberChange(value: string) {
         setUserPhoneNumber(value)
+    }
+
+    // 회원가입 데이터 유효성 검사
+    function validateInput(message: string, condition: boolean) {
+        if (condition) {
+            alert(message)
+            return true
+        }
+        return false
     }
 
     // 이메일 중복 체크 버튼 클릭 이벤트
@@ -96,31 +103,38 @@ export const GeneralMemberSignup = () => {
         ) {
             return
         }
-        if (isEmailChecked === true) {
-            if (userPassword !== repeatPassword) {
-                alert('비밀번호가 일치하지 않습니다!')
-                return
-            }
-            try {
-                const data: SignupData = {
-                    email: userEmail + selectValue,
-                    password: userPassword,
-                    birth: userBirthDate,
-                    phone: userPhoneNumber,
-                    name: userName,
-                    role: 'MEMBER'
-                }
-                const result = await signupRequest(data)
-                dispatch(setEmail(userEmail + selectValue))
-                alert('회원가입성공! 이메일 인증을 진행해주세요')
-                navigate('/login')
-            } catch (error) {
-                alert('회원가입 요청 실패')
-                console.log(error)
-            }
-        } else {
-            alert('이메일 중복 확인을 해주세요!')
+        if (
+            validateInput('비밀번호를 입력해주세요', !userPassword) ||
+            validateInput(
+                '비밀번호가 일치하지 않습니다!',
+                userPassword !== repeatPassword
+            ) ||
+            validateInput('이름을 입력해주세요', !userName) ||
+            validateInput('생년월일을 선택해주세요', !userBirthDate) ||
+            validateInput('이메일 중복 체크를 해주세요', !isEmailChecked) ||
+            validateInput(
+                '올바른 전화번호 형식이 아닙니다',
+                !phone_regex.test(userPhoneNumber)
+            )
+        ) {
             return
+        }
+        try {
+            const data: SignupData = {
+                email: userEmail + selectValue,
+                password: userPassword,
+                birth: userBirthDate,
+                phone: userPhoneNumber,
+                name: userName,
+                role: 'MEMBER'
+            }
+            const result = await signupRequest(data)
+            dispatch(setEmail(userEmail + selectValue))
+            alert('회원가입성공! 이메일 인증을 진행해주세요')
+            navigate('/login')
+        } catch (error) {
+            alert('회원가입 요청 실패')
+            console.log(error)
         }
     }
 
@@ -198,7 +212,7 @@ export const GeneralMemberSignup = () => {
                         className="mb-6"
                         value={userPhoneNumber}
                         type="phoneNumber"
-                        text="전화번호"
+                        text="전화번호(- 포함)"
                         onChange={onUserPhoneNumberChange}
                     />
                 </div>
