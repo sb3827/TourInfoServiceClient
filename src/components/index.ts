@@ -40,6 +40,7 @@ export * from './Texts'
 export * from './place/Slider'
 export * from './place/SearchInfo'
 export * from './place/Board'
+export * from './place/BoardToggle'
 
 // reply component
 export * from './Comment'
@@ -103,3 +104,6 @@ export * from './LoadingSpinner'
 
 //Footer
 export * from './Footer'
+
+//BoardBox
+export * from './place/BoardBox'
