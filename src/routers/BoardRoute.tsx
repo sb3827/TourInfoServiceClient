@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import {Route, Routes} from 'react-router-dom'
-import {CourseRegister, DetailedCourse, NotFound, PostRegister} from '../pages'
+import {CourseRegister, DetailedCourse, NotFound, PostPlace, PostRegister} from '../pages'
 import {PlaceSearch} from '../pages/placeSearch'
 import {PlaceDetails} from '../pages/placeDetails'
 import {CourseSearch} from '../pages/CourseSearch'
