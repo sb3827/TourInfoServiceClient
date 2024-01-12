@@ -2,9 +2,7 @@ import {useState, FC, Ref, useRef, forwardRef, useImperativeHandle} from 'react'
 import CustomEditor from 'ckeditor5-custom-build/build/ckeditor'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import {CKFinder} from '@ckeditor/ckeditor5-ckfinder'
-import axios from 'axios'
-import Editor from 'ckeditor5-custom-build/build/ckeditor'
+import {imageUpload} from '../api/Board/board'
 
 type TextEditorProps = {
     initialValue?: string
@@ -19,9 +17,8 @@ export type EditorRef = {
 }
 
 export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorProps>(
-    ({initialValue, width, height}, ref) => {
+    ({initialValue}, ref) => {
         const [flag, setFlag] = useState(false)
-        const imgLink = 'C:workspace\test'
         const ckRef = useRef<CKEditor<ClassicEditor> | null>(null)
         const images = new FormData()
 
@@ -35,18 +32,19 @@ export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorP
             return {
                 upload() {
                     return new Promise((resolve, reject) => {
+                        const data = new FormData()
                         loader.file.then((file: File) => {
-                            images.append('file', file)
+                            data.append('name', file.name)
+                            data.append('file', file)
 
-                            axios
-                                .post('/api/upload', file)
+                            imageUpload(file)
                                 .then(res => {
                                     if (!flag) {
                                         setFlag(true)
-                                        //setImage(res.data.filename)
+                                        // setImage(res.data.filename);
                                     }
                                     resolve({
-                                        default: `${imgLink}/${res.data.filename}`
+                                        default: `${res.src}`
                                     })
                                 })
                                 .catch(err => reject(err))
