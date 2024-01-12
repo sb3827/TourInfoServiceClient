@@ -1,12 +1,16 @@
-import {FC, PropsWithChildren} from 'react'
+import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {Input, Button, Comment} from '../../components'
+import {useSearchParams} from 'react-router-dom'
+import {replyData} from '../../data/Reply/Reply'
+import {getParentReply} from '../../api'
 
 type ReplyProps = {}
 
 //더미 데이터
-export const replyData = [
+export const replyDatas = [
     {
         rno: 1,
+        mno: 1,
         name: 'test',
         src: null,
         text: 'test',
@@ -15,6 +19,7 @@ export const replyData = [
     },
     {
         rno: 2,
+        mno: 2,
         name: 'test',
         src: null,
         text: 'test',
@@ -22,6 +27,7 @@ export const replyData = [
         parent_rno: null
     },
     {
+        mno: 3,
         rno: 3,
         name: 'test',
         src: null,
@@ -36,6 +42,21 @@ export const replyData = [
 
 // 댓글 part 작성+list
 export const Reply: FC<PropsWithChildren<ReplyProps>> = () => {
+    const [replyes, setReplyes] = useState<replyData[] | null>(null)
+
+    const [searchParams] = useSearchParams()
+    const bno = searchParams.get('bno')
+
+    async function getReply() {
+        if (bno) {
+            const data = await getParentReply(parseInt(bno))
+            setReplyes(data)
+        }
+    }
+
+    useEffect(() => {
+        getReply()
+    }, [])
     return (
         <div>
             <div className="flex flex-row items-center justify-center my-5">
@@ -47,9 +68,10 @@ export const Reply: FC<PropsWithChildren<ReplyProps>> = () => {
             </div>
             <div className="flex flex-col items-center justify-center w-full ">
                 <div className="w-3/5 rounded-2xl">
-                    {replyData.map(reply => (
-                        <Comment reply={reply} key={reply.rno}></Comment>
-                    ))}
+                    {replyes &&
+                        replyes.map(reply => (
+                            <Comment reply={reply} key={reply.rno}></Comment>
+                        ))}
                 </div>
             </div>
         </div>

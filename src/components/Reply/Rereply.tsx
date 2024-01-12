@@ -5,11 +5,11 @@ import {faArrowTurnUp, faEllipsisVertical} from '@fortawesome/free-solid-svg-ico
 import {dropdownText} from "../../dummy data/sb's dummy"
 import {Body, Caption} from '../Texts'
 import dummyImage from '../../assets/profileImage.jpeg'
-import {replyType} from '../../data/Reply/Reply'
+import {replyData} from '../../data/Reply/Reply'
 
 type RereplyProps = {
     viewReply: Boolean
-    reReplyData: replyType
+    reReplyData: replyData
 }
 
 export const Rereply: React.FC<RereplyProps> = ({viewReply, reReplyData}) => {
