@@ -126,7 +126,8 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
                             onClick={daysPlus}
                         />
                     </div>
-                    <CourseList />
+                    {/* 테스트 코드 */}
+                    <CourseList create={true} day={day} />
                 </div>
                 <div className="flex flex-row justify-end my-2">
                     <Rating ref={starRef} />

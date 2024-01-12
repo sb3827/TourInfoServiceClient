@@ -6,7 +6,6 @@ import {addItemAtPosition, moveItem} from '../../../store/slices/CourseSlice'
 import {useDispatch} from 'react-redux'
 import {CartItem, DayItem, Item} from '../../index'
 
-type DndProps = {}
 
 //STUB -  더미
 const dummy: Item[] = [
@@ -18,11 +17,15 @@ const dummy: Item[] = [
 ]
 //
 
-export const CourseList: FC<DndProps> = ({}) => {
+type DndProps = {
+    create: boolean
+    day: Item[][]
+}
+
+export const CourseList: FC<DndProps> = ({create, day}) => {
     //이 더미 데이터는 추후에 장바구니 데이터로 바꿔야함
     const items = dummy
 
-    const day = useSelector((state: RootState) => state.course)
     const dispatch = useDispatch()
 
     const onDragEnd: OnDragEndResponder = result => {
@@ -93,7 +96,7 @@ export const CourseList: FC<DndProps> = ({}) => {
             {items && <CartItem items={items} dragDisable={false} />}
 
             {/* 요일 데이터 */}
-            <DayItem />
+            <DayItem day={day} create={create} />
         </DragDropContext>
     )
 }

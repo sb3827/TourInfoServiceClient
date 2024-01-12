@@ -7,10 +7,16 @@ import {Draggable, Droppable} from 'react-beautiful-dnd'
 import {Spot} from '../../Spot'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../../store/rootReducer'
+import {Item} from './CourseList'
+import {FC} from 'react'
 
-export const DayItem = () => {
+type DayItemProps = {
+    day: Item[][]
+    create: boolean
+}
+
+export const DayItem: FC<DayItemProps> = ({day, create}) => {
     const dispatch = useDispatch()
-    const day = useSelector((state: RootState) => state.course)
 
     //요일 삭제
     const onDeleteDay = (dayIndex: number) => {
@@ -58,10 +64,10 @@ export const DayItem = () => {
                                 className="flex w-full h-20 ">
                                 {dayItem.map((item, index) => (
                                     <Draggable
-                                        key={item.name + index}
+                                        key={item.pname + index}
                                         //추후에 pname대신에 pno를 주는게 맞을거 같음
                                         draggableId={
-                                            item.name + '-' + dayIndex + '-' + index
+                                            item.pname + '-' + dayIndex + '-' + index
                                         }
                                         index={index}>
                                         {provided => (
@@ -80,10 +86,10 @@ export const DayItem = () => {
                                                     />
                                                 </div>
                                                 <Spot
-                                                    key={item.name + index}
-                                                    src={item.src}
+                                                    key={item.pname + index}
+                                                    src={item.img}
                                                     isRegister={false}>
-                                                    {item.name}
+                                                    {item.pname}
                                                 </Spot>
                                             </div>
                                         )}

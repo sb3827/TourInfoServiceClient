@@ -7,7 +7,10 @@ import {
     CoursePostMap,
     PlacePostMap,
     PlaceProps,
-    DropIcon
+    DropIcon,
+    DayItem,
+    Item,
+    CourseList
 } from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -78,6 +81,19 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
             }
         ]
     ])
+
+    const dummyData: Item[][] = [
+        [
+            {img: 'image1.jpg', pname: 'Product 1'},
+            {img: 'image2.jpg', pname: 'Product 2'}
+        ],
+        [{img: 'image3.jpg', pname: 'Product 3'}],
+        [
+            {img: 'image4.jpg', pname: 'Product 4'},
+            {img: 'image5.jpg', pname: 'Product 5'}
+        ]
+    ]
+
     // user mno
     const user = useSelector((state: RootState) => state.login.mno)!
     const [searchParams] = useSearchParams()
@@ -263,7 +279,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                         ))}
                     </Slider>
                 </div>
-                <div className="my-2">{dailyCourses}</div>
+                <CourseList create={false} day={dummyData} />
                 <TextBox data={content}></TextBox>
             </div>
             <div className="my-2">
