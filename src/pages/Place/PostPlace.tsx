@@ -1,7 +1,6 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {
     Title,
-    Map,
     TextBox,
     DropdownIcon,
     Slider,
@@ -36,6 +35,8 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     const [likes, setLikes] = useState<number>(0)
     const [date, setDate] = useState<string>('')
     const [title, setTitle] = useState<string>('')
+    const [images, setImages] = useState<string[]>([''])
+    const [writer, setWriter] = useState<string>()
     const [place, setPlace] = useState<PlaceProps>({
         name: '서면 거리',
         lat: 35.1584,
@@ -92,37 +93,44 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
             }
-            if (user == data.writer) {
+            if (user == data.mno) {
                 setEnables([true, false])
             }
 
             setTitle(data.title) // title
             setScore(data.score) // number of star
-            //NOTE - setHeart(t/f)
+            setHeart(data.isLiked) // set isLiked
             setLikes(data.likes) // number of likes
+            // set write Date
             if (data.modDate == data.regDate) {
                 setDate('작성일자: ' + data.regDate)
             } else {
                 setDate('수정일자: ' + data.modDate)
             }
-            //NOTE - 이미지, 지도 처리
-            setPlace({
-                name: '서면 거리',
-                lat: 35.1584,
-                lng: 129.0583,
-                road: '부산광역시 서구 중앙대로 678',
-                local: '부산광역시 서구 서면',
-                eng: '678, Jungang-daero, Seo-gu, Busan'
-            })
-
+            setWriter(data.writer) // writer
+            // setImages
+            if (data.images.length > 0) setImages(data.images)
+            // setPlace
+            if (data.placeDTOS.length > 0) {
+                const placeData = {
+                    name: data.placeDTOS[0][0].name,
+                    lat: data.placeDTOS[0][0].lat,
+                    lng: data.placeDTOS[0][0].lng,
+                    road: data.placeDTOS[0][0].roadAddress,
+                    local: data.placeDTOS[0][0].localAddress,
+                    eng: data.placeDTOS[0][0].engAddress
+                }
+                setPlace(placeData)
+            }
             setContent(data.content) // content
         } catch (error) {
-            navigate(-1)
+            // navigate(-1)
+            //FIXME - 영현 에러처리 부탁~ 해요
         }
     }
     useEffect(() => {
         loadPage()
-    }, [heart])
+    }, [])
 
     return (
         <div className="w-3/4 mx-auto">
@@ -178,21 +186,22 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                         {likes}
                     </div>
                 </div>
+                <div className="flex flex-row justify-end">작성자: {writer}</div>
                 <div className="flex flex-row justify-end">{date}</div>
             </div>
             <div className="my-2">
                 {/*body*/}
                 <div className="flex flex-row justify-center">
                     <Slider className="w-1/2">
-                        {imgsrcs.map((addr, index) => (
+                        {images.map((image, index) => (
                             <img
                                 className="mx-auto my-auto"
                                 key={index}
-                                src={addr}
+                                src={image}
                                 alt="img"></img>
                         ))}
                     </Slider>
-                    <PlacePostMap className="w-1/2" place={place}></PlacePostMap>
+                    <PlacePostMap className="w-1/2" place={place!}></PlacePostMap>
                 </div>
                 <div className="my-2">
                     <TextBox data={content}></TextBox>

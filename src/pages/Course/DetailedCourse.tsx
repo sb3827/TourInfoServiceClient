@@ -1,7 +1,6 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {
     Title,
-    Map,
     TextBox,
     DropdownIcon,
     Slider,
@@ -39,31 +38,45 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     const [likes, setLikes] = useState<number>(0)
     const [date, setDate] = useState<string>('')
     const [title, setTitle] = useState<string>('')
-    const [places, setPlaces] = useState<PlaceProps[]>([
-        {
-            name: '서면 거리',
-            lat: 35.1584,
-            lng: 129.0583,
-            road: '부산광역시 서구 중앙대로 678',
-            local: '부산광역시 서구 서면',
-            eng: '678, Jungang-daero, Seo-gu, Busan'
-        },
-        {
-            name: '부산역',
-            lat: 35.1152,
-            lng: 129.0403,
-            road: '부산광역시 동구 중앙대로 206',
-            local: '부산광역시 동구 초량동',
-            eng: '206, Jungang-daero, Dong-gu, Busan'
-        },
-        {
-            name: '동의대학교',
-            lat: 35.1432,
-            lng: 129.0367,
-            road: '부산광역시 남구 가야대로 201',
-            local: '부산광역시 남구 양정동',
-            eng: '201, Gayadaero, Nam-gu, Busan'
-        }
+    const [images, setImages] = useState<string[]>(['none'])
+    const [writer, setWriter] = useState<string>('undefined')
+    const [placesList, setPlacesList] = useState<PlaceProps[][]>([
+        [
+            {
+                name: '서면 거리',
+                lat: 35.1584,
+                lng: 129.0583,
+                road: '부산광역시 서구 중앙대로 678',
+                local: '부산광역시 서구 서면',
+                eng: '678, Jungang-daero, Seo-gu, Busan'
+            },
+            {
+                name: '부산역',
+                lat: 35.1152,
+                lng: 129.0403,
+                road: '부산광역시 동구 중앙대로 206',
+                local: '부산광역시 동구 초량동',
+                eng: '206, Jungang-daero, Dong-gu, Busan'
+            },
+            {
+                name: '동의대학교',
+                lat: 35.1432,
+                lng: 129.0367,
+                road: '부산광역시 남구 가야대로 201',
+                local: '부산광역시 남구 양정동',
+                eng: '201, Gayadaero, Nam-gu, Busan'
+            }
+        ],
+        [
+            {
+                name: '부산역',
+                lat: 35.1152,
+                lng: 129.0403,
+                road: '부산광역시 동구 중앙대로 206',
+                local: '부산광역시 동구 초량동',
+                eng: '206, Jungang-daero, Dong-gu, Busan'
+            }
+        ]
     ])
     // user mno
     const user = useSelector((state: RootState) => state.login.mno)!
@@ -86,45 +99,48 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
             }
-            if (user == data.writer) {
+            if (user == data.mno) {
                 setEnables([true, false])
             }
             setTitle(data.title) // title
             setScore(data.score) // number of star
-            //NOTE - setHeart(t/f)
+            setLikes(data.likes) // number of likes
+            setWriter(data.writer) // writer
             setLikes(data.likes) // number of likes
             if (data.modDate == data.regDate) {
                 setDate('작성일자: ' + data.regDate)
             } else {
                 setDate('수정일자: ' + data.modDate)
             }
-            //NOTE - 이미지, 지도 처리
-            setPlaces([
-                {
-                    name: '서면 거리',
-                    lat: 35.1584,
-                    lng: 129.0583,
-                    road: '부산광역시 서구 중앙대로 678',
-                    local: '부산광역시 서구 서면',
-                    eng: '678, Jungang-daero, Seo-gu, Busan'
-                },
-                {
-                    name: '부산역',
-                    lat: 35.1152,
-                    lng: 129.0403,
-                    road: '부산광역시 동구 중앙대로 206',
-                    local: '부산광역시 동구 초량동',
-                    eng: '206, Jungang-daero, Dong-gu, Busan'
-                },
-                {
-                    name: '동의대학교',
-                    lat: 35.1432,
-                    lng: 129.0367,
-                    road: '부산광역시 남구 가야대로 201',
-                    local: '부산광역시 남구 양정동',
-                    eng: '201, Gayadaero, Nam-gu, Busan'
-                }
-            ])
+            // setImages
+            if (data.images.length > 0) setImages(data.images)
+            //NOTE - 지도 처리
+            // setPlaces([
+            //     {
+            //         name: '서면 거리',
+            //         lat: 35.1584,
+            //         lng: 129.0583,
+            //         road: '부산광역시 서구 중앙대로 678',
+            //         local: '부산광역시 서구 서면',
+            //         eng: '678, Jungang-daero, Seo-gu, Busan'
+            //     },
+            //     {
+            //         name: '부산역',
+            //         lat: 35.1152,
+            //         lng: 129.0403,
+            //         road: '부산광역시 동구 중앙대로 206',
+            //         local: '부산광역시 동구 초량동',
+            //         eng: '206, Jungang-daero, Dong-gu, Busan'
+            //     },
+            //     {
+            //         name: '동의대학교',
+            //         lat: 35.1432,
+            //         lng: 129.0367,
+            //         road: '부산광역시 남구 가야대로 201',
+            //         local: '부산광역시 남구 양정동',
+            //         eng: '201, Gayadaero, Nam-gu, Busan'
+            //     }
+            // ])
 
             setContent(data.content) // content
         } catch (error) {
@@ -147,6 +163,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 setLikes(likes + 1)
             }
             setHeart(!heart)
+            console.log(date)
         } catch (error) {
             if (heart) {
                 setLikes(likes + 1)
@@ -157,15 +174,9 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
         }
     }
 
-    // pick button state
-    const [pick, setPick] = useState<boolean>(false)
-    function onClickPick() {
-        setPick(!pick)
-    }
-
     useEffect(() => {
         loadPage()
-    }, [heart])
+    }, [])
 
     const nav = () => navigate(`/board/course/posting/modify?bno=${bno}`)
     const set = () => setReport(!report)
@@ -228,21 +239,29 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                         {likes}
                     </div>
                 </div>
+                <div className="flex flex-row justify-end">작성자: {writer}</div>
                 <div className="flex flex-row justify-end">{date}</div>
             </div>
             <div className="my-2">
                 {/*body*/}
                 <div className="flex flex-row justify-center">
                     <Slider className="w-1/2">
-                        {imgsrcs.map((addr, index) => (
+                        {images.map((image, index) => (
                             <img
                                 className="mx-auto my-auto"
                                 key={index}
-                                src={addr}
+                                src={image}
                                 alt="img"></img>
                         ))}
                     </Slider>
-                    <CoursePostMap className="w-1/2" places={places}></CoursePostMap>
+                    <Slider className="w-1/2">
+                        {placesList.map((places, idx) => (
+                            <div key={idx}>
+                                {`${idx + 1} 일차`}
+                                {<CoursePostMap places={places}></CoursePostMap>}
+                            </div>
+                        ))}
+                    </Slider>
                 </div>
                 <div className="my-2">{dailyCourses}</div>
                 <TextBox data={content}></TextBox>
