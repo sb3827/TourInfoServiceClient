@@ -7,7 +7,6 @@ export * from './Report/Report'
 //Login
 export * from './Login/Login'
 
-
 //PlaceSearch
 export * from './PlaceSearch/PlaceSearch'
 
@@ -22,3 +21,6 @@ export * from './Place/Place'
 
 //Folder
 export * from './Folder/Folder'
+
+//Reply
+export * from './Reply/Reply'
