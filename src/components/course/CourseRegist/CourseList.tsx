@@ -6,10 +6,14 @@ import {addItemAtPosition, moveItem} from '../../../store/slices/CourseSlice'
 import {useDispatch} from 'react-redux'
 import {CartItem, DayItem} from '../../index'
 
-type DndProps = {}
+//STUB - 더미 타입
+export type Item = {
+    img: string
+    pname: string
+}
 
 //STUB -  더미
-const dummy: Item[] = [
+export const dummy: Item[] = [
     {img: 'image1.jpg', pname: 'Product 1'},
     {img: 'image2.jpg', pname: 'Product 2'},
     {img: 'image3.jpg', pname: 'Product 3'},
@@ -18,17 +22,15 @@ const dummy: Item[] = [
 ]
 //
 
-//STUB - 더미 타입
-export type Item = {
-    img: string
-    pname: string
+type DndProps = {
+    create: boolean
+    day: Item[][]
 }
 
-export const CourseList: FC<DndProps> = ({}) => {
+export const CourseList: FC<DndProps> = ({create, day}) => {
     //이 더미 데이터는 추후에 장바구니 데이터로 바꿔야함
     const items = dummy
 
-    const day = useSelector((state: RootState) => state.course)
     const dispatch = useDispatch()
 
     const onDragEnd: OnDragEndResponder = result => {
@@ -96,10 +98,10 @@ export const CourseList: FC<DndProps> = ({}) => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             {/* 장바구니 데이터 */}
-            <CartItem items={items} />
+            {create && <CartItem items={items} />}
 
             {/* 요일 데이터 */}
-            <DayItem />
+            <DayItem day={day} create={create} />
         </DragDropContext>
     )
 }
