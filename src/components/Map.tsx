@@ -7,8 +7,21 @@ import {
     useRef,
     useEffect,
     DetailedHTMLProps,
-    HTMLAttributes
+    HTMLAttributes,
+    useImperativeHandle,
+    forwardRef,
+    Ref,
+    ForwardRefExoticComponent
 } from 'react'
+
+export type PlaceData = {
+    name: string
+    lng: number
+    lat: number
+    roadAddress: string
+    localAddress: string
+    engAddress: string
+}
 
 export type Address = {
     road: string // 도로명
@@ -651,20 +664,48 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
     return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
 }
 
+export type SearchMapRef = {
+    setLocation: (index: number) => void
+}
+
 type SearchMapProps = {
-    places: PlaceProps[]
+    places: PlaceData[] | null
+    innerRef : Ref<SearchMapRef>
 } & RefAttributes<naver.maps.Map> &
     DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 // 마커들 (검색 페이지)
 // FIXME 검색 페이지 이벤트 연동 @honghyibeom
-export const SearchMap: FC<PropsWithChildren<SearchMapProps>> = ({places, ...props}) => {
+export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapProps>>(
+    ({ places, innerRef, ...props} ) => {
     const mapElement = useRef(null)
+    const [idx, setIdx] = useState<number>(0)
+
+    let map: naver.maps.Map
+    const markers: naver.maps.Marker[] = []
+    const infoWindows: naver.maps.InfoWindow[] = []
+
+    if(places == null) {
+        places = [{
+            name: "서면",
+            lng: 35.153289,
+            lat: 129.0597855,
+            roadAddress: "",
+            localAddress: "",
+            engAddress: ""
+        }]
+    }
+
+    useImperativeHandle(innerRef, () => ({
+        setLocation: (index: number) => {setIdx(index)
+        console.log(idx)
+        }
+    }))
 
     useEffect(() => {
         const {naver} = window
         if (!mapElement.current || !naver) return
         // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
-        const location = new naver.maps.LatLng(places[0].lat, places[0].lng)
+        const location = new naver.maps.LatLng(places![idx].lat, places![idx].lng)
         const maxBoundary = new naver.maps.LatLngBounds(
             new naver.maps.LatLng(31.3418403, 124.1530811),
             new naver.maps.LatLng(39.0169875, 132.6949512)
@@ -687,12 +728,9 @@ export const SearchMap: FC<PropsWithChildren<SearchMapProps>> = ({places, ...pro
             scaleControl: false // 축적 표시
         }
 
-        const map = new naver.maps.Map(mapElement.current, mapOptions)
+        map = new naver.maps.Map(mapElement.current, mapOptions)
 
-        const markers: naver.maps.Marker[] = []
-        const infoWindows: naver.maps.InfoWindow[] = []
-
-        places.map(place => {
+        places!.map(place => {
             const maker = new naver.maps.Marker({
                 map: map,
                 position: new naver.maps.LatLng(place.lat, place.lng)
@@ -701,25 +739,27 @@ export const SearchMap: FC<PropsWithChildren<SearchMapProps>> = ({places, ...pro
 
             const infowindow = new naver.maps.InfoWindow({
                 content: [
-                    '<div class="p-4">',
-                    `   <h1 class="text-darkGreen">${place.name}</h1>`,
+                    '<div class="iw_inner">',
+                    `   <h1>${place.name}</h1>`,
                     '   <div>',
-                    `       <p >[ 도로명 주소 ]<p />`,
-                    `       <p class='text-sm mb-1.5'>${place.road} <p />`,
-                    `       <p>[ 지번 주소 ]<p/>`,
-                    `       <p class='text-sm mb-1.5'>${place.local}<p/>`,
-                    `       <p>[ 영문명 주소 ] <p />`,
-                    `       <p class='text-sm'>${place.eng}<p />`,
+                    '       <p>',
+                    `           [도로명 주소] ${place.roadAddress} <br />`,
+                    `           [지  번 주소] ${place.localAddress}<br />`,
+                    `           [영문명 주소] ${place.engAddress}<br />`,
+                    '       </p>',
                     '   </div>',
                     '</div>'
                 ].join(''),
+
                 //maxWidth: 140,
-                backgroundColor: '#fff',
-                borderColor: 'lightGreen',
-                borderWidth: 2,
-                anchorSize: new naver.maps.Size(20, 20),
+                backgroundColor: '#eee',
+                borderColor: '#2db400',
+                borderWidth: 5,
+                anchorSize: new naver.maps.Size(30, 30),
                 anchorSkew: true,
-                anchorColor: '#fff'
+                anchorColor: '#eee',
+
+                pixelOffset: new naver.maps.Point(20, -20)
             })
             infoWindows.push(infowindow)
         })
@@ -758,7 +798,9 @@ export const SearchMap: FC<PropsWithChildren<SearchMapProps>> = ({places, ...pro
         function getClickHandler(seq: number) {
             return function (e: any) {
                 var marker = markers[seq],
-                    infoWindow = infoWindows[seq]
+                    infoWindow = infoWindows[seq],
+                    position = marker.getPosition()
+                map.panTo(position)
 
                 if (infoWindow.getMap()) {
                     infoWindow.close()
@@ -771,11 +813,12 @@ export const SearchMap: FC<PropsWithChildren<SearchMapProps>> = ({places, ...pro
         for (var i = 0, ii = markers.length; i < ii; i++) {
             naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i))
         }
-        infoWindows[0].open(map, markers[0])
-    }, [places])
+        infoWindows[idx].open(map, markers[idx])
+    }, [places, idx])
 
-    return <div ref={mapElement} {...props}></div>
-}
+    return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>;
+
+})
 
 function getCenter(latlngs: LatLng[]): naver.maps.LatLng {
     let lat = 0,

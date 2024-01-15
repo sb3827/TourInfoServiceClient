@@ -26,7 +26,7 @@ export const Slider: FC<PropsWithChildren<DivProps>> = ({
     ...props
 }) => {
     const className = makeClassName(
-        'flex justify-center h-full border rounded-lg bg-slate-300 border--30',
+        'flex justify-center h-full border rounded-lg border--30',
         _className
     )
     const slides = React.Children.map(children, (child, index) => (

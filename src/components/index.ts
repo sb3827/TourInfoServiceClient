@@ -40,6 +40,7 @@ export * from './Texts'
 export * from './place/Slider'
 export * from './place/SearchInfo'
 export * from './place/Board'
+export * from './place/BoardToggle'
 
 // reply component
 export * from './Comment'
@@ -54,6 +55,9 @@ export * from './Sidebar/SidebarLogin'
 
 //course
 export * from './course/CourseInfo'
+export * from './course/CourseRegist/CartItem'
+export * from './course/CourseRegist/CourseList'
+export * from './course/CourseRegist/DayItem'
 
 //user
 export * from './user/SearchUserInfo'
@@ -100,3 +104,6 @@ export * from './LoadingSpinner'
 
 //Footer
 export * from './Footer'
+
+//BoardBox
+export * from './place/BoardBox'
