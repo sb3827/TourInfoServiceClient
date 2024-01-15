@@ -71,6 +71,39 @@ export const DropdownIcon: FC<PropsWithChildren<DropdownProps>> = props => {
     )
 }
 
+type DropbtnProps = {
+    itemTexts: string[] // 각 항목의 텍스트 배열
+    itemActions: (() => void)[] // 각 항목의 동작을 나타내는 함수 배열
+    itemEnabled: boolean[] // 각 항목의 활성화 여부를 나타내는 boolean 배열
+}
+
+export const DropIcon: FC<PropsWithChildren<DropbtnProps>> = props => {
+    const handleItemClick = (index: number) => {
+        console.log('clicked')
+        props.itemActions[index]()
+    }
+
+    return (
+        <div className={`dropdown dropdown-bottom dropdown-end`}>
+            <label tabIndex={0} className="m-1">
+                {props.children}
+            </label>
+            <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                {props.itemTexts.map(
+                    (text, index) =>
+                        props.itemEnabled[index] && (
+                            <li key={index} onClick={() => handleItemClick(index)}>
+                                <span>{text}</span>
+                            </li>
+                        )
+                )}
+            </ul>
+        </div>
+    )
+}
+
 //Dropdown Select 컴포넌트 - children으로 select 넣으면 사용가능
 
 export const DropdownSelect: FC<PropsWithChildren> = ({children}) => {

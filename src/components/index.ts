@@ -6,6 +6,7 @@ export * from './Rating'
 export * from './Box'
 export * from './Footer'
 export * from './Logo'
+export * from './SimpleMap'
 
 // Main
 export * from './Main/MainItem'
@@ -39,6 +40,7 @@ export * from './Texts'
 export * from './place/Slider'
 export * from './place/SearchInfo'
 export * from './place/Board'
+export * from './place/BoardToggle'
 
 // reply component
 export * from './Comment'
@@ -53,13 +55,16 @@ export * from './Sidebar/SidebarLogin'
 
 //course
 export * from './course/CourseInfo'
+export * from './course/CourseRegist/CartItem'
+export * from './course/CourseRegist/CourseList'
+export * from './course/CourseRegist/DayItem'
 
 //user
 export * from './user/SearchUserInfo'
+export * from './user/BusinessMemberSignup'
+export * from './user/GeneralMemberSignup'
 export * from './user/FindEmail'
 export * from './user/FindPassword'
-export * from './user/GeneralMemberSignup'
-export * from './user/BusinessMemberSignup'
 
 // /mypage
 export * from './myPage/ChangeInfo'
@@ -99,3 +104,6 @@ export * from './LoadingSpinner'
 
 //Footer
 export * from './Footer'
+
+//BoardBox
+export * from './place/BoardBox'
