@@ -1,7 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import type {Item} from '../../components/index'
 
 // 개별 객체에 대한 인터페이스 정의
+interface Item {
+    img: string
+    pname: string
+}
 
 interface AddItem {
     index: number // 아이템을 추가할 날짜의 인덱스
