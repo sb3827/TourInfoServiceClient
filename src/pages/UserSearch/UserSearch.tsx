@@ -1,7 +1,9 @@
-import {FC, PropsWithChildren, useState} from 'react'
+import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {Box, SearchInput, Button, SearchUserInfo, BoardBox} from '../../components/index'
 import { UserSearchData } from "../../data/User/User";
 import { getSearchUserInfo } from "../../api/UserSearch/UserSearch";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
 
 export const UserSearch = () => {
@@ -16,6 +18,8 @@ export const UserSearch = () => {
         setSearchValue(value)
     }
 
+    const user = useSelector((state: RootState) => state.login.mno)!
+
     async function onUserList(
         e?: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>
     ) {
@@ -28,12 +32,13 @@ export const UserSearch = () => {
         }
 
         try {
-            const data = await getSearchUserInfo(searchValue)
-            setUserInfoData(data)
+            console.log(user);
+            const data = await getSearchUserInfo(searchValue, user || null);
+            setUserInfoData(data);
             console.log(data);
-        } catch (err) {
-            console.log(err);
-            alert('서버와 연결이 끊겼습니다.')
+        } catch (error) {
+            // 오류 처리
+            console.error(error);
         }
     }
 
@@ -46,9 +51,9 @@ export const UserSearch = () => {
                 onKeyDown={onUserList}
             />
             <BoardBox>
-                    {userInfoData && 
+                    {userInfoData &&
                     userInfoData.map((data: UserSearchData) => (
-                      <SearchUserInfo userInfo = {data}  />
+                     !(data.mno == user) &&  <SearchUserInfo userInfo = {data}   />
                     ))}
             </BoardBox>
             </Box>

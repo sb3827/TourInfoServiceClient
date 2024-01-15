@@ -75,6 +75,7 @@ export type UserSearchData = {
     image: string
     followings: number
     followers: number
+    followCheck: boolean
 }
 
 // 사용자 정보

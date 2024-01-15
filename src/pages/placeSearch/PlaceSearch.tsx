@@ -89,7 +89,10 @@ export const PlaceSearch = () => {
                     </div>
                     <div className="w-1/2 border border-gray-300 rounded-lg">
                         {/* MapAPI 컴포넌트 */}
-                        <SearchMap places={placeInfoData} className="w-full h-full" innerRef={searchMapRef} />
+                        { placeInfoData ? 
+                          <SearchMap places={placeInfoData} className="w-full h-full" innerRef={searchMapRef} />
+                        : <SearchMap places={null} className="w-full h-full" innerRef={searchMapRef} />
+                        }
                     </div>
                 </div>
             </div>
