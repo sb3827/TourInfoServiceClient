@@ -20,17 +20,19 @@ export const Board: FC<BoardProps> = ({placeBoardData}) => {
         <p>이미지가 없어요!</p>
       );
 
-      //FIXME 상백 - 장소 포스팅 페이지로 이동시키고싶어요
+
       const handleReviewClick = () => {
-        navigate(`/board/place/posting/bno=${placeBoardData?.bno}`)
+        navigate(`/board/place/posting?bno=${placeBoardData?.bno}`)
     }
+
+    
 
     return (
         <div className="border border-gray-200 shadow-xl card lg:card-side bg-base-100">
             <div className="w-1/2 h-72">
                 <Slider>{imageArray}</Slider>
             </div>
-            <div className="card-body">
+            <div className="cursor-pointer card-body" onClick={handleReviewClick}>
                         <div className="flex justify-start">
                             <h2 className="card-title">제목 : {placeBoardData?.title}</h2>
                         </div>
@@ -48,9 +50,6 @@ export const Board: FC<BoardProps> = ({placeBoardData}) => {
                         </div>
                         <div className="flex justify-end">
                             <h2 className="card-title">작성자 : {placeBoardData?.writer}</h2>
-                        </div>
-                        <div className="justify-end card-actions">
-                            <Button onClick={handleReviewClick} className="text-white bg-darkGreen" value={'보러가기'} />
                         </div>
             </div>
         </div>
