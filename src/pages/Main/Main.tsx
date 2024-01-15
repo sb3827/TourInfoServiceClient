@@ -1,4 +1,6 @@
-import {FC, useState} from 'react'
+import {FC, useState, useEffect} from 'react'
+import {useNavigate} from 'react-router-dom'
+import {useSelector, useDispatch} from 'react-redux'
 import {
     SearchInput,
     Subtitle,
@@ -9,34 +11,81 @@ import {
     CoursePostMap,
     MainSlider
 } from '../../components'
+import {RootState} from '../../store/rootReducer'
 import dummyPic from '../../dummy data/dummypic.jpg'
 import dummyPic2 from '../../dummy data/dummypic2.jpg'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faMapLocationDot, faRoute, faUsers} from '@fortawesome/free-solid-svg-icons'
 import MainFilter from '../../components/Main/MainFilter'
 import {SwiperSlide} from 'swiper/react'
+import {GetMainitemRequest} from '../../api/Main/Main'
+import {setSearchValueFromMain} from '../../store/slices/MainSlice'
+import {mainItemData} from '../../data/Main/Main'
 
 type MainProps = {}
 
 export const Main: FC<MainProps> = () => {
     const [searchValue, setSearchValue] = useState<string>('')
     const [filterValue, setFilterValue] = useState<string>('place')
-
-    // 검색
-    function onSearch(value: string) {
-        setSearchValue(value)
-        console.log('searchInputValue : ' + filterValue + value)
-    }
+    const [fetchedData, setFetchedData] = useState<mainItemData | null>(null)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     // 상세 페이지 이동
-    function detailView() {
+    async function detailView() {
         alert('상세페이지 이동')
     }
 
-    //filterValue 변경
+    //searchValue state 변경
+    function onSetSearchValue(value: string) {
+        setSearchValue(value)
+    }
+
+    // filter value state 변경
     function onSetFilterValue(filter: string) {
         setFilterValue(filter)
     }
+
+    // 검색
+    async function onSearch(
+        e?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement>
+    ) {
+        if (
+            e?.type === 'keydown' &&
+            (e as React.KeyboardEvent<HTMLInputElement>).key !== 'Enter'
+        ) {
+            return
+        }
+        if (filterValue === 'place') {
+            dispatch(setSearchValueFromMain(searchValue))
+            navigate(`/board/place`)
+        }
+        if (filterValue === 'course') {
+            dispatch(setSearchValueFromMain(searchValue))
+            navigate(`/board/course`)
+        }
+        if (filterValue === 'user') {
+            dispatch(setSearchValueFromMain(searchValue))
+            navigate(`/search-user`)
+        }
+    }
+
+    // 메인 아이템 로딩 useEffect
+    const mno = useSelector((state: RootState) => state.login.mno)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await GetMainitemRequest(mno)
+                console.log('Fetched data:', data)
+                setFetchedData(data)
+            } catch (error) {
+                console.error('Error fetching data:', error)
+            }
+        }
+
+        fetchData()
+    }, [mno])
 
     return (
         <div className="flex justify-center w-full">
@@ -72,9 +121,18 @@ export const Main: FC<MainProps> = () => {
                         <SearchInput
                             value={searchValue}
                             className="w-2/3"
-                            onChange={onSearch}
+                            onChange={onSetSearchValue}
+                            onKeyDown={e => {
+                                if (e.key === 'Enter') {
+                                    onSearch(e)
+                                }
+                            }}
                         />
-                        <Button className="text-white bg-darkGreen" value={'검색'} />
+                        <Button
+                            className="text-white bg-darkGreen"
+                            value={'검색'}
+                            onClick={onSearch}
+                        />
                     </div>
                 </div>
                 <div className="flex flex-col items-center">
@@ -84,11 +142,14 @@ export const Main: FC<MainProps> = () => {
                     />
                     <div className="container mx-10" onClick={detailView}>
                         <div className="w-full h-full mb-20">
-                            <MostLikedMainItem
-                                title="장소명"
-                                description="장소 설명"
-                                image={dummyPic}
-                            />
+                            {fetchedData && fetchedData.data.mostBoardPlace && (
+                                <MostLikedMainItem
+                                    title={fetchedData.data.mostBoardPlace[0].name}
+                                    image={
+                                        fetchedData.data.mostBoardPlace[0].src ?? dummyPic
+                                    }
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -96,13 +157,23 @@ export const Main: FC<MainProps> = () => {
                 <div className="px-5 py-10 mb-20 rounded-3xl bg-emerald-50">
                     <Subtitle
                         className="flex items-start mb-4 ml-16 font-bold text-cyan-600"
-                        value="최근 올라온 장소"
+                        value="최근 포스팅"
                     />
                     <MainSlider preView={3}>
                         <SwiperSlide>
+                            {fetchedData && fetchedData.data.recentlyBoard && (
+                                <MainItem
+                                    title={fetchedData.data.recentlyBoard[0].title}
+                                    image={
+                                        fetchedData.data.recentlyBoard[0].src ?? dummyPic
+                                    }
+                                    onClick={detailView}
+                                />
+                            )}
+                        </SwiperSlide>
+                        <SwiperSlide>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -110,7 +181,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -118,7 +188,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -126,15 +195,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
-                                image={dummyPic2}
-                                onClick={detailView}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <MainItem
-                                title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -153,7 +213,6 @@ export const Main: FC<MainProps> = () => {
                             <div className="flex">
                                 <MostLikedCourseItem
                                     title="제목"
-                                    description="코스 설명"
                                     image={dummyPic2}
                                     onClick={detailView}
                                 />
@@ -184,7 +243,6 @@ export const Main: FC<MainProps> = () => {
                             <div className="flex">
                                 <MostLikedCourseItem
                                     title="제목"
-                                    description="코스 설명"
                                     image={dummyPic2}
                                     onClick={detailView}
                                 />
@@ -223,7 +281,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide key={1} virtualIndex={1}>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -231,7 +288,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide key={2} virtualIndex={2}>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -239,7 +295,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide key={3} virtualIndex={3}>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -247,7 +302,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide key={4} virtualIndex={4}>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -255,7 +309,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide key={5} virtualIndex={5}>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -271,7 +324,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide key={1} virtualIndex={1}>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -279,7 +331,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide key={2} virtualIndex={2}>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -287,7 +338,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide key={3} virtualIndex={3}>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -295,7 +345,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide key={4} virtualIndex={4}>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
@@ -303,7 +352,6 @@ export const Main: FC<MainProps> = () => {
                         <SwiperSlide key={5} virtualIndex={5}>
                             <MainItem
                                 title="장소명"
-                                description="장소 설명"
                                 image={dummyPic2}
                                 onClick={detailView}
                             />
