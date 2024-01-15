@@ -31,7 +31,7 @@ export const Main: FC<MainProps> = () => {
     const dispatch = useDispatch()
 
     // 상세 페이지 이동
-    function mostLikedDetailView(index: number) {
+    function mostPostingDetailView(index: number) {
         if (fetchedData && fetchedData.data.mostBoardPlace[index].pno) {
             navigate(`/board/place/${fetchedData.data.mostBoardPlace[index].pno}`)
         }
@@ -51,6 +51,14 @@ export const Main: FC<MainProps> = () => {
                     `/board/place/posting?bno=${fetchedData.data.recentlyBoard[index].bno}`
                 )
             }
+        }
+    }
+
+    function mostLikedCourseDetailView(index: number) {
+        if (fetchedData && fetchedData.data.mostLikeCourse[index].bno) {
+            navigate(
+                `/board/course/posting?bno=${fetchedData.data.mostLikeCourse[index].bno}`
+            )
         }
     }
 
@@ -195,7 +203,7 @@ export const Main: FC<MainProps> = () => {
                                     (mostLiked, index) => (
                                         <SwiperSlide
                                             key={index}
-                                            onClick={() => mostLikedDetailView(index)}>
+                                            onClick={() => mostPostingDetailView(index)}>
                                             <MostLikedMainItem
                                                 title={mostLiked.name}
                                                 image={mostLiked.src ?? noImage}
@@ -238,7 +246,9 @@ export const Main: FC<MainProps> = () => {
                         {fetchedData &&
                             fetchedData.data.mostLikeCourse &&
                             fetchedData.data.mostLikeCourse.map((course, index) => (
-                                <SwiperSlide key={index}>
+                                <SwiperSlide
+                                    key={index}
+                                    onClick={() => mostLikedCourseDetailView(index)}>
                                     <div className="flex">
                                         <MostLikedCourseItem
                                             title={course.title}
