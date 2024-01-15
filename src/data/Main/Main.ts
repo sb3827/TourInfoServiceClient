@@ -10,6 +10,7 @@ export type mainItemData = {
             bno: number
             title: string
             src: string | null
+            course: boolean | null
         }[]
         mostLikeCourse: {
             bno: number
@@ -20,11 +21,13 @@ export type mainItemData = {
             bno: number
             title: string
             src: string | null
+            course: boolean | null
         }[]
         adBoard: {
             bno: number
             title: string
             src: string | null
+            course: boolean | null
         }[]
     }
 }

@@ -39,19 +39,46 @@ export const Main: FC<MainProps> = () => {
 
     function recentlyDetailView(index: number) {
         if (fetchedData && fetchedData.data.recentlyBoard[index].bno) {
-            navigate(`/board/posting/bno=${fetchedData.data.recentlyBoard[index].bno}`)
+            console.log(
+                'isCourse ====>>> ' + fetchedData.data.recentlyBoard[index].course
+            )
+            if (fetchedData.data.recentlyBoard[index].course === true) {
+                navigate(
+                    `/board/course/posting?bno=${fetchedData.data.recentlyBoard[index].bno}`
+                )
+            } else {
+                navigate(
+                    `/board/place/posting?bno=${fetchedData.data.recentlyBoard[index].bno}`
+                )
+            }
         }
     }
 
     function followDetailView(index: number) {
         if (fetchedData && fetchedData.data.followBoard[index].bno) {
-            navigate(`/board/posting/bno=${fetchedData.data.followBoard[index].bno}`)
+            if (fetchedData.data.followBoard[index].course === true) {
+                navigate(
+                    `/board/course/posting?bno=${fetchedData.data.followBoard[index].bno}`
+                )
+            } else {
+                navigate(
+                    `/board/place/posting?bno=${fetchedData.data.followBoard[index].bno}`
+                )
+            }
         }
     }
 
     function adDetailView(index: number) {
         if (fetchedData && fetchedData.data.adBoard[index].bno) {
-            navigate(`/board/posting/bno=${fetchedData.data.adBoard[index].bno}`)
+            if (fetchedData.data.adBoard[index].course === true) {
+                navigate(
+                    `/board/course/posting?bno=${fetchedData.data.adBoard[index].bno}`
+                )
+            } else {
+                navigate(
+                    `/board/place/posting?bno=${fetchedData.data.adBoard[index].bno}`
+                )
+            }
         }
     }
 
