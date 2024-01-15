@@ -86,6 +86,7 @@ export * from './myPage/ShowUserInfo/UserAvatar'
 export * from './myPage/ShowUserInfo/ShowMyFollowing'
 export * from './myPage/ShowUserInfo/ShowTotalLikes'
 export * from './myPage/ShowUserInfo/ShowFollowModal'
+export * from './myPage/ShowUserInfo/MyCart'
 
 // /mypage/MyPocket
 export * from './myPage/MyPocket/MyPocketList'
