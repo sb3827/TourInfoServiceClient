@@ -7,17 +7,29 @@ import {setEmail} from '../../store/slices/SignupSlice'
 import {SignupData} from '../../data/Signup/Signup'
 
 export const GeneralMemberSignup = () => {
-    const [userEmail, setUserEmail] = useState<string>('')
-    const [selectValue, setSelectValue] = useState<string>('@naver.com')
-    const [userPassword, setUserPassword] = useState<string>('')
-    const [repeatPassword, setRepeatPassword] = useState<string>('')
-    const [userName, setUserName] = useState<string>('')
-    const [userBirthDate, setUserBirthDate] = useState<string>('')
-    const [userPhoneNumber, setUserPhoneNumber] = useState<string>('')
-    const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
+    const [formData, setFormData] = useState({
+        userEmail: '',
+        selectValue: '@naver.com',
+        userPassword: '',
+        repeatPassword: '',
+        userName: '',
+        userBirthDate: '',
+        userPhoneNumber: ''
+    })
+
+    const {
+        userEmail,
+        selectValue,
+        userPassword,
+        repeatPassword,
+        userName,
+        userBirthDate,
+        userPhoneNumber
+    } = formData
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
 
     //이메일 검증
     const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
@@ -25,31 +37,32 @@ export const GeneralMemberSignup = () => {
 
     // 이메일 도메인 select
     function onChangeSelect(e: React.ChangeEvent<HTMLSelectElement>) {
-        setSelectValue(e.target.value)
+        setFormData(prevState => ({...prevState, selectValue: e.target.value}))
     }
 
-    //이메일 state 변경
+    // 이메일 state 변경
     function onUserEmailChange(value: string) {
-        setUserEmail(value)
+        setFormData(prevState => ({...prevState, userEmail: value}))
     }
-    //비밀번호 state 변경
+
+    // 비밀번호 state 변경
     function onUserPasswordChange(value: string) {
-        setUserPassword(value)
+        setFormData(prevState => ({...prevState, userPassword: value}))
     }
     function onRepeatPasswordChange(value: string) {
-        setRepeatPassword(value)
+        setFormData(prevState => ({...prevState, repeatPassword: value}))
     }
     // 이름 state 변경
     function onUserNameChange(value: string) {
-        setUserName(value)
+        setFormData(prevState => ({...prevState, userName: value}))
     }
     // 생년월일 state 변경
     function onUserBirthDateChange(value: string) {
-        setUserBirthDate(value)
+        setFormData(prevState => ({...prevState, userBirthDate: value}))
     }
     // 휴대폰번호 state 변경
     function onUserPhoneNumberChange(value: string) {
-        setUserPhoneNumber(value)
+        setFormData(prevState => ({...prevState, userPhoneNumber: value}))
     }
 
     // 회원가입 데이터 유효성 검사
