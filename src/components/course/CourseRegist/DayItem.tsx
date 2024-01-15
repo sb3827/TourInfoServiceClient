@@ -69,10 +69,11 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                 className="flex w-full h-20 ">
                                 {dayItem.map((item, index) => (
                                     <Draggable
-                                        key={item.name + index}
+                                        isDragDisabled={!create}
+                                        key={item.pname + index}
                                         //추후에 pname대신에 pno를 주는게 맞을거 같음
                                         draggableId={
-                                            item.name + '-' + dayIndex + '-' + index
+                                            item.pname + '-' + dayIndex + '-' + index
                                         }
                                         index={index}>
                                         {provided => (
@@ -93,10 +94,10 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                                     )}
                                                 </div>
                                                 <Spot
-                                                    key={item.name + index}
-                                                    src={item.src}
+                                                    key={item.pname + index}
+                                                    src={item.img}
                                                     isRegister={false}>
-                                                    {item.name}
+                                                    {item.pname}
                                                 </Spot>
                                             </div>
                                         )}

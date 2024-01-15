@@ -4,7 +4,7 @@ import {RootState} from '../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 import {addItemAtPosition, moveItem} from '../../../store/slices/CourseSlice'
 import {useDispatch} from 'react-redux'
-import {CartItem, DayItem, Item} from '../../index'
+import {CartItem, DayItem} from '../../index'
 
 //STUB - 더미 타입
 export type Item = {
@@ -13,16 +13,21 @@ export type Item = {
 }
 
 //STUB -  더미
-const dummy: Item[] = [
-    {pno: 1, src: 'image1.jpg', name: 'Product 1'},
-    {pno: 2, src: 'image2.jpg', name: 'Product 2'},
-    {pno: 3, src: 'image3.jpg', name: 'Product 3'},
-    {pno: 4, src: 'image4.jpg', name: 'Product 4'},
-    {pno: 5, src: 'image5.jpg', name: 'Product 5'}
+export const dummy: Item[] = [
+    {img: 'image1.jpg', pname: 'Product 1'},
+    {img: 'image2.jpg', pname: 'Product 2'},
+    {img: 'image3.jpg', pname: 'Product 3'},
+    {img: 'image4.jpg', pname: 'Product 4'},
+    {img: 'image5.jpg', pname: 'Product 5'}
 ]
 //
 
-export const CourseList: FC<DndProps> = ({}) => {
+type DndProps = {
+    create: boolean
+    day: Item[][]
+}
+
+export const CourseList: FC<DndProps> = ({create, day}) => {
     //이 더미 데이터는 추후에 장바구니 데이터로 바꿔야함
     const items = dummy
 
@@ -39,7 +44,7 @@ export const CourseList: FC<DndProps> = ({}) => {
 
         for (let i = 0; i < day[dropId].length; i++) {
             if (
-                day[Number(result.destination.droppableId.split('-')[1])][i].name ==
+                day[Number(result.destination.droppableId.split('-')[1])][i].pname ==
                     result.draggableId.split('-')[0] &&
                 !(result.source.droppableId === result.destination.droppableId)
             ) {
@@ -93,7 +98,7 @@ export const CourseList: FC<DndProps> = ({}) => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             {/* 장바구니 데이터 */}
-            {items && <CartItem items={items} dragDisable={false} />}
+            {create && <CartItem items={items} />}
 
             {/* 요일 데이터 */}
             <DayItem day={day} create={create} />
