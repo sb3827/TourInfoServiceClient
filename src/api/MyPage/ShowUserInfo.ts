@@ -29,8 +29,8 @@ export const onChangeUserData = async (userInfoDTO: user): Promise<void> => {
 }
 
 // 마이페이지에 사용될 사용자 프로필 정보
-export const ShowUserProfile = async (name: string): Promise<userProfile> => {
-    const response = await commonAxios.get(`/users/profile?name=${name}`)
+export const ShowUserProfile = async (mno: number): Promise<userProfile> => {
+    const response = await commonAxios.get(`/users/profile?mno=${mno}`)
     return response.data
 }
 
@@ -42,13 +42,13 @@ export const ShowUserReply = async (mno: number): Promise<userReply> => {
 
 // 작성 게시글
 export const ShowUserBoard = async (mno: number): Promise<userBoard> => {
-    const response = await commonAxios.get(`/board/place/posting/mno?mno=${mno}`)
+    const response = await commonAxios.get(`/board/place/posting/member?mno=${mno}`)
     return response.data
 }
 
 // 작성 코스 게시글
 export const ShowUserCourse = async (mno: number): Promise<userCourse> => {
-    const response = await commonAxios.get(`/board/course/posting/mno?mno=${mno}`)
+    const response = await commonAxios.get(`/board/course/posting/member?mno=${mno}`)
     return response.data
 }
 
