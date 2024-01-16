@@ -3,30 +3,31 @@ import {
     ShowFolderAll,
     registerFolder,
     updateFolder,
-    deleteFolder
+    deleteFolder,
+    ShowFolderInfo
 } from './../../../api/Folder/Folder'
 import {
     folderAll,
+    folder,
     registerFolderData,
-    updateFolderData,
-    deleteFolderData
+    updateFolderData
 } from './../../../data/Folder/Folder'
-import {Spot, MyPocketModal, MyPocketList} from './../../index'
+import {Spot, MyPocketModal, Subtitle} from './../../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faPenToSquare, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 
-//TODO - 버튼 크기, spot div 크기
+//TODO - folder 삭제 오류, 공백 처리? , 계속 랜더링되는 문제
 
 export const MyCart: FC = () => {
     const [folder, setFolder] = useState<folderAll>()
-    const [selectedFno, setSelectedFno] = useState<number | null>(1)
-    const [newButtonName, setNewButtonName] = useState<string>('')
+    const [selectedFno, setSelectedFno] = useState<number | null>(1) // 페이지 시작할때 첫번째 폴더 선택
+    const [newButtonName, setNewButtonName] = useState<string>('') // 폴더 이름
     const [isFolderNameModalOpen, setIsFolderNameModalOpen] = useState(false)
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editingButtonIndex, setEditingButtonIndex] = useState<number | null>(null)
-    const [folderToDelete, setFolderToDelete] = useState<number | null>(null)
+    const [isAddButtonVisible, setAddButtonVisible] = useState(true) // 추가 버튼 숨김 여부 상태
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
     // const userMno = 2
@@ -35,7 +36,7 @@ export const MyCart: FC = () => {
         try {
             const userFolderData = await ShowFolderAll(userMno)
             setFolder(userFolderData)
-            console.log(userFolderData)
+            console.log(userFolderData) // 추후에 삭제 예정
         } catch (error) {
             console.error('error', error)
         }
@@ -43,11 +44,10 @@ export const MyCart: FC = () => {
 
     useEffect(() => {
         fetchData()
-        console.log(folder)
     }, [])
 
     const handleButtonClick = (fno: number) => {
-        console.log(`${fno} selected`)
+        console.log(`${fno} selected`) // 추후에 삭제 예정
         setSelectedFno(prev => (prev === fno ? null : fno))
     }
 
@@ -61,6 +61,7 @@ export const MyCart: FC = () => {
         setIsFolderNameModalOpen(false)
     }
 
+    // 폴더 생성
     const handleModalSubmit = async () => {
         if (!newButtonName.trim()) {
             return
@@ -72,11 +73,15 @@ export const MyCart: FC = () => {
         }
 
         try {
-            const response = await registerFolder(newFolderData)
+            await registerFolder(newFolderData)
+
+            const folderResponse = await ShowFolderInfo(userMno)
 
             const newFolder = {
-                // fno는 auto-increment인데 이 부분을 값을 어떻게 설정해야할지 ?
-                fno: 500,
+                fno:
+                    folderResponse.data.length > 0
+                        ? folderResponse.data[folderResponse.data.length - 1].fno
+                        : 1,
                 title: newFolderData.title,
                 pno: [],
                 name: [],
@@ -89,6 +94,7 @@ export const MyCart: FC = () => {
         } catch (error) {
             console.error('Error', error)
         }
+        alert('등록 완료')
         closeFolderNameModal()
     }
 
@@ -122,7 +128,6 @@ export const MyCart: FC = () => {
 
         try {
             await updateFolder(updateFolderData)
-            console.log('수정내용 : ' + updateFolderData)
 
             setFolder((prev: folderAll | undefined) => {
                 const updatedData = (prev?.data || []).map(folder => {
@@ -143,7 +148,7 @@ export const MyCart: FC = () => {
         } catch (error) {
             console.error('Error', error)
         }
-
+        alert('수정 완료')
         closeEditModal()
     }
 
@@ -159,7 +164,6 @@ export const MyCart: FC = () => {
             setFolder((prev: folderAll | undefined) => {
                 if (prev) {
                     const updatedData = prev.data.filter(folder => folder.fno !== fno)
-
                     return {
                         ...prev,
                         data: updatedData
@@ -175,69 +179,75 @@ export const MyCart: FC = () => {
 
     return (
         <div>
-            <div className="flex w-full mt-8 bg-gray-200 border h-80 ">
-                {folder &&
-                    Array.isArray(folder.data) &&
-                    folder.data.map(folderInfo => (
-                        <div key={folderInfo.fno} className="flex flex-col">
-                            <div className="w-40 h-12 ">
-                                {folderInfo.fno !== null && (
-                                    <div className="flex flex-row bg-blue-200 border rounded-tr-xl">
-                                        <button
-                                            className={`p-2 h-12 text-white  ${
-                                                selectedFno === folderInfo.fno
-                                                    ? 'bg-gray-600'
-                                                    : 'bg-blue-200'
-                                            }`}
+            <div className="w-full mt-8 overflow-y-auto bg-orange-200 border h-96">
+                <div className="flex justify-start w-full h-12 border">
+                    {folder &&
+                        Array.isArray(folder.data) &&
+                        folder.data
+                            .sort((a, b) => a.fno - b.fno) // fno 순서대로 정렬
+                            .map(folderInfo => (
+                                <div className="inline-block">
+                                    <button
+                                        key={folderInfo.fno}
+                                        className={`p-2 h-12 w-28 text-black ${
+                                            selectedFno === folderInfo.fno
+                                                ? 'bg-gray-400'
+                                                : 'bg-white'
+                                        }`}
+                                        onClick={() => handleButtonClick(folderInfo.fno)}>
+                                        {folderInfo.title}
+                                        <FontAwesomeIcon
+                                            icon={faPenToSquare}
+                                            className="ml-2 text-gray-500 cursor-pointer"
+                                            onClick={() => openEditModal(folderInfo.fno)}
+                                        />
+                                    </button>
+                                    <button className="w-8 h-12 ">
+                                        <FontAwesomeIcon
+                                            icon={faTrash}
                                             onClick={() =>
-                                                handleButtonClick(folderInfo.fno)
-                                            }>
-                                            {folderInfo.title}
-                                            <button>
-                                                <FontAwesomeIcon
-                                                    icon={faPenToSquare}
-                                                    className="ml-2 text-gray-500 cursor-pointer"
-                                                    onClick={() =>
-                                                        openEditModal(folderInfo.fno)
-                                                    }
-                                                />
-                                            </button>
-                                        </button>
-                                        <button className="w-8 h-12 ">
-                                            <FontAwesomeIcon
-                                                icon={faTrash}
-                                                onClick={() =>
-                                                    handleDeleteFolder(folderInfo.fno)
-                                                }
-                                                className="ml-2 cursor-pointer"
-                                            />
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                            <div className="flex flex-row w-full bg-cyan-400">
-                                {Array.isArray(folderInfo.pno) &&
-                                    folderInfo.fno === selectedFno &&
-                                    folderInfo.pno.map((pno, index) =>
-                                        pno !== null ? (
-                                            <div key={index} className="w-full">
-                                                <Spot
-                                                    src={folderInfo.src[index]} // null 값이어도 렌더링
-                                                    isRegister={true}>
-                                                    {folderInfo.name[index]}
-                                                </Spot>
-                                            </div>
-                                        ) : null
-                                    )}
-                            </div>
-                        </div>
-                    ))}
-
-                <button
-                    className="w-12 h-12 text-xl bg-white border-black"
-                    onClick={openFolderNameModal}>
-                    <FontAwesomeIcon icon={faPlus} />
-                </button>
+                                                handleDeleteFolder(folderInfo.fno)
+                                            }
+                                            className="ml-2 cursor-pointer"
+                                        />
+                                    </button>
+                                </div>
+                            ))}
+                    {folder && Array.isArray(folder.data) && folder.data.length < 7 && (
+                        <button
+                            className="w-12 h-12 text-xl bg-white border-black"
+                            onClick={openFolderNameModal}>
+                            <FontAwesomeIcon icon={faPlus} />
+                        </button>
+                    )}
+                </div>
+                <div className="flex">
+                    {folder &&
+                        Array.isArray(folder.data) &&
+                        folder.data
+                            .filter(folderInfo => folderInfo.fno === selectedFno)
+                            .map(folderInfo => (
+                                <div
+                                    key={folderInfo.fno}
+                                    className="flex flex-row w-full">
+                                    {Array.isArray(folderInfo.pno) &&
+                                        folderInfo.pno.map((pno, index) =>
+                                            pno !== null ? (
+                                                <div
+                                                    key={index}
+                                                    className="flex flex-row">
+                                                    <Spot
+                                                        src={folderInfo.src[index]}
+                                                        isRegister={true}>
+                                                        {folderInfo.name[index]}
+                                                    </Spot>
+                                                </div>
+                                            ) : null
+                                        )}
+                                    {folderInfo.title && <MyPocketModal />}
+                                </div>
+                            ))}
+                </div>
             </div>
 
             {/* 폴더 이름 지정하는 모달 */}
@@ -289,7 +299,6 @@ export const MyCart: FC = () => {
                     </div>
                 </div>
             )}
-            <MyPocketModal />
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCartShopping, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {FC, useState, useEffect} from 'react'
-import {MyPocketList, Spot} from './../../index'
+import {MyPocketList, Spot, MyCart} from './../../index'
 import {ShowFolderAll} from './../../../api/Folder/Folder'
 import {folderAll} from './../../../data/Folder/Folder'
 
@@ -60,53 +60,7 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
                         </div>
                         <div>
                             <h1>My Cart</h1>
-                            {/* <MyPocketList /> */}
-                            <div className="flex w-full mt-8 overflow-y-auto bg-gray-200 border h-80 ">
-                                {folder &&
-                                    Array.isArray(folder.data) &&
-                                    folder.data.map(folderInfo => (
-                                        <div>
-                                            <div className="flex">
-                                                {folderInfo &&
-                                                    Array.isArray(folderInfo.pno) &&
-                                                    folderInfo.pno.map((pno, index) => {
-                                                        if (
-                                                            pno !== null ||
-                                                            folderInfo.src[index] !==
-                                                                null ||
-                                                            folderInfo.name[index] !==
-                                                                null
-                                                        ) {
-                                                            return (
-                                                                <div
-                                                                    key={index}
-                                                                    className="flex ">
-                                                                    <Spot
-                                                                        src={
-                                                                            folderInfo
-                                                                                .src[
-                                                                                index
-                                                                            ]
-                                                                        }
-                                                                        isRegister={
-                                                                            false
-                                                                        }>
-                                                                        {
-                                                                            folderInfo
-                                                                                .name[
-                                                                                index
-                                                                            ]
-                                                                        }
-                                                                    </Spot>
-                                                                </div>
-                                                            )
-                                                        }
-                                                        return null
-                                                    })}
-                                            </div>
-                                        </div>
-                                    ))}
-                            </div>
+                            <MyCart />
                         </div>
                     </div>
                 </div>
