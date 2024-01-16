@@ -18,6 +18,8 @@ import {getSearchPlaceInfo} from './../../../api'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 
+//TODO -  category가 sight일때 등록안되는 오류
+
 type MyPocketModalProps = {
     selectedComponent?: number
 }
@@ -39,6 +41,9 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
     const [placeEng, setPlaceEng] = useState<string>('')
     const [placeLng, setPlaceLng] = useState<number>(0)
     const [placeLat, setPlaceLat] = useState<number>(0)
+
+    //스팟 등록을 위한 값
+    const [selectedSpotCategory, setSelectedSpotCategory] = useState<string>('SIGHT')
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
@@ -80,7 +85,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                 roadAddress: placeRoad,
                 localAddress: placeLocal,
                 engAddress: placeEng,
-                category: selectedCategory
+                category: selectedSpotCategory
             })
             alert('등록 완료')
         } catch (err) {
@@ -94,6 +99,10 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
     }
 
     function handleCategoryChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        setSelectedCategory(e.target.value)
+    }
+
+    function handleSpotCategoryChange(e: React.ChangeEvent<HTMLSelectElement>) {
         setSelectedCategory(e.target.value)
     }
 
@@ -219,9 +228,11 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                                             />
                                                             <select
                                                                 className="w-20 border border-gray-300 rounded-xl"
-                                                                value={selectedCategory}
+                                                                value={
+                                                                    selectedSpotCategory
+                                                                }
                                                                 onChange={
-                                                                    handleCategoryChange
+                                                                    handleSpotCategoryChange
                                                                 }>
                                                                 <option value="SIGHT">
                                                                     관광지
