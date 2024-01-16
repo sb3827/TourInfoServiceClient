@@ -43,7 +43,9 @@ export * from './place/Board'
 export * from './place/BoardToggle'
 
 // reply component
-export * from './Comment'
+export * from './Reply/ParentReply'
+export * from './Reply/ChildReply'
+export * from './Reply/ReplyReportModal'
 
 // spot block component
 export * from './Spot'
