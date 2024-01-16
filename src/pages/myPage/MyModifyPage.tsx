@@ -4,7 +4,7 @@ import {ShowUserInfo, onChangeUserData} from './../../api/MyPage/ShowUserInfo'
 import {Button} from './../../components/Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {Input, MyPocketModal} from './../../components/index'
+import {Input, MyPocketModal, MyPocketList, MyCart} from './../../components/index'
 
 //TODO 수정하기 버튼 클릭 시 다시 마이페이지로 이동, margin/padding 조정, 이미지 업로드 수정
 
@@ -89,71 +89,72 @@ export const MyModifyPage = () => {
     }, [])
 
     return (
-        <div className="flex flex-row m-12">
-            <div className="items-center w-1/4">
-                <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={onChangeUserImage}
-                    ref={fileInput}
-                />
-                <img
-                    src={ProfileImage}
-                    alt="프로필사진"
-                    className="flex justify-center rounded-full cursor-pointer w-60"
-                    onClick={() => {
-                        if (fileInput.current) {
-                            fileInput.current.click()
-                        }
-                    }}
-                />
-            </div>
-            <div className="items-center w-2/3">
-                <div className="p-4">
-                    <span className="mr-8">이름</span>
-                    <Input
-                        className="w-64 bg-white"
-                        onChange={onChangeUserName}
-                        value={UserName}
-                    />
-                </div>
-                <div className="p-4">
-                    <span className="mr-4">이메일</span>
+        <div>
+            <div className="flex flex-row m-12">
+                <div className="items-center w-1/4">
                     <input
-                        type="text"
-                        value={User && User.email ? User.email : ''}
-                        className="w-64 h-12 rounded-md bg-gray-950 "
-                        disabled
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        onChange={onChangeUserImage}
+                        ref={fileInput}
+                    />
+                    <img
+                        src={ProfileImage}
+                        alt="프로필사진"
+                        className="flex justify-center rounded-full cursor-pointer w-60"
+                        onClick={() => {
+                            if (fileInput.current) {
+                                fileInput.current.click()
+                            }
+                        }}
                     />
                 </div>
-                <div className="p-4">
-                    <span className="mr-4">전화번호</span>
-                    <Input
-                        className="w-64 bg-white"
-                        value={UserPhone}
-                        onChange={onChangeUserPhone}
+                <div className="items-center w-2/3">
+                    <div className="p-4">
+                        <span className="mr-8">이름</span>
+                        <Input
+                            className="w-64 bg-white"
+                            onChange={onChangeUserName}
+                            value={UserName}
+                        />
+                    </div>
+                    <div className="p-4">
+                        <span className="mr-4">이메일</span>
+                        <input
+                            type="text"
+                            value={User && User.email ? User.email : ''}
+                            className="w-64 h-12 rounded-md bg-gray-950 "
+                            disabled
+                        />
+                    </div>
+                    <div className="p-4">
+                        <span className="mr-4">전화번호</span>
+                        <Input
+                            className="w-64 bg-white"
+                            value={UserPhone}
+                            onChange={onChangeUserPhone}
+                        />
+                    </div>
+                    <div className="p-4">
+                        <span className="mr-4">생년월일</span>
+                        <input
+                            type="text"
+                            value={User && User.birth ? User.birth : ''}
+                            className="w-64 h-12 rounded-md bg-gray-950"
+                            disabled
+                        />
+                    </div>
+                    <Button
+                        value="수정하기"
+                        onClick={() => {
+                            onUserUpdate()
+                            alert('회원정보를 수정하였습니다.')
+                        }}
                     />
                 </div>
-                <div className="p-4">
-                    <span className="mr-4">생년월일</span>
-                    <input
-                        type="text"
-                        value={User && User.birth ? User.birth : ''}
-                        className="w-64 h-12 rounded-md bg-gray-950"
-                        disabled
-                    />
-                </div>
-                <Button
-                    value="수정하기"
-                    onClick={() => {
-                        onUserUpdate()
-                        alert('회원정보를 수정하였습니다.')
-                    }}
-                />
+                {/* <MyCart /> */}
             </div>
-
-            {/* <MyPocketModal /> */}
         </div>
     )
 }

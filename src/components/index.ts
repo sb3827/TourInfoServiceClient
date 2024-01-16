@@ -86,6 +86,7 @@ export * from './myPage/ShowUserInfo/UserAvatar'
 export * from './myPage/ShowUserInfo/ShowMyFollowing'
 export * from './myPage/ShowUserInfo/ShowTotalLikes'
 export * from './myPage/ShowUserInfo/ShowFollowModal'
+export * from './myPage/ShowUserInfo/MyCart'
 
 // /mypage/MyPocket
 export * from './myPage/MyPocket/MyPocketList'
@@ -93,6 +94,7 @@ export * from './myPage/MyPocket/MyPocketLiked'
 export * from './myPage/MyPocket/CourseLikedList'
 export * from './myPage/MyPocket/PlaceLikedList'
 export * from './myPage/MyPocket/MyPocketModal'
+export * from './myPage/MyPocket/PlaceCartModal'
 
 //Sidebar
 export * from './Sidebar/SidebarItem'

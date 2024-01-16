@@ -7,6 +7,9 @@ export * from './Report/Report'
 //Login
 export * from './Login/Login'
 
+//Signup
+export * from './Signup/Signup'
+
 //PlaceSearch
 export * from './PlaceSearch/PlaceSearch'
 

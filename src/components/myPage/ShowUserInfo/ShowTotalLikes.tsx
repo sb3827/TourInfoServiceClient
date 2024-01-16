@@ -3,7 +3,7 @@ import {faCartShopping, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {FC, useState, useEffect} from 'react'
 import {MyPocketList, Spot} from './../../index'
 import {ShowFolderAll} from './../../../api/Folder/Folder'
-import {folderAll, folder} from './../../../data/Folder/Folder'
+import {folderAll} from './../../../data/Folder/Folder'
 
 type ShowTotalLikesProps = {
     cart: string
@@ -88,7 +88,9 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
                                                                                 index
                                                                             ]
                                                                         }
-                                                                        isRegister={true}>
+                                                                        isRegister={
+                                                                            false
+                                                                        }>
                                                                         {
                                                                             folderInfo
                                                                                 .name[
