@@ -103,7 +103,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
     }
 
     function handleSpotCategoryChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        setSelectedCategory(e.target.value)
+        setSelectedSpotCategory(e.target.value)
     }
 
     async function onPlaceList(
