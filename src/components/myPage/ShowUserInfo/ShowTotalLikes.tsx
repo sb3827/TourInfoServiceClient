@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCartShopping, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {FC, useState, useEffect} from 'react'
-import {MyPocketList, Spot, MyCart} from './../../index'
+import {MyPocketModal, Spot, MyCart} from './../../index'
 import {ShowFolderAll} from './../../../api/Folder/Folder'
 import {folderAll} from './../../../data/Folder/Folder'
 
@@ -57,6 +57,7 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
                                     className="w-12 h-12"
                                 />
                             </button>
+                            <MyPocketModal />
                         </div>
                         <div>
                             <h1>My Cart</h1>

@@ -120,11 +120,10 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
 
     return (
         <div>
-            <button onClick={openSpotModal} className="">
-                <FontAwesomeIcon
-                    icon={faPlus}
-                    className="w-20 h-32 ml-4 cursor-pointer"
-                />
+            <button
+                onClick={openSpotModal}
+                className="w-32 h-12 text-black bg-gray-400 rounded-xl">
+                스팟 추가
             </button>
 
             {SpotModal ? (

@@ -18,7 +18,7 @@ import {faTrash, faPenToSquare, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 
-//TODO - folder 삭제 오류, 공백 처리? , 계속 랜더링되는 문제
+//TODO - spot 추가 후 새로고침해야 나오는 문제
 
 export const MyCart: FC = () => {
     const [folder, setFolder] = useState<folderAll>()
@@ -179,7 +179,7 @@ export const MyCart: FC = () => {
 
     return (
         <div>
-            <div className="w-full mt-8 overflow-y-auto bg-orange-200 border h-96">
+            <div className="w-full mt-8 overflow-y-auto bg-gray-200 border h-96">
                 <div className="flex justify-start w-full h-12 border">
                     {folder &&
                         Array.isArray(folder.data) &&
@@ -244,7 +244,7 @@ export const MyCart: FC = () => {
                                                 </div>
                                             ) : null
                                         )}
-                                    {folderInfo.title && <MyPocketModal />}
+                                    {/* {folderInfo.title && <MyPocketModal />} */}
                                 </div>
                             ))}
                 </div>
