@@ -153,7 +153,6 @@ export const MyModifyPage = () => {
                         }}
                     />
                 </div>
-                {/* <MyCart /> */}
             </div>
         </div>
     )

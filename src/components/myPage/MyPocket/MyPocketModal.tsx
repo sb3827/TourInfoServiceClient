@@ -12,8 +12,11 @@ import {
     SearchMapRef
 } from './../../index'
 import {PlaceData} from './../../../data/placeSearch'
+import {spotAddData} from './../../../data/Folder/Folder'
 import {registerPlace, appendCart} from './../../../api/index'
 import {getSearchPlaceInfo} from './../../../api'
+import {RootState} from './../../../store/rootReducer'
+import {useSelector} from 'react-redux'
 
 type MyPocketModalProps = {
     selectedComponent?: number
@@ -22,7 +25,7 @@ type MyPocketModalProps = {
 export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
     //검색 값
     const [searchValue, setSearchValue] = useState<string>('')
-    const [selectedCategory, setSelectedCategory] = useState<string>('SIGHT')
+    const [selectedCategory, setSelectedCategory] = useState<string>('')
     const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null)
     const searchMapRef = useRef<SearchMapRef | null>(null)
 
@@ -36,6 +39,8 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
     const [placeEng, setPlaceEng] = useState<string>('')
     const [placeLng, setPlaceLng] = useState<number>(0)
     const [placeLat, setPlaceLat] = useState<number>(0)
+
+    const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     const openSpotModal = () => {
         setSpotModal(true)
@@ -77,12 +82,11 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                 engAddress: placeEng,
                 category: selectedCategory
             })
+            alert('등록 완료')
         } catch (err) {
             console.log(err)
         }
     }
-
-    // spot 등록
 
     //입력때마다 검색값 업데이트
     function onChangeSearch(value: string) {
@@ -152,6 +156,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                 className="text-white bg-darkGreen"
                                 value={'검색'}
                             />
+
                             {/* 장소 등록하기 버튼 -> 모달창 */}
                             {/* <RegisterPlace /> */}
                         </div>
