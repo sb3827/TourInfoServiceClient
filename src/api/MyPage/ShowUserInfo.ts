@@ -4,7 +4,8 @@ import {
     userReply,
     userBoard,
     userCourse,
-    userFollows
+    userFollows,
+    userPlaceCount
 } from './../../data/User/User'
 import {refreshAxios} from './../Axios/RefreshAxios'
 import {commonAxios} from './../Axios/CommonAxios'
@@ -60,5 +61,11 @@ export const ShowUserFollowings = async (mno: number): Promise<userFollows> => {
 // 팔로워 조회
 export const ShowUserFollowers = async (mno: number): Promise<userFollows> => {
     const response = await commonAxios.get(`/follow/follower?mno=${mno}`)
+    return response.data
+}
+
+//방문수 조회
+export const ShowPlaceCount = async (mno: number): Promise<userPlaceCount> => {
+    const response = await commonAxios.get(`/place/placecount?mno=${mno}`)
     return response.data
 }
