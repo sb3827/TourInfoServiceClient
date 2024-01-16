@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
-import {Title} from '../../components'
-import {FindEmail, FindPassword} from '../../components'
+import {Title, FindEmail, FindPassword} from '../../components'
 
 interface FindProps {}
 
