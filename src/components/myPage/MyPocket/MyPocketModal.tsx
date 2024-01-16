@@ -12,10 +12,8 @@ import {
     SearchMapRef
 } from './../../index'
 import {PlaceData} from './../../../data/placeSearch'
-import {registerPlace} from './../../../api/index'
+import {registerPlace, appendCart} from './../../../api/index'
 import {getSearchPlaceInfo} from './../../../api'
-
-//FIXME - SearchInfo 컴포넌트 바껴서 다시 PlaceSearch 다시 작성 부탁드려요.
 
 type MyPocketModalProps = {
     selectedComponent?: number
@@ -83,6 +81,8 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
             console.log(err)
         }
     }
+
+    // spot 등록
 
     //입력때마다 검색값 업데이트
     function onChangeSearch(value: string) {

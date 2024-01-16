@@ -1,9 +1,11 @@
 import React, {FC, useState} from 'react'
 import { useNavigate } from "react-router-dom";
-import {Button, Map, SearchMap} from '../index'
+import {Button, PlaceCartModal} from '../index'
 import {PlaceData} from '../../data/placeSearch'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import {faCartShopping, faCartPlus } from '@fortawesome/free-solid-svg-icons'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
 type SearchResultProps = {
     placeInfoData: PlaceData | null
@@ -13,6 +15,7 @@ type SearchResultProps = {
 export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => {
     const navigate = useNavigate();
 
+    const user = useSelector((state: RootState) => state.login.mno)!
     
 
     const handleReviewClick = () => {
@@ -31,17 +34,24 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
     }
 
     return (
-            <div className="w-full border border-gray-200 cursor-pointer card lg:card-side rounded-xl" onClick={props.mapClick}>
-                <div className="w-1/2 h-64 border border-gray-200 rounded-xl">
+            <div className="w-full border border-gray-200 card lg:card-side rounded-xl" >
+                <div className="w-1/2 h-64 border border-gray-200 cursor-pointer rounded-xl " onClick={props.mapClick}>
                     {placeInfoData.image ? <img src={placeInfoData.image} alt="Image" /> : <div>이미지가 없어요!</div> }
                         
                 </div>
                 <div className=" card-body">
+                    <div className="flex justify-end">
+                     { user && <PlaceCartModal pno = {placeInfoData.pno}/>}
+                    </div>
                     <div className="flex justify-start">
                         <h2 className="card-title">이름 : {placeInfoData.name}</h2>
                     </div>
                     <div className="flex justify-start">
                         <h2 className="card-title">주소 : {placeInfoData.localAddress}</h2>
+                        <h2 className="text-gray-400 card-title"> {placeInfoData.category}</h2>
+                    </div>
+                    <div className="flex justify-start">
+                       
                     </div>
                     <div className="flex justify-start">
                         <h2 className="card-title"><FontAwesomeIcon icon={faCartShopping} className="m-1" /> : {placeInfoData.cart}</h2>
