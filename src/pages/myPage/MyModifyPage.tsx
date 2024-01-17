@@ -124,7 +124,7 @@ export const MyModifyPage = () => {
                         <input
                             type="text"
                             value={User && User.email ? User.email : ''}
-                            className="w-64 h-12 rounded-md bg-gray-950 "
+                            className="w-64 h-12 p-4 text-white rounded-md bg-gray-950"
                             disabled
                         />
                     </div>
@@ -141,7 +141,7 @@ export const MyModifyPage = () => {
                         <input
                             type="text"
                             value={User && User.birth ? User.birth : ''}
-                            className="w-64 h-12 rounded-md bg-gray-950"
+                            className="w-64 h-12 p-4 text-white rounded-md bg-gray-950"
                             disabled
                         />
                     </div>
