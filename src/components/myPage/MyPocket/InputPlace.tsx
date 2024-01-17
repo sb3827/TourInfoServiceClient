@@ -111,7 +111,7 @@ export const InputPlace: FC<InputPlaceProps> = ({className}) => {
 
     return (
         <div className={className}>
-            <div className="w-full h-screen p-8 bg-white rounded shadow-lg">
+            <div className="w-full h-screen p-8 bg-white border rounded">
                 <div className="flex justify-center">
                     <select
                         className="w-20 border border-gray-300 rounded-xl"
