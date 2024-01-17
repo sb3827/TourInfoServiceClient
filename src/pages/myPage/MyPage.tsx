@@ -1,6 +1,4 @@
-import {useState, useEffect} from 'react'
 import {ProfileBox, SimpleMap, WritingButton} from './../../components/index'
-import {ShowUserInfo} from './../../api/MyPage/ShowUserInfo'
 
 export const MyPage = () => {
     return (
@@ -13,7 +11,7 @@ export const MyPage = () => {
                     <SimpleMap />
                 </div>
             </div>
-            <div className="mt-4">
+            <div className="mt-4 ">
                 <WritingButton />
             </div>
         </div>
