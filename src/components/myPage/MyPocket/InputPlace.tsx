@@ -140,7 +140,7 @@ export const InputPlace: FC<InputPlaceProps> = ({className}) => {
                 </div>
                 <Box className="w-4/5 overflow-hidden bg-white h-4/5">
                     <div className="flex justify-center w-full h-full ">
-                        <div className="flex w-5/6 h-full ">
+                        <div className="flex w-full h-full ">
                             {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}
                             <div className="w-1/4 mr-2 overflow-y-auto border rounded-lg border--300">
                                 {/* 검색 결과를 보여줄 컴포넌트 */}
