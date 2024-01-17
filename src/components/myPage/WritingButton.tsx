@@ -22,28 +22,30 @@ export const WritingButton: FC<WritingButtonProps> = ({}) => {
     }
 
     return (
-        <div>
-            <button
-                onClick={() => onChangeContent('post')}
-                className={`w-40 h-12 ml-32 mb-8 border-2 rounded-md focus:outline-none focus:shadow-outline ${
-                    toggle === 'post' ? 'btn-info text-white' : 'btn-ghost'
-                }`}>
-                작성 게시글
-            </button>
-            <button
-                onClick={() => onChangeContent('course')}
-                className={`w-40 h-12 border-2 rounded-md focus:outline-none focus:shadow-outline ${
-                    toggle === 'course' ? 'btn-info text-white' : 'btn-ghost'
-                }`}>
-                여행 코스
-            </button>
-            <button
-                onClick={() => onChangeContent('reply')}
-                className={`w-40 h-12 border-2 rounded-md focus:outline-none focus:shadow-outline ${
-                    toggle === 'reply' ? 'btn-info text-white' : 'btn-ghost'
-                }`}>
-                댓글 목록
-            </button>
+        <div className="w-4/5 pt-4 overflow-y-auto border rounded-xl h-80">
+            <div className="justify-center inline-block ">
+                <button
+                    onClick={() => onChangeContent('post')}
+                    className={`w-40 h-12 ml-32 mb-8 border-2 rounded-md focus:outline-none focus:shadow-outline ${
+                        toggle === 'post' ? 'btn-info text-black' : 'btn-ghost'
+                    }`}>
+                    작성 게시글
+                </button>
+                <button
+                    onClick={() => onChangeContent('course')}
+                    className={`w-40 h-12 border-2 rounded-md focus:outline-none focus:shadow-outline ${
+                        toggle === 'course' ? 'btn-info text-black' : 'btn-ghost'
+                    }`}>
+                    여행 코스
+                </button>
+                <button
+                    onClick={() => onChangeContent('reply')}
+                    className={`w-40 h-12 border-2 rounded-md focus:outline-none focus:shadow-outline ${
+                        toggle === 'reply' ? 'btn-info text-black' : 'btn-ghost'
+                    }`}>
+                    댓글 목록
+                </button>
+            </div>
             <div className="flex justify-center w-full">{content}</div>
         </div>
     )
