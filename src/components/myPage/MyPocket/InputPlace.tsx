@@ -151,6 +151,8 @@ export const InputPlace: FC<InputPlaceProps> = ({className}) => {
                                             mapClick={() => onMap(index)}
                                         />
                                     ))}
+
+                                {/* 클릭시 장소등록 모달 열림, 장소등록 버튼 (수정하셔도 됩니다) */}
                                 <button
                                     onClick={openRegisterSpotModal}
                                     className="flex justify-center w-full h-40 mt-8 hover:cursor-pointer">
