@@ -3,6 +3,7 @@ import CustomEditor from 'ckeditor5-custom-build/build/ckeditor'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import {imageUpload} from '../api/Board/board'
+import {ImageReturnData} from '../data/Board/BoardData'
 
 type TextEditorProps = {
     initialValue?: string
@@ -12,7 +13,7 @@ type TextEditorProps = {
 }
 
 export type EditorRef = {
-    getImages: FormData | null
+    getImages: ImageReturnData[] | null
     getEditor: () => CKEditor<ClassicEditor> | null
 }
 
@@ -20,7 +21,7 @@ export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorP
     ({initialValue}, ref) => {
         const [flag, setFlag] = useState(false)
         const ckRef = useRef<CKEditor<ClassicEditor> | null>(null)
-        const images = new FormData()
+        const [images, setImages] = useState<ImageReturnData[]>([])
 
         useImperativeHandle(ref, () => ({
             getImages: images,
@@ -39,10 +40,8 @@ export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorP
 
                             imageUpload(file)
                                 .then(res => {
-                                    if (!flag) {
-                                        setFlag(true)
-                                        // setImage(res.data.filename);
-                                    }
+                                    setImages([...images, res])
+                                    console.log(images)
                                     resolve({
                                         default: `${res.src}`
                                     })
