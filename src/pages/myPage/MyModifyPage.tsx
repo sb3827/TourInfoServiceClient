@@ -4,7 +4,7 @@ import {ShowUserInfo, onChangeUserData} from './../../api/MyPage/ShowUserInfo'
 import {Button} from './../../components/Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {Input, MyPocketModal, MyPocketList, MyCart} from './../../components/index'
+import {Input} from './../../components/index'
 
 //TODO 수정하기 버튼 클릭 시 다시 마이페이지로 이동, margin/padding 조정, 이미지 업로드 수정
 
@@ -89,9 +89,9 @@ export const MyModifyPage = () => {
     }, [])
 
     return (
-        <div>
-            <div className="flex flex-row m-12">
-                <div className="items-center w-1/4">
+        <div className="flex items-center justify-center h-full ">
+            <div className="flex flex-row w-2/3 m-12">
+                <div className="flex flex-col items-center justify-center w-1/3">
                     <input
                         type="file"
                         className="hidden"
@@ -102,13 +102,22 @@ export const MyModifyPage = () => {
                     <img
                         src={ProfileImage}
                         alt="프로필사진"
-                        className="flex justify-center rounded-full cursor-pointer w-60"
+                        className="rounded-full cursor-pointer w-60 "
                         onClick={() => {
                             if (fileInput.current) {
                                 fileInput.current.click()
                             }
                         }}
                     />
+                    {/* <Button
+                        value="수정하기"
+                        onClick={() => {
+                            if (fileInput.current) {
+                                fileInput.current.click()
+                            }
+                        }}
+                        className="mt-8 w-28"
+                    /> */}
                 </div>
                 <div className="items-center w-2/3">
                     <div className="p-4">
@@ -124,7 +133,7 @@ export const MyModifyPage = () => {
                         <input
                             type="text"
                             value={User && User.email ? User.email : ''}
-                            className="w-64 h-12 rounded-md bg-gray-950 "
+                            className="w-64 h-12 p-4 text-white rounded-md bg-gray-950"
                             disabled
                         />
                     </div>
@@ -141,7 +150,7 @@ export const MyModifyPage = () => {
                         <input
                             type="text"
                             value={User && User.birth ? User.birth : ''}
-                            className="w-64 h-12 rounded-md bg-gray-950"
+                            className="w-64 h-12 p-4 text-white rounded-md bg-gray-950"
                             disabled
                         />
                     </div>
@@ -151,9 +160,16 @@ export const MyModifyPage = () => {
                             onUserUpdate()
                             alert('회원정보를 수정하였습니다.')
                         }}
+                        className="w-28"
+                    />
+                    <Button
+                        value="취소"
+                        onClick={() => {
+                            // 다시 마이페이지로 이동
+                        }}
+                        className="w-28"
                     />
                 </div>
-                {/* <MyCart /> */}
             </div>
         </div>
     )

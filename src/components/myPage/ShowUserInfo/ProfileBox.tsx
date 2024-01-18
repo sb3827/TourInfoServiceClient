@@ -4,6 +4,8 @@ import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {userProfile} from './../../../data/User/User'
 import {ShowUserProfile} from './../../../api/MyPage/ShowUserInfo'
+import {RootState} from './../../../store/rootReducer'
+import {useSelector} from 'react-redux'
 
 //TODO - 로그인 mno 받아와서 name 받아오기
 
@@ -12,21 +14,23 @@ type ProfileProps = {}
 export const ProfileBox: FC<ProfileProps> = () => {
     const [userProfile, setUserProfile] = useState<userProfile | null>(null)
 
+    const userMno = useSelector((state: RootState) => state.login.mno) || 0
+
     const navigate = useNavigate()
 
     function onModify() {
         navigate('/mypage/modify')
     }
 
-     const fetchData = async () => {
-            try {
-                const userProfileData = await ShowUserProfile('이해창')
-                setUserProfile(userProfileData)
-                console.log(userProfileData)
-            } catch (error) {
-                console.error('에러 발생', error)
-            }
+    const fetchData = async () => {
+        try {
+            const userProfileData = await ShowUserProfile(userMno)
+            setUserProfile(userProfileData)
+            console.log(userProfileData)
+        } catch (error) {
+            console.error('에러 발생', error)
         }
+    }
 
     useEffect(() => {
         fetchData()

@@ -94,7 +94,7 @@ export * from './myPage/ShowUserInfo/MyCart'
 export * from './myPage/MyPocket/MyPocketList'
 export * from './myPage/MyPocket/MyPocketLiked'
 export * from './myPage/MyPocket/CourseLikedList'
-export * from './myPage/MyPocket/PlaceLikedList'
+export * from './myPage/MyPocket/InputPlace'
 export * from './myPage/MyPocket/MyPocketModal'
 export * from './myPage/MyPocket/PlaceCartModal'
 
