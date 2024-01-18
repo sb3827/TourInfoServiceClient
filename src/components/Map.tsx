@@ -1,7 +1,6 @@
 import {
     FC,
     useState,
-    useCallback,
     PropsWithChildren,
     RefAttributes,
     useRef,
@@ -10,23 +9,19 @@ import {
     HTMLAttributes,
     useImperativeHandle,
     forwardRef,
-    Ref,
-    ForwardRefExoticComponent
+    Ref
 } from 'react'
 
 export type PlaceData = {
     name: string
     lng: number
     lat: number
-    roadAddress: string
-    localAddress: string
-    engAddress: string
-}
+} & Address
 
 export type Address = {
-    road: string // 도로명
-    local: string // 지번
-    eng: string // 영문
+    roadAddress: string // 도로명
+    localAddress: string // 지번
+    engAddress: string // 영문
 }
 export type AddressResult = {
     msg: string // 처리 message
@@ -38,9 +33,9 @@ export function searchAddressToCoordinate(address: string): Promise<AddressResul
     return new Promise<AddressResult>((resolve, reject) => {
         let result: AddressResult = {
             msg: '',
-            road: '',
-            local: '',
-            eng: ''
+            roadAddress: '',
+            localAddress: '',
+            engAddress: ''
         }
 
         naver.maps.Service.geocode(
@@ -61,15 +56,15 @@ export function searchAddressToCoordinate(address: string): Promise<AddressResul
                     const item = response.v2.addresses[0]
 
                     if (item.roadAddress) {
-                        result.road = item.roadAddress
+                        result.roadAddress = item.roadAddress
                     }
 
                     if (item.jibunAddress) {
-                        result.local = item.jibunAddress
+                        result.localAddress = item.jibunAddress
                     }
 
                     if (item.englishAddress) {
-                        result.eng = item.englishAddress
+                        result.engAddress = item.englishAddress
                     }
 
                     resolve(result) // 비동기 작업이 성공적으로 완료되면 resolve를 호출하여 프로미스를 성공 상태로 전환
@@ -164,9 +159,9 @@ function searchCoordinateToAddress(coord: number[]): Promise<AddressResult> {
     return new Promise<AddressResult>((resolve, reject) => {
         let result: AddressResult = {
             msg: '',
-            road: '',
-            local: '',
-            eng: ''
+            roadAddress: '',
+            localAddress: '',
+            engAddress: ''
         }
 
         naver.maps.Service.reverseGeocode(
@@ -192,9 +187,9 @@ function searchCoordinateToAddress(coord: number[]): Promise<AddressResult> {
                         item = items[i]
                         address = makeAddress(item) || ''
                         if (item.name === 'roadaddr') {
-                            result.road = address
+                            result.roadAddress = address
                         } else {
-                            result.local = address
+                            result.localAddress = address
                         }
                     }
                     resolve(result)
@@ -334,9 +329,9 @@ export const PlacePostMap: FC<PropsWithChildren<PlacePostMapProps>> = ({
             `   <h1>${place.name}</h1>`,
             '   <div>',
             '       <p>',
-            `           [도로명 주소] ${place.road} <br />`,
-            `           [지  번 주소] ${place.local}<br />`,
-            `           [영문명 주소] ${place.eng}<br />`,
+            `           [도로명 주소] ${place.roadAddress} <br />`,
+            `           [지  번 주소] ${place.localAddress}<br />`,
+            `           [영문명 주소] ${place.engAddress}<br />`,
             '       </p>',
             '   </div>',
             '</div>'
@@ -447,8 +442,8 @@ export const ChooseMap: FC<
                         '<div class="iw_inner">',
                         '   <div>',
                         '       <p>',
-                        `           [도로명 주소] ${result.road} <br />`,
-                        `           [지  번 주소] ${result.local}<br />`,
+                        `           [도로명 주소] ${result.roadAddress} <br />`,
+                        `           [지  번 주소] ${result.localAddress}<br />`,
                         '       </p>',
                         '   </div>',
                         '</div>'
@@ -456,9 +451,9 @@ export const ChooseMap: FC<
 
                     // infowindow의 내용을 업데이트합니다.
                     infowindow.setContent(contentString.join(''))
-                    onRoadAddressChange(result.road) // 주소 보내주기
-                    onLocalAddressChange(result.local) // 주소 보내주기
-                    onEngAddressChange(result.eng) // 주소 보내주기
+                    onRoadAddressChange(result.roadAddress) // 주소 보내주기
+                    onLocalAddressChange(result.localAddress) // 주소 보내주기
+                    onEngAddressChange(result.engAddress) // 주소 보내주기
                     onLatChange(e.coord._lat)
                     onLngChange(e.coord._lng)
                 } catch (error) {
@@ -491,10 +486,13 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
         if (!mapElement.current || !naver) return
         // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
         const location = getCenter(places)
-        const maxBoundary = getBoundary(places)
+        const maxBoundary = new naver.maps.LatLngBounds(
+            new naver.maps.LatLng(31.3418403, 124.1530811),
+            new naver.maps.LatLng(39.0169875, 132.6949512)
+        )
         const mapOptions: naver.maps.MapOptions = {
             disableDoubleClickZoom: true, // 더블 클릭 줌 해제
-            draggable: false, // default true
+            draggable: true, // default true
             center: location,
             zoom: 9, // default zoom
             minZoom: 6, // min zoom
@@ -537,9 +535,9 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
                     `   <h1>${place.name}</h1>`,
                     '   <div>',
                     '       <p>',
-                    `           [도로명 주소] ${place.road} <br />`,
-                    `           [지  번 주소] ${place.local}<br />`,
-                    `           [영문명 주소] ${place.eng}<br />`,
+                    `           [도로명 주소] ${place.roadAddress} <br />`,
+                    `           [지  번 주소] ${place.localAddress}<br />`,
+                    `           [영문명 주소] ${place.engAddress}<br />`,
                     '       </p>',
                     '   </div>',
                     '</div>'
@@ -605,7 +603,7 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
         for (var i = 0, ii = markers.length; i < ii; i++) {
             naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i))
         }
-    }, [])
+    }, [places])
 
     return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
 }

@@ -2,7 +2,6 @@ import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {
     Title,
     TextBox,
-    DropdownIcon,
     Slider,
     PlacePostMap,
     PlaceProps,
@@ -16,11 +15,9 @@ import {
     faArrowLeft,
     faEllipsisVertical
 } from '@fortawesome/free-solid-svg-icons'
-import {dummyText, imgsrcs} from "../../dummy data/sb's dummy"
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {ResponseBoard} from '../../data/Board/BoardData'
 import {deleteLike, placePostLoad, postLike} from '../../api/Board/board'
 
 type PostPlaceProps = {
@@ -41,9 +38,9 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
         name: '서면 거리',
         lat: 35.1584,
         lng: 129.0583,
-        road: '부산광역시 서구 중앙대로 678',
-        local: '부산광역시 서구 서면',
-        eng: '678, Jungang-daero, Seo-gu, Busan'
+        roadAddress: '부산광역시 서구 중앙대로 678',
+        localAddress: '부산광역시 서구 서면',
+        engAddress: '678, Jungang-daero, Seo-gu, Busan'
     })
     const [report, setReport] = useState<boolean>(false)
     // user mno
@@ -89,11 +86,12 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     async function loadPage() {
         try {
             const data = await placePostLoad(parseInt(bno))
+            console.log(data)
             if (data.isCourse) {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
             }
-            if (user == data.mno) {
+            if (user == data.writerDTO.mno) {
                 setEnables([true, false])
             }
 
@@ -102,25 +100,17 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
             setHeart(data.isLiked) // set isLiked
             setLikes(data.likes) // number of likes
             // set write Date
-            if (data.modDate == data.regDate) {
-                setDate('작성일자: ' + data.regDate)
+            if (data.moddate == data.regdate) {
+                setDate('작성일자: ' + data.regdate)
             } else {
-                setDate('수정일자: ' + data.modDate)
+                setDate('수정일자: ' + data.moddate)
             }
-            setWriter(data.writer) // writer
+            setWriter(data.writerDTO.name) // writer
             // setImages
             if (data.images.length > 0) setImages(data.images)
             // setPlace
-            if (data.placeDTOS.length > 0) {
-                const placeData = {
-                    name: data.placeDTOS[0][0].name,
-                    lat: data.placeDTOS[0][0].lat,
-                    lng: data.placeDTOS[0][0].lng,
-                    road: data.placeDTOS[0][0].roadAddress,
-                    local: data.placeDTOS[0][0].localAddress,
-                    eng: data.placeDTOS[0][0].engAddress
-                }
-                setPlace(placeData)
+            if (data.postingPlaceBoardDTOS.length > 0) {
+                setPlace(data.postingPlaceBoardDTOS[0][0])
             }
             setContent(data.content) // content
         } catch (error) {
@@ -191,11 +181,11 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
             </div>
             <div className="my-2">
                 {/*body*/}
-                <div className="flex flex-row justify-center">
-                    <Slider className="w-1/2">
+                <div className="flex flex-row items-center justify-center h-full">
+                    <Slider className="w-1/2 h-full">
                         {images.map((image, index) => (
                             <img
-                                className="mx-auto my-auto"
+                                className="w-full h-full mx-auto my-auto"
                                 key={index}
                                 src={image}
                                 alt="img"></img>

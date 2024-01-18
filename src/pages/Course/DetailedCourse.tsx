@@ -2,21 +2,15 @@ import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {
     Title,
     TextBox,
-    DropdownIcon,
     Slider,
     CoursePostMap,
-    PlacePostMap,
     PlaceProps,
-    DropIcon,
-    DayItem,
-    Item,
-    CourseList
+    DropIcon
 } from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
     faHeart,
-    faBagShopping,
     faArrowLeft,
     faEllipsisVertical,
     faStar
@@ -49,25 +43,25 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 name: '서면 거리',
                 lat: 35.1584,
                 lng: 129.0583,
-                road: '부산광역시 서구 중앙대로 678',
-                local: '부산광역시 서구 서면',
-                eng: '678, Jungang-daero, Seo-gu, Busan'
+                roadAddress: '부산광역시 서구 중앙대로 678',
+                localAddress: '부산광역시 서구 서면',
+                engAddress: '678, Jungang-daero, Seo-gu, Busan'
             },
             {
                 name: '부산역',
                 lat: 35.1152,
                 lng: 129.0403,
-                road: '부산광역시 동구 중앙대로 206',
-                local: '부산광역시 동구 초량동',
-                eng: '206, Jungang-daero, Dong-gu, Busan'
+                roadAddress: '부산광역시 동구 중앙대로 206',
+                localAddress: '부산광역시 동구 초량동',
+                engAddress: '206, Jungang-daero, Dong-gu, Busan'
             },
             {
                 name: '동의대학교',
                 lat: 35.1432,
                 lng: 129.0367,
-                road: '부산광역시 남구 가야대로 201',
-                local: '부산광역시 남구 양정동',
-                eng: '201, Gayadaero, Nam-gu, Busan'
+                roadAddress: '부산광역시 남구 가야대로 201',
+                localAddress: '부산광역시 남구 양정동',
+                engAddress: '201, Gayadaero, Nam-gu, Busan'
             }
         ],
         [
@@ -75,24 +69,12 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 name: '부산역',
                 lat: 35.1152,
                 lng: 129.0403,
-                road: '부산광역시 동구 중앙대로 206',
-                local: '부산광역시 동구 초량동',
-                eng: '206, Jungang-daero, Dong-gu, Busan'
+                roadAddress: '부산광역시 동구 중앙대로 206',
+                localAddress: '부산광역시 동구 초량동',
+                engAddress: '206, Jungang-daero, Dong-gu, Busan'
             }
         ]
     ])
-
-    const dummyData: Item[][] = [
-        [
-            {img: 'image1.jpg', pname: 'Product 1'},
-            {img: 'image2.jpg', pname: 'Product 2'}
-        ],
-        [{img: 'image3.jpg', pname: 'Product 3'}],
-        [
-            {img: 'image4.jpg', pname: 'Product 4'},
-            {img: 'image5.jpg', pname: 'Product 5'}
-        ]
-    ]
 
     // user mno
     const user = useSelector((state: RootState) => state.login.mno)!
@@ -115,48 +97,22 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
             }
-            if (user == data.mno) {
+            if (user == data.writerDTO.mno) {
                 setEnables([true, false])
             }
             setTitle(data.title) // title
             setScore(data.score) // number of star
             setLikes(data.likes) // number of likes
-            setWriter(data.writer) // writer
+            setWriter(data.writerDTO.name) // writer
             setLikes(data.likes) // number of likes
-            if (data.modDate == data.regDate) {
-                setDate('작성일자: ' + data.regDate)
+            if (data.moddate == data.regdate) {
+                setDate('작성일자: ' + data.regdate)
             } else {
-                setDate('수정일자: ' + data.modDate)
+                setDate('수정일자: ' + data.moddate)
             }
             // setImages
             if (data.images.length > 0) setImages(data.images)
-            //NOTE - 지도 처리
-            // setPlaces([
-            //     {
-            //         name: '서면 거리',
-            //         lat: 35.1584,
-            //         lng: 129.0583,
-            //         road: '부산광역시 서구 중앙대로 678',
-            //         local: '부산광역시 서구 서면',
-            //         eng: '678, Jungang-daero, Seo-gu, Busan'
-            //     },
-            //     {
-            //         name: '부산역',
-            //         lat: 35.1152,
-            //         lng: 129.0403,
-            //         road: '부산광역시 동구 중앙대로 206',
-            //         local: '부산광역시 동구 초량동',
-            //         eng: '206, Jungang-daero, Dong-gu, Busan'
-            //     },
-            //     {
-            //         name: '동의대학교',
-            //         lat: 35.1432,
-            //         lng: 129.0367,
-            //         road: '부산광역시 남구 가야대로 201',
-            //         local: '부산광역시 남구 양정동',
-            //         eng: '201, Gayadaero, Nam-gu, Busan'
-            //     }
-            // ])
+            setPlacesList(data.postingPlaceBoardDTOS)
 
             setContent(data.content) // content
         } catch (error) {
@@ -279,7 +235,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                         ))}
                     </Slider>
                 </div>
-                <CourseList create={false} day={dummyData} />
+                {/* <CourseList create={false} day={[][]} /> */}
                 <TextBox data={content}></TextBox>
             </div>
             <div className="my-2">
