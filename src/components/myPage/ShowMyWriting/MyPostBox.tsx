@@ -1,14 +1,17 @@
 import {useState, useEffect} from 'react'
 import {userBoard} from './../../../data/User/User'
 import {ShowUserBoard} from './../../../api/MyPage/ShowUserInfo'
+import {RootState} from './../../../store/rootReducer'
+import {useSelector} from 'react-redux'
 
 export const MyPostBox = () => {
     const [BoardList, setBoardList] = useState<userBoard>()
+    const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userBoardData = await ShowUserBoard(2)
+                const userBoardData = await ShowUserBoard(userMno)
                 setBoardList(userBoardData)
                 console.log(userBoardData)
             } catch {
