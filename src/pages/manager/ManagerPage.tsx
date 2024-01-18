@@ -100,8 +100,6 @@ export const Manager = () => {
             setReportData(data)
             dispatch(setReportSearch(false))
         } catch (err) {
-            console.log(err)
-            alert('서버와 연결이 끊겼습니다.')
             dispatch(setReportSearch(false))
         }
     }
