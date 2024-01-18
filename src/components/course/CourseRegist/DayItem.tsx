@@ -7,7 +7,7 @@ import {Draggable, Droppable} from 'react-beautiful-dnd'
 import {Spot} from '../../Spot'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../../store/rootReducer'
-import {Item} from '../../../components'
+import {Item} from './CourseList'
 import {FC} from 'react'
 
 type DayItemProps = {
@@ -40,21 +40,26 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                     <div className="flex justify-between">
                         <Subtitle className="flex ">{dayIndex + 1}일차</Subtitle>
                         <div className="flex ">
-                            <FontAwesomeIcon
-                                icon={faPlus}
-                                size="1x"
-                                className="cursor-pointer"
-                                onClick={() => onAddDay(dayIndex)}
-                            />
-                            <FontAwesomeIcon
-                                icon={faMinus}
-                                size="1x"
-                                className="cursor-pointer"
-                                onClick={() => onDeleteDay(dayIndex)}
-                            />
+                            {create && (
+                                <>
+                                    <FontAwesomeIcon
+                                        icon={faPlus}
+                                        size="1x"
+                                        className="cursor-pointer"
+                                        onClick={() => onAddDay(dayIndex)}
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faMinus}
+                                        size="1x"
+                                        className="cursor-pointer"
+                                        onClick={() => onDeleteDay(dayIndex)}
+                                    />
+                                </>
+                            )}
                         </div>
                     </div>
                     <Droppable
+                        isDropDisabled={!create}
                         droppableId={`droppable-${dayIndex}`}
                         direction="horizontal">
                         {provided => (
@@ -64,10 +69,11 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                 className="flex w-full h-20 ">
                                 {dayItem.map((item, index) => (
                                     <Draggable
-                                        key={item.name + index}
+                                        isDragDisabled={!create}
+                                        key={item.pname + index}
                                         //추후에 pname대신에 pno를 주는게 맞을거 같음
                                         draggableId={
-                                            item.name + '-' + dayIndex + '-' + index
+                                            item.pname + '-' + dayIndex + '-' + index
                                         }
                                         index={index}>
                                         {provided => (
@@ -80,16 +86,18 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                                     onClick={() =>
                                                         onDeleteItem(dayIndex, index)
                                                     }>
-                                                    <FontAwesomeIcon
-                                                        icon={faCircleMinus}
-                                                        style={{color: '#c2c2c2'}}
-                                                    />
+                                                    {create && (
+                                                        <FontAwesomeIcon
+                                                            icon={faCircleMinus}
+                                                            style={{color: '#c2c2c2'}}
+                                                        />
+                                                    )}
                                                 </div>
                                                 <Spot
-                                                    key={item.name + index}
-                                                    src={item.src}
+                                                    key={item.pname + index}
+                                                    src={item.img}
                                                     isRegister={false}>
-                                                    {item.name}
+                                                    {item.pname}
                                                 </Spot>
                                             </div>
                                         )}

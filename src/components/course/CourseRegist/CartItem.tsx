@@ -1,19 +1,13 @@
 import {FC} from 'react'
+import {Item} from './CourseList'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
 import {Spot} from '../../Spot'
 
-export type Item = {
-    pno: number
-    name: string
-    src: string
-}
-
 type CartItemProps = {
     items: Item[]
-    dragDisable: boolean
 }
 
-export const CartItem: FC<CartItemProps> = ({items, ...props}) => {
+export const CartItem: FC<CartItemProps> = ({items}) => {
     return (
         <div className="flex">
             {items.map((item, index) => (
@@ -21,23 +15,20 @@ export const CartItem: FC<CartItemProps> = ({items, ...props}) => {
                     {provided => (
                         <div {...provided.droppableProps} ref={provided.innerRef}>
                             <Draggable
-                                key={item.pno}
-                                draggableId={item.name}
-                                index={index}
-                                isDragDisabled={props.dragDisable}>
+                                key={item.pname}
+                                draggableId={item.pname}
+                                index={index}>
                                 {provided => (
                                     <div
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
-                                        <a href={`/board/place/${item.pno}`}>
-                                            <Spot
-                                                key={index}
-                                                src={item.src}
-                                                isRegister={false}>
-                                                {item.name}
-                                            </Spot>
-                                        </a>
+                                        <Spot
+                                            key={index}
+                                            src={item.img}
+                                            isRegister={false}>
+                                            {item.pname}
+                                        </Spot>
                                     </div>
                                 )}
                             </Draggable>

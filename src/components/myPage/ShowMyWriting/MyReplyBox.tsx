@@ -1,14 +1,17 @@
 import {useState, useEffect} from 'react'
 import {userReply} from './../../../data/User/User'
 import {ShowUserReply} from './../../../api/MyPage/ShowUserInfo'
+import {RootState} from './../../../store/rootReducer'
+import {useSelector} from 'react-redux'
 
 export const MyReplyBox = () => {
     const [ReplyList, setReplyList] = useState<userReply | null>(null)
+    const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userReplyData = await ShowUserReply(2)
+                const userReplyData = await ShowUserReply(userMno)
                 setReplyList(userReplyData)
                 console.log(userReplyData)
             } catch (error) {
@@ -17,8 +20,6 @@ export const MyReplyBox = () => {
         }
         fetchData()
     }, [])
-
-    //TODO - 날짜 Invalid Date로 나옴
 
     return (
         <div>

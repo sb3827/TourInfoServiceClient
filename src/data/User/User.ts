@@ -67,7 +67,6 @@ export type suspendDate = {
     suspendReason: string
 }
 
-
 // 유저 검색 정보
 export type UserSearchData = {
     mno: number
@@ -75,6 +74,7 @@ export type UserSearchData = {
     image: string
     followings: number
     followers: number
+    followCheck: boolean
 }
 
 // 사용자 정보
@@ -128,4 +128,24 @@ export type userFollows = {
     mno: number
     name: string
     image: string
+}
+
+export type userPlaceCount = {
+    busan: number
+    daegu: number
+    daejeon: number
+    gwangju: number
+    incheon: number
+    jeju: number
+    kangwon: number
+    kyungki: number
+    northCC: number
+    northJL: number
+    northKS: number
+    sejong: number
+    seoul: number
+    southCC: number
+    southKS: number
+    soutnJL: number
+    ulsan: number
 }

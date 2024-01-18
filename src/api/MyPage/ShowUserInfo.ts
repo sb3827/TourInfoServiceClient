@@ -4,7 +4,8 @@ import {
     userReply,
     userBoard,
     userCourse,
-    userFollows
+    userFollows,
+    userPlaceCount
 } from './../../data/User/User'
 import {refreshAxios} from './../Axios/RefreshAxios'
 import {commonAxios} from './../Axios/CommonAxios'
@@ -28,8 +29,8 @@ export const onChangeUserData = async (userInfoDTO: user): Promise<void> => {
 }
 
 // 마이페이지에 사용될 사용자 프로필 정보
-export const ShowUserProfile = async (name: string): Promise<userProfile> => {
-    const response = await commonAxios.get(`/users/profile?name=${name}`)
+export const ShowUserProfile = async (mno: number): Promise<userProfile> => {
+    const response = await commonAxios.get(`/users/profile?mno=${mno}`)
     return response.data
 }
 
@@ -41,13 +42,13 @@ export const ShowUserReply = async (mno: number): Promise<userReply> => {
 
 // 작성 게시글
 export const ShowUserBoard = async (mno: number): Promise<userBoard> => {
-    const response = await commonAxios.get(`/board/place/posting/mno?mno=${mno}`)
+    const response = await commonAxios.get(`/board/place/posting/member?mno=${mno}`)
     return response.data
 }
 
 // 작성 코스 게시글
 export const ShowUserCourse = async (mno: number): Promise<userCourse> => {
-    const response = await commonAxios.get(`/board/course/posting/mno?mno=${mno}`)
+    const response = await commonAxios.get(`/board/course/posting/member?mno=${mno}`)
     return response.data
 }
 
@@ -60,5 +61,11 @@ export const ShowUserFollowings = async (mno: number): Promise<userFollows> => {
 // 팔로워 조회
 export const ShowUserFollowers = async (mno: number): Promise<userFollows> => {
     const response = await commonAxios.get(`/follow/follower?mno=${mno}`)
+    return response.data
+}
+
+//방문수 조회
+export const ShowPlaceCount = async (mno: number): Promise<userPlaceCount> => {
+    const response = await commonAxios.get(`/place/placecount?mno=${mno}`)
     return response.data
 }

@@ -1,14 +1,18 @@
 import {useState, useEffect} from 'react'
 import {userCourse} from './../../../data/User/User'
 import {ShowUserCourse} from './../../../api/MyPage/ShowUserInfo'
+import {RootState} from './../../../store/rootReducer'
+import {useSelector} from 'react-redux'
 
 export const MyCourseBox = () => {
     const [CourseList, setCourseList] = useState<userCourse>()
 
+    const userMno = useSelector((state: RootState) => state.login.mno) || 0
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userCourseData = await ShowUserCourse(2)
+                const userCourseData = await ShowUserCourse(userMno)
                 setCourseList(userCourseData)
                 console.log(userCourseData)
             } catch {
@@ -22,7 +26,7 @@ export const MyCourseBox = () => {
         <div>
             <table className="table-fixed ">
                 <thead className="justify-between">
-                    <tr className="border">
+                    <tr className="border-b">
                         <th className="px-20 border-r ">글번호</th>
                         <th className="px-20 border-r">제목</th>
                         <th className="px-20 border-r">작성자</th>
@@ -32,21 +36,21 @@ export const MyCourseBox = () => {
                 <tbody>
                     {Array.isArray(CourseList) &&
                         CourseList.map((course: userCourse) => (
-                            <tr className="border-b">
-                                <td className="border-x">
+                            <tr className="">
+                                <td className="">
                                     <a href="" className="cursor-pointer hover:underline">
                                         {course.bno}
                                     </a>
                                 </td>
-                                <td className="border-r">
+                                <td className="">
                                     <a
                                         href=""
                                         className="cursor-pointer hover:underline ">
                                         {course.title}
                                     </a>
                                 </td>
-                                <td className="border-r">{course.writer}</td>
-                                <td className="border-r">{course.regdate}</td>
+                                <td className="">{course.writer}</td>
+                                <td className="">{course.regdate}</td>
                             </tr>
                         ))}
                 </tbody>
