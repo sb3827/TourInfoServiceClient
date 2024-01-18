@@ -22,13 +22,14 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
             setWithTokenExpire('token', token)
         } catch (err) {
             console.log(err)
+            refreshErrorHandle('로그인 만료!')
         }
     }
     if (!config.headers) {
         config.headers = {}
     }
-    if (refreshToken === null) {
-        alert('토큰 만료')
+    if (refreshToken === undefined || refreshToken === null) {
+        refreshErrorHandle('로그인 만료!')
         throw new Error('Refresh token expired')
     }
     config.headers['Authorization'] = `Bearer ${token}` // 토큰을 헤더에 설정
@@ -36,8 +37,15 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
     return config
 }
 
+let loginExpiredAlertShown = false
+
 const refreshErrorHandle = (err: any) => {
-    Cookie.remove('refreshToken')
+    if (!loginExpiredAlertShown) {
+        window.location.href = '/login'
+        alert(err)
+        loginExpiredAlertShown = true
+        Cookie.remove('refreshToken')
+    }
 }
 
 export {refresh, refreshErrorHandle}
