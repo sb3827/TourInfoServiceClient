@@ -1,14 +1,20 @@
-import {FC, PropsWithChildren, useEffect, useRef} from 'react'
+import {FC, PropsWithChildren, useEffect, useRef, useState} from 'react'
 import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faMinus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate, useSearchParams} from 'react-router-dom'
-import {coursePostLoad, deleteBoard} from '../../api/Board/board'
+import {
+    coursePostLoad,
+    deleteBoard,
+    modifyCourseBoard,
+    registCourseBoard
+} from '../../api/Board/board'
 import {useDispatch} from 'react-redux'
 import {addDay, deleteAll, deleteDay} from '../../store/slices/CourseSlice'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
+import {saveCourseBoardDTO} from '../../data/Board/BoardData'
 
 type CourseRegisterProps = {
     isModify: boolean // true: 수정, false: 등록
@@ -41,16 +47,77 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     const titleRef = useRef<HTMLInputElement | null>(null)
     const starRef = useRef<RatingRef | null>(null)
     const editorRef = useRef<EditorRef | null>(null)
+    const user = useSelector((state: RootState) => state.login.mno)!
+
+    const [loadImg, setLoadImg] = useState<string[]>([])
 
     // 등록 onclick 함수
     function regist() {
-        console.log('title: ' + titleRef.current?.value)
-        console.log('stared: ' + starRef.current?.getSelectedRating())
-        console.log('content: ' + editorRef.current?.getEditor())
         console.log('images: ' + editorRef.current?.getImages)
+
+        const title = titleRef.current?.value || ''
+        const score = starRef.current?.getSelectedRating() as number
+        const content = editorRef.current?.getEditor()?.editor?.data.get() as string
+
+        // editor로 인해 upload 된 images
+        const images = editorRef.current?.getImages || []
+        console.log(images)
+
+        ////
+        const board: saveCourseBoardDTO = {
+            bno: null,
+            title: title,
+            score: score,
+            content: content,
+            deleteImages: [],
+            images: [],
+            //STUB - place stub
+            coursePlaceList: [[1, 2, 3], [4]],
+            writer: user
+        }
+        ////
+
+        registCourseBoard(board, images).then(res => {
+            alert(`${res.bno}번 글 등록 완료!`)
+            navigate(`/board/course/posting?bno=${res.bno}`)
+        })
     }
     // 수정 onclick 함수
-    function modify() {}
+    function modify() {
+        const title = titleRef.current?.value || ''
+        const score = starRef.current?.getSelectedRating() as number
+        const content = editorRef.current?.getEditor()?.editor?.data.get() as string
+
+        // editor로 인해 upload 된 images
+        let images = editorRef.current?.getImages || []
+        console.log(content)
+        console.log(editorRef.current?.getImages)
+        images.push(...loadImg.map(src => ({ino: -1, src: src})))
+
+        console.log(images)
+
+        ////
+        const board: saveCourseBoardDTO = {
+            bno: parseInt(searchParams.get('bno')!),
+            title: title,
+            score: score,
+            content: content,
+            deleteImages: [],
+            images: [],
+            //STUB - place stub
+            coursePlaceList: [
+                [1, 3],
+                [2, 4]
+            ],
+            writer: user
+        }
+        ////
+
+        modifyCourseBoard(board, images).then(res => {
+            alert(`${res.bno}번 글 수정 완료!`)
+            navigate(`/board/course/posting?bno=${res.bno}`)
+        })
+    }
     // 삭제 onclick 함수
     async function erase() {
         const bno = searchParams.get('bno') || '0'
@@ -77,6 +144,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             if (titleRef.current) {
                 titleRef.current.value = data.title
             }
+            setLoadImg(data.images)
             editorRef.current?.getEditor()?.editor?.data.set(data.content)
             starRef.current?.setSelectedRating(data.score)
         } catch (error) {
