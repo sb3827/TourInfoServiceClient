@@ -7,7 +7,7 @@ import {Draggable, Droppable} from 'react-beautiful-dnd'
 import {Spot} from '../../Spot'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../../store/rootReducer'
-import {Item} from './CourseList'
+import {Item} from '../../../components'
 import {FC} from 'react'
 
 type DayItemProps = {
@@ -64,10 +64,10 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                 className="flex w-full h-20 ">
                                 {dayItem.map((item, index) => (
                                     <Draggable
-                                        key={item.pname + index}
+                                        key={item.name + index}
                                         //추후에 pname대신에 pno를 주는게 맞을거 같음
                                         draggableId={
-                                            item.pname + '-' + dayIndex + '-' + index
+                                            item.name + '-' + dayIndex + '-' + index
                                         }
                                         index={index}>
                                         {provided => (
@@ -86,10 +86,10 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                                     />
                                                 </div>
                                                 <Spot
-                                                    key={item.pname + index}
-                                                    src={item.img}
+                                                    key={item.name + index}
+                                                    src={item.src}
                                                     isRegister={false}>
-                                                    {item.pname}
+                                                    {item.name}
                                                 </Spot>
                                             </div>
                                         )}
