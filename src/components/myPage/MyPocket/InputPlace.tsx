@@ -142,7 +142,7 @@ export const InputPlace: FC<InputPlaceProps> = ({className}) => {
                     <div className="flex justify-center w-full h-full ">
                         <div className="flex w-full h-full ">
                             {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}
-                            <div className="w-1/4 mr-2 overflow-y-auto border rounded-lg border--300">
+                            <div className="w-1/3 mr-2 overflow-y-auto border rounded-lg border--300">
                                 {/* 검색 결과를 보여줄 컴포넌트 */}
                                 {placeInfoData &&
                                     placeInfoData.map((data: PlaceData, index) => (

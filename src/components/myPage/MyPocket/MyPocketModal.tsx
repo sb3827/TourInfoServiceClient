@@ -138,12 +138,17 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
             {SpotModal ? (
                 <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-500 bg-opacity-75">
                     <div className="w-4/5 p-8 bg-white rounded shadow-lg h-5/6">
-                        <button onClick={closeSpotModal}>
-                            <FontAwesomeIcon icon={faArrowLeft} className="w-12 h-12" />
-                        </button>
-                        <div className="flex justify-center">
+                        <div className="flex ">
+                            <div className="w-1/8">
+                                <button onClick={closeSpotModal}>
+                                    <FontAwesomeIcon
+                                        icon={faArrowLeft}
+                                        className="w-12 h-12"
+                                    />
+                                </button>
+                            </div>
                             <select
-                                className="w-20 border border-gray-300 rounded-xl"
+                                className="w-20 border border-gray-300 ml-60 rounded-xl"
                                 value={selectedCategory}
                                 onChange={handleCategoryChange}>
                                 <option value="">전체</option>
@@ -172,7 +177,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                             <div className="flex justify-center w-full h-full ">
                                 <div className="flex w-full h-full">
                                     {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}
-                                    <div className="w-1/4 mr-2 overflow-y-auto border rounded-lg border--300">
+                                    <div className="w-1/3 mr-2 overflow-y-auto border rounded-lg border--300">
                                         {/* 검색 결과를 보여줄 컴포넌트 */}
                                         {placeInfoData &&
                                             placeInfoData.map(
