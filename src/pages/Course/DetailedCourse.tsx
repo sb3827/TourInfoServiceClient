@@ -127,11 +127,9 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
             // if (!user) return
             if (heart) {
                 setLikes(likes - 1)
-                deleteLike(5, parseInt(bno))
-                // deleteLike(user, parseInt(bno))
+                deleteLike(user, parseInt(bno))
             } else {
-                postLike(5, parseInt(bno))
-                // postLike(user, parseInt(bno))
+                postLike(user, parseInt(bno))
                 setLikes(likes + 1)
             }
             setHeart(!heart)
