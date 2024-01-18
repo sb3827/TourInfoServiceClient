@@ -10,14 +10,19 @@ export type ResponseBoard = {
     score: number
     likes: number
     isLiked: boolean
-    placeDTOS: placeDTOS[][]
-    writer: string
+    postingPlaceBoardDTOS: placeDTOS[][]
+    writerDTO: Writer
+    regdate: string
+    moddate: string
+}
+
+export type Writer = {
     mno: number
-    regDate: string
-    modDate: string
+    name: string
 }
 
 export type placeDTOS = {
+    pno: number
     name: string
     lat: number
     lng: number
@@ -27,6 +32,10 @@ export type placeDTOS = {
 }
 
 export type ResponseDeleteResult = {
+    bno: number
+}
+
+export type ResponseResult = {
     bno: number
 }
 
@@ -41,7 +50,30 @@ export type CourseBoardListData = {
     ad: boolean
 }
 
-export type imageReurnData = {
+export type ImageReturnData = {
     ino: number
     src: string
+}
+
+// Board 등록 수정
+export type savePlaceBoardDTO = {
+    bno: number | null // 등록: null, 수정: 기존 bno or request param
+    title: string
+    content: string
+    score: number
+    images: number[]
+    deleteImages: string[]
+    place: number
+    writer: number // 사용자 검증
+}
+
+export type saveCourseBoardDTO = {
+    bno: number | null // 등록: null, 수정: 기존 bno or request param
+    title: string
+    content: string
+    score: number
+    images: number[]
+    deleteImages: string[]
+    coursePlaceList: number[][]
+    writer: number // 사용자 검증
 }
