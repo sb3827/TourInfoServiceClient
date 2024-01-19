@@ -1,13 +1,24 @@
-import {useState} from 'react'
-import {Box, SearchInput, CourseInfo, BoardToggle, Subtitle, BoardBox} from '../../components/index'
-import { getSearchCourseInfo } from "../../api/CourseSearch/CourseSearch";
+import {useEffect, useState} from 'react'
+import {
+    Box,
+    SearchInput,
+    CourseInfo,
+    BoardToggle,
+    Subtitle,
+    BoardBox
+} from '../../components/index'
+import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
 import {CourseBoardListData} from '../../data/Board/BoardData'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faSignsPost } from '@fortawesome/free-solid-svg-icons'
+import {faSignsPost} from '@fortawesome/free-solid-svg-icons'
+import {useSearchParams} from 'react-router-dom'
 
 export const CourseSearch = () => {
+    const [searchParams, setSearchParams] = useSearchParams()
+    const initialSearch = searchParams.get('search') || ''
+
     //검색 값
-    const [searchValue, setSearchValue] = useState<string>('')
+    const [searchValue, setSearchValue] = useState<string>(initialSearch)
 
     // 검색 결과 데이터
     const [boardInfoData, setBoardInfoData] = useState<CourseBoardListData[] | null>(null)
@@ -29,14 +40,17 @@ export const CourseSearch = () => {
         }
 
         try {
+            setSearchParams({search: searchValue})
             const data = await getSearchCourseInfo(searchValue)
             setBoardInfoData(data)
-            console.log(data);
+            console.log(data)
         } catch (err) {
-            console.log(err);
-            alert('서버와 연결이 끊겼습니다.')
+            console.log(err)
         }
     }
+    useEffect(() => {
+        onPlaceList()
+    }, [])
 
     return (
         <Box>
@@ -47,7 +61,7 @@ export const CourseSearch = () => {
                 onKeyDown={onPlaceList}
             />
             <BoardToggle>
-            <Subtitle
+                <Subtitle
                     value="유저"
                     className="flex flex-row-reverse items-center text-left">
                     <FontAwesomeIcon icon={faSignsPost} className="m-1" />
@@ -58,18 +72,19 @@ export const CourseSearch = () => {
                     <FontAwesomeIcon icon={faSignsPost} className="m-1" />
                 </Subtitle>
                 <BoardBox>
-                {boardInfoData && 
-                    boardInfoData.map((data: CourseBoardListData) => (
-                      !data.ad && <CourseInfo boardData = {data}  />
-                    ))}
+                    {boardInfoData &&
+                        boardInfoData.map(
+                            (data: CourseBoardListData) =>
+                                !data.ad && <CourseInfo boardData={data} />
+                        )}
                 </BoardBox>
                 <BoardBox>
-                {boardInfoData && 
-                    boardInfoData.map((data: CourseBoardListData) => (
-                      data.ad && <CourseInfo boardData = {data}  />
-                    ))}
+                    {boardInfoData &&
+                        boardInfoData.map(
+                            (data: CourseBoardListData) =>
+                                data.ad && <CourseInfo boardData={data} />
+                        )}
                 </BoardBox>
-
             </BoardToggle>
         </Box>
     )
