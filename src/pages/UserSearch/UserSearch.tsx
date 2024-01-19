@@ -1,14 +1,17 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {Box, SearchInput, Button, SearchUserInfo, BoardBox} from '../../components/index'
-import { UserSearchData } from "../../data/User/User";
-import { getSearchUserInfo } from "../../api/UserSearch/UserSearch";
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/rootReducer';
-
+import {UserSearchData} from '../../data/User/User'
+import {getSearchUserInfo} from '../../api/UserSearch/UserSearch'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../store/rootReducer'
+import {useSearchParams} from 'react-router-dom'
 
 export const UserSearch = () => {
+    const [searchParams, setSearchParams] = useSearchParams()
+    const initialSearch = searchParams.get('search') || ''
+
     //검색 값
-    const [searchValue, setSearchValue] = useState<string>('')
+    const [searchValue, setSearchValue] = useState<string>(initialSearch)
 
     // 검색 결과 데이터
     const [userInfoData, setUserInfoData] = useState<UserSearchData[] | null>(null)
@@ -32,15 +35,19 @@ export const UserSearch = () => {
         }
 
         try {
-            console.log(user);
-            const data = await getSearchUserInfo(searchValue, user || null);
-            setUserInfoData(data);
-            console.log(data);
+            setSearchParams({search: searchValue})
+            console.log(user)
+            const data = await getSearchUserInfo(searchValue, user || null)
+            setUserInfoData(data)
+            console.log(data)
         } catch (error) {
             // 오류 처리
-            console.error(error);
+            console.error(error)
         }
     }
+    useEffect(() => {
+        onUserList()
+    }, [])
 
     return (
         <Box>
@@ -51,11 +58,12 @@ export const UserSearch = () => {
                 onKeyDown={onUserList}
             />
             <BoardBox>
-                    {userInfoData &&
-                    userInfoData.map((data: UserSearchData) => (
-                     !(data.mno == user) &&  <SearchUserInfo userInfo = {data}   />
-                    ))}
+                {userInfoData &&
+                    userInfoData.map(
+                        (data: UserSearchData) =>
+                            !(data.mno == user) && <SearchUserInfo userInfo={data} />
+                    )}
             </BoardBox>
-            </Box>
+        </Box>
     )
 }
