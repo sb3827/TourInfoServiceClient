@@ -18,15 +18,17 @@ export const refreshFormAxios = axios.create({
     }
 })
 
-//이런식으로 추가만 해주면 refresh 토큰 자동 발행
-refreshAxios.interceptors.request.use(
-    (config: AxiosRequestConfig) =>
-        refresh(config) as unknown as Promise<InternalAxiosRequestConfig>,
-    refreshErrorHandle
-)
+// 이런식으로 추가만 해주면 refresh 토큰 자동 발행
+getWithTokenExpire('token') === null &&
+    refreshAxios.interceptors.request.use(
+        (config: InternalAxiosRequestConfig) =>
+            refresh(config) as unknown as Promise<InternalAxiosRequestConfig>,
+        refreshErrorHandle
+    )
 
-refreshFormAxios.interceptors.request.use(
-    (config: AxiosRequestConfig) =>
-        refresh(config) as unknown as Promise<InternalAxiosRequestConfig>,
-    refreshErrorHandle
-)
+getWithTokenExpire('token') === null &&
+    refreshFormAxios.interceptors.request.use(
+        (config: AxiosRequestConfig) =>
+            refresh(config) as unknown as Promise<InternalAxiosRequestConfig>,
+        refreshErrorHandle
+    )

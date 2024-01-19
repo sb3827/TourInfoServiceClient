@@ -16,6 +16,7 @@ import {RootState} from '../../store/rootReducer'
 import {getCookie} from '../../util/cookie'
 import {useDispatch} from 'react-redux'
 import {setUser} from '../../store/slices/LoginSlice'
+import {getWithTokenExpire} from '../../util/localStorage'
 export const Sidebar = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -47,7 +48,7 @@ export const Sidebar = () => {
         navigate('/manager')
     }
     useEffect(() => {
-        if (!refreshToken) {
+        if (getWithTokenExpire('token') === null && !refreshToken) {
             dispatch(setUser({mno: null, role: null}))
         }
     }, [])
