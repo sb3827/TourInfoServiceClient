@@ -201,10 +201,11 @@ export const Main: FC<MainProps> = () => {
                                 fetchedData.data.mostBoardPlace &&
                                 fetchedData.data.mostBoardPlace.map(
                                     (mostLiked, index) => (
-                                        <SwiperSlide
-                                            key={index}
-                                            onClick={() => mostPostingDetailView(index)}>
+                                        <SwiperSlide key={index}>
                                             <MostLikedMainItem
+                                                onClick={() =>
+                                                    mostPostingDetailView(index)
+                                                }
                                                 title={mostLiked.name}
                                                 image={mostLiked.src ?? noImage}
                                             />
@@ -224,10 +225,9 @@ export const Main: FC<MainProps> = () => {
                         {fetchedData &&
                             fetchedData.data.recentlyBoard &&
                             fetchedData.data.recentlyBoard.map((recently, index) => (
-                                <SwiperSlide
-                                    key={index}
-                                    onClick={() => recentlyDetailView(index)}>
+                                <SwiperSlide key={index}>
                                     <MainItem
+                                        onClick={() => recentlyDetailView(index)}
                                         title={recently.title}
                                         image={recently.src ?? noImage}
                                     />
@@ -246,35 +246,39 @@ export const Main: FC<MainProps> = () => {
                         {fetchedData &&
                             fetchedData.data.mostLikeCourse &&
                             fetchedData.data.mostLikeCourse.map((course, index) => (
-                                <SwiperSlide
-                                    key={index}
-                                    onClick={() => mostLikedCourseDetailView(index)}>
-                                    <div className="flex">
-                                        <MostLikedCourseItem
-                                            title={course.title}
-                                            image={course.src ?? noImage}
-                                        />
-                                        <CoursePostMap
-                                            className="flex-1 rounded-lg shadow-md"
-                                            places={[
-                                                {
-                                                    name: 'abcd',
-                                                    lat: 37.74913611,
-                                                    lng: 128.8784972,
-                                                    localAddress: 'test',
-                                                    engAddress: 'test',
-                                                    roadAddress: 'test'
-                                                },
-                                                {
-                                                    name: 'test',
-                                                    lat: 38.37796111,
-                                                    lng: 128.4701639,
-                                                    localAddress: 'aaaa',
-                                                    engAddress: 'aaaa',
-                                                    roadAddress: 'aaaa'
-                                                }
-                                            ]}
-                                        />
+                                <SwiperSlide key={index}>
+                                    <div className="flex justify-center bg-red-200 ">
+                                        <div
+                                            className="flex w-10/12"
+                                            onClick={() =>
+                                                mostLikedCourseDetailView(index)
+                                            }>
+                                            <MostLikedCourseItem
+                                                title={course.title}
+                                                image={course.src ?? noImage}
+                                            />
+                                            <CoursePostMap
+                                                className="flex-1 rounded-lg shadow-md"
+                                                places={[
+                                                    {
+                                                        name: 'abcd',
+                                                        lat: 37.74913611,
+                                                        lng: 128.8784972,
+                                                        localAddress: 'test',
+                                                        engAddress: 'test',
+                                                        roadAddress: 'test'
+                                                    },
+                                                    {
+                                                        name: 'test',
+                                                        lat: 38.37796111,
+                                                        lng: 128.4701639,
+                                                        localAddress: 'aaaa',
+                                                        engAddress: 'aaaa',
+                                                        roadAddress: 'aaaa'
+                                                    }
+                                                ]}
+                                            />
+                                        </div>
                                     </div>
                                 </SwiperSlide>
                             ))}
@@ -291,10 +295,9 @@ export const Main: FC<MainProps> = () => {
                             />
                             <MainSlider preView={3}>
                                 {fetchedData.data.followBoard.map((follow, index) => (
-                                    <SwiperSlide
-                                        key={index}
-                                        onClick={() => followDetailView(index)}>
+                                    <SwiperSlide key={index}>
                                         <MainItem
+                                            onClick={() => followDetailView(index)}
                                             title={follow.title}
                                             image={follow.src ?? noImage}
                                         />
