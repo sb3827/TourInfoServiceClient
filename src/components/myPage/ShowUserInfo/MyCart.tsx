@@ -12,7 +12,7 @@ import {
     registerFolderData,
     updateFolderData
 } from './../../../data/Folder/Folder'
-import {Spot, MyPocketModal, Subtitle} from './../../index'
+import {Spot, MyPocketModal, Subtitle, CartItem, Item} from './../../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faPenToSquare, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {RootState} from './../../../store/rootReducer'
@@ -20,7 +20,11 @@ import {useSelector} from 'react-redux'
 
 //TODO - spot 추가 후 새로고침해야 나오는 문제
 
-export const MyCart: FC = () => {
+type MyCartProps = {
+    onChangeItems?: (itme: Item[]) => void
+}
+
+export const MyCart: FC<MyCartProps> = ({onChangeItems}) => {
     const [folder, setFolder] = useState<folderAll>()
     const [selectedFno, setSelectedFno] = useState<number | null>(1) // 페이지 시작할때 첫번째 폴더 선택
     const [newButtonName, setNewButtonName] = useState<string>('') // 폴더 이름
@@ -37,6 +41,19 @@ export const MyCart: FC = () => {
             const userFolderData = await ShowFolderAll(userMno)
             setFolder(userFolderData)
             console.log(userFolderData) // 추후에 삭제 예정
+
+            console.log(
+                'abcd : ',
+                userFolderData.data.map(folderInfo => convertFolderInfoToItem(folderInfo))
+            )
+
+            //여기서 오류
+            const convertedItems: Item[] = userFolderData.data.flatMap(folderInfo =>
+                convertFolderInfoToItem(folderInfo)
+            )
+
+            console.log('convertedItems', convertedItems)
+            onChangeItems && onChangeItems(convertedItems)
         } catch (error) {
             console.error('error', error)
         }
@@ -177,6 +194,19 @@ export const MyCart: FC = () => {
         }
     }
 
+    // folderInfo 데이터에서 Item 타입의 데이터로 변환하는 함수
+    function convertFolderInfoToItem(folderInfo: any) {
+        const items = []
+        for (let i = 0; i < folderInfo.pno.length; i++) {
+            items.push({
+                pno: folderInfo.pno[i],
+                img: folderInfo.src[i],
+                pname: folderInfo.name[i]
+            })
+        }
+        return items
+    }
+
     return (
         <div>
             <div className="w-full mt-8 overflow-y-auto bg-gray-200 border h-96">
@@ -230,20 +260,10 @@ export const MyCart: FC = () => {
                                 <div
                                     key={folderInfo.fno}
                                     className="flex flex-row w-full">
-                                    {Array.isArray(folderInfo.pno) &&
-                                        folderInfo.pno.map((pno, index) =>
-                                            pno !== null ? (
-                                                <div
-                                                    key={index}
-                                                    className="flex flex-row">
-                                                    <Spot
-                                                        src={folderInfo.src[index]}
-                                                        isRegister={true}>
-                                                        {folderInfo.name[index]}
-                                                    </Spot>
-                                                </div>
-                                            ) : null
-                                        )}
+                                    <CartItem
+                                        items={convertFolderInfoToItem(folderInfo)}
+                                    />
+
                                     {/* {folderInfo.title && <MyPocketModal />} */}
                                 </div>
                             ))}

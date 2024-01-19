@@ -1,5 +1,13 @@
 import {FC, PropsWithChildren, useEffect, useRef, useState} from 'react'
-import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
+import {
+    TextEditor,
+    Input,
+    Button,
+    Rating,
+    RatingRef,
+    EditorRef,
+    MyCart
+} from '../../components'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faMinus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate, useSearchParams} from 'react-router-dom'
@@ -22,7 +30,7 @@ type CourseRegisterProps = {
 
 export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props => {
     //코스 등록시 추가적으로 로직 필요 -> 아래 콘솔보고 할것
-    const day = useSelector((state: RootState) => state.course)
+    const [day, setDay] = useState(useSelector((state: RootState) => state.course))
     console.log(day)
 
     const dispatch = useDispatch()
@@ -48,6 +56,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     const starRef = useRef<RatingRef | null>(null)
     const editorRef = useRef<EditorRef | null>(null)
     const user = useSelector((state: RootState) => state.login.mno)!
+    const course = useSelector((state: RootState) => state.course)!
 
     const [loadImg, setLoadImg] = useState<string[]>([])
 
@@ -61,8 +70,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
 
         // editor로 인해 upload 된 images
         const images = editorRef.current?.getImages || []
-        console.log(images)
-
+        const placeList = course.map(daliyPlace => daliyPlace.map(place => place.pno))
         ////
         const board: saveCourseBoardDTO = {
             bno: null,
@@ -72,7 +80,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             deleteImages: [],
             images: [],
             //STUB - place stub
-            coursePlaceList: [[1, 2, 3], [4]],
+            coursePlaceList: placeList,
             writer: user
         }
         ////
@@ -90,8 +98,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
 
         // editor로 인해 upload 된 images
         let images = editorRef.current?.getImages || []
-        console.log(content)
-        console.log(editorRef.current?.getImages)
+        const placeList = course.map(daliyPlace => daliyPlace.map(place => place.pno))
         images.push(...loadImg.map(src => ({ino: -1, src: src})))
 
         console.log(images)
@@ -105,10 +112,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             deleteImages: [],
             images: [],
             //STUB - place stub
-            coursePlaceList: [
-                [1, 3],
-                [2, 4]
-            ],
+            coursePlaceList: placeList,
             writer: user
         }
         ////
@@ -147,6 +151,16 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             setLoadImg(data.images)
             editorRef.current?.getEditor()?.editor?.data.set(data.content)
             starRef.current?.setSelectedRating(data.score)
+
+            setDay(
+                data.postingPlaceBoardDTOS.map(daliyPlace =>
+                    daliyPlace.map(place => ({
+                        pno: place.pno,
+                        pname: place.name,
+                        img: ''
+                    }))
+                )
+            )
         } catch (error) {
             //NOTE - error 처리
             navigate(-1)
@@ -179,7 +193,6 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
                     size={70}
                     placeholder="제목을 입력하세요"
                     ref={titleRef}></Input>
-                <div>장바구니 목록s: 해창씨 어서 해줘요</div>
                 <div>
                     <div className="flex justify-end mb-2 ml-3">
                         <FontAwesomeIcon
