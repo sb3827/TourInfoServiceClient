@@ -5,14 +5,11 @@ import {
     userBoard,
     userCourse,
     userFollows,
-    userPlaceCount
+    userPlaceCount,
+    UserInfoData
 } from './../../data/User/User'
-import {refreshAxios} from './../Axios/RefreshAxios'
+import {refreshAxios, refreshFormAxios} from './../Axios/RefreshAxios'
 import {commonAxios} from './../Axios/CommonAxios'
-
-// user정보 ( userName, userId, userEmail, phoneNum, regDate, businessCheck, suspendDate )
-
-// 로그인 유저 정보
 
 // 회원정보 수정 페이지에 사용될 사용자 정보
 export const ShowUserInfo = async (mno: number): Promise<user> => {
@@ -21,10 +18,27 @@ export const ShowUserInfo = async (mno: number): Promise<user> => {
 }
 
 // 회원정보 수정
-export const onChangeUserData = async (userInfoDTO: user): Promise<void> => {
-    console.log(userInfoDTO)
-
-    const response = await refreshAxios.put('users/info/update', userInfoDTO)
+export const onChangeUserData = async (
+    user: any,
+    image: File | null
+): Promise<UserInfoData> => {
+    const formData = new FormData() // formData 생성
+    formData.append(
+        'member',
+        new Blob(
+            [
+                JSON.stringify({
+                    mno: user.mno,
+                    name: user.name,
+                    phone: user.phone,
+                    email: user.email
+                })
+            ],
+            {type: 'application/json'}
+        )
+    )
+    formData.append('image', image || '')
+    const response = await refreshFormAxios.put('users/info/update', formData)
     return response.data
 }
 
