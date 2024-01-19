@@ -55,9 +55,12 @@ export const Main: FC<MainProps> = () => {
     }
 
     function mostLikedCourseDetailView(index: number) {
-        if (fetchedData && fetchedData.data.mostLikeCourse[index].bno) {
+        if (
+            fetchedData &&
+            fetchedData.data.mostLikeCourse[index].mainBoardResponseDTO.bno
+        ) {
             navigate(
-                `/board/course/posting?bno=${fetchedData.data.mostLikeCourse[index].bno}`
+                `/board/course/posting?bno=${fetchedData.data.mostLikeCourse[index].mainBoardResponseDTO.bno}`
             )
         }
     }
@@ -128,17 +131,17 @@ export const Main: FC<MainProps> = () => {
     // 메인 아이템 로딩 useEffect
     const mno = useSelector((state: RootState) => state.login.mno)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await GetMainitemRequest(mno)
-                console.log('Fetched data:', data)
-                setFetchedData(data)
-            } catch (error) {
-                console.error('Error fetching data:', error)
-            }
+    const fetchData = async () => {
+        try {
+            const data = await GetMainitemRequest(mno)
+            console.log('Fetched data:', data)
+            setFetchedData(data)
+        } catch (error) {
+            console.error('Error fetching data:', error)
         }
+    }
 
+    useEffect(() => {
         fetchData()
     }, [mno])
 
@@ -254,10 +257,17 @@ export const Main: FC<MainProps> = () => {
                                                 mostLikedCourseDetailView(index)
                                             }>
                                             <MostLikedCourseItem
-                                                title={course.title}
-                                                image={course.src ?? noImage}
+                                                title={course.mainBoardResponseDTO.title}
+                                                image={
+                                                    course.mainBoardResponseDTO.src ??
+                                                    noImage
+                                                }
                                             />
                                             <CoursePostMap
+                                                className="flex-1 rounded-lg shadow-md"
+                                                places={course.placeList}
+                                            />
+                                            {/* <CoursePostMap
                                                 className="flex-1 rounded-lg shadow-md"
                                                 places={[
                                                     {
@@ -277,7 +287,7 @@ export const Main: FC<MainProps> = () => {
                                                         roadAddress: 'aaaa'
                                                     }
                                                 ]}
-                                            />
+                                            /> */}
                                         </div>
                                     </div>
                                 </SwiperSlide>
