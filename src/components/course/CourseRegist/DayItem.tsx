@@ -16,6 +16,7 @@ type DayItemProps = {
 }
 
 export const DayItem: FC<DayItemProps> = ({day, create}) => {
+    console.log('데이 :', day)
     const dispatch = useDispatch()
 
     //요일 삭제

@@ -1,26 +1,16 @@
-import {FC} from 'react'
+import {FC, useState} from 'react'
 import {DragDropContext, OnDragEndResponder} from 'react-beautiful-dnd'
 import {RootState} from '../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 import {addItemAtPosition, moveItem} from '../../../store/slices/CourseSlice'
 import {useDispatch} from 'react-redux'
-import {CartItem, DayItem} from '../../index'
+import {CartItem, DayItem, MyCart} from '../../index'
 
-//STUB - 더미 타입
 export type Item = {
+    pno: number
     img: string
     pname: string
 }
-
-//STUB -  더미
-export const dummy: Item[] = [
-    {img: 'image1.jpg', pname: 'Product 1'},
-    {img: 'image2.jpg', pname: 'Product 2'},
-    {img: 'image3.jpg', pname: 'Product 3'},
-    {img: 'image4.jpg', pname: 'Product 4'},
-    {img: 'image5.jpg', pname: 'Product 5'}
-]
-//
 
 type DndProps = {
     create: boolean
@@ -29,7 +19,13 @@ type DndProps = {
 
 export const CourseList: FC<DndProps> = ({create, day}) => {
     //이 더미 데이터는 추후에 장바구니 데이터로 바꿔야함
-    const items = dummy
+    // const items = dummy
+
+    const [items, setItems] = useState<Item[]>([])
+
+    const onChangeItems = (item: Item[]) => {
+        setItems(item)
+    }
 
     const dispatch = useDispatch()
 
@@ -98,7 +94,7 @@ export const CourseList: FC<DndProps> = ({create, day}) => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             {/* 장바구니 데이터 */}
-            {create && <CartItem items={items} />}
+            {create && <MyCart onChangeItems={onChangeItems} />}
 
             {/* 요일 데이터 */}
             <DayItem day={day} create={create} />
