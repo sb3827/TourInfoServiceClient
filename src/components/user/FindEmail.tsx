@@ -6,7 +6,6 @@ import {useDispatch} from 'react-redux'
 export const FindEmail = () => {
     const [userName, setUserName] = useState<string>('')
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>('')
-    const dispatch = useDispatch()
     // 전화번호 검증
     var phone_regex = /^010-([0-9]{3,4})-([0-9]{4})$/
 
@@ -60,29 +59,31 @@ export const FindEmail = () => {
     }
 
     return (
-        <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
-            <Title className="my-6 text-[#609966]">계정 찾기</Title>
+        <div className="flex justify-center">
+            <div className="flex flex-col justify-around w-2/3 p-8 h-96">
+                <Title className="my-6 text-[#609966]">계정 찾기</Title>
 
-            {/* 이름 입력창 */}
-            <div onKeyDown={onEmailFindClicked}>
-                <LoginInput
-                    className="mb-6"
-                    value={userName}
-                    text="이름"
-                    onChange={onUserNameChange}
-                />
-                {/* 휴대폰번호 입력창 */}
-                <LoginInput
-                    className="mb-3"
-                    value={userPhoneNumber}
-                    text="전화번호(- 포함)"
-                    onChange={onUserPhoneNumberChange}
-                />
+                {/* 이름 입력창 */}
+                <div onKeyDown={onEmailFindClicked}>
+                    <LoginInput
+                        className="mb-6"
+                        value={userName}
+                        text="이름"
+                        onChange={onUserNameChange}
+                    />
+                    {/* 휴대폰번호 입력창 */}
+                    <LoginInput
+                        className="mb-3"
+                        value={userPhoneNumber}
+                        text="전화번호(- 포함)"
+                        onChange={onUserPhoneNumberChange}
+                    />
+                </div>
+                <Button
+                    value="이메일 찾기"
+                    onClick={onEmailFindClicked}
+                    className="bg-[#8EB682] hover:bg-[#609966] text-white"></Button>
             </div>
-            <Button
-                value="이메일 찾기"
-                onClick={onEmailFindClicked}
-                className="bg-[#8EB682] hover:bg-[#609966]"></Button>
         </div>
     )
 }
