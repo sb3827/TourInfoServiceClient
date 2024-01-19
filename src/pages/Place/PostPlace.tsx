@@ -1,9 +1,7 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {
     Title,
-    Map,
     TextBox,
-    DropdownIcon,
     Slider,
     PlacePostMap,
     PlaceProps,
@@ -17,11 +15,9 @@ import {
     faArrowLeft,
     faEllipsisVertical
 } from '@fortawesome/free-solid-svg-icons'
-import {dummyText, imgsrcs} from "../../dummy data/sb's dummy"
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {ResponseBoard} from '../../data/Board/BoardData'
 import {deleteLike, placePostLoad, postLike} from '../../api/Board/board'
 
 type PostPlaceProps = {
@@ -36,13 +32,15 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     const [likes, setLikes] = useState<number>(0)
     const [date, setDate] = useState<string>('')
     const [title, setTitle] = useState<string>('')
+    const [images, setImages] = useState<string[]>([''])
+    const [writer, setWriter] = useState<string>()
     const [place, setPlace] = useState<PlaceProps>({
         name: '서면 거리',
         lat: 35.1584,
         lng: 129.0583,
-        road: '부산광역시 서구 중앙대로 678',
-        local: '부산광역시 서구 서면',
-        eng: '678, Jungang-daero, Seo-gu, Busan'
+        roadAddress: '부산광역시 서구 중앙대로 678',
+        localAddress: '부산광역시 서구 서면',
+        engAddress: '678, Jungang-daero, Seo-gu, Busan'
     })
     const [report, setReport] = useState<boolean>(false)
     // user mno
@@ -58,11 +56,9 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
             if (!user) return
             if (heart) {
                 setLikes(likes - 1)
-                deleteLike(5, parseInt(bno))
-                // deleteLike(user, parseInt(bno))
+                deleteLike(user, parseInt(bno))
             } else {
-                postLike(5, parseInt(bno))
-                // postLike(user, parseInt(bno))
+                postLike(user, parseInt(bno))
                 setLikes(likes + 1)
             }
             setHeart(!heart)
@@ -88,41 +84,41 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     async function loadPage() {
         try {
             const data = await placePostLoad(parseInt(bno))
+            console.log(data)
             if (data.isCourse) {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
             }
-            if (user == data.writer) {
+            if (user == data.writerDTO.mno) {
                 setEnables([true, false])
             }
 
             setTitle(data.title) // title
             setScore(data.score) // number of star
-            //NOTE - setHeart(t/f)
+            setHeart(data.isLiked) // set isLiked
             setLikes(data.likes) // number of likes
-            if (data.modDate == data.regDate) {
-                setDate('작성일자: ' + data.regDate)
+            // set write Date
+            if (data.moddate == data.regdate) {
+                setDate('작성일자: ' + data.regdate)
             } else {
-                setDate('수정일자: ' + data.modDate)
+                setDate('수정일자: ' + data.moddate)
             }
-            //NOTE - 이미지, 지도 처리
-            setPlace({
-                name: '서면 거리',
-                lat: 35.1584,
-                lng: 129.0583,
-                road: '부산광역시 서구 중앙대로 678',
-                local: '부산광역시 서구 서면',
-                eng: '678, Jungang-daero, Seo-gu, Busan'
-            })
-
+            setWriter(data.writerDTO.name) // writer
+            // setImages
+            if (data.images.length > 0) setImages(data.images)
+            // setPlace
+            if (data.postingPlaceBoardDTOS.length > 0) {
+                setPlace(data.postingPlaceBoardDTOS[0][0])
+            }
             setContent(data.content) // content
         } catch (error) {
-            navigate(-1)
+            // navigate(-1)
+            //FIXME - 영현 에러처리 부탁~ 해요
         }
     }
     useEffect(() => {
         loadPage()
-    }, [heart])
+    }, [])
 
     return (
         <div className="w-3/4 mx-auto">
@@ -178,21 +174,22 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                         {likes}
                     </div>
                 </div>
+                <div className="flex flex-row justify-end">작성자: {writer}</div>
                 <div className="flex flex-row justify-end">{date}</div>
             </div>
             <div className="my-2">
                 {/*body*/}
-                <div className="flex flex-row justify-center">
-                    <Slider className="w-1/2">
-                        {imgsrcs.map((addr, index) => (
+                <div className="flex flex-row items-center justify-center h-full">
+                    <Slider className="w-1/2 h-full">
+                        {images.map((image, index) => (
                             <img
-                                className="mx-auto my-auto"
+                                className="w-full h-full mx-auto my-auto"
                                 key={index}
-                                src={addr}
+                                src={image}
                                 alt="img"></img>
                         ))}
                     </Slider>
-                    <PlacePostMap className="w-1/2" place={place}></PlacePostMap>
+                    <PlacePostMap className="w-1/2" place={place!}></PlacePostMap>
                 </div>
                 <div className="my-2">
                     <TextBox data={content}></TextBox>

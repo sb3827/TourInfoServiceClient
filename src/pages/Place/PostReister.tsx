@@ -4,7 +4,15 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import type {RatingRef, EditorRef} from '../../components'
-import {deleteBoard, placePostLoad} from '../../api/Board/board'
+import {
+    deleteBoard,
+    modifyPlaceBoard,
+    placePostLoad,
+    registPlaceBoard
+} from '../../api/Board/board'
+import {ImageReturnData, savePlaceBoardDTO} from '../../data/Board/BoardData'
+import {RootState} from '../../store/rootReducer'
+import {useSelector} from 'react-redux'
 
 type PostRegisterProps = {
     isModify: boolean // true: 수정, false: 등록
@@ -23,16 +31,68 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     const titleRef = useRef<HTMLInputElement | null>(null)
     const starRef = useRef<RatingRef | null>(null)
     const editorRef = useRef<EditorRef | null>(null)
+    const user = useSelector((state: RootState) => state.login.mno)!
+
+    const [loadImg, setLoadImg] = useState<string[]>([])
 
     // 등록 onclick 함수
     function regist() {
-        console.log('title: ' + titleRef.current?.value)
-        console.log('stared: ' + starRef.current?.getSelectedRating())
-        console.log('content: ' + editorRef.current?.getEditor()?.editor?.data.get())
-        console.log('images: ' + editorRef.current?.getImages)
+        const title = titleRef.current?.value || ''
+        const score = starRef.current?.getSelectedRating() as number
+        const content = editorRef.current?.getEditor()?.editor?.data.get() as string
+
+        // editor로 인해 upload 된 images
+        const images = editorRef.current?.getImages || []
+
+        ////
+        const board: savePlaceBoardDTO = {
+            bno: null,
+            title: title,
+            score: score,
+            content: content,
+            deleteImages: [],
+            images: [],
+            //STUB - place stub
+            place: 1,
+            writer: user
+        }
+        ////
+
+        registPlaceBoard(board, images).then(res => {
+            alert(`${res.bno}번 글 등록 완료!`)
+            navigate(`/board/place/posting?bno=${res.bno}`)
+        })
     }
     // 수정 onclick 함수
-    function modify() {}
+    function modify() {
+        const title = titleRef.current?.value || ''
+        const score = starRef.current?.getSelectedRating() as number
+        const content = editorRef.current?.getEditor()?.editor?.data.get() as string
+
+        // editor로 인해 upload 된 images
+        let images = editorRef.current?.getImages || []
+        images.push(...loadImg.map(src => ({ino: -1, src: src})))
+
+        ////
+        const board: savePlaceBoardDTO = {
+            bno: parseInt(searchParams.get('bno')!),
+            title: title,
+            score: score,
+            content: content,
+            deleteImages: [],
+            images: [],
+            //STUB - place stub
+            place: 1,
+            writer: user
+        }
+        ////
+        console.log(user)
+
+        modifyPlaceBoard(board, images).then(res => {
+            alert(`${res.bno}번 글 수정 완료!`)
+            navigate(`/board/place/posting?bno=${res.bno}`)
+        })
+    }
     // 삭제 onclick 함수
     async function erase() {
         const bno = searchParams.get('bno') || '0'
@@ -47,10 +107,12 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     }
 
     const [searchParams] = useSearchParams()
-    if (props.isModify) {
-        console.log('modify page')
-        loadPage()
-    }
+    useEffect(() => {
+        if (props.isModify) {
+            console.log('modify page')
+            loadPage()
+        }
+    }, [])
 
     // load page function
     async function loadPage() {
@@ -64,9 +126,12 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
             if (titleRef.current) {
                 titleRef.current.value = data.title
             }
+            setLoadImg(data.images)
             editorRef.current?.getEditor()?.editor?.data.set(data.content)
             starRef.current?.setSelectedRating(data.score)
+            //TODO - 장소 정보 설정
         } catch (error) {
+            //FIXME - 404 에러처리
             navigate(-1)
         }
     }

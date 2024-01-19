@@ -164,17 +164,17 @@ export const Main: FC<MainProps> = () => {
                                             name: 'abcd',
                                             lat: 37.74913611,
                                             lng: 128.8784972,
-                                            local: 'test',
-                                            eng: 'test',
-                                            road: 'test'
+                                            localAddress: 'test',
+                                            engAddress: 'test',
+                                            roadAddress: 'test'
                                         },
                                         {
                                             name: 'test',
                                             lat: 38.37796111,
                                             lng: 128.4701639,
-                                            local: 'aaaa',
-                                            eng: 'aaaa',
-                                            road: 'aaaa'
+                                            localAddress: 'aaaa',
+                                            engAddress: 'aaaa',
+                                            roadAddress: 'aaaa'
                                         }
                                     ]}
                                 />
@@ -195,17 +195,17 @@ export const Main: FC<MainProps> = () => {
                                             name: 'abcd',
                                             lat: 37.74913611,
                                             lng: 128.8784972,
-                                            local: 'test',
-                                            eng: 'test',
-                                            road: 'test'
+                                            localAddress: 'test',
+                                            engAddress: 'test',
+                                            roadAddress: 'test'
                                         },
                                         {
                                             name: 'test',
                                             lat: 38.37796111,
                                             lng: 128.4701639,
-                                            local: 'aaaa',
-                                            eng: 'aaaa',
-                                            road: 'aaaa'
+                                            localAddress: 'aaaa',
+                                            engAddress: 'aaaa',
+                                            roadAddress: 'aaaa'
                                         }
                                     ]}
                                 />
