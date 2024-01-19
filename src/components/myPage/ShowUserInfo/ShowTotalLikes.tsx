@@ -4,6 +4,7 @@ import {FC, useState, useEffect} from 'react'
 import {MyPocketModal, Spot, MyCart} from './../../index'
 import {ShowFolderAll} from './../../../api/Folder/Folder'
 import {folderAll} from './../../../data/Folder/Folder'
+import {DragDropContext, OnDragEndResponder} from 'react-beautiful-dnd'
 
 type ShowTotalLikesProps = {
     cart: string
@@ -61,7 +62,9 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
                         </div>
                         <div>
                             <h1>My Cart</h1>
-                            <MyCart />
+                            <DragDropContext onDragEnd={() => {}}>
+                                <MyCart dragDisable={true} />
+                            </DragDropContext>
                         </div>
                     </div>
                 </div>

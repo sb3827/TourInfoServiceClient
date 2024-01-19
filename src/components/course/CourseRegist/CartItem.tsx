@@ -5,9 +5,10 @@ import {Spot} from '../../Spot'
 
 type CartItemProps = {
     items: Item[]
+    dragDisable?: boolean
 }
 
-export const CartItem: FC<CartItemProps> = ({items}) => {
+export const CartItem: FC<CartItemProps> = ({items, dragDisable}) => {
     return (
         <div className="flex">
             {items.map((item, index) => (
@@ -15,6 +16,7 @@ export const CartItem: FC<CartItemProps> = ({items}) => {
                     {provided => (
                         <div {...provided.droppableProps} ref={provided.innerRef}>
                             <Draggable
+                                isDragDisabled={false || dragDisable}
                                 key={item.pname}
                                 draggableId={item.pname}
                                 index={index}>
