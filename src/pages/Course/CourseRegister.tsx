@@ -1,4 +1,4 @@
-import {FC, PropsWithChildren, useEffect, useRef, useState} from 'react'
+import {FC, PropsWithChildren, useEffect, useMemo, useRef, useState} from 'react'
 import {
     TextEditor,
     Input,
@@ -30,7 +30,7 @@ type CourseRegisterProps = {
 
 export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props => {
     //코스 등록시 추가적으로 로직 필요 -> 아래 콘솔보고 할것
-    const [day, setDay] = useState(useSelector((state: RootState) => state.course))
+    let day = useSelector((state: RootState) => state.course)
     console.log(day)
 
     const dispatch = useDispatch()
@@ -150,14 +150,12 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             editorRef.current?.getEditor()?.editor?.data.set(data.content)
             starRef.current?.setSelectedRating(data.score)
 
-            setDay(
-                data.postingPlaceBoardDTOS.map(daliyPlace =>
-                    daliyPlace.map(place => ({
-                        pno: place.pno,
-                        pname: place.name,
-                        img: ''
-                    }))
-                )
+            day = data.postingPlaceBoardDTOS.map(daliyPlace =>
+                daliyPlace.map(place => ({
+                    pno: place.pno,
+                    pname: place.name,
+                    img: ''
+                }))
             )
         } catch (error) {
             //NOTE - error 처리
@@ -174,6 +172,8 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             loadPage()
         }
     }, [])
+
+    const courseList = useMemo(() => <CourseList create={true} day={day} />, [day])
 
     return (
         <div className="w-3/4 mx-auto">
@@ -207,7 +207,8 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
                         />
                     </div>
                     {/* 테스트 코드 */}
-                    <CourseList create={true} day={day} />
+                    {/* <CourseList create={true} day={day} /> */}
+                    {courseList}
                 </div>
                 <div className="flex flex-row justify-end my-2">
                     <Rating ref={starRef} />
