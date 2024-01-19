@@ -1,7 +1,6 @@
 import {
     FC,
     useState,
-    useCallback,
     PropsWithChildren,
     RefAttributes,
     useRef,
@@ -10,23 +9,19 @@ import {
     HTMLAttributes,
     useImperativeHandle,
     forwardRef,
-    Ref,
-    ForwardRefExoticComponent
+    Ref
 } from 'react'
 
 export type PlaceData = {
     name: string
     lng: number
     lat: number
-    roadAddress: string
-    localAddress: string
-    engAddress: string
-}
+} & Address
 
 export type Address = {
-    road: string // 도로명
-    local: string // 지번
-    eng: string // 영문
+    roadAddress: string // 도로명
+    localAddress: string // 지번
+    engAddress: string // 영문
 }
 export type AddressResult = {
     msg: string // 처리 message
@@ -38,9 +33,9 @@ export function searchAddressToCoordinate(address: string): Promise<AddressResul
     return new Promise<AddressResult>((resolve, reject) => {
         let result: AddressResult = {
             msg: '',
-            road: '',
-            local: '',
-            eng: ''
+            roadAddress: '',
+            localAddress: '',
+            engAddress: ''
         }
 
         naver.maps.Service.geocode(
@@ -61,15 +56,15 @@ export function searchAddressToCoordinate(address: string): Promise<AddressResul
                     const item = response.v2.addresses[0]
 
                     if (item.roadAddress) {
-                        result.road = item.roadAddress
+                        result.roadAddress = item.roadAddress
                     }
 
                     if (item.jibunAddress) {
-                        result.local = item.jibunAddress
+                        result.localAddress = item.jibunAddress
                     }
 
                     if (item.englishAddress) {
-                        result.eng = item.englishAddress
+                        result.engAddress = item.englishAddress
                     }
 
                     resolve(result) // 비동기 작업이 성공적으로 완료되면 resolve를 호출하여 프로미스를 성공 상태로 전환
@@ -164,9 +159,9 @@ function searchCoordinateToAddress(coord: number[]): Promise<AddressResult> {
     return new Promise<AddressResult>((resolve, reject) => {
         let result: AddressResult = {
             msg: '',
-            road: '',
-            local: '',
-            eng: ''
+            roadAddress: '',
+            localAddress: '',
+            engAddress: ''
         }
 
         naver.maps.Service.reverseGeocode(
@@ -192,9 +187,9 @@ function searchCoordinateToAddress(coord: number[]): Promise<AddressResult> {
                         item = items[i]
                         address = makeAddress(item) || ''
                         if (item.name === 'roadaddr') {
-                            result.road = address
+                            result.roadAddress = address
                         } else {
-                            result.local = address
+                            result.localAddress = address
                         }
                     }
                     resolve(result)
@@ -202,59 +197,6 @@ function searchCoordinateToAddress(coord: number[]): Promise<AddressResult> {
             }
         )
     })
-}
-
-//TODO - deprecated
-export const Map: FC<{width: string; height: string}> = () => {
-    const mapElement = useRef(null)
-
-    useEffect(() => {
-        const {naver} = window
-        if (!mapElement.current || !naver) return
-        // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
-        const location = new naver.maps.LatLng(35.153289, 129.0597855)
-        // const maxBoundary = new naver.maps.LatLngBounds(
-        //     new naver.maps.LatLng(lat, lng),
-        //     new naver.maps.LatLng(lat, lng));
-        const mapOptions: naver.maps.MapOptions = {
-            disableDoubleClickZoom: true, // 더블 클릭 줌 해제
-            draggable: true, // default true
-            center: location,
-            zoom: 16, // default zoom
-            minZoom: 6, // min zoom
-            maxZoom: 21, // max zoom
-            zoomControl: true,
-            zoomControlOptions: {
-                position: naver.maps.Position.TOP_RIGHT
-            },
-            // maxBounds: maxBoundary , // 최대 경계
-            tileTransition: true, // 타일 fadeIn 효과
-            mapDataControl: false, // 저작권 표시
-            logoControl: false, // 로고표시
-            scaleControl: false // 축적 표시
-        }
-
-        const map = new naver.maps.Map(mapElement.current, mapOptions)
-
-        const polyline = new naver.maps.Polyline({
-            map: map,
-            path: [],
-            strokeColor: '#5347AA',
-            strokeWeight: 2
-        })
-
-        naver.maps.Event.addListener(map, 'click', function (e) {
-            const path = polyline.getPath()
-            path.push(e.coord)
-
-            new naver.maps.Marker({
-                map: map,
-                position: e.coord
-            })
-        })
-    }, [])
-
-    return <div ref={mapElement} style={{minHeight: '300px'}}></div>
 }
 
 export const PlainMap: FC<
@@ -387,9 +329,9 @@ export const PlacePostMap: FC<PropsWithChildren<PlacePostMapProps>> = ({
             `   <h1>${place.name}</h1>`,
             '   <div>',
             '       <p>',
-            `           [도로명 주소] ${place.road} <br />`,
-            `           [지  번 주소] ${place.local}<br />`,
-            `           [영문명 주소] ${place.eng}<br />`,
+            `           [도로명 주소] ${place.roadAddress} <br />`,
+            `           [지  번 주소] ${place.localAddress}<br />`,
+            `           [영문명 주소] ${place.engAddress}<br />`,
             '       </p>',
             '   </div>',
             '</div>'
@@ -407,7 +349,7 @@ export const PlacePostMap: FC<PropsWithChildren<PlacePostMapProps>> = ({
         })
 
         infowindow.open(map, marker)
-    }, [])
+    }, [place])
 
     return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
 }
@@ -500,8 +442,8 @@ export const ChooseMap: FC<
                         '<div class="iw_inner">',
                         '   <div>',
                         '       <p>',
-                        `           [도로명 주소] ${result.road} <br />`,
-                        `           [지  번 주소] ${result.local}<br />`,
+                        `           [도로명 주소] ${result.roadAddress} <br />`,
+                        `           [지  번 주소] ${result.localAddress}<br />`,
                         '       </p>',
                         '   </div>',
                         '</div>'
@@ -509,9 +451,9 @@ export const ChooseMap: FC<
 
                     // infowindow의 내용을 업데이트합니다.
                     infowindow.setContent(contentString.join(''))
-                    onRoadAddressChange(result.road) // 주소 보내주기
-                    onLocalAddressChange(result.local) // 주소 보내주기
-                    onEngAddressChange(result.eng) // 주소 보내주기
+                    onRoadAddressChange(result.roadAddress) // 주소 보내주기
+                    onLocalAddressChange(result.localAddress) // 주소 보내주기
+                    onEngAddressChange(result.engAddress) // 주소 보내주기
                     onLatChange(e.coord._lat)
                     onLngChange(e.coord._lng)
                 } catch (error) {
@@ -533,7 +475,6 @@ type CoursePostMapProps = {
     DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 // 마커 + polyline 지도 (코스 포스팅 페이지)
 // 장소 순서대로 배열 생성하여 입력
-// TODO 날짜별 코스 분리-multi polyline, +@날짜별 색상
 export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
     places,
     ...props
@@ -545,10 +486,13 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
         if (!mapElement.current || !naver) return
         // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
         const location = getCenter(places)
-        const maxBoundary = getBoundary(places)
+        const maxBoundary = new naver.maps.LatLngBounds(
+            new naver.maps.LatLng(31.3418403, 124.1530811),
+            new naver.maps.LatLng(39.0169875, 132.6949512)
+        )
         const mapOptions: naver.maps.MapOptions = {
             disableDoubleClickZoom: true, // 더블 클릭 줌 해제
-            draggable: false, // default true
+            draggable: true, // default true
             center: location,
             zoom: 9, // default zoom
             minZoom: 6, // min zoom
@@ -579,158 +523,6 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
             const path = polyline.getPath()
             path.push(new naver.maps.LatLng(place.lat, place.lng))
 
-            const maker = new naver.maps.Marker({
-                map: map,
-                position: new naver.maps.LatLng(place.lat, place.lng)
-            })
-            markers.push(maker)
-
-            const infowindow = new naver.maps.InfoWindow({
-                content: [
-                    '<div class="iw_inner">',
-                    `   <h1>${place.name}</h1>`,
-                    '   <div>',
-                    '       <p>',
-                    `           [도로명 주소] ${place.road} <br />`,
-                    `           [지  번 주소] ${place.local}<br />`,
-                    `           [영문명 주소] ${place.eng}<br />`,
-                    '       </p>',
-                    '   </div>',
-                    '</div>'
-                ].join(''),
-
-                //maxWidth: 140,
-                backgroundColor: '#eee',
-                borderColor: '#2db400',
-                borderWidth: 5,
-                anchorSize: new naver.maps.Size(30, 30),
-                anchorSkew: true,
-                anchorColor: '#eee',
-
-                pixelOffset: new naver.maps.Point(20, -20)
-            })
-            infoWindows.push(infowindow)
-        })
-
-        naver.maps.Event.addListener(map, 'idle', function () {
-            updateMarkers(map, markers)
-        })
-
-        function updateMarkers(map: any, markers: any) {
-            var mapBounds = map.getBounds()
-            var marker, position
-
-            for (var i = 0; i < markers.length; i++) {
-                marker = markers[i]
-                position = marker.getPosition()
-
-                if (mapBounds.hasLatLng(position)) {
-                    showMarker(map, marker)
-                } else {
-                    hideMarker(map, marker)
-                }
-            }
-        }
-
-        function showMarker(map: any, marker: any) {
-            if (marker.setMap()) return
-            marker.setMap(map)
-        }
-
-        function hideMarker(map: any, marker: any) {
-            if (!marker.setMap()) return
-            marker.setMap(null)
-        }
-
-        // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
-        function getClickHandler(seq: number) {
-            return function (e: any) {
-                var marker = markers[seq],
-                    infoWindow = infoWindows[seq]
-
-                if (infoWindow.getMap()) {
-                    infoWindow.close()
-                } else {
-                    infoWindow.open(map, marker)
-                }
-            }
-        }
-
-        for (var i = 0, ii = markers.length; i < ii; i++) {
-            naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i))
-        }
-    }, [])
-
-    return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
-}
-
-export type SearchMapRef = {
-    setLocation: (index: number) => void
-}
-
-type SearchMapProps = {
-    places: PlaceData[] | null
-    innerRef : Ref<SearchMapRef>
-} & RefAttributes<naver.maps.Map> &
-    DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
-// 마커들 (검색 페이지)
-// FIXME 검색 페이지 이벤트 연동 @honghyibeom
-export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapProps>>(
-    ({ places, innerRef, ...props} ) => {
-    const mapElement = useRef(null)
-    const [idx, setIdx] = useState<number>(0)
-
-    let map: naver.maps.Map
-    const markers: naver.maps.Marker[] = []
-    const infoWindows: naver.maps.InfoWindow[] = []
-
-    if(places == null) {
-        places = [{
-            name: "서면",
-            lng: 35.153289,
-            lat: 129.0597855,
-            roadAddress: "",
-            localAddress: "",
-            engAddress: ""
-        }]
-    }
-
-    useImperativeHandle(innerRef, () => ({
-        setLocation: (index: number) => {setIdx(index)
-        console.log(idx)
-        }
-    }))
-
-    useEffect(() => {
-        const {naver} = window
-        if (!mapElement.current || !naver) return
-        // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
-        const location = new naver.maps.LatLng(places![idx].lat, places![idx].lng)
-        const maxBoundary = new naver.maps.LatLngBounds(
-            new naver.maps.LatLng(31.3418403, 124.1530811),
-            new naver.maps.LatLng(39.0169875, 132.6949512)
-        )
-        const mapOptions: naver.maps.MapOptions = {
-            disableDoubleClickZoom: true, // 더블 클릭 줌 해제
-            draggable: true, // default true
-            center: location,
-            zoom: 12, // default zoom
-            minZoom: 6, // min zoom
-            maxZoom: 21, // max zoom
-            zoomControl: true,
-            zoomControlOptions: {
-                position: naver.maps.Position.TOP_RIGHT
-            },
-            maxBounds: maxBoundary, // 최대 경계
-            tileTransition: true, // 타일 fadeIn 효과
-            mapDataControl: false, // 저작권 표시
-            logoControl: false, // 로고표시
-            scaleControl: false // 축적 표시
-        }
-
-        map = new naver.maps.Map(mapElement.current, mapOptions)
-
-        places!.map(place => {
             const maker = new naver.maps.Marker({
                 map: map,
                 position: new naver.maps.LatLng(place.lat, place.lng)
@@ -798,9 +590,7 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
         function getClickHandler(seq: number) {
             return function (e: any) {
                 var marker = markers[seq],
-                    infoWindow = infoWindows[seq],
-                    position = marker.getPosition()
-                map.panTo(position)
+                    infoWindow = infoWindows[seq]
 
                 if (infoWindow.getMap()) {
                     infoWindow.close()
@@ -813,12 +603,169 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
         for (var i = 0, ii = markers.length; i < ii; i++) {
             naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i))
         }
-        infoWindows[idx].open(map, markers[idx])
-    }, [places, idx])
+    }, [places])
 
-    return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>;
+    return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
+}
 
-})
+export type SearchMapRef = {
+    setLocation: (index: number) => void
+}
+
+type SearchMapProps = {
+    places: PlaceData[] | null
+    innerRef: Ref<SearchMapRef>
+} & RefAttributes<naver.maps.Map> &
+    DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+// 마커들 (검색 페이지)
+// FIXME 검색 페이지 이벤트 연동 @honghyibeom
+export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapProps>>(
+    ({places, innerRef, ...props}) => {
+        const mapElement = useRef(null)
+        const [idx, setIdx] = useState<number>(0)
+
+        let map: naver.maps.Map
+        const markers: naver.maps.Marker[] = []
+        const infoWindows: naver.maps.InfoWindow[] = []
+
+        if (places == null) {
+            places = [
+                {
+                    name: '서면',
+                    lng: 35.153289,
+                    lat: 129.0597855,
+                    roadAddress: '',
+                    localAddress: '',
+                    engAddress: ''
+                }
+            ]
+        }
+
+        useImperativeHandle(innerRef, () => ({
+            setLocation: (index: number) => {
+                setIdx(index)
+                console.log(idx)
+            }
+        }))
+
+        useEffect(() => {
+            const {naver} = window
+            if (!mapElement.current || !naver) return
+            // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
+            const location = new naver.maps.LatLng(places![idx].lat, places![idx].lng)
+            const maxBoundary = new naver.maps.LatLngBounds(
+                new naver.maps.LatLng(31.3418403, 124.1530811),
+                new naver.maps.LatLng(39.0169875, 132.6949512)
+            )
+            const mapOptions: naver.maps.MapOptions = {
+                disableDoubleClickZoom: true, // 더블 클릭 줌 해제
+                draggable: true, // default true
+                center: location,
+                zoom: 12, // default zoom
+                minZoom: 6, // min zoom
+                maxZoom: 21, // max zoom
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: naver.maps.Position.TOP_RIGHT
+                },
+                maxBounds: maxBoundary, // 최대 경계
+                tileTransition: true, // 타일 fadeIn 효과
+                mapDataControl: false, // 저작권 표시
+                logoControl: false, // 로고표시
+                scaleControl: false // 축적 표시
+            }
+
+            map = new naver.maps.Map(mapElement.current, mapOptions)
+
+            places!.map(place => {
+                const maker = new naver.maps.Marker({
+                    map: map,
+                    position: new naver.maps.LatLng(place.lat, place.lng)
+                })
+                markers.push(maker)
+
+                const infowindow = new naver.maps.InfoWindow({
+                    content: [
+                        '<div class="iw_inner">',
+                        `   <h1>${place.name}</h1>`,
+                        '   <div>',
+                        '       <p>',
+                        `           [도로명 주소] ${place.roadAddress} <br />`,
+                        `           [지  번 주소] ${place.localAddress}<br />`,
+                        `           [영문명 주소] ${place.engAddress}<br />`,
+                        '       </p>',
+                        '   </div>',
+                        '</div>'
+                    ].join(''),
+
+                    //maxWidth: 140,
+                    backgroundColor: '#eee',
+                    borderColor: '#2db400',
+                    borderWidth: 5,
+                    anchorSize: new naver.maps.Size(30, 30),
+                    anchorSkew: true,
+                    anchorColor: '#eee',
+
+                    pixelOffset: new naver.maps.Point(20, -20)
+                })
+                infoWindows.push(infowindow)
+            })
+
+            naver.maps.Event.addListener(map, 'idle', function () {
+                updateMarkers(map, markers)
+            })
+
+            function updateMarkers(map: any, markers: any) {
+                var mapBounds = map.getBounds()
+                var marker, position
+
+                for (var i = 0; i < markers.length; i++) {
+                    marker = markers[i]
+                    position = marker.getPosition()
+
+                    if (mapBounds.hasLatLng(position)) {
+                        showMarker(map, marker)
+                    } else {
+                        hideMarker(map, marker)
+                    }
+                }
+            }
+
+            function showMarker(map: any, marker: any) {
+                if (marker.setMap()) return
+                marker.setMap(map)
+            }
+
+            function hideMarker(map: any, marker: any) {
+                if (!marker.setMap()) return
+                marker.setMap(null)
+            }
+
+            // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
+            function getClickHandler(seq: number) {
+                return function (e: any) {
+                    var marker = markers[seq],
+                        infoWindow = infoWindows[seq],
+                        position = marker.getPosition()
+                    map.panTo(position)
+
+                    if (infoWindow.getMap()) {
+                        infoWindow.close()
+                    } else {
+                        infoWindow.open(map, marker)
+                    }
+                }
+            }
+
+            for (var i = 0, ii = markers.length; i < ii; i++) {
+                naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i))
+            }
+            infoWindows[idx].open(map, markers[idx])
+        }, [places, idx])
+
+        return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
+    }
+)
 
 function getCenter(latlngs: LatLng[]): naver.maps.LatLng {
     let lat = 0,

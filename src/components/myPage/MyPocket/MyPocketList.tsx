@@ -9,7 +9,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import {
     MyLikes,
-    Map,
     Button,
     Box,
     SearchInput,
