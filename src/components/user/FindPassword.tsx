@@ -49,8 +49,8 @@ export const FindPassword = () => {
     }
 
     return (
-        <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
-            <div className="">
+        <div className="flex justify-center">
+            <div className="flex flex-col justify-around w-2/3 p-8 h-96">
                 <Title className="my-6 text-[#609966]">비밀번호 찾기</Title>
 
                 {/* 이메일 입력 창 */}
@@ -65,7 +65,7 @@ export const FindPassword = () => {
                 <Button
                     value="비밀번호 찾기"
                     onClick={onPasswordFindClicked}
-                    className="bg-[#8EB682] hover:bg-[#609966]"></Button>
+                    className="bg-[#8EB682] hover:bg-[#609966] text-white"></Button>
             </div>
         </div>
     )

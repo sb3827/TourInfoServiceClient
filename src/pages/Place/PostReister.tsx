@@ -1,9 +1,16 @@
 import {FC, PropsWithChildren, useEffect, useRef, useState} from 'react'
-import {Input, TextEditor, Button, Rating} from '../../components'
+import {
+    Input,
+    TextEditor,
+    Button,
+    Rating,
+    InputPlace,
+    PlacePostMap
+} from '../../components'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate, useSearchParams} from 'react-router-dom'
-import type {RatingRef, EditorRef} from '../../components'
+import type {RatingRef, EditorRef, PlaceProps} from '../../components'
 import {
     deleteBoard,
     modifyPlaceBoard,
@@ -34,6 +41,14 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     const user = useSelector((state: RootState) => state.login.mno)!
 
     const [loadImg, setLoadImg] = useState<string[]>([])
+    const [loadPlace, setLoadPlace] = useState<PlaceProps>({
+        name: '서면 거리',
+        lat: 35.1584,
+        lng: 129.0583,
+        roadAddress: '부산광역시 서구 중앙대로 678',
+        localAddress: '부산광역시 서구 서면',
+        engAddress: '678, Jungang-daero, Seo-gu, Busan'
+    })
 
     // 등록 onclick 함수
     function regist() {
@@ -129,6 +144,14 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
             setLoadImg(data.images)
             editorRef.current?.getEditor()?.editor?.data.set(data.content)
             starRef.current?.setSelectedRating(data.score)
+            setLoadPlace({
+                name: data.postingPlaceBoardDTOS[0][0].name,
+                lat: data.postingPlaceBoardDTOS[0][0].lat,
+                lng: data.postingPlaceBoardDTOS[0][0].lng,
+                roadAddress: data.postingPlaceBoardDTOS[0][0].roadAddress,
+                localAddress: data.postingPlaceBoardDTOS[0][0].localAddress,
+                engAddress: data.postingPlaceBoardDTOS[0][0].engAddress
+            })
             //TODO - 장소 정보 설정
         } catch (error) {
             //FIXME - 404 에러처리
@@ -151,7 +174,10 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
                 size={70}
                 placeholder="제목을 입력하세요"
                 ref={titleRef}></Input>
-            <div>장소 입력 부분 지도</div>
+            <div>
+                {!props.isModify && <InputPlace />}
+                {props.isModify && <PlacePostMap place={loadPlace!}></PlacePostMap>}
+            </div>
             <div className="flex flex-row justify-end my-2">
                 <Rating ref={starRef} />
             </div>

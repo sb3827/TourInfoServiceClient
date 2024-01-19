@@ -23,7 +23,7 @@ export const Signup: React.FC<SignupProps> = () => {
                                 role="tab"
                                 className="tab"
                                 aria-label="일반 회원 가입"
-                                checked
+                                checked={activeTab === 'general'}
                                 onClick={() => onTabChange('general')}
                             />
                             <div
@@ -37,6 +37,7 @@ export const Signup: React.FC<SignupProps> = () => {
                                 name="my_tabs_2"
                                 role="tab"
                                 className="tab"
+                                checked={activeTab === 'business'}
                                 aria-label="사업자 회원 가입"
                                 onClick={() => onTabChange('business')}
                             />

@@ -5,7 +5,8 @@ import {
     Slider,
     CoursePostMap,
     PlaceProps,
-    DropIcon
+    DropIcon,
+    CourseList
 } from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -15,8 +16,7 @@ import {
     faEllipsisVertical,
     faStar
 } from '@fortawesome/free-solid-svg-icons'
-import {DailyCourse} from '../DailyCourse'
-import {dummyText, postText, imgsrcs} from "../../dummy data/sb's dummy"
+import {postText} from "../../dummy data/sb's dummy"
 import {coursePostLoad, deleteLike, postLike} from '../../api/Board/board'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
@@ -27,8 +27,7 @@ type DetailedCourseType = {
 }
 
 export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
-    //STUB - dummy
-    const days = 3
+    const [day, setDay] = useState(useSelector((state: RootState) => state.course))
     const [enables, setEnables] = useState<boolean[]>([false, true])
     const [content, setContent] = useState<string>('')
     const [score, setScore] = useState<number>(5)
@@ -46,32 +45,6 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 roadAddress: '부산광역시 서구 중앙대로 678',
                 localAddress: '부산광역시 서구 서면',
                 engAddress: '678, Jungang-daero, Seo-gu, Busan'
-            },
-            {
-                name: '부산역',
-                lat: 35.1152,
-                lng: 129.0403,
-                roadAddress: '부산광역시 동구 중앙대로 206',
-                localAddress: '부산광역시 동구 초량동',
-                engAddress: '206, Jungang-daero, Dong-gu, Busan'
-            },
-            {
-                name: '동의대학교',
-                lat: 35.1432,
-                lng: 129.0367,
-                roadAddress: '부산광역시 남구 가야대로 201',
-                localAddress: '부산광역시 남구 양정동',
-                engAddress: '201, Gayadaero, Nam-gu, Busan'
-            }
-        ],
-        [
-            {
-                name: '부산역',
-                lat: 35.1152,
-                lng: 129.0403,
-                roadAddress: '부산광역시 동구 중앙대로 206',
-                localAddress: '부산광역시 동구 초량동',
-                engAddress: '206, Jungang-daero, Dong-gu, Busan'
             }
         ]
     ])
@@ -115,6 +88,16 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
             setPlacesList(data.postingPlaceBoardDTOS)
 
             setContent(data.content) // content
+
+            setDay(
+                data.postingPlaceBoardDTOS.map(daliyPlace =>
+                    daliyPlace.map(place => ({
+                        pno: place.pno,
+                        pname: place.name,
+                        img: ''
+                    }))
+                )
+            )
         } catch (error) {
             // navigate(-1)
         }
@@ -150,10 +133,6 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
 
     const nav = () => navigate(`/board/course/posting/modify?bno=${bno}`)
     const set = () => setReport(!report)
-
-    const dailyCourses = Array.from({length: days}).map((_, index) => (
-        <DailyCourse key={index} day={index + 1} isRegister={false} />
-    ))
 
     return (
         <div className="w-3/4 mx-auto">
@@ -233,7 +212,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                         ))}
                     </Slider>
                 </div>
-                {/* <CourseList create={false} day={[][]} /> */}
+                <CourseList create={false} day={day} />
                 <TextBox data={content}></TextBox>
             </div>
             <div className="my-2">
