@@ -278,6 +278,7 @@ export const Main: FC<MainProps> = () => {
                                     </div>
                                 </SwiperSlide>
                             ))}
+
                     </MainSlider>
                 </div>
                 {mno !== null &&

@@ -16,7 +16,7 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
     const navigate = useNavigate();
 
     const user = useSelector((state: RootState) => state.login.mno)!
-    
+
 
     const handleReviewClick = () => {
         if (placeInfoData && placeInfoData.pno) { // 예상되는 pno 데이터가 있다면
@@ -37,7 +37,7 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
             <div className="w-full border border-gray-200 card lg:card-side rounded-xl" >
                 <div className="w-1/2 h-64 border border-gray-200 cursor-pointer rounded-xl " onClick={props.mapClick}>
                     {placeInfoData.image ? <img src={placeInfoData.image} alt="Image" /> : <div>이미지가 없어요!</div> }
-                        
+
                 </div>
                 <div className=" card-body">
                     <div className="flex justify-end">
@@ -51,7 +51,7 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
                         <h2 className="text-gray-400 card-title"> {placeInfoData.category}</h2>
                     </div>
                     <div className="flex justify-start">
-                       
+
                     </div>
                     <div className="flex justify-start">
                         <h2 className="card-title"><FontAwesomeIcon icon={faCartShopping} className="m-1" /> : {placeInfoData.cart}</h2>

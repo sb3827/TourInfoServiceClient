@@ -43,7 +43,9 @@ export * from './place/Board'
 export * from './place/BoardToggle'
 
 // reply component
-export * from './Comment'
+export * from './Reply/ParentReply'
+export * from './Reply/ChildReply'
+export * from './Reply/ReplyReportModal'
 
 // spot block component
 export * from './Spot'
@@ -92,7 +94,7 @@ export * from './myPage/ShowUserInfo/MyCart'
 export * from './myPage/MyPocket/MyPocketList'
 export * from './myPage/MyPocket/MyPocketLiked'
 export * from './myPage/MyPocket/CourseLikedList'
-export * from './myPage/MyPocket/PlaceLikedList'
+export * from './myPage/MyPocket/InputPlace'
 export * from './myPage/MyPocket/MyPocketModal'
 export * from './myPage/MyPocket/PlaceCartModal'
 

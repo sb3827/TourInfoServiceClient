@@ -9,6 +9,14 @@ export type folderAll = {
     }>
 }
 
+export type folder = {
+    result: boolean
+    data: Array<{
+        fno: number
+        title: string
+    }>
+}
+
 export type registerFolderData = {
     mno: number
     title: string

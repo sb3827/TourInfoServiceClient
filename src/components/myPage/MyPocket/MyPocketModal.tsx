@@ -12,8 +12,13 @@ import {
     SearchMapRef
 } from './../../index'
 import {PlaceData} from './../../../data/placeSearch'
+import {spotAddData} from './../../../data/Folder/Folder'
 import {registerPlace, appendCart} from './../../../api/index'
 import {getSearchPlaceInfo} from './../../../api'
+import {RootState} from './../../../store/rootReducer'
+import {useSelector} from 'react-redux'
+
+//TODO -  category가 sight일때 등록안되는 오류
 
 type MyPocketModalProps = {
     selectedComponent?: number
@@ -22,7 +27,7 @@ type MyPocketModalProps = {
 export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
     //검색 값
     const [searchValue, setSearchValue] = useState<string>('')
-    const [selectedCategory, setSelectedCategory] = useState<string>('SIGHT')
+    const [selectedCategory, setSelectedCategory] = useState<string>('')
     const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null)
     const searchMapRef = useRef<SearchMapRef | null>(null)
 
@@ -36,6 +41,11 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
     const [placeEng, setPlaceEng] = useState<string>('')
     const [placeLng, setPlaceLng] = useState<number>(0)
     const [placeLat, setPlaceLat] = useState<number>(0)
+
+    //스팟 등록을 위한 값
+    const [selectedSpotCategory, setSelectedSpotCategory] = useState<string>('SIGHT')
+
+    const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     const openSpotModal = () => {
         setSpotModal(true)
@@ -75,14 +85,13 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                 roadAddress: placeRoad,
                 localAddress: placeLocal,
                 engAddress: placeEng,
-                category: selectedCategory
+                category: selectedSpotCategory
             })
+            alert('등록 완료')
         } catch (err) {
             console.log(err)
         }
     }
-
-    // spot 등록
 
     //입력때마다 검색값 업데이트
     function onChangeSearch(value: string) {
@@ -91,6 +100,10 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
 
     function handleCategoryChange(e: React.ChangeEvent<HTMLSelectElement>) {
         setSelectedCategory(e.target.value)
+    }
+
+    function handleSpotCategoryChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        setSelectedSpotCategory(e.target.value)
     }
 
     async function onPlaceList(
@@ -116,22 +129,26 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
 
     return (
         <div>
-            <button onClick={openSpotModal} className="">
-                <FontAwesomeIcon
-                    icon={faPlus}
-                    className="w-20 h-32 ml-4 cursor-pointer"
-                />
+            <button
+                onClick={openSpotModal}
+                className="w-32 h-12 text-black bg-gray-400 rounded-xl">
+                스팟 추가
             </button>
 
             {SpotModal ? (
                 <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-500 bg-opacity-75">
                     <div className="w-4/5 p-8 bg-white rounded shadow-lg h-5/6">
-                        <button onClick={closeSpotModal}>
-                            <FontAwesomeIcon icon={faArrowLeft} className="w-12 h-12" />
-                        </button>
-                        <div className="flex justify-center">
+                        <div className="flex ">
+                            <div className="w-1/8">
+                                <button onClick={closeSpotModal}>
+                                    <FontAwesomeIcon
+                                        icon={faArrowLeft}
+                                        className="w-12 h-12"
+                                    />
+                                </button>
+                            </div>
                             <select
-                                className="w-20 border border-gray-300 rounded-xl"
+                                className="w-20 border border-gray-300 ml-60 rounded-xl"
                                 value={selectedCategory}
                                 onChange={handleCategoryChange}>
                                 <option value="">전체</option>
@@ -152,14 +169,15 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                 className="text-white bg-darkGreen"
                                 value={'검색'}
                             />
+
                             {/* 장소 등록하기 버튼 -> 모달창 */}
                             {/* <RegisterPlace /> */}
                         </div>
                         <Box className="w-4/5 overflow-hidden bg-white h-4/5">
                             <div className="flex justify-center w-full h-full ">
-                                <div className="flex w-5/6 h-full">
+                                <div className="flex w-full h-full">
                                     {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}
-                                    <div className="w-1/4 mr-2 overflow-y-auto border rounded-lg border--300">
+                                    <div className="w-1/3 mr-2 overflow-y-auto border rounded-lg border--300">
                                         {/* 검색 결과를 보여줄 컴포넌트 */}
                                         {placeInfoData &&
                                             placeInfoData.map(
@@ -215,9 +233,11 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                                             />
                                                             <select
                                                                 className="w-20 border border-gray-300 rounded-xl"
-                                                                value={selectedCategory}
+                                                                value={
+                                                                    selectedSpotCategory
+                                                                }
                                                                 onChange={
-                                                                    handleCategoryChange
+                                                                    handleSpotCategoryChange
                                                                 }>
                                                                 <option value="SIGHT">
                                                                     관광지

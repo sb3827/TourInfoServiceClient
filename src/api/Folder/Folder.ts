@@ -1,5 +1,6 @@
 import {
     folderAll,
+    folder,
     registerFolderData,
     updateFolderData,
     deleteFolderData,
@@ -10,6 +11,11 @@ import {refreshAxios} from './../Axios/RefreshAxios'
 
 export const ShowFolderAll = async (mno: number): Promise<folderAll> => {
     const response = await commonAxios.get(`/folder/all/${mno}`)
+    return response.data
+}
+
+export const ShowFolderInfo = async (mno: number): Promise<folder> => {
+    const response = await commonAxios.get(`/folder/title/${mno}`)
     return response.data
 }
 
