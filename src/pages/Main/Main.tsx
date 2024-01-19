@@ -247,7 +247,7 @@ export const Main: FC<MainProps> = () => {
                             fetchedData.data.mostLikeCourse &&
                             fetchedData.data.mostLikeCourse.map((course, index) => (
                                 <SwiperSlide key={index}>
-                                    <div className="flex justify-center bg-red-200 ">
+                                    <div className="flex justify-center ">
                                         <div
                                             className="flex w-10/12"
                                             onClick={() =>
