@@ -6,15 +6,16 @@ import {
     savePlaceBoardDTO,
     ResponseResult
 } from '../../data/Board/BoardData'
+import {commonAxios} from '../Axios/CommonAxios'
 import {refreshAxios, refreshFormAxios} from '../Axios/RefreshAxios'
 
 export const placePostLoad = async (bno: number): Promise<ResponseBoard> => {
-    const response = await refreshAxios.get(`/board/place/posting?bno=${bno}`)
+    const response = await commonAxios.get(`/board/place/posting?bno=${bno}`)
     return response.data
 }
 
 export const coursePostLoad = async (bno: number): Promise<ResponseBoard> => {
-    const response = await refreshAxios.get(`/board/course/posting?bno=${bno}`)
+    const response = await commonAxios.get(`/board/course/posting?bno=${bno}`)
     console.log(response.data)
     return response.data
 }
