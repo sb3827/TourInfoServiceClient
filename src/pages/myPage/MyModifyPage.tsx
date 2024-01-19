@@ -13,6 +13,7 @@ export const MyModifyPage = () => {
     const [UserName, setUserName] = useState<string>(User ? User.name : '')
     const [UserPhone, setUserPhone] = useState<string>(User ? User.phone : '')
     const [ProfileImage, setProfileImage] = useState<string>(User ? User.image : '')
+    const [file, setFile] = useState<File | null>(null)
     const fileInput = useRef<HTMLInputElement | null>(null)
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
@@ -28,6 +29,7 @@ export const MyModifyPage = () => {
     const onChangeUserImage = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const reader = new FileReader()
+            setFile(e.target.files[0])
 
             reader.onload = () => {
                 if (reader.readyState === 2) {
@@ -35,7 +37,6 @@ export const MyModifyPage = () => {
 
                     if (typeof result === 'string') {
                         setProfileImage(result)
-                        console.log('test ' + result)
                     } else {
                         console.error('Unexpected result type:', typeof result)
                     }
@@ -48,25 +49,19 @@ export const MyModifyPage = () => {
 
     //정보 수정
     async function onUserUpdate() {
-        console.log({
-            mno: User!.mno,
-            image: ProfileImage,
-            name: UserName,
-            email: User!.email,
-            phone: UserPhone,
-            birth: User!.birth,
-            role: User!.role
-        })
         try {
-            const data = await onChangeUserData({
-                mno: User!.mno,
-                image: ProfileImage,
-                name: UserName,
-                email: User!.email,
-                phone: UserPhone,
-                birth: User!.birth,
-                role: User!.role
-            })
+            const data = await onChangeUserData(
+                {
+                    mno: User!.mno,
+                    name: UserName,
+                    email: User!.email,
+                    phone: UserPhone,
+                    birth: User!.birth,
+                    role: User!.role
+                },
+                file
+            )
+            //ANCHOR -
         } catch (err) {
             console.log(err)
         }
@@ -95,6 +90,8 @@ export const MyModifyPage = () => {
                     <input
                         type="file"
                         className="hidden"
+                        id="file"
+                        name="file"
                         accept="image/*"
                         onChange={onChangeUserImage}
                         ref={fileInput}
