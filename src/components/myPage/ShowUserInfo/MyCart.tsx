@@ -22,9 +22,11 @@ import {useSelector} from 'react-redux'
 
 type MyCartProps = {
     onChangeItems?: (itme: Item[]) => void
+    className?: string
+    dragDisable?: boolean
 }
 
-export const MyCart: FC<MyCartProps> = ({onChangeItems}) => {
+export const MyCart: FC<MyCartProps> = ({onChangeItems, className, dragDisable}) => {
     const [folder, setFolder] = useState<folderAll>()
     const [selectedFno, setSelectedFno] = useState<number | null>(1) // 페이지 시작할때 첫번째 폴더 선택
     const [newButtonName, setNewButtonName] = useState<string>('') // 폴더 이름
@@ -262,6 +264,7 @@ export const MyCart: FC<MyCartProps> = ({onChangeItems}) => {
                                     className="flex flex-row w-full">
                                     <CartItem
                                         items={convertFolderInfoToItem(folderInfo)}
+                                        dragDisable={dragDisable}
                                     />
 
                                     {/* {folderInfo.title && <MyPocketModal />} */}
