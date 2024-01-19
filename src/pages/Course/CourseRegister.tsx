@@ -79,7 +79,6 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             content: content,
             deleteImages: [],
             images: [],
-            //STUB - place stub
             coursePlaceList: placeList,
             writer: user
         }
@@ -111,7 +110,6 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             content: content,
             deleteImages: [],
             images: [],
-            //STUB - place stub
             coursePlaceList: placeList,
             writer: user
         }
