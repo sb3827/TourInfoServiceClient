@@ -22,5 +22,8 @@ export * from './Place/Place'
 //Folder
 export * from './Folder/Folder'
 
+//Main
+export * from './Main/Main'
+
 //Reply
 export * from './Reply/Reply'

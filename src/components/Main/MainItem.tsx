@@ -2,7 +2,6 @@ import {FC, PropsWithChildren} from 'react'
 
 type MainItemProps = {
     title: string
-    description: string
     image: string
     onClick?: () => void
 }
@@ -19,7 +18,6 @@ export const MainItem: FC<PropsWithChildren<MainItemProps>> = props => {
             />
             <div className="p-4">
                 <h3 className="mb-2 text-xl font-semibold">{props.title}</h3>
-                <p className="mb-4 text-gray-500">{props.description}</p>
             </div>
         </div>
     )
@@ -35,7 +33,6 @@ export const MostLikedMainItem: FC<PropsWithChildren<MainItemProps>> = props => 
             />
             <div className="p-4">
                 <h3 className="mb-2 text-xl font-semibold">{props.title}</h3>
-                <p className="mb-4 text-gray-500">{props.description}</p>
             </div>
         </div>
     )
@@ -53,7 +50,6 @@ export const MostLikedCourseItem: FC<PropsWithChildren<MainItemProps>> = props =
             />
             <div className="p-4">
                 <h3 className="mb-2 text-xl font-semibold">{props.title}</h3>
-                <p className="mb-4 text-gray-500">{props.description}</p>
             </div>
         </div>
     )
