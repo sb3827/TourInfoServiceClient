@@ -1,4 +1,4 @@
-import React, {FC, useState, useEffect} from 'react'
+import React, {FC, PropsWithChildren, useState, useEffect} from 'react'
 import {
     ShowFolderAll,
     registerFolder,
@@ -12,7 +12,7 @@ import {
     registerFolderData,
     updateFolderData
 } from './../../../data/Folder/Folder'
-import {Spot, MyPocketModal, Subtitle} from './../../index'
+import {Spot, MyPocketModal, Subtitle, CartItem, Item} from './../../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faPenToSquare, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {RootState} from './../../../store/rootReducer'
@@ -20,7 +20,14 @@ import {useSelector} from 'react-redux'
 
 //TODO - spot 추가 후 새로고침해야 나오는 문제
 
-export const MyCart: FC = () => {
+type MyCartProps = {
+    className?: string
+    isAdd?: boolean // 추가 버튼
+}
+
+export const MyCart: FC<PropsWithChildren<MyCartProps>> = (
+    props: PropsWithChildren<MyCartProps>
+) => {
     const [folder, setFolder] = useState<folderAll>()
     const [selectedFno, setSelectedFno] = useState<number | null>(1) // 페이지 시작할때 첫번째 폴더 선택
     const [newButtonName, setNewButtonName] = useState<string>('') // 폴더 이름
@@ -244,7 +251,7 @@ export const MyCart: FC = () => {
                                                 </div>
                                             ) : null
                                         )}
-                                    {/* {folderInfo.title && <MyPocketModal />} */}
+                                    {props.isAdd && <MyPocketModal />}
                                 </div>
                             ))}
                 </div>
