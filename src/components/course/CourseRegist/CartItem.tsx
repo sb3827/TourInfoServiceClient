@@ -17,8 +17,8 @@ export const CartItem: FC<CartItemProps> = ({items, dragDisable}) => {
                         <div {...provided.droppableProps} ref={provided.innerRef}>
                             <Draggable
                                 isDragDisabled={false || dragDisable}
-                                key={item.pname}
-                                draggableId={item.pname}
+                                key={item.pno}
+                                draggableId={item.pno + ''}
                                 index={index}>
                                 {provided => (
                                     <div
