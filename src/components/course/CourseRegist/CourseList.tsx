@@ -40,8 +40,8 @@ export const CourseList: FC<DndProps> = ({create, day}) => {
 
         for (let i = 0; i < day[dropId].length; i++) {
             if (
-                day[Number(result.destination.droppableId.split('-')[1])][i].pname ==
-                    result.draggableId.split('-')[0] &&
+                day[Number(result.destination.droppableId.split('-')[1])][i].pno ==
+                    Number(result.draggableId.split('-')[0]) &&
                 !(result.source.droppableId === result.destination.droppableId)
             ) {
                 //이미 존재

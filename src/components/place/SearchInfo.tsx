@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react'
+import React, {FC, useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {Button, PlaceCartModal} from '../index'
 import {PlaceData} from '../../data/placeSearch'
@@ -19,8 +19,8 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
 
     const handleReviewClick = () => {
         if (placeInfoData && placeInfoData.pno) {
-            // 예상되는 pno 데이터가 있다면
             const {pno} = placeInfoData
+            // 예상되는 pno 데이터가 있다면
             navigate(`/board/place/${pno}`) // 해당 pno를 사용하여 동적 경로로 이동
         } else {
             console.error("No 'pno' data available")
@@ -35,7 +35,9 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
     return (
         <div
             className="w-full border border-gray-200 cursor-pointer card lg:card-side rounded-xl hover:bg-gray-300"
-            onClick={props.mapClick}>
+            onClick={() => {
+                props.mapClick()
+            }}>
             <div className="w-1/2 h-64 border border-gray-200 cursor-pointer rounded-xl ">
                 {placeInfoData.image ? (
                     <img src={placeInfoData.image} alt="Image" />
@@ -52,15 +54,12 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
                 </div>
                 <div className="flex justify-start">
                     <h2 className="card-title">주소 : {placeInfoData.localAddress}</h2>
-                    <h2 className="text-gray-400 card-title">
-                        {' '}
-                        {placeInfoData.category}
-                    </h2>
+                    <h2 className="text-gray-400 card-title">{placeInfoData.category}</h2>
                 </div>
                 <div className="flex justify-start"></div>
                 <div className="flex justify-start">
                     <h2 className="card-title">
-                        <FontAwesomeIcon icon={faCartShopping} className="m-1" /> :{' '}
+                        <FontAwesomeIcon icon={faCartShopping} className="m-1" />
                         {placeInfoData.cart}
                     </h2>
                 </div>
