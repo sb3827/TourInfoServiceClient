@@ -13,9 +13,20 @@ export type mainItemData = {
             course: boolean | null
         }[]
         mostLikeCourse: {
-            bno: number
-            title: string
-            src: string | null
+            mainBoardResponseDTO: {
+                bno: number
+                title: string
+                src: string | null
+                course: boolean | null
+            }
+            placeList: {
+                name: string
+                lat: number
+                lng: number
+                localAddress: string
+                engAddress: string
+                roadAddress: string
+            }[]
         }[]
         followBoard: {
             bno: number
