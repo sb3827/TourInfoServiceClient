@@ -9,10 +9,11 @@ import {
     MostLikedCourseItem,
     MostLikedMainItem,
     CoursePostMap,
-    MainSlider
+    MainSlider,
+    LoadingSppinner
 } from '../../components'
 import {RootState} from '../../store/rootReducer'
-import noImage from '../../assets/noImage.png'
+import noImage from '../../assets/smallLogo.png'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faMapLocationDot, faRoute, faUsers} from '@fortawesome/free-solid-svg-icons'
 import MainFilter from '../../components/Main/MainFilter'
@@ -23,6 +24,7 @@ import {mainItemData} from '../../data/Main/Main'
 type MainProps = {}
 
 export const Main: FC<MainProps> = () => {
+    const [loading, setLoading] = useState<Boolean>(false)
     const [searchValue, setSearchValue] = useState<string>('')
     const [filterValue, setFilterValue] = useState<string>('place')
     const [fetchedData, setFetchedData] = useState<mainItemData | null>(null)
@@ -127,9 +129,11 @@ export const Main: FC<MainProps> = () => {
 
     const fetchData = async () => {
         try {
+            setLoading(true)
             const data = await GetMainitemRequest(mno)
             console.log('Fetched data:', data)
             setFetchedData(data)
+            setLoading(false)
         } catch (error) {
             console.error('Error fetching data:', error)
         }
@@ -141,14 +145,21 @@ export const Main: FC<MainProps> = () => {
 
     return (
         <div className="flex justify-center w-full">
+            {loading && <LoadingSppinner />}
             <div className="w-4/5 mt-10 ">
                 <div className="flex flex-col items-center justify-center">
-                    <div className="flex justify-around w-1/3 py-2 mb-3 bg-green-50 rounded-xl">
+                    <p className="mb-4 text-lg font-semibold text-green-800">
+                        국내 여행 후기를 한눈에,
+                        <br /> 여러분의 다음 여행지를 찾아보세요!
+                    </p>
+                    <div className="flex justify-around w-1/3 py-2 mb-3 shadow-xl bg-green-50 rounded-xl">
                         <MainFilter
                             text="장소"
                             filterChange={onSetFilterValue}
                             color={
-                                filterValue === 'place' ? 'bg-lightGreen text-white' : ''
+                                filterValue === 'place'
+                                    ? 'bg-lightGreen text-white'
+                                    : 'hover:text-darkGreen'
                             }>
                             <FontAwesomeIcon icon={faMapLocationDot} />
                         </MainFilter>
@@ -156,7 +167,9 @@ export const Main: FC<MainProps> = () => {
                             text="코스"
                             filterChange={onSetFilterValue}
                             color={
-                                filterValue === 'course' ? 'bg-lightGreen text-white' : ''
+                                filterValue === 'course'
+                                    ? 'bg-lightGreen text-white'
+                                    : 'hover:text-darkGreen'
                             }>
                             <FontAwesomeIcon icon={faRoute} />
                         </MainFilter>
@@ -164,7 +177,9 @@ export const Main: FC<MainProps> = () => {
                             text="유저"
                             filterChange={onSetFilterValue}
                             color={
-                                filterValue === 'user' ? 'bg-lightGreen text-white' : ''
+                                filterValue === 'user'
+                                    ? 'bg-lightGreen text-white'
+                                    : 'hover:text-darkGreen'
                             }>
                             <FontAwesomeIcon icon={faUsers} />
                         </MainFilter>
@@ -189,9 +204,9 @@ export const Main: FC<MainProps> = () => {
                     </div>
                 </div>
                 <div className="flex flex-col items-center">
-                    <div className="container px-5 py-10 mb-20 rounded-3xl bg-gray-50">
+                    <div className="container px-10 mb-20 shadow-2xl py-14 bg-green-50 rounded-3xl bg-opacity-80">
                         <Subtitle
-                            className="mb-5 font-bold text-darkGreen"
+                            className="text-2xl font-bold text-green-900"
                             value='" 많은 이들이 극찬한 명소, 그 인기의 이유를 직접 확인하세요 "'
                         />
                         <MainSlider preView={1}>
@@ -214,16 +229,16 @@ export const Main: FC<MainProps> = () => {
                     </div>
                 </div>
 
-                <div className="px-5 py-10 mb-20 rounded-3xl bg-emerald-50">
+                <div className="px-10 mb-20 shadow-2xl bg-opacity-60 py-14 rounded-3xl bg-emerald-50 ">
                     <Subtitle
-                        className="flex items-start mb-4 ml-16 font-bold text-cyan-600"
+                        className="flex items-start mb-4 ml-16 text-2xl font-bold "
                         value="최근 포스팅"
                     />
                     <MainSlider preView={3}>
                         {fetchedData &&
                             fetchedData.data.recentlyBoard &&
                             fetchedData.data.recentlyBoard.map((recently, index) => (
-                                <SwiperSlide key={index}>
+                                <SwiperSlide key={index} className="p-2">
                                     <MainItem
                                         onClick={() => recentlyDetailView(index)}
                                         title={recently.title}
@@ -234,9 +249,9 @@ export const Main: FC<MainProps> = () => {
                     </MainSlider>
                 </div>
 
-                <div className="px-5 py-10 mb-20 rounded-3xl bg-sky-50">
+                <div className="px-10 mb-20 shadow-2xl bg-opacity-60 py-14 rounded-3xl bg-sky-50">
                     <Subtitle
-                        className="flex items-start mb-4 ml-16 font-bold text-cyan-600"
+                        className="flex items-start mb-4 ml-16 text-2xl font-bold "
                         value="가장 많은 추천을 받은 코스"
                     />
 
@@ -245,9 +260,9 @@ export const Main: FC<MainProps> = () => {
                             fetchedData.data.mostLikeCourse &&
                             fetchedData.data.mostLikeCourse.map((course, index) => (
                                 <SwiperSlide key={index}>
-                                    <div className="flex justify-center ">
+                                    <div className="flex justify-around p-2">
                                         <div
-                                            className="flex w-10/12"
+                                            className="flex w-10/12 overflow-hidden duration-150 border-2 rounded-3xl hover:shadow-xl hover:-translate-y-2"
                                             onClick={() =>
                                                 mostLikedCourseDetailView(index)
                                             }>
@@ -259,48 +274,25 @@ export const Main: FC<MainProps> = () => {
                                                 }
                                             />
                                             <CoursePostMap
-                                                className="flex-1 rounded-lg shadow-md"
+                                                className="flex-1"
                                                 places={course.placeList}
                                             />
-                                            {/* <CoursePostMap
-                                                className="flex-1 rounded-lg shadow-md"
-                                                places={[
-                                                    {
-                                                        name: 'abcd',
-                                                        lat: 37.74913611,
-                                                        lng: 128.8784972,
-                                                        localAddress: 'test',
-                                                        engAddress: 'test',
-                                                        roadAddress: 'test'
-                                                    },
-                                                    {
-                                                        name: 'test',
-                                                        lat: 38.37796111,
-                                                        lng: 128.4701639,
-                                                        localAddress: 'aaaa',
-                                                        engAddress: 'aaaa',
-                                                        roadAddress: 'aaaa'
-                                                    }
-                                                ]}
-                                            /> */}
                                         </div>
                                     </div>
                                 </SwiperSlide>
                             ))}
                     </MainSlider>
                 </div>
-                {mno !== null &&
-                    fetchedData &&
-                    fetchedData.data.followBoard &&
-                    fetchedData.data.followBoard.length > 1 && (
-                        <div className="px-5 py-10 mb-20 rounded-3xl bg-blue-50">
-                            <Subtitle
-                                className="flex items-start mb-4 ml-16 font-bold text-cyan-600"
-                                value="팔로워들의 게시물"
-                            />
+                {mno !== null && fetchedData && (
+                    <div className="px-10 mb-20 shadow-2xl py-14 rounded-3xl bg-blue-50 bg-opacity-60">
+                        <Subtitle
+                            className="flex items-start mb-4 ml-16 text-2xl font-bold "
+                            value="팔로워들의 게시물"
+                        />
+                        {fetchedData.data.followBoard.length > 0 ? (
                             <MainSlider preView={3}>
                                 {fetchedData.data.followBoard.map((follow, index) => (
-                                    <SwiperSlide key={index}>
+                                    <SwiperSlide key={index} className="p-2">
                                         <MainItem
                                             onClick={() => followDetailView(index)}
                                             title={follow.title}
@@ -309,50 +301,27 @@ export const Main: FC<MainProps> = () => {
                                     </SwiperSlide>
                                 ))}
                             </MainSlider>
-                        </div>
-                    )}
-                {mno !== null &&
-                    fetchedData &&
-                    fetchedData.data.followBoard.length === 0 && (
-                        <div className="px-5 py-10 mb-20 rounded-3xl bg-blue-50">
+                        ) : (
                             <Subtitle
-                                className="flex items-start mb-4 ml-16 font-bold text-cyan-600"
-                                value="팔로워들의 게시물"
+                                className="mb-5 text-2xl font-bold text-darkGreen"
+                                value='" 팔로잉중인 유저가 없습니다... "'
                             />
-                            <Subtitle
-                                className="mb-5 font-bold text-darkGreen"
-                                value='" 팔로잉중인 유저가 없습니다 "'
-                            />
-                        </div>
-                    )}
-
-                {mno === null && (
-                    <div className="px-5 py-10 mb-20 rounded-3xl bg-blue-50">
-                        <Subtitle
-                            className="flex items-start mb-4 ml-16 font-bold text-cyan-600"
-                            value="팔로워들의 게시물"
-                        />
-                        <Subtitle
-                            className="mb-5 font-bold text-darkGreen"
-                            value='" 로그인을 하여 팔로워들의 게시물을 확인하세요 "'
-                        />
+                        )}
                     </div>
                 )}
-
                 {fetchedData &&
                     fetchedData.data.adBoard &&
                     fetchedData.data.adBoard.length > 0 && (
-                        <div className="px-5 py-10 mb-20 rounded-3xl bg-orange-50">
+                        <div className="px-10 mb-20 py-14 rounded-3xl bg-orange-50 bg-opacity-60">
                             <Subtitle
-                                className="flex items-start mb-4 ml-16 font-bold "
+                                className="flex items-start mb-4 ml-16 text-2xl font-bold "
                                 value="광고"
                             />
                             <MainSlider preView={3}>
                                 {fetchedData.data.adBoard.map((ad, index) => (
-                                    <SwiperSlide
-                                        key={index}
-                                        onClick={() => adDetailView(index)}>
+                                    <SwiperSlide key={index} className="p-2">
                                         <MainItem
+                                            onClick={() => adDetailView(index)}
                                             title={ad.title}
                                             image={ad.src ?? noImage}
                                         />
