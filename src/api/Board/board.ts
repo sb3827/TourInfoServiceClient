@@ -1,3 +1,4 @@
+import {AxiosInstance} from 'axios'
 import {
     ResponseBoard,
     ResponseDeleteResult,
@@ -9,13 +10,35 @@ import {
 import {commonAxios} from '../Axios/CommonAxios'
 import {refreshAxios, refreshFormAxios} from '../Axios/RefreshAxios'
 
-export const placePostLoad = async (bno: number): Promise<ResponseBoard> => {
-    const response = await commonAxios.get(`/board/place/posting?bno=${bno}`)
-    return response.data
+export const placePostLoad = async (
+    bno: number,
+    isLogin: boolean
+): Promise<ResponseBoard> => {
+    let response: any = null
+
+    if (isLogin) {
+        response = await refreshAxios.get(`/board/place/posting?bno=${bno}`)
+    } else {
+        response = await commonAxios.get(`/board/place/posting?bno=${bno}`)
+    }
+
+    if (response) {
+        return response.data // ResponseBoard가 올바른 타입이라고 가정합니다
+    } else {
+        throw new Error('데이터를 가져오지 못했습니다')
+    }
 }
 
-export const coursePostLoad = async (bno: number): Promise<ResponseBoard> => {
-    const response = await commonAxios.get(`/board/course/posting?bno=${bno}`)
+export const coursePostLoad = async (
+    bno: number,
+    isLogin: boolean
+): Promise<ResponseBoard> => {
+    let response: any = null
+    if (isLogin) {
+        response = await refreshAxios.get(`/board/course/posting?bno=${bno}`)
+    } else {
+        response = await commonAxios.get(`/board/course/posting?bno=${bno}`)
+    }
     console.log(response.data)
     return response.data
 }
