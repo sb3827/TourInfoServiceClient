@@ -80,8 +80,10 @@ export const UserSearch = () => {
             <BoardBox>
                 {userInfoData ? (
                     userInfoData.map(
-                        (data: UserSearchData) =>
-                            !(data.mno == user) && <SearchUserInfo userInfo={data} />
+                        (data: UserSearchData, index) =>
+                            !(data.mno == user) && (
+                                <SearchUserInfo userInfo={data} key={index} />
+                            )
                     )
                 ) : (
                     <p className="flex items-center justify-center w-full h-full text-xl font-semibold">
