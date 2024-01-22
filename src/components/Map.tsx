@@ -652,7 +652,7 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
             const {naver} = window
             if (!mapElement.current || !naver) return
             // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
-            const location = new naver.maps.LatLng(places![idx].lat, places![idx].lng)
+            const location = new naver.maps.LatLng(places![idx]?.lat, places![idx]?.lng)
             const maxBoundary = new naver.maps.LatLngBounds(
                 new naver.maps.LatLng(31.3418403, 124.1530811),
                 new naver.maps.LatLng(39.0169875, 132.6949512)
@@ -752,7 +752,7 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
                     if (infoWindow.getMap()) {
                         infoWindow.close()
                     } else {
-                        infoWindow.open(map, marker)
+                        infoWindow?.open(map, marker)
                     }
                 }
             }
@@ -760,7 +760,7 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
             for (var i = 0, ii = markers.length; i < ii; i++) {
                 naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i))
             }
-            infoWindows[idx].open(map, markers[idx])
+            infoWindows[idx]?.open(map, markers[idx])
         }, [places, idx])
 
         return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
