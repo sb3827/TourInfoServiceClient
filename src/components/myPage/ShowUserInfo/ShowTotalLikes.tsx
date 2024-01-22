@@ -13,6 +13,8 @@ type ShowTotalLikesProps = {
 export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
     const [showModal, setShowModal] = useState(false)
     const [folder, setFolder] = useState<folderAll>()
+    const [refreshFlag, setRefreshFlag] = useState<boolean>(false)
+
 
     const fetchData = async () => {
         try {
@@ -27,7 +29,7 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
     useEffect(() => {
         fetchData()
         console.log(folder)
-    }, [])
+    }, [refreshFlag])
 
     const openModal = () => {
         setShowModal(true)
@@ -35,6 +37,10 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
     const closeModal = () => {
         setShowModal(false)
     }
+
+    const handleMyPocketModalClose = () => {
+        setRefreshFlag(!refreshFlag);
+    };
 
     return (
         <div className="inline-block">
@@ -58,12 +64,12 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
                                     className="w-12 h-12"
                                 />
                             </button>
-                            <MyPocketModal />
+                            <MyPocketModal onClose={handleMyPocketModalClose} />
                         </div>
                         <div>
                             <h1>My Cart</h1>
                             <DragDropContext onDragEnd={() => {}}>
-                                <MyCart dragDisable={true} />
+                                <MyCart onClose={refreshFlag} dragDisable={true}  />
                             </DragDropContext>
                         </div>
                     </div>
