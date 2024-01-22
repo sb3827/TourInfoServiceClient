@@ -262,7 +262,7 @@ export const Main: FC<MainProps> = () => {
                                 <SwiperSlide key={index}>
                                     <div className="flex justify-around p-2">
                                         <div
-                                            className="flex w-10/12 overflow-hidden duration-150 border-2 rounded-3xl hover:shadow-xl hover:-translate-y-2"
+                                            className="flex w-10/12 overflow-hidden duration-150 border-2 rounded-3xl hover:shadow-2xl"
                                             onClick={() =>
                                                 mostLikedCourseDetailView(index)
                                             }>
