@@ -74,3 +74,4 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
         </div>
     )
 }
+

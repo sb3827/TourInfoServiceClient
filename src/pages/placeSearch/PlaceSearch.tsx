@@ -1,32 +1,31 @@
 import React, {FC, useEffect, useRef, useState} from 'react'
-import {Box, SearchInput, SearchInfo, SearchMap, Button, SearchMapRef} from '../../components/index'
+import {
+    Box,
+    SearchInput,
+    SearchInfo,
+    SearchMap,
+    Button,
+    SearchMapRef
+} from '../../components/index'
 import {PlaceData} from '../../data/placeSearch'
 import {getSearchPlaceInfo} from '../../api'
-import { RootState } from '../../store/rootReducer'
-import { useSelector } from 'react-redux'
+import {useSearchParams} from 'react-router-dom'
 
 // 장소 검색 페이지
 
-
 export const PlaceSearch = () => {
+    const [searchParams, setSearchParams] = useSearchParams()
 
-    //매인페이지 값 전달
-    const searchValueFromMain = useSelector(
-        (state: RootState) => state.main.searchValue
-    ) as string
-
-    useEffect(() => {
-        onPlaceList()
-    }, [searchValueFromMain])
-
-    const searchMapRef = useRef<SearchMapRef | null>(null)
     // 새로고침에 필요한 값 불러오기
+    const searchMapRef = useRef<SearchMapRef | null>(null)
 
-    //검색 값
-    const [searchValue, setSearchValue] = useState<string>('')
-    const [selectedCategory, setSelectedCategory] = useState<string>('')
+    // URL 쿼리 파라미터에서 초기 값 설정
+    const initialFilter = searchParams.get('filter') || ''
+    const initialSearch = searchParams.get('search') || ''
 
-    // 검색 결과 데이터
+    // 로컬 상태
+    const [selectedCategory, setSelectedCategory] = useState<string>(initialFilter)
+    const [searchValue, setSearchValue] = useState<string>(initialSearch)
     const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null)
 
     function onMap(index: number) {
@@ -43,6 +42,7 @@ export const PlaceSearch = () => {
         setSelectedCategory(e.target.value)
     }
 
+    // 검색 파라미터 변경 시 URL 업데이트 및 데이터 들고오기
     async function onPlaceList(
         e?: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>
     ) {
@@ -55,23 +55,20 @@ export const PlaceSearch = () => {
         }
 
         try {
-            // 변경 @@@
-            if (searchValueFromMain) {
-                const data = await getSearchPlaceInfo(
-                    selectedCategory,
-                    searchValueFromMain
-                )
-                setPlaceInfoData(data)
-            } else {
-                const data = await getSearchPlaceInfo(selectedCategory, searchValue)
-                setPlaceInfoData(data)
-            }
+            setSearchParams({filter: selectedCategory, search: searchValue})
+            const data = await getSearchPlaceInfo(selectedCategory, searchValue)
+            setPlaceInfoData(data)
+            console.log(data)
         } catch (err) {
             console.log(err)
             alert('서버와 연결이 끊겼습니다.')
         }
 
     }
+
+    useEffect(() => {
+        onPlaceList()
+    }, [])
 
     return (
         <Box>
@@ -105,15 +102,27 @@ export const PlaceSearch = () => {
                         {/* 검색 결과를 보여줄 컴포넌트 */}
                         {placeInfoData &&
                             placeInfoData.map((data: PlaceData, index) => (
-                                <SearchInfo placeInfoData={data} mapClick={() => onMap(index)}/>
+                                <SearchInfo
+                                    placeInfoData={data}
+                                    mapClick={() => onMap(index)}
+                                />
                             ))}
                     </div>
                     <div className="w-1/2 border border-gray-300 rounded-lg">
                         {/* MapAPI 컴포넌트 */}
-                        { placeInfoData ? 
-                          <SearchMap places={placeInfoData} className="w-full h-full" innerRef={searchMapRef} />
-                        : <SearchMap places={null} className="w-full h-full" innerRef={searchMapRef} />
-                        }
+                        {placeInfoData ? (
+                            <SearchMap
+                                places={placeInfoData}
+                                className="w-full h-full"
+                                innerRef={searchMapRef}
+                            />
+                        ) : (
+                            <SearchMap
+                                places={null}
+                                className="w-full h-full"
+                                innerRef={searchMapRef}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

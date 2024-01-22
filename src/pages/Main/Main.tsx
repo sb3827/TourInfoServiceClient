@@ -18,7 +18,6 @@ import {faMapLocationDot, faRoute, faUsers} from '@fortawesome/free-solid-svg-ic
 import MainFilter from '../../components/Main/MainFilter'
 import {SwiperSlide} from 'swiper/react'
 import {GetMainitemRequest} from '../../api/Main/Main'
-import {setSearchValueFromMain} from '../../store/slices/MainSlice'
 import {mainItemData} from '../../data/Main/Main'
 
 type MainProps = {}
@@ -28,7 +27,6 @@ export const Main: FC<MainProps> = () => {
     const [filterValue, setFilterValue] = useState<string>('place')
     const [fetchedData, setFetchedData] = useState<mainItemData | null>(null)
     const navigate = useNavigate()
-    const dispatch = useDispatch()
 
     // 상세 페이지 이동
     function mostPostingDetailView(index: number) {
@@ -55,9 +53,12 @@ export const Main: FC<MainProps> = () => {
     }
 
     function mostLikedCourseDetailView(index: number) {
-        if (fetchedData && fetchedData.data.mostLikeCourse[index].bno) {
+        if (
+            fetchedData &&
+            fetchedData.data.mostLikeCourse[index].mainBoardResponseDTO.bno
+        ) {
             navigate(
-                `/board/course/posting?bno=${fetchedData.data.mostLikeCourse[index].bno}`
+                `/board/course/posting?bno=${fetchedData.data.mostLikeCourse[index].mainBoardResponseDTO.bno}`
             )
         }
     }
@@ -111,34 +112,30 @@ export const Main: FC<MainProps> = () => {
             return
         }
         if (filterValue === 'place') {
-            //각 페이지에서 useEffect -> useSelector로 메인페이지 에서 넘어오는 검색값 받아들이는 로직 추가필요 @@희범
-            dispatch(setSearchValueFromMain(searchValue))
-            navigate(`/board/place`)
+            navigate(`/board/place?filter=&search=${searchValue}`)
         }
         if (filterValue === 'course') {
-            dispatch(setSearchValueFromMain(searchValue))
-            navigate(`/board/course`)
+            navigate(`/board/course?search=${searchValue}`)
         }
         if (filterValue === 'user') {
-            dispatch(setSearchValueFromMain(searchValue))
-            navigate(`/search-user`)
+            navigate(`/search-user?search=${searchValue}`)
         }
     }
 
     // 메인 아이템 로딩 useEffect
     const mno = useSelector((state: RootState) => state.login.mno)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await GetMainitemRequest(mno)
-                console.log('Fetched data:', data)
-                setFetchedData(data)
-            } catch (error) {
-                console.error('Error fetching data:', error)
-            }
+    const fetchData = async () => {
+        try {
+            const data = await GetMainitemRequest(mno)
+            console.log('Fetched data:', data)
+            setFetchedData(data)
+        } catch (error) {
+            console.error('Error fetching data:', error)
         }
+    }
 
+    useEffect(() => {
         fetchData()
     }, [mno])
 
@@ -172,7 +169,7 @@ export const Main: FC<MainProps> = () => {
                             <FontAwesomeIcon icon={faUsers} />
                         </MainFilter>
                     </div>
-                    <div className="flex justify-center w-full mb-12">
+                    <div className="flex justify-center w-full my-8">
                         <SearchInput
                             value={searchValue}
                             className="w-2/3"
@@ -182,6 +179,7 @@ export const Main: FC<MainProps> = () => {
                                     onSearch(e)
                                 }
                             }}
+                            placeholder="장소/코스/유저 선택해서 검색"
                         />
                         <Button
                             className="text-white bg-darkGreen"
@@ -254,10 +252,17 @@ export const Main: FC<MainProps> = () => {
                                                 mostLikedCourseDetailView(index)
                                             }>
                                             <MostLikedCourseItem
-                                                title={course.title}
-                                                image={course.src ?? noImage}
+                                                title={course.mainBoardResponseDTO.title}
+                                                image={
+                                                    course.mainBoardResponseDTO.src ??
+                                                    noImage
+                                                }
                                             />
                                             <CoursePostMap
+                                                className="flex-1 rounded-lg shadow-md"
+                                                places={course.placeList}
+                                            />
+                                            {/* <CoursePostMap
                                                 className="flex-1 rounded-lg shadow-md"
                                                 places={[
                                                     {
@@ -277,7 +282,7 @@ export const Main: FC<MainProps> = () => {
                                                         roadAddress: 'aaaa'
                                                     }
                                                 ]}
-                                            />
+                                            /> */}
                                         </div>
                                     </div>
                                 </SwiperSlide>

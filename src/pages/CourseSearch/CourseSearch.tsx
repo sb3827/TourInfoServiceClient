@@ -1,26 +1,28 @@
 import {useEffect, useState} from 'react'
-import {Box, SearchInput, CourseInfo, BoardToggle, Subtitle, BoardBox, Button} from '../../components/index'
-import { getSearchCourseInfo } from "../../api/CourseSearch/CourseSearch";
+import {
+    Box,
+    SearchInput,
+    CourseInfo,
+    BoardToggle,
+    Subtitle,
+    BoardBox,
+    Button
+} from '../../components/index'
+import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
 import {CourseBoardListData} from '../../data/Board/BoardData'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {useSearchParams} from 'react-router-dom'
 import {faSignsPost } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
 
 export const CourseSearch = () => {
-
-    //매인페이지 값 전달
-    const searchValueFromMain = useSelector(
-        (state: RootState) => state.main.searchValue
-    ) as string
-
-    useEffect(() => {
-        onCourseList()
-    }, [searchValueFromMain])
+    const [searchParams, setSearchParams] = useSearchParams()
+    const initialSearch = searchParams.get('search') || ''
 
     //검색 값
-    const [searchValue, setSearchValue] = useState<string>('')
+    const [searchValue, setSearchValue] = useState<string>(initialSearch)
 
     // 검색 결과 데이터
     const [boardInfoData, setBoardInfoData] = useState<CourseBoardListData[] | null>(null)
@@ -42,19 +44,17 @@ export const CourseSearch = () => {
         }
 
         try {
-            if (searchValueFromMain) {
-                const data = await getSearchCourseInfo(searchValueFromMain)
-                setBoardInfoData(data)
-            } else {
-                const data = await getSearchCourseInfo(searchValue)
-                setBoardInfoData(data)
-                console.log(data);
-            }
+            setSearchParams({search: searchValue})
+            const data = await getSearchCourseInfo(searchValue)
+            setBoardInfoData(data)
+            console.log(data)
         } catch (err) {
-            console.log(err);
-            alert('서버와 연결이 끊겼습니다.')
+            console.log(err)
         }
     }
+    useEffect(() => {
+        onCourseList()
+    }, [])
 
     const navigate = useNavigate();
 
@@ -76,7 +76,7 @@ export const CourseSearch = () => {
                {user && <Button onClick={handleRegisterClick} className="h-16 text-xl text-white w-36 bg-darkGreen" value={'게시글 작성'}/> } 
             </div>
             <BoardToggle>
-            <Subtitle
+                <Subtitle
                     value="유저"
                     className="flex flex-row-reverse items-center text-left">
                     <FontAwesomeIcon icon={faSignsPost} className="m-1" />
@@ -87,18 +87,19 @@ export const CourseSearch = () => {
                     <FontAwesomeIcon icon={faSignsPost} className="m-1" />
                 </Subtitle>
                 <BoardBox>
-                {boardInfoData && 
-                    boardInfoData.map((data: CourseBoardListData) => (
-                      !data.ad && <CourseInfo boardData = {data}  />
-                    ))}
+                    {boardInfoData &&
+                        boardInfoData.map(
+                            (data: CourseBoardListData) =>
+                                !data.ad && <CourseInfo boardData={data} />
+                        )}
                 </BoardBox>
                 <BoardBox>
-                {boardInfoData && 
-                    boardInfoData.map((data: CourseBoardListData) => (
-                      data.ad && <CourseInfo boardData = {data}  />
-                    ))}
+                    {boardInfoData &&
+                        boardInfoData.map(
+                            (data: CourseBoardListData) =>
+                                data.ad && <CourseInfo boardData={data} />
+                        )}
                 </BoardBox>
-
             </BoardToggle>
         </Box>
     )
