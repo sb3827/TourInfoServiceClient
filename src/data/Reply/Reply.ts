@@ -34,7 +34,8 @@ export type deleteReplyData = {
 export type reportReplyData = {
     complainant: number
     defendant: number
-    rno: number
+    bno: number | null
+    rno: number | null
     content: string
     message: string
 }
