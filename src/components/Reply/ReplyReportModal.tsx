@@ -1,10 +1,10 @@
 import {FC, useState} from 'react'
-import {ReportModal} from '../manager/ReportList/ReportModal'
 import {replyData} from '../../data/Reply/Reply'
 import {Button} from '../Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {reportReply} from '../../api'
+import {Modal} from '../Modal'
 
 type ReplyReportModalProps = {
     replyData: replyData
@@ -31,6 +31,7 @@ const ReplyReportModal: FC<ReplyReportModalProps> = ({replyData, onCloseModal}) 
             const data = await reportReply({
                 complainant: mno,
                 defendant: replyData.mno,
+                bno: null,
                 rno: replyData.rno,
                 content: replyData.text,
                 message: reportReason
@@ -41,7 +42,7 @@ const ReplyReportModal: FC<ReplyReportModalProps> = ({replyData, onCloseModal}) 
     }
 
     return (
-        <ReportModal isOpen={isModalOpen} onClose={closeModal}>
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
             <p className="flex m-6">유저 : {replyData.name}</p>
             <textarea
                 value={reportReason}
@@ -52,7 +53,7 @@ const ReplyReportModal: FC<ReplyReportModalProps> = ({replyData, onCloseModal}) 
                 <Button value={'신고'} onClick={onReportReply} />
                 <Button value={'취소'} onClick={closeModal} />
             </div>
-        </ReportModal>
+        </Modal>
     )
 }
 

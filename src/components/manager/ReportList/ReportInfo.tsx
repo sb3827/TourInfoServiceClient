@@ -1,5 +1,5 @@
 import {FC, useState} from 'react'
-import {Button, ReportModal, TextBox, UserInfo, UserInfoItemBox} from '../../index'
+import {Button, Modal, TextBox, UserInfo, UserInfoItemBox} from '../../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
 import {ReportData} from '../../../data/manager/index'
@@ -94,7 +94,7 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 </div>
             </UserInfoItemBox>
             {/* 모달 창 */}
-            <ReportModal isOpen={isModalOpen} onClose={closeModal}>
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
                 <div className="flex flex-row items-center justify-center">
                     <FontAwesomeIcon icon={faBell} className="mr-2" />
                     <h1 className="text-xl font-bold">신고</h1>
@@ -130,7 +130,7 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 ) : (
                     ''
                 )}
-            </ReportModal>
+            </Modal>
         </div>
     )
 }
