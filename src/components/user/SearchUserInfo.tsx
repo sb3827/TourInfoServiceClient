@@ -1,4 +1,4 @@
-import React, {FC, PropsWithChildren, useEffect, useState} from 'react'
+import {FC, useState} from 'react'
 import {Button} from '../../components/index'
 import {UserSearchData} from '../../data/User/User'
 import {useNavigate} from 'react-router-dom'
@@ -53,7 +53,7 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
     }
 
     return (
-        <div className="flex w-full h-32 my-5 duration-100 border shadow cursor-pointer  border-lightGreen stats hover:shadow-xl">
+        <div className="flex w-full h-32 my-5 duration-100 border shadow cursor-pointer border-lightGreen stats hover:shadow-xl">
             <div className="flex flex-col justify-center flex-2 stat">
                 <div className="stat-figure text-secondary">
                     <div className="w-16 h-16 overflow-hidden rounded-full ">
