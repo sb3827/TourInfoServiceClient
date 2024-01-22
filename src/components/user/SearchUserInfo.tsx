@@ -47,7 +47,7 @@ export const SearchUserInfo: FC<SearchResultProps> = ({ userInfo }) => {
         }
     }
 
-    //FIXME - 영현, 유저 검색창에서 유저 프로필을 보러가야하는데 어떤 링크를 작성 해야 하는지 모르겠습니다
+    //FIXME - 유저 검색창에서 유저 프로필을 보러가야하는데 어떤 링크를 작성 해야 하는지 모르겠습니다
     const handleReviewClick = () => {
         navigate(`/mypage`)
     }
