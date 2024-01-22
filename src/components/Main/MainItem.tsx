@@ -30,8 +30,8 @@ export const MostLikedMainItem: FC<PropsWithChildren<MainItemProps>> = props => 
         <div className="flex flex-col items-center justify-center py-10 overflow-hidden mx-14 ">
             <div
                 onClick={props.onClick}
-                className="flex flex-col items-center w-6/12 overflow-hidden duration-150 bg-white border-2 shadow-xl hover:cursor-pointer rounded-3xl hover:-translate-y-2 hover:shadow-2xl">
-                <div className="w-full overflow-hidden">
+                className="flex flex-col items-center w-1/2 overflow-hidden duration-150 bg-white border-2 shadow-xl hover:cursor-pointer rounded-3xl hover:-translate-y-2 hover:shadow-2xl">
+                <div className="flex justify-center w-full overflow-hidden">
                     <img
                         src={props.image}
                         alt={props.title}
