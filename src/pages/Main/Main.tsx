@@ -152,7 +152,7 @@ export const Main: FC<MainProps> = () => {
                         국내 여행 후기를 한눈에,
                         <br /> 여러분의 다음 여행지를 찾아보세요!
                     </p>
-                    <div className="flex justify-around w-1/3 py-2 mb-3 shadow-xl bg-green-50 rounded-xl">
+                    <div className="flex justify-around w-1/3 py-2 shadow-xl bg-green-50 rounded-xl">
                         <MainFilter
                             text="장소"
                             filterChange={onSetFilterValue}
