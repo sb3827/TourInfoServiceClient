@@ -31,6 +31,7 @@ const ReplyReportModal: FC<ReplyReportModalProps> = ({replyData, onCloseModal}) 
             const data = await reportReply({
                 complainant: mno,
                 defendant: replyData.mno,
+                bno: null,
                 rno: replyData.rno,
                 content: replyData.text,
                 message: reportReason
