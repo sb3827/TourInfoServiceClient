@@ -63,10 +63,10 @@ export const UserSearch = () => {
     return (
         <Box>
             {loading && <LoadingSppinner />}
-            <div className="flex justify-center w-full">
+            <div className="flex justify-center w-full mb-10">
                 <SearchInput
                     placeholder="유저 검색 (이름으로 검색)"
-                    className="w-3/6 mb-4"
+                    className="w-3/6"
                     value={searchValue}
                     onChange={onChangeSearch}
                     onKeyDown={onUserList}
