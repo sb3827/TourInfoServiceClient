@@ -49,6 +49,6 @@ export const deleteReply = async (
 export const reportReply = async (
     reportReply: reportReplyData
 ): Promise<reportReplyResponseData> => {
-    const response = await refreshAxios.post('/reply/report', reportReply)
+    const response = await refreshAxios.post('/report/register', reportReply)
     return response.data
 }
