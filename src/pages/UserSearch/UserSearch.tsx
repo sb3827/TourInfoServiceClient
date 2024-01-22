@@ -63,18 +63,31 @@ export const UserSearch = () => {
     return (
         <Box>
             {loading && <LoadingSppinner />}
-            <SearchInput
-                className="w-3/6 mb-4"
-                value={searchValue}
-                onChange={onChangeSearch}
-                onKeyDown={onUserList}
-            />
+            <div className="flex justify-center w-full">
+                <SearchInput
+                    placeholder="유저 검색 (이름으로 검색)"
+                    className="w-3/6 mb-4"
+                    value={searchValue}
+                    onChange={onChangeSearch}
+                    onKeyDown={onUserList}
+                />
+                <Button
+                    className="text-white bg-darkGreen"
+                    value={'검색'}
+                    onClick={onUserList}
+                />
+            </div>
             <BoardBox>
-                {userInfoData &&
+                {userInfoData ? (
                     userInfoData.map(
                         (data: UserSearchData) =>
                             !(data.mno == user) && <SearchUserInfo userInfo={data} />
-                    )}
+                    )
+                ) : (
+                    <p className="flex items-center justify-center w-full h-full text-xl font-semibold">
+                        검색 결과가 존재하지 않습니다...
+                    </p>
+                )}
             </BoardBox>
         </Box>
     )
