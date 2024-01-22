@@ -1,5 +1,12 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
-import {Box, SearchInput, Button, SearchUserInfo, BoardBox} from '../../components/index'
+import {
+    Box,
+    SearchInput,
+    Button,
+    SearchUserInfo,
+    BoardBox,
+    LoadingSppinner
+} from '../../components/index'
 import {UserSearchData} from '../../data/User/User'
 import {getSearchUserInfo} from '../../api/UserSearch/UserSearch'
 import {useSelector} from 'react-redux'
@@ -9,6 +16,8 @@ import {useSearchParams} from 'react-router-dom'
 export const UserSearch = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const initialSearch = searchParams.get('search') || ''
+
+    const [loading, setLoading] = useState<boolean>(false)
 
     //검색 값
     const [searchValue, setSearchValue] = useState<string>(initialSearch)
@@ -35,11 +44,13 @@ export const UserSearch = () => {
         }
 
         try {
+            setLoading(true)
             setSearchParams({search: searchValue})
             console.log(user)
             const data = await getSearchUserInfo(searchValue, user || null)
             setUserInfoData(data)
             console.log(data)
+            setLoading(false)
         } catch (error) {
             // 오류 처리
             console.error(error)
@@ -51,6 +62,7 @@ export const UserSearch = () => {
 
     return (
         <Box>
+            {loading && <LoadingSppinner />}
             <SearchInput
                 className="w-3/6 mb-4"
                 value={searchValue}
