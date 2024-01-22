@@ -42,7 +42,7 @@ export const PlaceDetails = () => {
             } catch (err) {
                 console.log(err);
                 alert('게시글이 없습니다!');
-                navigate(-1)
+                // navigate(-1)
             }
         }
         fetchData(pno); // fetchData 함수를 실행하여 초기 데이터를 가져옴
