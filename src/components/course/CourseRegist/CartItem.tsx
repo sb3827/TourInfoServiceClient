@@ -25,12 +25,14 @@ export const CartItem: FC<CartItemProps> = ({items, dragDisable}) => {
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
-                                        <Spot
-                                            key={index}
-                                            src={item.img}
-                                            isRegister={false}>
-                                            {item.pname}
-                                        </Spot>
+                                        {item.pno !== null && (
+                                            <Spot
+                                                key={index}
+                                                src={item.img}
+                                                isRegister={false}>
+                                                {item.pname}
+                                            </Spot>
+                                        )}
                                     </div>
                                 )}
                             </Draggable>

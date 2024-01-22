@@ -69,11 +69,13 @@ export const SidebarUser: FC<PropsWithChildren<SidebarUserProps>> = ({children})
             {loading && <LoadingSppinner />}
             {children}
             <div className="flex flex-col items-center w-full h-full ">
-                <img
-                    onClick={onMypage}
-                    src={imgSrc ? imgSrc : UserImage}
-                    className="w-1/2 rounded-full cursor-pointer"
-                />
+                <div className="flex justify-center w-full overflow-hidden">
+                    <img
+                        onClick={onMypage}
+                        src={imgSrc ? imgSrc : UserImage}
+                        className="w-1/2 rounded-full cursor-pointer"
+                    />
+                </div>
                 <Subtitle className="my-4 font-light text-center text-white">
                     {userName}
                 </Subtitle>

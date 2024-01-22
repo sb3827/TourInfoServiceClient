@@ -119,7 +119,7 @@ export const Manager = () => {
                             <select
                                 onChange={onChangeSelect}
                                 value={selectValue}
-                                className="block w-full py-3 pl-3 pr-10 leading-tight border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline">
+                                className="block w-full py-3 pl-3 pr-10 leading-tight border-2 shadow appearance-none border-lightGreen rounded-2xl focus:outline-none focus:shadow-outline">
                                 <option value="all">전체</option>
                                 <option value="normal">일반 유저</option>
                                 <option value="business">사업자</option>
@@ -161,7 +161,7 @@ export const Manager = () => {
                             <select
                                 onChange={onChangeReportSelect}
                                 value={reportSelectValue}
-                                className="block w-full py-3 pl-3 pr-10 leading-tight border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline">
+                                className="block w-full py-3 pl-3 pr-10 leading-tight border-2 shadow appearance-none border-lightGreen rounded-2xl focus:outline-none focus:shadow-outline">
                                 <option value="all">전체</option>
                                 <option value="reporting">처리 중</option>
                                 <option value="reported">처리 완료</option>
