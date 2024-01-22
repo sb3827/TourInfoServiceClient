@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { ShowFolderAll, appendCart, deleteFolder, registerFolder, updateFolder } from "../../../api";
 import { RootState } from '../../../store/rootReducer'
 import { useSelector } from 'react-redux';
-import { deleteFolderData, folderAll, registerFolderData, spotAddData, updateFolderData } from "../../../data/Folder/Folder"
+import { folderAll, registerFolderData, updateFolderData } from "../../../data/Folder/Folder"
 
 type Pno = {
     pno: number
@@ -28,19 +28,11 @@ export const PlaceCartModal: FC<Pno> = ({pno}) => {
         fno: editingFolder,
         mno: user,
         title: folderTitle
-    }
-
-    const spotAddData: spotAddData = {
-        mno: user,
-        fno: editingFolder,
-        pno: pno
-    }
-
+     }
 
     const selectFolder = (fno: number) => {
         setEditingFolder(fno);
     }
-
 
 
     const confirmUpdate = () => {
@@ -116,10 +108,10 @@ export const PlaceCartModal: FC<Pno> = ({pno}) => {
 
     return (
         <>
-        <label htmlFor="my_modal_6" className="btn btn-ghost">
+        <label htmlFor={`my_modal_${pno}`} className="btn btn-ghost">
             <FontAwesomeIcon icon={faCartPlus} className="m-1 text-2xl" />
         </label>
-        <input type="checkbox" id="my_modal_6" className="modal-toggle" />
+        <input type="checkbox" id={`my_modal_${pno}`} className="modal-toggle" />
         <div className="modal" role="dialog">
             <div className="modal-box">
                 <h3 className="text-4xl">모든 장바구니</h3>
@@ -167,7 +159,7 @@ export const PlaceCartModal: FC<Pno> = ({pno}) => {
     </div>
 ))}
                 <div className="modal-action">
-                    <label htmlFor="my_modal_6" className="btn">Close!</label>
+                    <label htmlFor={`my_modal_${pno}`} className="btn">Close!</label>
                 </div>
             </div>
         </div></>

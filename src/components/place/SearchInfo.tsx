@@ -49,13 +49,12 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
                 </div>
                 <div className="flex justify-start">
                     <h2 className="card-title">이름 : {placeInfoData.name}</h2>
+                    <h2 className="ml-4 text-gray-400 card-title">
+                        {placeInfoData.category}
+                    </h2>
                 </div>
                 <div className="flex justify-start">
                     <h2 className="card-title">주소 : {placeInfoData.localAddress}</h2>
-                    <h2 className="text-gray-400 card-title">
-                        {' '}
-                        {placeInfoData.category}
-                    </h2>
                 </div>
                 <div className="flex justify-start"></div>
                 <div className="flex justify-start">
