@@ -1,11 +1,24 @@
-import {useState} from 'react'
-import {Box, SearchInput, CourseInfo, BoardToggle, Subtitle, BoardBox} from '../../components/index'
+import {useEffect, useState} from 'react'
+import {Box, SearchInput, CourseInfo, BoardToggle, Subtitle, BoardBox, Button} from '../../components/index'
 import { getSearchCourseInfo } from "../../api/CourseSearch/CourseSearch";
 import {CourseBoardListData} from '../../data/Board/BoardData'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faSignsPost } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
 export const CourseSearch = () => {
+
+    //매인페이지 값 전달
+    const searchValueFromMain = useSelector(
+        (state: RootState) => state.main.searchValue
+    ) as string
+
+    useEffect(() => {
+        onCourseList()
+    }, [searchValueFromMain])
+
     //검색 값
     const [searchValue, setSearchValue] = useState<string>('')
 
@@ -17,7 +30,7 @@ export const CourseSearch = () => {
         setSearchValue(value)
     }
 
-    async function onPlaceList(
+    async function onCourseList(
         e?: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>
     ) {
         //키보드로 입력이 들어왔는데 Enter가 아닌경우 return
@@ -29,13 +42,26 @@ export const CourseSearch = () => {
         }
 
         try {
-            const data = await getSearchCourseInfo(searchValue)
-            setBoardInfoData(data)
-            console.log(data);
+            if (searchValueFromMain) {
+                const data = await getSearchCourseInfo(searchValueFromMain)
+                setBoardInfoData(data)
+            } else {
+                const data = await getSearchCourseInfo(searchValue)
+                setBoardInfoData(data)
+                console.log(data);
+            }
         } catch (err) {
             console.log(err);
             alert('서버와 연결이 끊겼습니다.')
         }
+    }
+
+    const navigate = useNavigate();
+
+    const user = useSelector((state: RootState) => state.login.mno)!
+
+    const handleRegisterClick = () => {
+        navigate(`/board/course/posting/register`);
     }
 
     return (
@@ -44,8 +70,11 @@ export const CourseSearch = () => {
                 className="flex w-3/6 mb-4"
                 value={searchValue}
                 onChange={onChangeSearch}
-                onKeyDown={onPlaceList}
+                onKeyDown={onCourseList}
             />
+            <div className='flex justify-end w-4/6 '>
+               {user && <Button onClick={handleRegisterClick} className="h-16 text-xl text-white w-36 bg-darkGreen" value={'게시글 작성'}/> } 
+            </div>
             <BoardToggle>
             <Subtitle
                     value="유저"

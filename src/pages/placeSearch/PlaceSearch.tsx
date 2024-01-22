@@ -1,12 +1,24 @@
-import React, {FC, useRef, useState} from 'react'
+import React, {FC, useEffect, useRef, useState} from 'react'
 import {Box, SearchInput, SearchInfo, SearchMap, Button, SearchMapRef} from '../../components/index'
 import {PlaceData} from '../../data/placeSearch'
 import {getSearchPlaceInfo} from '../../api'
+import { RootState } from '../../store/rootReducer'
+import { useSelector } from 'react-redux'
 
 // 장소 검색 페이지
 
 
 export const PlaceSearch = () => {
+
+    //매인페이지 값 전달
+    const searchValueFromMain = useSelector(
+        (state: RootState) => state.main.searchValue
+    ) as string
+
+    useEffect(() => {
+        onPlaceList()
+    }, [searchValueFromMain])
+
     const searchMapRef = useRef<SearchMapRef | null>(null)
     // 새로고침에 필요한 값 불러오기
 
@@ -43,13 +55,22 @@ export const PlaceSearch = () => {
         }
 
         try {
-            const data = await getSearchPlaceInfo(selectedCategory, searchValue)
-            setPlaceInfoData(data)
-            console.log(data)
+            // 변경 @@@
+            if (searchValueFromMain) {
+                const data = await getSearchPlaceInfo(
+                    selectedCategory,
+                    searchValueFromMain
+                )
+                setPlaceInfoData(data)
+            } else {
+                const data = await getSearchPlaceInfo(selectedCategory, searchValue)
+                setPlaceInfoData(data)
+            }
         } catch (err) {
             console.log(err)
             alert('서버와 연결이 끊겼습니다.')
         }
+
     }
 
     return (

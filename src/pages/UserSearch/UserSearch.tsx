@@ -7,6 +7,16 @@ import { RootState } from '../../store/rootReducer';
 
 
 export const UserSearch = () => {
+
+     //매인페이지 값 전달
+     const searchValueFromMain = useSelector(
+        (state: RootState) => state.main.searchValue
+    ) as string
+
+    useEffect(() => {
+        onUserList()
+    }, [searchValueFromMain])
+
     //검색 값
     const [searchValue, setSearchValue] = useState<string>('')
 
@@ -32,12 +42,16 @@ export const UserSearch = () => {
         }
 
         try {
-            console.log(user);
-            const data = await getSearchUserInfo(searchValue, user || null);
-            setUserInfoData(data);
-            console.log(data);
+            if (searchValueFromMain) {          
+                const data = await getSearchUserInfo(searchValueFromMain, user || null);
+                setUserInfoData(data);
+            } else {
+                console.log(user);
+                const data = await getSearchUserInfo(searchValue, user || null);
+                setUserInfoData(data);
+                console.log(data);
+            }
         } catch (error) {
-            // 오류 처리
             console.error(error);
         }
     }
