@@ -27,7 +27,7 @@ export const MainItem: FC<PropsWithChildren<MainItemProps>> = props => {
 
 export const MostLikedMainItem: FC<PropsWithChildren<MainItemProps>> = props => {
     return (
-        <div className="flex flex-col items-center justify-center py-10 overflow-hidden bg-green-50 mx-14 bg-opacity-80">
+        <div className="flex flex-col items-center justify-center py-10 overflow-hidden mx-14 ">
             <div
                 onClick={props.onClick}
                 className="flex flex-col items-center w-6/12 overflow-hidden duration-150 bg-white border-2 shadow-xl hover:cursor-pointer rounded-3xl hover:-translate-y-2 hover:shadow-2xl">
