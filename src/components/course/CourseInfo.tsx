@@ -28,11 +28,11 @@ export const CourseInfo: FC<CourseInfoProps> = ({boardData}) => {
 
             
     return (
-        <div className="w-full shadow-xl card bg-base-100">
+        <div className="w-full my-4 shadow-xl card bg-base-100 border-lightGreen">
             <div className='h-80'>
             <Slider>{imageArray}</Slider>
             </div >
-            <div className="flex items-center justify-between w-full h-full card-body">
+            <div className="flex items-center justify-between w-full h-full cursor-pointer card-body " onClick={handleReviewClick}>
             <div className="flex">
                 <p className="mr-2 card-title"> 제목 :</p>
                 <p className="mr-8 card-title">{boardData?.title}</p>
@@ -44,9 +44,6 @@ export const CourseInfo: FC<CourseInfoProps> = ({boardData}) => {
                 <p className="mr-8 card-title">{boardData?.score}</p>
                 <p className="mr-2 card-title"><FontAwesomeIcon icon={faHeart} className="m-1" /></p>
                 <p className="justify-end card-title">{boardData?.likes}</p>
-            </div>
-            <div className="flex">
-                <Button onClick={handleReviewClick} className="text-white bg-darkGreen" value={'보러가기'} />
             </div>
         </div>
         </div>
