@@ -37,7 +37,7 @@ export const onChangeUserData = async (
             {type: 'application/json'}
         )
     )
-    formData.append('image', image || '')
+    formData.append('image', image || new Blob())
     const response = await refreshFormAxios.put('users/info/update', formData)
     return response.data
 }
