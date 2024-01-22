@@ -12,6 +12,11 @@ body {
         'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-image: url('./assets/bgTop.png'), url('./assets/bgBottom.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+
+    background-position: left top, right bottom 100px;
 }
 
 code {
