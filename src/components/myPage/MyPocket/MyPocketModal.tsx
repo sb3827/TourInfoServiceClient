@@ -22,9 +22,10 @@ import {useSelector} from 'react-redux'
 
 type MyPocketModalProps = {
     selectedComponent?: number
+    onClose?: () => void;
 }
 
-export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
+export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent, onClose}) => {
     //검색 값
     const [searchValue, setSearchValue] = useState<string>('')
     const [selectedCategory, setSelectedCategory] = useState<string>('')
@@ -55,6 +56,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
         setSpotModal(false)
         setSearchValue('')
         setPlaceInfoData([])
+        onClose && onClose();
     }
 
     const openRegisterSpotModal = () => {
@@ -78,6 +80,9 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
     //장소 등록
     async function onRegisterPlace() {
         try {
+            if (!(placeName && placeLng !== 0 && (placeLocal !== '' || placeRoad !== '')))
+                throw new Error('장소 이름과 장소를 선택해주세요')
+
             await registerPlace({
                 name: placeName,
                 lng: placeLng,
@@ -88,8 +93,10 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                 category: selectedSpotCategory
             })
             alert('등록 완료')
+            closeRegisterSpotModal()
         } catch (err) {
             console.log(err)
+            alert(err)
         }
     }
 
@@ -258,7 +265,6 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent}) => {
                                                                 className="h-12 ml-4"
                                                                 onClick={() => {
                                                                     onRegisterPlace()
-                                                                    closeRegisterSpotModal()
                                                                 }}
                                                             />
                                                         </div>

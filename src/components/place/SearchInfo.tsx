@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react'
+import {FC, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {Button, PlaceCartModal} from '../index'
 import {PlaceData} from '../../data/placeSearch'
@@ -14,6 +14,21 @@ type SearchResultProps = {
 
 export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => {
     const navigate = useNavigate()
+    const [modalView,setModalView]=useState<boolean>(false)
+
+
+    //모달 열기
+    const onOpenModal=()=>{
+        setModalView(true)
+    }
+
+    //모달 닫기
+    const onCloseModal=()=>{
+        setModalView(false)
+    }
+
+
+    // const han
 
     const user = useSelector((state: RootState) => state.login.mno)!
 
@@ -26,6 +41,9 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
             console.error("No 'pno' data available")
         }
     }
+
+
+
 
     if (!placeInfoData) {
         // placeInfoData가 없을 때의 처리
@@ -45,7 +63,12 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
             </div>
             <div className=" card-body">
                 <div className="flex justify-end">
-                    {user && <PlaceCartModal pno={placeInfoData.pno} />}
+                    {/* {user && <PlaceCartModal pno={placeInfoData.pno}/>} */}
+                    {user && 
+                    <label className="btn btn-ghost" onClick={onOpenModal}>
+                        <FontAwesomeIcon icon={faCartPlus} className="m-1 text-2xl" />
+                    </label>}
+                    {modalView && <PlaceCartModal pno={placeInfoData.pno} onCloseModal={onCloseModal}/>}
                 </div>
                 <div className="flex justify-start">
                     <h2 className="card-title">이름 : {placeInfoData.name}</h2>

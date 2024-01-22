@@ -42,26 +42,21 @@ export const MyModifyPage = () => {
                     }
                 }
             }
-
             reader.readAsDataURL(e.target.files[0])
         }
     }
 
-    //정보 수정
+    // //TODO - 이미지를 같이 수정할 경우는 되는데 이미지를 수정하지 않을 경우에는 오류
+    // //정보 수정
     async function onUserUpdate() {
+        const data = {
+            mno: User!.mno,
+            name: UserName,
+            email: User!.email,
+            phone: UserPhone
+        }
         try {
-            const data = await onChangeUserData(
-                {
-                    mno: User!.mno,
-                    name: UserName,
-                    email: User!.email,
-                    phone: UserPhone,
-                    birth: User!.birth,
-                    role: User!.role
-                },
-                file
-            )
-            //ANCHOR -
+            await onChangeUserData(data, file)
         } catch (err) {
             console.log(err)
         }
@@ -106,15 +101,6 @@ export const MyModifyPage = () => {
                             }
                         }}
                     />
-                    {/* <Button
-                        value="수정하기"
-                        onClick={() => {
-                            if (fileInput.current) {
-                                fileInput.current.click()
-                            }
-                        }}
-                        className="mt-8 w-28"
-                    /> */}
                 </div>
                 <div className="items-center w-2/3">
                     <div className="p-4">

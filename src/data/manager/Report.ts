@@ -1,3 +1,13 @@
+//신고 요청
+export type reportRequestData = {
+    complainant: number
+    defendant: number
+    bno: number | null
+    rno: number | null
+    content: string
+    message: string
+}
+
 //유저 제재 내역 전체 조회
 export type DisciplinaryUserData = {
     result: boolean

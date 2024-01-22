@@ -1,26 +1,27 @@
-import React, {FC, PropsWithChildren, useEffect, useState} from 'react'
-import { Button } from "../../components/index";
-import { UserSearchData } from "../../data/User/User";
-import { useNavigate } from "react-router-dom"
-import { postFollow, deleteFollow } from "../../api/UserSearch/UserSearch";
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/rootReducer';
+import {FC, useState} from 'react'
+import {Button} from '../../components/index'
+import {UserSearchData} from '../../data/User/User'
+import {useNavigate} from 'react-router-dom'
+import {postFollow, deleteFollow} from '../../api/UserSearch/UserSearch'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../store/rootReducer'
 import UserImage from '../../assets/profileImage.jpeg'
 
 type SearchResultProps = {
-    userInfo : UserSearchData
+    userInfo: UserSearchData
 }
 
-export const SearchUserInfo: FC<SearchResultProps> = ({ userInfo }) => {
-
-    const navigate = useNavigate();
+export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
+    const navigate = useNavigate()
 
     // user mno
     const user = useSelector((state: RootState) => state.login.mno)!
 
     const [follow, setFollow] = useState<boolean>(userInfo.followCheck)
     const [totalFollow, setTotalFollow] = useState<number>(userInfo.followers)
-    const [buttonText, setButtonText] = useState<string>(userInfo.followCheck? '팔로잉' : '팔로우')
+    const [buttonText, setButtonText] = useState<string>(
+        userInfo.followCheck ? '팔로잉' : '팔로우'
+    )
 
     if (totalFollow == null) {
         setTotalFollow(0)
@@ -28,22 +29,21 @@ export const SearchUserInfo: FC<SearchResultProps> = ({ userInfo }) => {
 
     async function clickFollow() {
         try {
-            if(!user || !userInfo) return;
+            if (!user || !userInfo) return
             if (follow) {
                 // 이미 팔로우 중이라면 언팔로우
                 await deleteFollow(userInfo.mno, user)
-                setTotalFollow(totalFollow -1)
+                setTotalFollow(totalFollow - 1)
                 setFollow(!follow)
                 setButtonText('팔로우')
-                 
             } else {
-               await postFollow(userInfo.mno, user)
-               setTotalFollow(totalFollow +1)
-               setFollow(!follow)
-               setButtonText('팔로잉')
+                await postFollow(userInfo.mno, user)
+                setTotalFollow(totalFollow + 1)
+                setFollow(!follow)
+                setButtonText('팔로잉')
             }
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
     }
 
@@ -53,33 +53,44 @@ export const SearchUserInfo: FC<SearchResultProps> = ({ userInfo }) => {
     }
 
     return (
-        <div className="flex w-full h-40 border border-gray-200 shadow stats ">
-            <div className="cursor-pointer stat" onClick={handleReviewClick}>
+        <div className="flex w-full h-32 my-5 duration-100 border shadow cursor-pointer border-lightGreen stats hover:shadow-xl">
+            <div className="flex flex-col justify-center flex-2 stat">
                 <div className="stat-figure text-secondary">
-                    <img
-                        src={userInfo?.image?userInfo.image:UserImage}
-                        alt="profileImage"
-                        className="w-24 rounded-full"
-                    />
+                    <div className="w-16 h-16 overflow-hidden rounded-full ">
+                        <img
+                            src={userInfo?.image ? userInfo.image : UserImage}
+                            alt="profileImage"
+                            className="w-full"
+                        />
+                    </div>
                 </div>
-                <div className="mt-8 stat-value">{userInfo?.name}</div>
+                <div className="my-1 text-base stat-value">{userInfo?.name}</div>
             </div>
 
-            <div className="stat">
+            <div className="flex-2 stat border-lightGreen">
                 <div className="stat-title">Total Follower</div>
-                <div className="text-rose-500 stat-value">{totalFollow}</div>
+                <div className="text-base text-rose-500 stat-value">{totalFollow}</div>
             </div>
-            <div className="stat">
+            <div className="stat flex-2 border-lightGreen">
                 <div className="stat-title">Total Following</div>
-                <div className="stat-value text-primary">{userInfo?.followings ? userInfo.followings : 0}</div>
-            </div>
-
-            <div className='stat'>
-                <div className='mt-4'>
-                { user &&
-                <Button value={buttonText} onClick={clickFollow} className="w-24 h-16 text-xl text-center text-darkGreen" />}
+                <div className="text-base stat-value text-primary">
+                    {userInfo?.followings ? userInfo.followings : 0}
                 </div>
             </div>
+
+            {user && (
+                <div className="flex-1 stat border-lightGreen">
+                    <div className="mt-4">
+                        <Button
+                            value={buttonText}
+                            onClick={clickFollow}
+                            className={`w-24 h-16 text-lg text-center ${
+                                follow ? 'text-blue-500' : 'text-lightGreen'
+                            }`}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

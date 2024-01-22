@@ -22,9 +22,13 @@ export const SearchInput: FC<SearchInputProps> = ({
     const inputStyle = `flex items-center ${className} p-2 ml-10 bg-white border-2 border-lightGreen rounded-2xl `
     return (
         <div className={inputStyle}>
-            <FontAwesomeIcon icon={faMagnifyingGlass} color="darkGreen" />
+            <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                color="darkGreen"
+                className="mx-1"
+            />
             <input
-                className="w-full px-2 py-1 font-medium border-0 outline-0 text-lg"
+                className="w-full px-2 py-1 text-lg font-medium border-0 outline-0"
                 value={value}
                 onChange={e => onChange(e.target.value)}
                 onKeyDown={onKeyDown}

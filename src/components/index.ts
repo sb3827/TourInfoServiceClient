@@ -7,6 +7,7 @@ export * from './Box'
 export * from './Footer'
 export * from './Logo'
 export * from './SimpleMap'
+export * from './Modal'
 
 // Main
 export * from './Main/MainItem'
@@ -24,7 +25,6 @@ export * from './manager/FindUser/FindUserInfo'
 // /manager/ReportList
 export * from './manager/ReportList/ReportBox'
 export * from './manager/ReportList/ReportInfo'
-export * from './manager/ReportList/ReportModal'
 
 // /manager/SignupWait
 export * from './manager/SignupWait/WaitBox'

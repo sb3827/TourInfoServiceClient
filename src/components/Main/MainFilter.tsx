@@ -23,7 +23,7 @@ const MainFilter: FC<PropsWithChildren<MainFilterProps>> = ({
             {children}
             <button
                 value={text === '장소' ? 'place' : text === '코스' ? 'course' : 'user'}
-                className={`ml-2 text-lg`}>
+                className={`ml-2 text-lg font-semibold`}>
                 {text}
             </button>
         </div>

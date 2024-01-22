@@ -29,25 +29,24 @@ export const PlaceDetails = () => {
 
     const user = useSelector((state: RootState) => state.login.mno)!
 
+    async function fetchData(pnoParam: string | undefined) {
+        const pnoNumber = pnoParam ? Number(pno) : undefined; // pno를 숫자로 변환
+        try {
+            if (pnoNumber !== undefined) {
+                const data = await getPlaceDetailsInfo(pnoNumber);
+                setBoardData(data);
+                console.log(data);
+            }
+        } catch (err) {
+            console.log(err);
+            alert('게시글이 없습니다!');
+            navigate(-1)
+        }
+    }
+
 
     useEffect(() => {
-        async function fetchData(pnoParam: string | undefined) {
-            const pnoNumber = pnoParam ? Number(pno) : undefined; // pno를 숫자로 변환
-            try {
-                if (pnoNumber !== undefined) {
-                    const data = await getPlaceDetailsInfo(pnoNumber);
-                    setBoardData(data);
-                    console.log(data);
-                }
-            } catch (err) {
-                console.log(err);
-                alert('게시글이 없습니다!');
-                // navigate(-1)
-            }
-        }
         fetchData(pno); // fetchData 함수를 실행하여 초기 데이터를 가져옴
-
-
     }, [pno]); // 빈 배열을 전달하여 컴포넌트가 처음 마운트될 때만 실행
 
     const handleRegisterClick = () => {

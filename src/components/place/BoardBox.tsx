@@ -7,7 +7,7 @@ type SubBoxProps = {
 }
 
 export const BoardBox: FC<PropsWithChildren<SubBoxProps>> = ({children, className}) => {
-    const subBoxStyle = `p-3 overflow-y-auto bg-white border border-gray-300 rounded-lg h-screen  ${className}`
+    const subBoxStyle = `p-3 overflow-y-auto bg-white border border-lightGreen rounded-lg h-screen  ${className}`
     return (
         <div className="flex justify-center w-full mb-5 ">
             <div className="flex flex-col w-2/3 ">

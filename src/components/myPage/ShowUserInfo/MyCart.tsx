@@ -24,9 +24,10 @@ type MyCartProps = {
     onChangeItems?: (itme: Item[]) => void
     className?: string
     dragDisable?: boolean
+    onClose?: boolean;
 }
 
-export const MyCart: FC<MyCartProps> = ({onChangeItems, className, dragDisable}) => {
+export const MyCart: FC<MyCartProps> = ({onChangeItems, className, dragDisable, onClose}) => {
     const [folder, setFolder] = useState<folderAll>()
     const [selectedFno, setSelectedFno] = useState<number | null>(1) // 페이지 시작할때 첫번째 폴더 선택
     const [newButtonName, setNewButtonName] = useState<string>('') // 폴더 이름
@@ -63,7 +64,8 @@ export const MyCart: FC<MyCartProps> = ({onChangeItems, className, dragDisable})
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [onClose])
+
 
     const handleButtonClick = (fno: number) => {
         console.log(`${fno} selected`) // 추후에 삭제 예정
