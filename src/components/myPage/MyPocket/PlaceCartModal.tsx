@@ -22,7 +22,7 @@ import {
     updateFolderData
 } from '../../../data/Folder/Folder'
 import { useDispatch } from 'react-redux'
-import { ReportModal } from '../../manager/ReportList/ReportModal'
+import { Modal } from '../../Modal'
 
 type Pno = {
     pno: number
@@ -117,7 +117,7 @@ export const PlaceCartModal: FC<Pno> = ({pno,onCloseModal}) => {
 
     return (
         // FIX ReportModal 명 수정예정
-        <ReportModal onClose={onCloseModal} isOpen>
+        <Modal onClose={onCloseModal} isOpen>
                     <h3 className="text-4xl">모든 장바구니</h3>
                     <h3 className="text-xl">
                         어느 바구니에 넣을지 선택하세요!
@@ -179,6 +179,6 @@ export const PlaceCartModal: FC<Pno> = ({pno,onCloseModal}) => {
                             </div>
                         </div>
                     ))}
-                    </ReportModal>
+                    </Modal>
     )
 }
