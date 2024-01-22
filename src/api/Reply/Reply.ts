@@ -2,10 +2,10 @@ import {
     deleteReplyData,
     registReplyData,
     replyData,
-    reportReplyData,
     reportReplyResponseData,
     updateReplyData
 } from '../../data/Reply/Reply'
+import {reportRequestData} from '../../data/manager'
 import {commonAxios} from '../Axios/CommonAxios'
 import {refreshAxios} from '../Axios/RefreshAxios'
 
@@ -47,7 +47,7 @@ export const deleteReply = async (
 
 //댓글 신고
 export const reportReply = async (
-    reportReply: reportReplyData
+    reportReply: reportRequestData
 ): Promise<reportReplyResponseData> => {
     const response = await refreshAxios.post('/report/register', reportReply)
     return response.data

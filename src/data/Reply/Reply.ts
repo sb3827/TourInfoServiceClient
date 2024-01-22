@@ -30,16 +30,6 @@ export type deleteReplyData = {
     mno: number
 }
 
-//댓글 신고 타입
-export type reportReplyData = {
-    complainant: number
-    defendant: number
-    bno: number | null
-    rno: number | null
-    content: string
-    message: string
-}
-
 //댓글 신고 리턴 타입
 export type reportReplyResponseData = {
     result: boolean
