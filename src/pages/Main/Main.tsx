@@ -197,7 +197,7 @@ export const Main: FC<MainProps> = () => {
                             placeholder="장소/코스/유저 선택해서 검색"
                         />
                         <Button
-                            className="text-white bg-darkGreen"
+                            className="text-white shadow-xl bg-darkGreen"
                             value={'검색'}
                             onClick={onSearch}
                         />
