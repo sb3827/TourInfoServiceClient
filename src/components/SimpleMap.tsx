@@ -64,7 +64,7 @@ export const SimpleMap: FC<SimpleMapProps> = ({className}) => {
                         data={placeCountData}
                     />
                 </div>
-                <div className="absolute flex flex-col items-center lg:-right-20 lg:top-44 md:right-0 top-44">
+                <div className="absolute flex flex-col items-center lg:-right-24 lg:top-36 md:right-0 top-44">
                     <img src={korea} className="w-5 h-5 ml-3" />
                     <p className="text-blue-500">독도</p>
                 </div>
