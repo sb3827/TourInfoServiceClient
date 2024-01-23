@@ -42,3 +42,14 @@ export const appendCart = async (spotAddData: spotAddData): Promise<spotAddData>
     const response = await refreshAxios.post(`/folder/cart-append`, spotAddData)
     return response.data
 }
+
+export const deleteCart = async (
+    mno: number,
+    pno: number,
+    fno: number
+): Promise<void> => {
+    const response = await refreshAxios.delete(`/folder/cart-delete`, {
+        data: {mno, pno, fno}
+    })
+    return response.data
+}

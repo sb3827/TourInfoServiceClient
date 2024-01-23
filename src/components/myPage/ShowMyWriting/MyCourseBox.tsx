@@ -1,18 +1,21 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, FC} from 'react'
 import {userCourse} from './../../../data/User/User'
 import {ShowUserCourse} from './../../../api/MyPage/ShowUserInfo'
-import {RootState} from './../../../store/rootReducer'
-import {useSelector} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
-export const MyCourseBox = () => {
+type MyCourseBoxProps = {
+    mno: number
+}
+
+export const MyCourseBox: FC<MyCourseBoxProps> = ({mno}) => {
     const [CourseList, setCourseList] = useState<userCourse>()
 
-    const userMno = useSelector((state: RootState) => state.login.mno) || 0
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userCourseData = await ShowUserCourse(userMno)
+                const userCourseData = await ShowUserCourse(mno)
                 setCourseList(userCourseData)
                 console.log(userCourseData)
             } catch {
@@ -38,16 +41,26 @@ export const MyCourseBox = () => {
                         CourseList.map((course: userCourse) => (
                             <tr className="">
                                 <td className="">
-                                    <a href="" className="cursor-pointer hover:underline">
+                                    <span
+                                        onClick={() =>
+                                            navigate(
+                                                `/board/course/posting?bno=${course.bno}`
+                                            )
+                                        }
+                                        className="cursor-pointer hover:underline">
                                         {course.bno}
-                                    </a>
+                                    </span>
                                 </td>
                                 <td className="">
-                                    <a
-                                        href=""
+                                    <span
+                                        onClick={() =>
+                                            navigate(
+                                                `/board/course/posting?bno=${course.bno}`
+                                            )
+                                        }
                                         className="cursor-pointer hover:underline ">
                                         {course.title}
-                                    </a>
+                                    </span>
                                 </td>
                                 <td className="">{course.writer}</td>
                                 <td className="">{course.regdate}</td>

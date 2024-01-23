@@ -10,7 +10,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate, useSearchParams} from 'react-router-dom'
-import type {RatingRef, EditorRef, PlaceProps} from '../../components'
+import type {RatingRef, EditorRef, PlaceProps, PnoRef} from '../../components'
 import {
     deleteBoard,
     modifyPlaceBoard,
@@ -38,6 +38,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     const titleRef = useRef<HTMLInputElement | null>(null)
     const starRef = useRef<RatingRef | null>(null)
     const editorRef = useRef<EditorRef | null>(null)
+    const placeRef = useRef<PnoRef | null>(null)
     const user = useSelector((state: RootState) => state.login.mno)!
 
     const [loadImg, setLoadImg] = useState<string[]>([])
@@ -63,6 +64,11 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
             alert('내용을 입력하세요')
             return
         }
+        const place = placeRef.current?.getPno as number
+        if (place < 1 || place == null) {
+            alert('장소를 입력하세요')
+            return
+        }
 
         // editor로 인해 upload 된 images
         const images = editorRef.current?.getImages || []
@@ -75,8 +81,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
             content: content,
             deleteImages: [],
             images: [],
-            //STUB - place stub
-            place: 1,
+            place: place,
             writer: user
         }
         ////
@@ -112,8 +117,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
             content: content,
             deleteImages: [],
             images: [],
-            //STUB - place stub
-            place: 1,
+            place: 0,
             writer: user
         }
         ////
@@ -168,10 +172,8 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
                 localAddress: data.postingPlaceBoardDTOS[0][0].localAddress,
                 engAddress: data.postingPlaceBoardDTOS[0][0].engAddress
             })
-            //TODO - 장소 정보 설정
         } catch (error) {
-            //FIXME - 404 에러처리
-            navigate(-1)
+            navigate('/notFound')
         }
     }
 
@@ -191,7 +193,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
                 placeholder="제목을 입력하세요"
                 ref={titleRef}></Input>
             <div>
-                {!props.isModify && <InputPlace />}
+                {!props.isModify && <InputPlace ref={placeRef} />}
                 {props.isModify && <PlacePostMap place={loadPlace!}></PlacePostMap>}
             </div>
             <div className="flex flex-row justify-end my-2">

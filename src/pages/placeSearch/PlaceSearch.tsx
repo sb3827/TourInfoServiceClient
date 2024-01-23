@@ -9,7 +9,9 @@ import {
 } from '../../components/index'
 import {PlaceData} from '../../data/placeSearch'
 import {getSearchPlaceInfo} from '../../api'
-import {useSearchParams} from 'react-router-dom'
+import {useNavigate, useSearchParams} from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store/rootReducer'
 
 // 장소 검색 페이지
 
@@ -27,6 +29,9 @@ export const PlaceSearch = () => {
     const [selectedCategory, setSelectedCategory] = useState<string>(initialFilter)
     const [searchValue, setSearchValue] = useState<string>(initialSearch)
     const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null)
+
+    const navigate = useNavigate();
+    const user = useSelector((state: RootState) => state.login.mno)!
 
     function onMap(index: number) {
         searchMapRef.current?.setLocation(index)
@@ -70,11 +75,15 @@ export const PlaceSearch = () => {
         onPlaceList()
     }, [])
 
+    const handleRegisterClick = () => {
+        navigate(`/board/place/posting/register`);
+    }
+
     return (
         <Box>
-            <div className="flex justify-center w-full mb-10">
+            <div className="flex justify-center w-full">
                 <select
-                    className="w-20 border border-gray-300 rounded-xl"
+                    className="w-24 h-16 text-xl text-center border border-gray-300 rounded-xl"
                     value={selectedCategory}
                     onChange={handleCategoryChange}>
                     <option value="">전체</option>
@@ -84,21 +93,29 @@ export const PlaceSearch = () => {
                     <option value="ETC">기타</option>
                 </select>
                 <SearchInput
-                    className="w-2/5 ml-1"
+                    className="w-2/5 h-16 mx-4"
                     value={searchValue}
                     onChange={onChangeSearch}
                     onKeyDown={onPlaceList}
                 />
                 <Button
                     onClick={onPlaceList}
-                    className="text-white bg-darkGreen"
+                    className="w-24 text-xl text-white h-14 bg-darkGreen"
                     value={'검색'}
                 />
+                  
             </div>
+            <div className='w-5/6'>
+                <div className='flex justify-end'>
+                    {user && <Button onClick={handleRegisterClick} className="h-16 text-xl text-white w-36 bg-darkGreen" value={'게시글 작성'}/> } 
+                </div>
+            </div> 
+
+            
 
             <div className="flex justify-center w-full h-screen ">
                 <div className="flex w-5/6 h-5/6">
-                    <div className="w-1/2 overflow-y-auto border rounded-lg border--300">
+                    <div className="w-1/2 overflow-y-auto border rounded-lg border--300 border-lightGreen">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
                         {placeInfoData &&
                             placeInfoData.map((data: PlaceData, index) => (
@@ -108,7 +125,7 @@ export const PlaceSearch = () => {
                                 />
                             ))}
                     </div>
-                    <div className="w-1/2 border border-gray-300 rounded-lg">
+                    <div className="w-1/2 border rounded-lg border-lightGreen ">
                         {/* MapAPI 컴포넌트 */}
                         {placeInfoData ? (
                             <SearchMap

@@ -48,12 +48,14 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
     }
 
     //FIXME - 유저 검색창에서 유저 프로필을 보러가야하는데 어떤 링크를 작성 해야 하는지 모르겠습니다
-    const handleReviewClick = () => {
-        navigate(`/mypage`)
+    const onUserDetail = () => {
+        navigate(`/mypage/${userInfo.mno}`)
     }
 
     return (
-        <div className="flex w-full h-32 my-5 duration-100 border shadow cursor-pointer border-lightGreen stats hover:shadow-xl">
+        <div
+            className="flex w-full h-32 my-5 duration-100 border shadow cursor-pointer border-lightGreen stats hover:shadow-xl"
+            onClick={onUserDetail}>
             <div className="flex flex-col justify-center flex-2 stat">
                 <div className="stat-figure text-secondary">
                     <div className="w-16 h-16 overflow-hidden rounded-full ">

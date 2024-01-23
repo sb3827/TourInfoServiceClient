@@ -114,6 +114,7 @@ export type userReply = {
     title: string
     text: string
     regdate: string
+    course: boolean
 }
 
 // 사용자가 작성한 코스 게시글

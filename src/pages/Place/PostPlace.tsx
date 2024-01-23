@@ -15,10 +15,13 @@ import {
     faArrowLeft,
     faEllipsisVertical
 } from '@fortawesome/free-solid-svg-icons'
+import noImage from '../../assets/smallLogo.png'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {deleteLike, placePostLoad, postLike} from '../../api/Board/board'
+import BoardReportModal from '../../components/board/BoardReportModal'
+import {BoardData} from '../../data/Board/BoardData'
 
 type PostPlaceProps = {
     title?: string
@@ -34,6 +37,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     const [title, setTitle] = useState<string>('')
     const [images, setImages] = useState<string[]>([''])
     const [writer, setWriter] = useState<string>()
+    const [writerNo, setWriterNo] = useState<number>()
     const [place, setPlace] = useState<PlaceProps>({
         name: '서면 거리',
         lat: 35.1584,
@@ -78,8 +82,20 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
         // 뒤로가기 로직
         navigate(-1)
     }
+
+    // report
     const nav = () => navigate(`/board/place/posting/modify?bno=${bno}`)
-    const set = () => setReport(!report)
+    const closeModal = () => {
+        setReport(false)
+    }
+    const set = () => setReport(true)
+    const boardData: BoardData = {
+        bno: parseInt(bno),
+        title: title,
+        content: content,
+        mno: writerNo as number,
+        name: writer as string
+    }
 
     async function loadPage() {
         try {
@@ -89,7 +105,8 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
             }
-            if (user == data.writerDTO.mno) {
+            setWriterNo(data.writerDTO.mno)
+            if (user == writerNo) {
                 setEnables([true, false])
             }
 
@@ -107,14 +124,14 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
             setWriter(data.writerDTO.name) // writer
             // setImages
             if (data.images.length > 0) setImages(data.images)
+            else setImages([noImage])
             // setPlace
             if (data.postingPlaceBoardDTOS.length > 0) {
                 setPlace(data.postingPlaceBoardDTOS[0][0])
             }
             setContent(data.content) // content
         } catch (error) {
-            // navigate(-1)
-            //FIXME - 영현 에러처리 부탁~ 해요
+            navigate('/notfound')
         }
     }
     useEffect(() => {
@@ -180,17 +197,19 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
             </div>
             <div className="my-2">
                 {/*body*/}
-                <div className="flex flex-row items-center justify-center h-full">
-                    <Slider className="w-1/2 h-full">
+                <div className="flex flex-row items-center justify-center">
+                    <Slider className="w-1/2">
                         {images.map((image, index) => (
                             <img
-                                className="w-full h-full mx-auto my-auto"
+                                width={'800px'}
                                 key={index}
                                 src={image}
-                                alt="img"></img>
+                                alt="img"
+                                style={{maxWidth: '100%', maxHeight: '100%'}}
+                            />
                         ))}
                     </Slider>
-                    <PlacePostMap className="w-1/2" place={place!}></PlacePostMap>
+                    <PlacePostMap className="w-1/2 h-1/2" place={place!}></PlacePostMap>
                 </div>
                 <div className="my-2">
                     <TextBox data={content}></TextBox>
@@ -200,7 +219,11 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                 {/*footer*/}
                 <Reply />
             </div>
-            <div>report && null</div>
+            {report && (
+                <BoardReportModal
+                    boardData={boardData}
+                    onCloseModal={closeModal}></BoardReportModal>
+            )}
         </div>
     )
 }
