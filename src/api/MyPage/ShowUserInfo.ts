@@ -68,18 +68,23 @@ export const ShowUserCourse = async (mno: number): Promise<userCourse> => {
 
 // 팔로잉 조회
 export const ShowUserFollowings = async (mno: number): Promise<userFollows> => {
-    const response = await commonAxios.get(`/follow/following?mno=${mno}`)
+    const response = await refreshAxios.get(`/follow/following?mno=${mno}`)
     return response.data
 }
 
 // 팔로워 조회
 export const ShowUserFollowers = async (mno: number): Promise<userFollows> => {
-    const response = await commonAxios.get(`/follow/follower?mno=${mno}`)
+    const response = await refreshAxios.get(`/follow/follower?mno=${mno}`)
     return response.data
 }
 
 //방문수 조회
 export const ShowPlaceCount = async (mno: number): Promise<userPlaceCount> => {
     const response = await commonAxios.get(`/place/placecount?mno=${mno}`)
+    return response.data
+}
+
+export const deleteId = async (mno: number): Promise<void> => {
+    const response = await refreshAxios.delete(`/users/delete?mno=${mno}`)
     return response.data
 }
