@@ -153,6 +153,10 @@ export const BusinessMemberSignup = () => {
         ) {
             return
         }
+        const formattedPhoneNumber = `${userPhoneNumber.slice(
+            0,
+            3
+        )}-${userPhoneNumber.slice(3, 7)}-${userPhoneNumber.slice(7)}`
 
         if (
             validateInput('비밀번호를 입력해주세요', !userPassword) ||
@@ -166,19 +170,23 @@ export const BusinessMemberSignup = () => {
             validateInput('사업자 번호를 인증 해주세요', !isBussinesscodeChecked) ||
             validateInput(
                 '올바른 전화번호 형식이 아닙니다',
-                !phone_regex.test(userPhoneNumber)
+                !phone_regex.test(formattedPhoneNumber)
             )
         ) {
             return
         }
         try {
+            const formattedBusinessCode = `${userBusinessCode.slice(
+                0,
+                3
+            )}-${userBusinessCode.slice(3, 5)}-${userBusinessCode.slice(5)}`
             const data: SignupData = {
                 email: userEmail + selectValue,
                 password: userPassword,
                 birth: userBirthDate,
-                phone: userPhoneNumber,
+                phone: formattedPhoneNumber,
                 name: userName,
-                businessId: userBusinessCode,
+                businessId: formattedBusinessCode,
                 role: 'BUSINESSPERSON'
             }
             const result = await signupRequest(data)
@@ -278,7 +286,7 @@ export const BusinessMemberSignup = () => {
                 className="mb-6"
                 value={userPhoneNumber}
                 type="phoneNumber"
-                text="전화번호(- 포함)"
+                text="전화번호( - 미포함)"
                 onChange={onUserPhoneNumberChange}
             />
 
