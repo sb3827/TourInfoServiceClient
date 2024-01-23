@@ -52,9 +52,9 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
 
     return (
         <div
-            className="w-full border border-gray-200 cursor-pointer card lg:card-side rounded-xl hover:bg-gray-300"
+            className="m-4 border cursor-pointer border-lightGreen card lg:card-side rounded-xl hover:bg-gray-300"
             onClick={props.mapClick}>
-            <div className="w-1/2 h-64 border border-gray-200 cursor-pointer rounded-xl ">
+            <div className="w-1/2 border border-gray-200 h-72 rounded-xl ">
                 {placeInfoData.image ? (
                     <img src={placeInfoData.image} alt="Image" />
                 ) : (
