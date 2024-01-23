@@ -16,7 +16,7 @@ type ProfileProps = {
 export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     const [userProfile, setUserProfile] = useState<userProfile | null>(null)
 
-    // const userMno = useSelector((state: RootState) => state.login.mno) || 0
+    const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     const navigate = useNavigate()
 
@@ -58,7 +58,7 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                     <br />
                     <ShowTotalLikes cart={userProfile ? userProfile.cart : 0} />
                     <br />
-                    {mno === userProfile?.mno && (
+                    {userMno === userProfile?.mno && (
                         <Button
                             value="정보 수정"
                             onClick={onModify}
