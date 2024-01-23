@@ -28,7 +28,7 @@ export const Board: FC<BoardProps> = ({placeBoardData}) => {
     
 
     return (
-        <div className="border border-gray-200 shadow-xl card lg:card-side bg-base-100">
+        <div className="mb-4 border border-gray-200 shadow-xl card lg:card-side bg-base-100 ">
             <div className="w-1/2 h-72">
                 <Slider>{imageArray}</Slider>
             </div>
