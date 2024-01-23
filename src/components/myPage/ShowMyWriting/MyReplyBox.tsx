@@ -23,7 +23,7 @@ export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
             }
         }
         fetchData()
-    }, [])
+    }, [mno])
 
     return (
         <div>
