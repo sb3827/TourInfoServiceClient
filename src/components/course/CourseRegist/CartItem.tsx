@@ -6,9 +6,16 @@ import {Spot} from '../../Spot'
 type CartItemProps = {
     items: Item[]
     dragDisable?: boolean
+    isRegister?: boolean // MyCart에서 사용하기 위해 추가하였음
+    onDeleteSpot?: (pno: number) => void
 }
 
-export const CartItem: FC<CartItemProps> = ({items, dragDisable}) => {
+export const CartItem: FC<CartItemProps> = ({
+    items,
+    dragDisable,
+    isRegister,
+    onDeleteSpot
+}) => {
     return (
         <div className="flex">
             {items.map((item, index) => (
@@ -29,7 +36,10 @@ export const CartItem: FC<CartItemProps> = ({items, dragDisable}) => {
                                             <Spot
                                                 key={index}
                                                 src={item.img}
-                                                isRegister={false}>
+                                                isRegister={isRegister || false}
+                                                onDelete={() =>
+                                                    onDeleteSpot && onDeleteSpot(item.pno)
+                                                }>
                                                 {item.pname}
                                             </Spot>
                                         )}

@@ -10,12 +10,12 @@ import {commonAxios} from './../Axios/CommonAxios'
 import {refreshAxios} from './../Axios/RefreshAxios'
 
 export const ShowFolderAll = async (mno: number): Promise<folderAll> => {
-    const response = await commonAxios.get(`/folder/all/${mno}`)
+    const response = await refreshAxios.get(`/folder/all/${mno}`)
     return response.data
 }
 
 export const ShowFolderInfo = async (mno: number): Promise<folder> => {
-    const response = await commonAxios.get(`/folder/title/${mno}`)
+    const response = await refreshAxios.get(`/folder/title/${mno}`)
     return response.data
 }
 
@@ -40,5 +40,16 @@ export const deleteFolder = async (fno: number): Promise<deleteFolderData> => {
 
 export const appendCart = async (spotAddData: spotAddData): Promise<spotAddData> => {
     const response = await refreshAxios.post(`/folder/cart-append`, spotAddData)
+    return response.data
+}
+
+export const deleteCart = async (
+    mno: number,
+    pno: number,
+    fno: number
+): Promise<void> => {
+    const response = await refreshAxios.delete(`/folder/cart-delete`, {
+        data: {mno, pno, fno}
+    })
     return response.data
 }

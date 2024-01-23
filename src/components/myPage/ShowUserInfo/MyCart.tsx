@@ -4,7 +4,8 @@ import {
     registerFolder,
     updateFolder,
     deleteFolder,
-    ShowFolderInfo
+    ShowFolderInfo,
+    deleteCart
 } from './../../../api/Folder/Folder'
 import {
     folderAll,
@@ -45,7 +46,6 @@ export const MyCart: FC<MyCartProps> = ({onChangeItems, className, dragDisable})
             console.log(userFolderData) // 추후에 삭제 예정
 
             console.log(
-                'abcd : ',
                 userFolderData.data.map(folderInfo => convertFolderInfoToItem(folderInfo))
             )
 
@@ -196,6 +196,17 @@ export const MyCart: FC<MyCartProps> = ({onChangeItems, className, dragDisable})
         }
     }
 
+    // 스팟 삭제
+    const deleteSpot = async (mno: number, pno: number, fno: number) => {
+        try {
+            await deleteCart(mno, pno, fno)
+            fetchData()
+            alert('스팟 삭제!')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     // folderInfo 데이터에서 Item 타입의 데이터로 변환하는 함수
     function convertFolderInfoToItem(folderInfo: any) {
         const items = []
@@ -265,6 +276,10 @@ export const MyCart: FC<MyCartProps> = ({onChangeItems, className, dragDisable})
                                     <CartItem
                                         items={convertFolderInfoToItem(folderInfo)}
                                         dragDisable={dragDisable}
+                                        isRegister={true}
+                                        onDeleteSpot={(pno: number) =>
+                                            deleteSpot(userMno, pno, folderInfo.fno)
+                                        }
                                     />
 
                                     {/* {folderInfo.title && <MyPocketModal />} */}
