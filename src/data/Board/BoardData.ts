@@ -1,4 +1,15 @@
-import internal from 'stream'
+export type BoardData = {
+    bno: number
+    title: string
+    content: string
+    mno: number
+    name: string
+}
+
+export type reportBoardResponseData = {
+    result: boolean
+    data: number
+}
 
 export type ResponseBoard = {
     bno: number
