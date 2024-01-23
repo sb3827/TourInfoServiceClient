@@ -69,7 +69,6 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     async function loadPage() {
         try {
             const data = await coursePostLoad(parseInt(bno), user != null)
-            if (data.writerDTO.mno !== user) navigate('/unauthorized')
             if (!data.isCourse) {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
