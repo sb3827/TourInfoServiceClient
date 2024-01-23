@@ -5,13 +5,17 @@ import {
     CourseInfo,
     BoardToggle,
     Subtitle,
-    BoardBox
+    BoardBox,
+    Button
 } from '../../components/index'
 import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
 import {CourseBoardListData} from '../../data/Board/BoardData'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faSignsPost} from '@fortawesome/free-solid-svg-icons'
 import {useSearchParams} from 'react-router-dom'
+import {faSignsPost } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
 export const CourseSearch = () => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -28,7 +32,7 @@ export const CourseSearch = () => {
         setSearchValue(value)
     }
 
-    async function onPlaceList(
+    async function onCourseList(
         e?: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>
     ) {
         //키보드로 입력이 들어왔는데 Enter가 아닌경우 return
@@ -49,8 +53,16 @@ export const CourseSearch = () => {
         }
     }
     useEffect(() => {
-        onPlaceList()
+        onCourseList()
     }, [])
+
+    const navigate = useNavigate();
+
+    const user = useSelector((state: RootState) => state.login.mno)!
+
+    const handleRegisterClick = () => {
+        navigate(`/board/course/posting/register`);
+    }
 
     return (
         <Box>
@@ -58,8 +70,11 @@ export const CourseSearch = () => {
                 className="flex w-3/6 mb-4"
                 value={searchValue}
                 onChange={onChangeSearch}
-                onKeyDown={onPlaceList}
+                onKeyDown={onCourseList}
             />
+            <div className='flex justify-end w-4/6 '>
+               {user && <Button onClick={handleRegisterClick} className="h-16 text-xl text-white w-36 bg-darkGreen" value={'게시글 작성'}/> } 
+            </div>
             <BoardToggle>
                 <Subtitle
                     value="유저"
