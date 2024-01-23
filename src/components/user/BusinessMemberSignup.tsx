@@ -76,11 +76,11 @@ export const BusinessMemberSignup = () => {
 
     // 회원가입 데이터 유효성 검사
     function validateInput(message: string, condition: boolean) {
-        if (!condition) {
+        if (condition) {
             alert(message)
-            return true // 유효하지 않은 경우 true 반환
+            return true
         }
-        return false // 유효한 경우 false 반환
+        return false
     }
 
     // 이메일 중복 체크 버튼 클릭 이벤트
@@ -178,6 +178,7 @@ export const BusinessMemberSignup = () => {
                 birth: userBirthDate,
                 phone: userPhoneNumber,
                 name: userName,
+                businessId: userBusinessCode,
                 role: 'BUSINESSPERSON'
             }
             const result = await signupRequest(data)
@@ -216,7 +217,7 @@ export const BusinessMemberSignup = () => {
                                 value={selectValue}
                                 className="block py-3 pl-3 pr-10 leading-tight bg-white border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline">
                                 <option value="@naver.com">@naver.com</option>
-                                <option value="@google.com">@google.com</option>
+                                <option value="@gmail.com">@gmail.com</option>
                                 <option value="@kako.com">@kakao.com</option>
                             </select>
                         </div>
@@ -232,7 +233,7 @@ export const BusinessMemberSignup = () => {
                         className="flex-1 mt-6"
                         value={userBusinessCode}
                         type="text"
-                        text="사업자번호"
+                        text="사업자번호(-제외)"
                         onChange={onChangeBusinessCode}
                     />
                     <Button
