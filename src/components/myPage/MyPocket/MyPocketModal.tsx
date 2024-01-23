@@ -23,9 +23,14 @@ import {useSelector} from 'react-redux'
 type MyPocketModalProps = {
     selectedComponent?: number
     onClose?: () => void
+    className?: string
 }
 
-export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent, onClose}) => {
+export const MyPocketModal: FC<MyPocketModalProps> = ({
+    selectedComponent,
+    onClose,
+    className
+}) => {
     //검색 값
     const [searchValue, setSearchValue] = useState<string>('')
     const [selectedCategory, setSelectedCategory] = useState<string>('')
@@ -140,7 +145,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent, onClos
         <div>
             <button
                 onClick={openSpotModal}
-                className="w-32 h-12 text-black bg-gray-400 rounded-xl">
+                className={`w-32 h-12 text-black bg-gray-400 rounded-xl ${className}`}>
                 스팟 추가
             </button>
 

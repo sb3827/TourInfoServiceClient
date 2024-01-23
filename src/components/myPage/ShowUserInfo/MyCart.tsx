@@ -43,7 +43,6 @@ export const MyCart: FC<MyCartProps> = ({
     const [isAddButtonVisible, setAddButtonVisible] = useState(true) // 추가 버튼 숨김 여부 상태
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
-    // const userMno = 2
 
     const fetchData = async () => {
         try {
@@ -227,7 +226,8 @@ export const MyCart: FC<MyCartProps> = ({
 
     return (
         <div>
-            <div className="w-full mt-8 overflow-y-auto bg-gray-200 border h-96">
+            <div
+                className={`w-full mt-8 overflow-y-auto bg-gray-200 border h-96 ${className}`}>
                 <div className="flex justify-start w-full h-12 border">
                     {folder &&
                         Array.isArray(folder.data) &&
