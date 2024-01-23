@@ -42,9 +42,9 @@ export const PlaceDetails = () => {
     return (
         <Box>
             <div className="flex justify-center w-full">
-                <div className="w-2/3 m-10 rounded-sm">     
+                <div className="w-2/3 m-10">     
                     {boardData && (
-                        <SearchMap places={boardData} className="w-full h-full" innerRef={null} />
+                        <SearchMap places={boardData} className="w-full h-full rounded-xl" innerRef={null} />
                     )}
                 </div>
             </div>
