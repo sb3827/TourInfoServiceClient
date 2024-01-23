@@ -83,7 +83,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
 
     async function loadPage() {
         try {
-            const data = await placePostLoad(parseInt(bno))
+            const data = await placePostLoad(parseInt(bno), user != null)
             console.log(data)
             if (data.isCourse) {
                 // 코스정보 에러 처리(front)
@@ -96,6 +96,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
             setTitle(data.title) // title
             setScore(data.score) // number of star
             setHeart(data.isLiked) // set isLiked
+            console.log(data.isLiked)
             setLikes(data.likes) // number of likes
             // set write Date
             if (data.moddate == data.regdate) {

@@ -52,9 +52,17 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
 
     // 등록 onclick 함수
     function regist() {
-        const title = titleRef.current?.value || ''
+        const title = titleRef.current?.value as string
+        if (title == '') {
+            alert('제목을 입력하세요')
+            return
+        }
         const score = starRef.current?.getSelectedRating() as number
         const content = editorRef.current?.getEditor()?.editor?.data.get() as string
+        if (content == '') {
+            alert('내용을 입력하세요')
+            return
+        }
 
         // editor로 인해 upload 된 images
         const images = editorRef.current?.getImages || []
@@ -80,9 +88,17 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     }
     // 수정 onclick 함수
     function modify() {
-        const title = titleRef.current?.value || ''
+        const title = titleRef.current?.value as string
+        if (title == '') {
+            alert('제목을 입력하세요')
+            return
+        }
         const score = starRef.current?.getSelectedRating() as number
         const content = editorRef.current?.getEditor()?.editor?.data.get() as string
+        if (content == '') {
+            alert('내용을 입력하세요')
+            return
+        }
 
         // editor로 인해 upload 된 images
         let images = editorRef.current?.getImages || []
@@ -114,7 +130,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
         try {
             deleteBoard(parseInt(bno))
             alert('삭제 성공')
-            navigate(-1)
+            navigate('/board/place')
         } catch (error) {
             alert('삭제 실패')
             navigate(-1)
@@ -133,7 +149,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     async function loadPage() {
         const bno = searchParams.get('bno')!
         try {
-            const data = await placePostLoad(parseInt(bno))
+            const data = await placePostLoad(parseInt(bno), user != null)
             if (data.isCourse) {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
