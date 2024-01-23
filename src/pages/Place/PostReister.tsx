@@ -144,7 +144,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     const [searchParams] = useSearchParams()
     useEffect(() => {
         if (props.isModify) {
-            console.log('modify page')
+            if (!user) navigate('/unauthorized')
             loadPage()
         }
     }, [])
@@ -154,6 +154,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
         const bno = searchParams.get('bno')!
         try {
             const data = await placePostLoad(parseInt(bno), user != null)
+            if (data.writerDTO.mno !== user) navigate('/unauthorized')
             if (data.isCourse) {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
