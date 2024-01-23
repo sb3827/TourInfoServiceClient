@@ -5,10 +5,12 @@ import {
     ImageReturnData,
     saveCourseBoardDTO,
     savePlaceBoardDTO,
-    ResponseResult
+    ResponseResult,
+    reportBoardResponseData
 } from '../../data/Board/BoardData'
 import {commonAxios} from '../Axios/CommonAxios'
 import {refreshAxios, refreshFormAxios} from '../Axios/RefreshAxios'
+import {reportRequestData} from '../../data/manager'
 
 export const placePostLoad = async (
     bno: number,
@@ -97,7 +99,6 @@ const parsingImg = (images: ImageReturnData[], content: string) => {
 }
 
 // place board upload
-//NOTE - null을 return 타입으로 변경
 export const registPlaceBoard = async (
     board: savePlaceBoardDTO,
     images: ImageReturnData[]
@@ -113,7 +114,6 @@ export const registPlaceBoard = async (
 }
 
 // modify place board
-//NOTE - null을 return 타입으로 변경
 export const modifyPlaceBoard = async (
     board: savePlaceBoardDTO,
     images: ImageReturnData[]
@@ -127,7 +127,6 @@ export const modifyPlaceBoard = async (
 }
 
 // upload course board
-//NOTE - null을 return 타입으로 변경
 export const registCourseBoard = async (
     board: saveCourseBoardDTO,
     images: ImageReturnData[]
@@ -143,7 +142,6 @@ export const registCourseBoard = async (
 }
 
 // modify course board
-//NOTE - null을 return 타입으로 변경
 export const modifyCourseBoard = async (
     board: saveCourseBoardDTO,
     images: ImageReturnData[]
@@ -155,5 +153,12 @@ export const modifyCourseBoard = async (
     console.log(board.images)
 
     const response = await refreshAxios.put(`/board/course/posting/modify`, board)
+    return response.data
+}
+
+export const reportBoard = async (
+    boardReply: reportRequestData
+): Promise<reportBoardResponseData> => {
+    const response = await refreshAxios.post('/report/register', boardReply)
     return response.data
 }
