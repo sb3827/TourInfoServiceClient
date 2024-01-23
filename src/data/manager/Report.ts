@@ -27,9 +27,9 @@ export type ReportResponseData = {
     data: Array<{
         sno: number
         complainant_mno: number
-        complainant: string
+        complainant: string | null
         defendant_mno: number
-        defendant: string
+        defendant: string | null
         bno: number | null
         rno: number | null
         content: string
@@ -43,9 +43,9 @@ export type ReportResponseData = {
 export type ReportData = {
     sno: number
     complainant_mno: number
-    complainant: string
+    complainant: string | null
     defendant_mno: number
-    defendant: string
+    defendant: string | null
     bno: number | null
     rno: number | null
     content: string
