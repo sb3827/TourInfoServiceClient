@@ -111,6 +111,7 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
                 mno,
                 parentRno: reply.rno
             })
+            setRereplyValue('')
         }
         getRereply()
     }
