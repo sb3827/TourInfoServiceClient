@@ -54,7 +54,7 @@ export const ShowFollowModal: FC<ShowFollowModalProps> = ({following, follower})
                                     <button onClick={closeModal}>
                                         <FontAwesomeIcon
                                             icon={faArrowLeft}
-                                            className="w-12 h-12"
+                                            className="w-12 h-12 cursor-pointer"
                                         />
                                     </button>
                                 </div>
