@@ -7,7 +7,7 @@ type MyPageRouteProps = {}
 export const MyPageRoute: FC<MyPageRouteProps> = ({}) => {
     return (
         <Routes>
-            <Route path="/" element={<MyPage />} />
+            <Route path=":mno" element={<MyPage />} />
             <Route path="/modify" element={<MyModifyPage />} />
             <Route path="*" element={<NotFound />} />
         </Routes>

@@ -28,11 +28,11 @@ export const CourseInfo: FC<CourseInfoProps> = ({boardData}) => {
 
             
     return (
-        <div className="w-full my-4 shadow-xl card bg-base-100 border-lightGreen">
+        <div className="w-full my-4 shadow-xl cursor-pointer card bg-base-100 border-lightGreen hover:bg-gray-300" onClick={handleReviewClick}>
             <div className='h-80'>
             <Slider>{imageArray}</Slider>
             </div >
-            <div className="flex items-center justify-between w-full h-full cursor-pointer card-body " onClick={handleReviewClick}>
+            <div className="flex items-center justify-between w-full h-full card-body " >
             <div className="flex">
                 <p className="mr-2 card-title"> 제목 :</p>
                 <p className="mr-8 card-title">{boardData?.title}</p>

@@ -1,4 +1,4 @@
-import {FC, useState} from 'react'
+import {FC, MouseEvent, useState} from 'react'
 import {Button} from '../../components/index'
 import {UserSearchData} from '../../data/User/User'
 import {useNavigate} from 'react-router-dom'
@@ -27,7 +27,8 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
         setTotalFollow(0)
     }
 
-    async function clickFollow() {
+    async function clickFollow(event: MouseEvent<HTMLButtonElement>) {
+        event.stopPropagation()
         try {
             if (!user || !userInfo) return
             if (follow) {
@@ -47,13 +48,15 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
         }
     }
 
-    //FIXME - 유저 검색창에서 유저 프로필을 보러가야하는데 어떤 링크를 작성 해야 하는지 모르겠습니다
-    const handleReviewClick = () => {
-        navigate(`/mypage`)
+    //회원 상세 페이지로 이동
+    const onUserDetail = () => {
+        navigate(`/mypage/${userInfo.mno}`)
     }
 
     return (
-        <div className="flex w-full h-32 my-5 duration-100 border shadow cursor-pointer border-lightGreen stats hover:shadow-xl">
+        <div
+            className="flex w-full h-32 my-5 duration-100 border shadow cursor-pointer border-lightGreen stats hover:shadow-xl"
+            onClick={onUserDetail}>
             <div className="flex flex-col justify-center flex-2 stat">
                 <div className="stat-figure text-secondary">
                     <div className="w-16 h-16 overflow-hidden rounded-full ">
@@ -83,7 +86,9 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
                     <div className="mt-4">
                         <Button
                             value={buttonText}
-                            onClick={clickFollow}
+                            onClick={event => {
+                                clickFollow(event)
+                            }}
                             className={`w-24 h-16 text-lg text-center ${
                                 follow ? 'text-blue-500' : 'text-lightGreen'
                             }`}

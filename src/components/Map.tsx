@@ -351,7 +351,12 @@ export const PlacePostMap: FC<PropsWithChildren<PlacePostMapProps>> = ({
         infowindow.open(map, marker)
     }, [place])
 
-    return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
+    return (
+        <div
+            ref={mapElement}
+            style={{minHeight: '0', paddingTop: '50%', position: 'relative'}}
+            {...props}></div>
+    )
 }
 
 // FIXME 결과 값 리턴 이벤트 @ckd9968

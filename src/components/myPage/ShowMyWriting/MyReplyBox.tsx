@@ -1,17 +1,21 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, FC} from 'react'
 import {userReply} from './../../../data/User/User'
 import {ShowUserReply} from './../../../api/MyPage/ShowUserInfo'
-import {RootState} from './../../../store/rootReducer'
-import {useSelector} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
-export const MyReplyBox = () => {
+type MyReplyBoxProps = {
+    mno: number
+}
+
+export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
     const [ReplyList, setReplyList] = useState<userReply | null>(null)
-    const userMno = useSelector((state: RootState) => state.login.mno) || 0
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userReplyData = await ShowUserReply(userMno)
+                const userReplyData = await ShowUserReply(mno)
                 setReplyList(userReplyData)
                 console.log(userReplyData)
             } catch (error) {
@@ -38,25 +42,44 @@ export const MyReplyBox = () => {
                             ReplyList.map((reply: userReply) => (
                                 <tr key={reply.rno}>
                                     <td className="px-4">
-                                        <a
-                                            href=""
-                                            className="cursor-pointer hover:underline">
-                                            {reply.rno}
-                                        </a>
+                                        <span>{reply.rno}</span>
                                     </td>
                                     <td>
-                                        <a
-                                            href=""
-                                            className="cursor-pointer hover:underline">
+                                        <span
+                                            className="cursor-pointer hover:underline"
+                                            // 코스 게시글일 경우 코스 포스팅으로
+                                            onClick={() => {
+                                                if (reply.course) {
+                                                    navigate(
+                                                        `/board/course/posting?bno=${reply.bno}`
+                                                    )
+                                                }
+                                                // 장솓 게시글일 경우 장소 포스팅으로
+                                                else {
+                                                    navigate(
+                                                        `/board/place/posting?bno=${reply.bno}`
+                                                    )
+                                                }
+                                            }}>
                                             {reply.title}
-                                        </a>
+                                        </span>
                                     </td>
                                     <td>
-                                        <a
-                                            href=""
-                                            className="cursor-pointer hover:underline">
+                                        <span
+                                            className="cursor-pointer hover:underline"
+                                            onClick={() => {
+                                                if (reply.course) {
+                                                    navigate(
+                                                        `/board/course/posting?bno=${reply.bno}`
+                                                    )
+                                                } else {
+                                                    navigate(
+                                                        `/board/place/posting?bno=${reply.bno}`
+                                                    )
+                                                }
+                                            }}>
                                             {reply.text}
-                                        </a>
+                                        </span>
                                     </td>
                                     <td>{reply.regdate}</td>
                                 </tr>
