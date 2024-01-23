@@ -16,11 +16,14 @@ import {
     faEllipsisVertical,
     faStar
 } from '@fortawesome/free-solid-svg-icons'
+import noImage from '../../assets/smallLogo.png'
 import {postText} from "../../dummy data/sb's dummy"
 import {coursePostLoad, deleteLike, postLike} from '../../api/Board/board'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {useNavigate, useSearchParams} from 'react-router-dom'
+import BoardReportModal from '../../components/board/BoardReportModal'
+import {BoardData} from '../../data/Board/BoardData'
 
 type DetailedCourseType = {
     title?: string
@@ -36,6 +39,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     const [title, setTitle] = useState<string>('')
     const [images, setImages] = useState<string[]>(['none'])
     const [writer, setWriter] = useState<string>('undefined')
+    const [writerNo, setWriterNo] = useState<number>()
     const [placesList, setPlacesList] = useState<PlaceProps[][]>([
         [
             {
@@ -70,7 +74,8 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
             }
-            if (user == data.writerDTO.mno) {
+            setWriterNo(data.writerDTO.mno)
+            if (user == writerNo) {
                 setEnables([true, false])
             }
             setTitle(data.title) // title
@@ -85,6 +90,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
             }
             // setImages
             if (data.images.length > 0) setImages(data.images)
+            else setImages([noImage])
             setPlacesList(data.postingPlaceBoardDTOS)
 
             setContent(data.content) // content
@@ -99,7 +105,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 )
             )
         } catch (error) {
-            // navigate(-1)
+            navigate('/notfound')
         }
     }
 
@@ -131,8 +137,19 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
         loadPage()
     }, [])
 
+    // report
     const nav = () => navigate(`/board/course/posting/modify?bno=${bno}`)
-    const set = () => setReport(!report)
+    const closeModal = () => {
+        setReport(false)
+    }
+    const set = () => setReport(true)
+    const boardData: BoardData = {
+        bno: parseInt(bno),
+        title: title,
+        content: content,
+        mno: writerNo as number,
+        name: writer as string
+    }
 
     return (
         <div className="w-3/4 mx-auto">
@@ -193,20 +210,23 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
             </div>
             <div className="my-2">
                 {/*body*/}
-                <div className="flex flex-row justify-center">
+                <div className="flex flex-row items-center justify-center">
                     <Slider className="w-1/2">
                         {images.map((image, index) => (
                             <img
-                                className="mx-auto my-auto"
+                                width={'800px'}
+                                className="py-auto"
                                 key={index}
                                 src={image}
-                                alt="img"></img>
+                                alt="img"
+                                style={{maxWidth: '100%', maxHeight: '100%'}}
+                            />
                         ))}
                     </Slider>
                     <Slider className="w-1/2">
                         {placesList.map((places, idx) => (
-                            <div key={idx}>
-                                {`${idx + 1} 일차`}
+                            <div key={idx} style={{width: '800px'}}>
+                                <div>{`${idx + 1} 일차`}</div>
                                 {<CoursePostMap places={places}></CoursePostMap>}
                             </div>
                         ))}
@@ -218,6 +238,11 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
             <div className="my-2">
                 <Reply />
             </div>
+            {report && (
+                <BoardReportModal
+                    boardData={boardData}
+                    onCloseModal={closeModal}></BoardReportModal>
+            )}
         </div>
     )
 }
