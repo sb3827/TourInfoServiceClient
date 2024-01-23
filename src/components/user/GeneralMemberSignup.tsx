@@ -185,7 +185,7 @@ export const GeneralMemberSignup = () => {
                                     value={selectValue}
                                     className="block py-3 pl-3 pr-10 leading-tight bg-white border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline">
                                     <option value="@naver.com">@naver.com</option>
-                                    <option value="@google.com">@google.com</option>
+                                    <option value="@gmail.com">@gmail.com</option>
                                     <option value="@kako.com">@kakao.com</option>
                                 </select>
                             </div>
