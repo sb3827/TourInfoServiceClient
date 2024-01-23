@@ -22,7 +22,7 @@ import {useSelector} from 'react-redux'
 
 type MyPocketModalProps = {
     selectedComponent?: number
-    onClose?: () => void;
+    onClose?: () => void
 }
 
 export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent, onClose}) => {
@@ -56,7 +56,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent, onClos
         setSpotModal(false)
         setSearchValue('')
         setPlaceInfoData([])
-        onClose && onClose();
+        onClose && onClose()
     }
 
     const openRegisterSpotModal = () => {
@@ -93,6 +93,8 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({selectedComponent, onClos
                 category: selectedSpotCategory
             })
             alert('등록 완료')
+            setPlaceName('')
+            setPlaceLng(0)
             closeRegisterSpotModal()
         } catch (err) {
             console.log(err)
