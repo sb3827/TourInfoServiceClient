@@ -3,17 +3,19 @@ import {MyCourseBox, MyPostBox, MyReplyBox} from './../index'
 
 // 마이페이지 작성 글 보기 버튼
 
-type WritingButtonProps = {}
+type WritingButtonProps = {
+    mno: number
+}
 
-export const WritingButton: FC<WritingButtonProps> = ({}) => {
-    const [content, setContent] = useState(<MyPostBox />)
+export const WritingButton: FC<WritingButtonProps> = ({mno}) => {
+    const [content, setContent] = useState(<MyPostBox mno={mno} />)
     const [toggle, setToggle] = useState('post')
     // 초기 상태는 작성 게시글 보기 형태
 
     const components: {[key: string]: JSX.Element} = {
-        post: <MyPostBox />,
-        course: <MyCourseBox />,
-        reply: <MyReplyBox />
+        post: <MyPostBox mno={mno} />,
+        course: <MyCourseBox mno={mno} />,
+        reply: <MyReplyBox mno={mno} />
     }
 
     const onChangeContent = (type: string) => {
