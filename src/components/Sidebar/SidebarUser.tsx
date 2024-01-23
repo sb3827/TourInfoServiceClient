@@ -26,7 +26,7 @@ export const SidebarUser: FC<PropsWithChildren<SidebarUserProps>> = ({children})
 
     //마이페이지로 이동
     function onMypage() {
-        navigate('/mypage')
+        navigate(`/mypage/${mno}`)
     }
 
     //회원 정보 들고오기

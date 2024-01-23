@@ -2,13 +2,15 @@ import {FC, useState, useEffect} from 'react'
 import {SimpleSouthKoreaMapChart} from 'react-simple-south-korea-map-chart' //우리나라 지도 - 마이페이지에서 사용, 추후에 Map파일과 합치는게 좋을것 같음
 import {ShowPlaceCount} from './../api/index'
 import {userPlaceCount} from './../data/User/User'
+import korea from '../assets/korea.png'
 
 type SimpleMapProps = {
     className?: string
+    mno: number
 }
 
 // setColorByCount와 data는 필수 props
-export const SimpleMap: FC<SimpleMapProps> = ({className}) => {
+export const SimpleMap: FC<SimpleMapProps> = ({className, mno}) => {
     const [placeCount, setPlaceCount] = useState<userPlaceCount | null>(null)
 
     // count값에 해당하는 색 변경
@@ -23,7 +25,7 @@ export const SimpleMap: FC<SimpleMapProps> = ({className}) => {
 
     const fetchData = async () => {
         try {
-            const userPlaceData = await ShowPlaceCount(2)
+            const userPlaceData = await ShowPlaceCount(mno)
             setPlaceCount(userPlaceData)
             console.log(userPlaceData)
         } catch (error) {
@@ -55,11 +57,19 @@ export const SimpleMap: FC<SimpleMapProps> = ({className}) => {
     ]
 
     return (
-        <div className={className}>
-            <SimpleSouthKoreaMapChart
-                setColorByCount={setColorByCount}
-                data={placeCountData}
-            />
+        <div className="flex justify-center w-full">
+            <div className={className + ' relative w-96  justify-center flex'}>
+                <div className="w-96 lg:w-96 md:w-72 ">
+                    <SimpleSouthKoreaMapChart
+                        setColorByCount={setColorByCount}
+                        data={placeCountData}
+                    />
+                </div>
+                <div className="absolute flex flex-col items-center lg:-right-24 lg:top-36 md:right-0 top-44">
+                    <img src={korea} className="w-5 h-5 ml-3" />
+                    <p className="text-blue-500">독도</p>
+                </div>
+            </div>
         </div>
     )
 }
