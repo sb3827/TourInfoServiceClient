@@ -1,5 +1,5 @@
 import {FC, useEffect, useState} from 'react'
-import {Button, ReportModal, UserInfo, UserInfoItemBox} from '../../index'
+import {Button, Modal, UserInfo, UserInfoItemBox} from '../../index'
 import {ManagerSearchUserData} from '../../../data/User/User'
 import {getUserDisciplinary} from '../../../api'
 import {DisciplinaryUserData} from '../../../data/manager'
@@ -81,7 +81,7 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
                     />
                 </div>
             </UserInfoItemBox>
-            <ReportModal isOpen={isModalOpen} onClose={closeModal}>
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
                 <div className="flex flex-row items-center justify-center">
                     <h1 className="text-xl font-bold">유저정보</h1>
                 </div>
@@ -108,7 +108,7 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
                         </p>
                     ))}
                 </div>
-            </ReportModal>
+            </Modal>
         </div>
     )
 }

@@ -1,17 +1,13 @@
 import {faXmark} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import React, {FC, PropsWithChildren} from 'react'
+import {FC, PropsWithChildren} from 'react'
 
-type ReportModalProps = {
+type ModalProps = {
     isOpen: boolean
     onClose: () => void
 }
 
-export const ReportModal: FC<PropsWithChildren<ReportModalProps>> = ({
-    isOpen,
-    onClose,
-    children
-}) => {
+export const Modal: FC<PropsWithChildren<ModalProps>> = ({isOpen, onClose, children}) => {
     if (!isOpen) return null
 
     return (

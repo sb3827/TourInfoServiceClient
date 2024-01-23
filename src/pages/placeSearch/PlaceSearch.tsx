@@ -63,6 +63,7 @@ export const PlaceSearch = () => {
             console.log(err)
             alert('서버와 연결이 끊겼습니다.')
         }
+
     }
 
     useEffect(() => {

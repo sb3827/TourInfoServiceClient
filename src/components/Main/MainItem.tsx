@@ -9,14 +9,16 @@ type MainItemProps = {
 export const MainItem: FC<PropsWithChildren<MainItemProps>> = props => {
     return (
         <div
-            className="flex-row overflow-hidden bg-white border-2 rounded-lg shadow-md mx-14 hover:border-indigo-400 hover:cursor-pointer hover:border-solid"
+            className="flex flex-col overflow-hidden duration-150 bg-white border-2 rounded-lg shadow-md mx-14 hover:cursor-pointer hover:-translate-y-2 hover:shadow-xl"
             onClick={props.onClick}>
-            <img
-                src={props.image}
-                alt={props.title}
-                className="object-cover object-center w-full h-60"
-            />
-            <div className="p-4">
+            <div className="w-full overflow-hidden">
+                <img
+                    src={props.image}
+                    alt={props.title}
+                    className="w-full duration-150 h-60 hover:scale-110"
+                />
+            </div>
+            <div className="p-4 border-t-2">
                 <h3 className="mb-2 text-xl font-semibold">{props.title}</h3>
             </div>
         </div>
@@ -25,16 +27,20 @@ export const MainItem: FC<PropsWithChildren<MainItemProps>> = props => {
 
 export const MostLikedMainItem: FC<PropsWithChildren<MainItemProps>> = props => {
     return (
-        <div
-            onClick={props.onClick}
-            className="flex flex-col items-center justify-center py-10 overflow-hidden bg-white border-2 rounded-lg shadow-md mx-14 hover:border-indigo-400 hover:cursor-pointer hover:border-solid">
-            <img
-                src={props.image}
-                alt={props.title}
-                className="object-cover object-center w-1/2 h-80"
-            />
-            <div className="p-4">
-                <h3 className="mb-2 text-xl font-semibold">{props.title}</h3>
+        <div className="flex flex-col items-center justify-center py-10 overflow-hidden mx-14 ">
+            <div
+                onClick={props.onClick}
+                className="flex flex-col items-center w-1/2 overflow-hidden duration-150 bg-white border-2 shadow-xl hover:cursor-pointer rounded-3xl hover:shadow-2xl">
+                <div className="flex justify-center w-full overflow-hidden">
+                    <img
+                        src={props.image}
+                        alt={props.title}
+                        className="w-full duration-150 h-80 hover:scale-110"
+                    />
+                </div>
+                <div className="w-full p-4 border-t-2">
+                    <h3 className="mb-2 text-xl font-semibold">{props.title}</h3>
+                </div>
             </div>
         </div>
     )
@@ -43,15 +49,17 @@ export const MostLikedMainItem: FC<PropsWithChildren<MainItemProps>> = props => 
 export const MostLikedCourseItem: FC<PropsWithChildren<MainItemProps>> = props => {
     return (
         <div
-            className="flex-row flex-1 mr-4 overflow-hidden bg-white border-2 rounded-lg shadow-md hover:border-indigo-400 hover:cursor-pointer hover:border-solid"
+            className="flex flex-col justify-between flex-1 overflow-hidden bg-white hover:cursor-pointer "
             onClick={props.onClick}>
-            <img
-                src={props.image}
-                alt={props.title}
-                className="object-cover object-center w-full h-80"
-            />
-            <div className="p-4">
-                <h3 className="mb-2 text-xl font-semibold">{props.title}</h3>
+            <div className="w-full overflow-hidden">
+                <img
+                    src={props.image}
+                    alt={props.title}
+                    className="w-full duration-150 h-80 hover:scale-110"
+                />
+            </div>
+            <div className="p-6 border-t-2">
+                <h3 className="text-xl font-semibold">{props.title}</h3>
             </div>
         </div>
     )

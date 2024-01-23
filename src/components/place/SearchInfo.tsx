@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react'
+import {FC, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {Button, PlaceCartModal} from '../index'
 import {PlaceData} from '../../data/placeSearch'
@@ -14,18 +14,36 @@ type SearchResultProps = {
 
 export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => {
     const navigate = useNavigate()
+    const [modalView,setModalView]=useState<boolean>(false)
+
+
+    //모달 열기
+    const onOpenModal=()=>{
+        setModalView(true)
+    }
+
+    //모달 닫기
+    const onCloseModal=()=>{
+        setModalView(false)
+    }
+
+
+    // const han
 
     const user = useSelector((state: RootState) => state.login.mno)!
 
     const handleReviewClick = () => {
         if (placeInfoData && placeInfoData.pno) {
-            const {pno} = placeInfoData
             // 예상되는 pno 데이터가 있다면
+            const {pno} = placeInfoData
             navigate(`/board/place/${pno}`) // 해당 pno를 사용하여 동적 경로로 이동
         } else {
             console.error("No 'pno' data available")
         }
     }
+
+
+
 
     if (!placeInfoData) {
         // placeInfoData가 없을 때의 처리
@@ -35,9 +53,7 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
     return (
         <div
             className="w-full border border-gray-200 cursor-pointer card lg:card-side rounded-xl hover:bg-gray-300"
-            onClick={() => {
-                props.mapClick()
-            }}>
+            onClick={props.mapClick}>
             <div className="w-1/2 h-64 border border-gray-200 cursor-pointer rounded-xl ">
                 {placeInfoData.image ? (
                     <img src={placeInfoData.image} alt="Image" />
@@ -47,19 +63,26 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
             </div>
             <div className=" card-body">
                 <div className="flex justify-end">
-                    {user && <PlaceCartModal pno={placeInfoData.pno} />}
+                    {/* {user && <PlaceCartModal pno={placeInfoData.pno}/>} */}
+                    {user && 
+                    <label className="btn btn-ghost" onClick={onOpenModal}>
+                        <FontAwesomeIcon icon={faCartPlus} className="m-1 text-2xl" />
+                    </label>}
+                    {modalView && <PlaceCartModal pno={placeInfoData.pno} onCloseModal={onCloseModal}/>}
                 </div>
                 <div className="flex justify-start">
                     <h2 className="card-title">이름 : {placeInfoData.name}</h2>
+                    <h2 className="ml-4 text-gray-400 card-title">
+                        {placeInfoData.category}
+                    </h2>
                 </div>
                 <div className="flex justify-start">
                     <h2 className="card-title">주소 : {placeInfoData.localAddress}</h2>
-                    <h2 className="text-gray-400 card-title">{placeInfoData.category}</h2>
                 </div>
                 <div className="flex justify-start"></div>
                 <div className="flex justify-start">
                     <h2 className="card-title">
-                        <FontAwesomeIcon icon={faCartShopping} className="m-1" />
+                        <FontAwesomeIcon icon={faCartShopping} className="m-1" /> :{' '}
                         {placeInfoData.cart}
                     </h2>
                 </div>
@@ -74,3 +97,4 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
         </div>
     )
 }
+
