@@ -89,8 +89,10 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                     />
                     <UserInfo text={reportData.regDate.toString()} />
                     <UserInfo text={reportData.sno.toString()} />
-                    <UserInfo text={reportData.complainant} />
-                    <UserInfo text={reportData.defendant} />
+                    <UserInfo
+                        text={reportData.complainant ? reportData.complainant : 'X'}
+                    />
+                    <UserInfo text={reportData.defendant ? reportData.defendant : 'X'} />
                 </div>
             </UserInfoItemBox>
             {/* 모달 창 */}
@@ -102,8 +104,12 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
 
                 <p className="mt-4">날짜 : {reportData.regDate.toString()}</p>
                 <p className="mt-4">게시글 번호 : {reportData.sno.toString()}</p>
-                <p className="mt-4">아이디 : {reportData.complainant}</p>
-                <p className="mt-4">신고 유저 : {reportData.defendant}</p>
+                <p className="mt-4">
+                    아이디 : {reportData.complainant ? reportData.complainant : 'X'}
+                </p>
+                <p className="mt-4">
+                    신고 유저 : {reportData.defendant ? reportData.defendant : 'X'}
+                </p>
                 <p className="my-4 break-all">
                     신고 사유 :<br /> - {reportData.message}
                 </p>
