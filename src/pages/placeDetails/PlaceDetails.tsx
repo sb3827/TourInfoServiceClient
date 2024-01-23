@@ -31,7 +31,6 @@ export const PlaceDetails = () => {
             }
         } catch (err) {
             console.log(err);
-            alert('게시글이 없습니다!');
         }
     }
 
