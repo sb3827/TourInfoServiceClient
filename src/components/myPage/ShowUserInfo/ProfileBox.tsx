@@ -46,7 +46,6 @@ export const ProfileBox: FC<ProfileProps> = () => {
                         alt="프로필이미지"
                         className="w-48 h-48 rounded-full "
                     />
-                    {/* <UserAvatar src={userProfile ? userProfile.image : ''} /> */}
                     <br />
                     <h1 className="text-3xl ">{userProfile ? userProfile.name : ''}</h1>
                     <br />
@@ -55,15 +54,15 @@ export const ProfileBox: FC<ProfileProps> = () => {
                         follower={userProfile ? userProfile.followers.toString() : ''}
                     />
                     <br />
-                    <ShowTotalLikes
-                        cart={userProfile ? userProfile.cart.toString() : ''}
-                    />
+                    <ShowTotalLikes cart={userProfile ? userProfile.cart : 0} />
                     <br />
-                    <Button
-                        value="정보 수정"
-                        onClick={onModify}
-                        className="text-white bg-gray-400"
-                    />
+                    {userMno === userProfile?.mno && (
+                        <Button
+                            value="정보 수정"
+                            onClick={onModify}
+                            className="text-white bg-gray-400"
+                        />
+                    )}
                 </Box>
             </div>
         </div>
