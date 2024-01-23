@@ -116,6 +116,12 @@ export const GeneralMemberSignup = () => {
         ) {
             return
         }
+        const formattedPhoneNumber = `${userPhoneNumber.slice(
+            0,
+            3
+        )}-${userPhoneNumber.slice(3, 7)}-${userPhoneNumber.slice(7)}`
+
+        console.log(formattedPhoneNumber)
         if (
             validateInput('비밀번호를 입력해주세요', !userPassword) ||
             validateInput(
@@ -127,7 +133,7 @@ export const GeneralMemberSignup = () => {
             validateInput('이메일 중복 체크를 해주세요', !isEmailChecked) ||
             validateInput(
                 '올바른 전화번호 형식이 아닙니다',
-                !phone_regex.test(userPhoneNumber)
+                !phone_regex.test(formattedPhoneNumber)
             )
         ) {
             return
@@ -137,7 +143,7 @@ export const GeneralMemberSignup = () => {
                 email: userEmail + selectValue,
                 password: userPassword,
                 birth: userBirthDate,
-                phone: userPhoneNumber,
+                phone: formattedPhoneNumber,
                 name: userName,
                 role: 'MEMBER'
             }
@@ -225,7 +231,7 @@ export const GeneralMemberSignup = () => {
                         className="mb-6"
                         value={userPhoneNumber}
                         type="phoneNumber"
-                        text="전화번호(- 포함)"
+                        text="전화번호(- 미포함)"
                         onChange={onUserPhoneNumberChange}
                     />
                 </div>
