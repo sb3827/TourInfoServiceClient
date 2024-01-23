@@ -5,20 +5,24 @@ import {MyPocketModal, Spot, MyCart} from './../../index'
 import {ShowFolderAll} from './../../../api/Folder/Folder'
 import {folderAll} from './../../../data/Folder/Folder'
 import {DragDropContext, OnDragEndResponder} from 'react-beautiful-dnd'
+import {RootState} from './../../../store/rootReducer'
+import {useSelector} from 'react-redux'
 
 type ShowTotalLikesProps = {
-    cart: string
+    cart: number
 }
 
 export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
     const [showModal, setShowModal] = useState(false)
     const [folder, setFolder] = useState<folderAll>()
     const [refreshFlag, setRefreshFlag] = useState<boolean>(false)
+    const [totalCart, setTotalCart] = useState<number>()
 
+    const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     const fetchData = async () => {
         try {
-            const userFolderData = await ShowFolderAll(2)
+            const userFolderData = await ShowFolderAll(userMno)
             setFolder(userFolderData)
             console.log(userFolderData)
         } catch (error) {
@@ -36,11 +40,12 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
     }
     const closeModal = () => {
         setShowModal(false)
+        setTotalCart(cart)
     }
 
     const handleMyPocketModalClose = () => {
-        setRefreshFlag(!refreshFlag);
-    };
+        setRefreshFlag(!refreshFlag)
+    }
 
     return (
         <div className="inline-block">
@@ -69,7 +74,7 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
                         <div>
                             <h1>My Cart</h1>
                             <DragDropContext onDragEnd={() => {}}>
-                                <MyCart onClose={refreshFlag} dragDisable={true}  />
+                                <MyCart onClose={refreshFlag} dragDisable={true} />
                             </DragDropContext>
                         </div>
                     </div>

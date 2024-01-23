@@ -3,10 +3,13 @@ import {userBoard} from './../../../data/User/User'
 import {ShowUserBoard} from './../../../api/MyPage/ShowUserInfo'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
 export const MyPostBox = () => {
     const [BoardList, setBoardList] = useState<userBoard>()
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,14 +40,26 @@ export const MyPostBox = () => {
                         BoardList.map((board: userBoard) => (
                             <tr>
                                 <td>
-                                    <a href="" className="cursor-pointer hover:underline">
+                                    <label
+                                        onClick={() =>
+                                            navigate(
+                                                `/board/place/posting?bno=${board.bno}`
+                                            )
+                                        }
+                                        className="cursor-pointer hover:underline">
                                         {board.bno}
-                                    </a>
+                                    </label>
                                 </td>
                                 <td>
-                                    <a href="" className="cursor-pointer hover:underline">
+                                    <span
+                                        onClick={() =>
+                                            navigate(
+                                                `/board/place/posting?bno=${board.bno}`
+                                            )
+                                        }
+                                        className="cursor-pointer hover:underline">
                                         {board.title}
-                                    </a>
+                                    </span>
                                 </td>
                                 <td>{board.writer}</td>
                                 <td>{board.regdate}</td>
