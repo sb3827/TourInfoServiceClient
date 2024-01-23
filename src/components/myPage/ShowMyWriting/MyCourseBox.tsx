@@ -1,20 +1,21 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, FC} from 'react'
 import {userCourse} from './../../../data/User/User'
 import {ShowUserCourse} from './../../../api/MyPage/ShowUserInfo'
-import {RootState} from './../../../store/rootReducer'
-import {useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 
-export const MyCourseBox = () => {
+type MyCourseBoxProps = {
+    mno: number
+}
+
+export const MyCourseBox: FC<MyCourseBoxProps> = ({mno}) => {
     const [CourseList, setCourseList] = useState<userCourse>()
 
-    const userMno = useSelector((state: RootState) => state.login.mno) || 0
     const navigate = useNavigate()
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userCourseData = await ShowUserCourse(userMno)
+                const userCourseData = await ShowUserCourse(mno)
                 setCourseList(userCourseData)
                 console.log(userCourseData)
             } catch {

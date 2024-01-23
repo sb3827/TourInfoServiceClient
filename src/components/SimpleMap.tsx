@@ -6,10 +6,11 @@ import korea from '../assets/korea.png'
 
 type SimpleMapProps = {
     className?: string
+    mno: number
 }
 
 // setColorByCount와 data는 필수 props
-export const SimpleMap: FC<SimpleMapProps> = ({className}) => {
+export const SimpleMap: FC<SimpleMapProps> = ({className, mno}) => {
     const [placeCount, setPlaceCount] = useState<userPlaceCount | null>(null)
 
     // count값에 해당하는 색 변경
@@ -24,7 +25,7 @@ export const SimpleMap: FC<SimpleMapProps> = ({className}) => {
 
     const fetchData = async () => {
         try {
-            const userPlaceData = await ShowPlaceCount(2)
+            const userPlaceData = await ShowPlaceCount(mno)
             setPlaceCount(userPlaceData)
             console.log(userPlaceData)
         } catch (error) {

@@ -9,12 +9,14 @@ import {useSelector} from 'react-redux'
 
 //TODO - 로그인 mno 받아와서 name 받아오기
 
-type ProfileProps = {}
+type ProfileProps = {
+    mno: number
+}
 
-export const ProfileBox: FC<ProfileProps> = () => {
+export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     const [userProfile, setUserProfile] = useState<userProfile | null>(null)
 
-    const userMno = useSelector((state: RootState) => state.login.mno) || 0
+    // const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     const navigate = useNavigate()
 
@@ -24,7 +26,7 @@ export const ProfileBox: FC<ProfileProps> = () => {
 
     const fetchData = async () => {
         try {
-            const userProfileData = await ShowUserProfile(userMno)
+            const userProfileData = await ShowUserProfile(mno)
             setUserProfile(userProfileData)
             console.log(userProfileData)
         } catch (error) {
@@ -56,7 +58,7 @@ export const ProfileBox: FC<ProfileProps> = () => {
                     <br />
                     <ShowTotalLikes cart={userProfile ? userProfile.cart : 0} />
                     <br />
-                    {userMno === userProfile?.mno && (
+                    {mno === userProfile?.mno && (
                         <Button
                             value="정보 수정"
                             onClick={onModify}
