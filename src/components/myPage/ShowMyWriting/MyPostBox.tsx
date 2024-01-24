@@ -22,7 +22,7 @@ export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
             }
         }
         fetchData()
-    }, [])
+    }, [mno])
 
     return (
         <div>
