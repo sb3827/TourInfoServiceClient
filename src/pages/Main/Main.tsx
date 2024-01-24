@@ -279,7 +279,7 @@ export const Main: FC<MainProps> = () => {
                                                     1일차
                                                 </p>
                                                 <CoursePostMap
-                                                    className="z-10"
+                                                    className="z-10 h-full"
                                                     places={course.placeList}
                                                 />
                                             </div>
