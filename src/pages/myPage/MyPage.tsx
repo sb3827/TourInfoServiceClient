@@ -1,8 +1,10 @@
 import {useParams} from 'react-router-dom'
 import {ProfileBox, SimpleMap, WritingButton} from './../../components/index'
+import {useEffect} from 'react'
 
 export const MyPage = () => {
     const {mno} = useParams()
+
     return (
         <div>
             <div className="flex flex-row">
