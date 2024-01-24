@@ -14,12 +14,16 @@ export const Board: FC<BoardProps> = ({placeBoardData}) => {
 
     const navigate = useNavigate();
 
-    const imageArray = placeBoardData?.src && placeBoardData.src.length > 0 && (
+    const imageArray = placeBoardData?.src && placeBoardData.src.length > 0 ? (
         placeBoardData.src.map((src, index) => (
           <div key={index} className='flex justify-center w-full h-full'>
             <img src={src ?? noImage} alt="Image" className='rounded-lg'/>
           </div>
-        )))
+        ))) :
+        <div className='flex justify-center w-full h-full'>
+            <img src={noImage} alt="Image" className='rounded-lg'/>
+        </div>
+
 
 
       const handleReviewClick = () => {

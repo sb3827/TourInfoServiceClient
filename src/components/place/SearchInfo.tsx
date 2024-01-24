@@ -53,9 +53,7 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
             className="m-4 border cursor-pointer border-lightGreen card lg:card-side rounded-xl hover:bg-gray-300"
             onClick={props.mapClick}>
             <div className="flex justify-center w-1/2 border border-gray-200 h-72 rounded-xl ">
-                {placeInfoData.image && (
                     <img src={placeInfoData.image ?? noImage} alt="Image" className='rounded-lg' />
-                )}
             </div>
             <div className=" card-body">
                 <div className="flex justify-end">
