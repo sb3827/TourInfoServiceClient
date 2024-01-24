@@ -26,16 +26,18 @@ type MyCartProps = {
     className?: string
     dragDisable?: boolean
     onClose?: boolean
+    mno: number
 }
 
 export const MyCart: FC<MyCartProps> = ({
     onChangeItems,
     className,
     dragDisable,
-    onClose
+    onClose,
+    mno
 }) => {
     const [folder, setFolder] = useState<folderAll>()
-    const [selectedFno, setSelectedFno] = useState<number | null>(1) // 페이지 시작할때 첫번째 폴더 선택
+    const [selectedFno, setSelectedFno] = useState<number | null>(0)
     const [newButtonName, setNewButtonName] = useState<string>('') // 폴더 이름
     const [isFolderNameModalOpen, setIsFolderNameModalOpen] = useState(false)
     const [editModalOpen, setEditModalOpen] = useState(false)
@@ -46,7 +48,7 @@ export const MyCart: FC<MyCartProps> = ({
 
     const fetchData = async () => {
         try {
-            const userFolderData = await ShowFolderAll(userMno)
+            const userFolderData = await ShowFolderAll(mno)
             setFolder(userFolderData)
             console.log(userFolderData) // 추후에 삭제 예정
 
@@ -91,14 +93,14 @@ export const MyCart: FC<MyCartProps> = ({
         }
 
         const newFolderData: registerFolderData = {
-            mno: userMno,
+            mno: mno,
             title: newButtonName
         }
 
         try {
             await registerFolder(newFolderData)
 
-            const folderResponse = await ShowFolderInfo(userMno)
+            const folderResponse = await ShowFolderInfo(mno)
 
             const newFolder = {
                 fno:
@@ -145,7 +147,7 @@ export const MyCart: FC<MyCartProps> = ({
 
         const updateFolderData: updateFolderData = {
             fno: editingButtonIndex,
-            mno: userMno,
+            mno: mno,
             title: newButtonName
         }
 
@@ -234,7 +236,7 @@ export const MyCart: FC<MyCartProps> = ({
                         folder.data
                             .sort((a, b) => a.fno - b.fno) // fno 순서대로 정렬
                             .map(folderInfo => (
-                                <div className="inline-block">
+                                <div className="inline-block border rounded-2xl">
                                     <button
                                         key={folderInfo.fno}
                                         className={`p-2 h-12 w-28 text-black ${
@@ -244,30 +246,40 @@ export const MyCart: FC<MyCartProps> = ({
                                         }`}
                                         onClick={() => handleButtonClick(folderInfo.fno)}>
                                         {folderInfo.title}
-                                        <FontAwesomeIcon
-                                            icon={faPenToSquare}
-                                            className="ml-2 text-gray-500 cursor-pointer"
-                                            onClick={() => openEditModal(folderInfo.fno)}
-                                        />
+                                        {userMno === mno && (
+                                            <FontAwesomeIcon
+                                                icon={faPenToSquare}
+                                                className="ml-2 text-gray-500 cursor-pointer"
+                                                onClick={() =>
+                                                    openEditModal(folderInfo.fno)
+                                                }
+                                            />
+                                        )}
                                     </button>
-                                    <button className="w-8 h-12 ">
-                                        <FontAwesomeIcon
-                                            icon={faTrash}
-                                            onClick={() =>
-                                                handleDeleteFolder(folderInfo.fno)
-                                            }
-                                            className="ml-2 cursor-pointer"
-                                        />
-                                    </button>
+                                    {userMno === mno && (
+                                        <button className="w-8 h-12 ">
+                                            <FontAwesomeIcon
+                                                icon={faTrash}
+                                                onClick={() =>
+                                                    handleDeleteFolder(folderInfo.fno)
+                                                }
+                                                className="ml-2 cursor-pointer"
+                                            />
+                                        </button>
+                                    )}
                                 </div>
                             ))}
-                    {folder && Array.isArray(folder.data) && folder.data.length < 7 && (
-                        <button
-                            className="w-12 h-12 text-xl bg-white border-black"
-                            onClick={openFolderNameModal}>
-                            <FontAwesomeIcon icon={faPlus} />
-                        </button>
-                    )}
+
+                    {folder &&
+                        Array.isArray(folder.data) &&
+                        folder.data.length < 7 &&
+                        userMno === mno && (
+                            <button
+                                className="w-12 h-12 text-xl bg-white border-black"
+                                onClick={openFolderNameModal}>
+                                <FontAwesomeIcon icon={faPlus} />
+                            </button>
+                        )}
                 </div>
                 <div className="flex">
                     {folder &&
@@ -283,7 +295,7 @@ export const MyCart: FC<MyCartProps> = ({
                                         dragDisable={dragDisable}
                                         isRegister={true}
                                         onDeleteSpot={(pno: number) =>
-                                            deleteSpot(userMno, pno, folderInfo.fno)
+                                            deleteSpot(mno, pno, folderInfo.fno)
                                         }
                                     />
 
