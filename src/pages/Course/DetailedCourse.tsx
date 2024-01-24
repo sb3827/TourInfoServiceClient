@@ -236,7 +236,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                         ))}
                     </MainSlider>
                 </div>
-                <div className="shadow-2xl rounded-xl">
+                <div>
                     <CourseList create={false} day={day} />
                 </div>
                 <div
