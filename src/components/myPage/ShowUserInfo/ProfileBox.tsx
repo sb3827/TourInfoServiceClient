@@ -64,7 +64,11 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                     )}
                     <br />
                     {userMno === userProfile?.mno && (
-                        <Button value="정보 수정" className="text-white bg-gray-400" />
+                        <Button
+                            value="정보 수정"
+                            onClick={onModify}
+                            className="text-white bg-gray-400"
+                        />
                     )}
                 </Box>
             </div>
