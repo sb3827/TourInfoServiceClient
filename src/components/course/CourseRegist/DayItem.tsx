@@ -5,10 +5,9 @@ import {useDispatch} from 'react-redux'
 import {addDayAtPosition, deleteDay, deleteItem} from '../../../store/slices/CourseSlice'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
 import {Spot} from '../../Spot'
-import {useSelector} from 'react-redux'
-import {RootState} from '../../../store/rootReducer'
 import {Item} from './CourseList'
 import {FC} from 'react'
+import noImage from '../../../assets/smallLogo.png'
 
 type DayItemProps = {
     day: Item[][]
@@ -16,7 +15,6 @@ type DayItemProps = {
 }
 
 export const DayItem: FC<DayItemProps> = ({day, create}) => {
-    console.log('데이 :', day)
     const dispatch = useDispatch()
 
     //요일 삭제
@@ -37,7 +35,9 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
     return (
         <div>
             {day.map((dayItem, dayIndex) => (
-                <div className="flex flex-col p-5 border rounded-xl">
+                <div
+                    className="flex flex-col p-5 my-3 border shadow-xl rounded-xl"
+                    key={dayIndex}>
                     <div className="flex justify-between">
                         <Subtitle className="flex ">{dayIndex + 1}일차</Subtitle>
                         <div className="flex ">
@@ -67,7 +67,7 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                             <div
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                className="flex w-full h-20 ">
+                                className="flex flex-wrap w-full h-full ">
                                 {dayItem.map((item, index) => (
                                     <Draggable
                                         isDragDisabled={!create}
@@ -96,7 +96,7 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                                 </div>
                                                 <Spot
                                                     key={item.pname + index}
-                                                    src={item.img}
+                                                    src={item.img ? item.img : noImage}
                                                     isRegister={false}>
                                                     {item.pname}
                                                 </Spot>
