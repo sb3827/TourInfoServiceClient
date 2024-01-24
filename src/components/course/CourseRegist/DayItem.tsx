@@ -8,6 +8,7 @@ import {Spot} from '../../Spot'
 import {Item} from './CourseList'
 import {FC} from 'react'
 import noImage from '../../../assets/smallLogo.png'
+import {useNavigate} from 'react-router-dom'
 
 type DayItemProps = {
     day: Item[][]
@@ -15,6 +16,8 @@ type DayItemProps = {
 }
 
 export const DayItem: FC<DayItemProps> = ({day, create}) => {
+    const navigate = useNavigate()
+    console.log('데이 :', day)
     const dispatch = useDispatch()
 
     //요일 삭제
@@ -33,7 +36,7 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
     }
 
     return (
-        <div>
+        <div className="mt-2">
             {day.map((dayItem, dayIndex) => (
                 <div
                     className="flex flex-col p-5 my-3 border shadow-xl rounded-xl"
@@ -94,12 +97,22 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                                         />
                                                     )}
                                                 </div>
-                                                <Spot
-                                                    key={item.pname + index}
-                                                    src={item.img ? item.img : noImage}
-                                                    isRegister={false}>
-                                                    {item.pname}
-                                                </Spot>
+                                                <div
+                                                    className="cursor-pointer hover"
+                                                    onClick={() => {
+                                                        navigate(
+                                                            `/board/place/${item.pno}`
+                                                        )
+                                                    }}>
+                                                    <Spot
+                                                        key={item.pname + index}
+                                                        src={
+                                                            item.img ? item.img : noImage
+                                                        }
+                                                        isRegister={false}>
+                                                        {item.pname}
+                                                    </Spot>
+                                                </div>
                                             </div>
                                         )}
                                     </Draggable>

@@ -153,6 +153,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
         const bno = searchParams.get('bno')!
         try {
             const data = await coursePostLoad(parseInt(bno), user != null)
+            if (data.writerDTO.mno !== user) navigate('/unauthorized')
             if (!data.isCourse) {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
@@ -172,8 +173,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
                 }))
             )
         } catch (error) {
-            //NOTE - error 처리
-            navigate(-1)
+            navigate('/notFound')
         }
     }
 
@@ -182,7 +182,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
         dispatch(deleteAll())
 
         if (props.isModify) {
-            console.log('modify page')
+            if (!user) navigate('/unauthorized')
             loadPage()
         }
     }, [])

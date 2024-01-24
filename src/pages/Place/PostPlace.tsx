@@ -110,7 +110,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                 throw new Error('Not Found')
             }
             setWriterNo(data.writerDTO.mno)
-            if (user == writerNo) {
+            if (user === data.writerDTO.mno) {
                 setEnables([true, false])
             }
 

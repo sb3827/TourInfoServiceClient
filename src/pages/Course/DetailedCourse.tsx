@@ -80,7 +80,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 throw new Error('Not Found')
             }
             setWriterNo(data.writerDTO.mno)
-            if (user == writerNo) {
+            if (user === data.writerDTO.mno) {
                 setEnables([true, false])
             }
             setTitle(data.title) // title
@@ -105,7 +105,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                     daliyPlace.map(place => ({
                         pno: place.pno,
                         pname: place.name,
-                        img: ''
+                        img: '' || noImage
                     }))
                 )
             )
