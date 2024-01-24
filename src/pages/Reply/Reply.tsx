@@ -51,9 +51,9 @@ export const Reply: FC<PropsWithChildren<ReplyProps>> = () => {
     }, [])
 
     return (
-        <div>
+        <div className="py-10 mb-10 border-2 border-t-0 rounded-b-xl">
             {mno && (
-                <div className="flex flex-row items-center justify-center my-16">
+                <div className="flex flex-row items-center justify-center my-5 ">
                     <Input
                         placeholder="댓글을 작성해 주세요"
                         className="mx-2 border-black"
