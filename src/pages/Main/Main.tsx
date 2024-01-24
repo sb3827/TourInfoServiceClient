@@ -318,7 +318,7 @@ export const Main: FC<MainProps> = () => {
                 {fetchedData &&
                     fetchedData.data.adBoard &&
                     fetchedData.data.adBoard.length > 0 && (
-                        <div className="px-10 mb-20 py-14 rounded-3xl bg-orange-50 bg-opacity-60">
+                        <div className="px-10 mb-20 shadow-2xl py-14 rounded-3xl bg-orange-50 bg-opacity-60">
                             <Subtitle
                                 className="flex items-start mb-4 ml-16 text-2xl font-bold "
                                 value="광고"
