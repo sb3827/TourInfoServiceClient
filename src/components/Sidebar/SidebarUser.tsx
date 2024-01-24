@@ -73,7 +73,7 @@ export const SidebarUser: FC<PropsWithChildren<SidebarUserProps>> = ({children})
                     <img
                         onClick={onMypage}
                         src={imgSrc ? imgSrc : UserImage}
-                        className="rounded-full cursor-pointer "
+                        className="w-full h-full rounded-full cursor-pointer"
                     />
                 </div>
                 <Subtitle className="my-4 font-light text-center text-white">
