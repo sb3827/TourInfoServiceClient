@@ -329,9 +329,13 @@ export const PlacePostMap: FC<PropsWithChildren<PlacePostMapProps>> = ({
             `   <h1>${place.name}</h1>`,
             '   <div>',
             '       <p>',
-            `           [도로명 주소] ${place.roadAddress} <br />`,
-            `           [지  번 주소] ${place.localAddress}<br />`,
-            `           [영문명 주소] ${place.engAddress}<br />`,
+            `           ${
+                place.roadAddress && `[도로명 주소] ${place.roadAddress} <br />`
+            }`,
+            `           ${
+                place.localAddress && `[지  번 주소] ${place.localAddress}<br />`
+            }`,
+            `           ${place.engAddress && `[영문명 주소] ${place.engAddress}<br />`}`,
             '       </p>',
             '   </div>',
             '</div>'
@@ -353,8 +357,9 @@ export const PlacePostMap: FC<PropsWithChildren<PlacePostMapProps>> = ({
 
     return (
         <div
+            className={props.className}
             ref={mapElement}
-            style={{minHeight: '0', paddingTop: '50%', position: 'relative'}}
+            style={{minHeight: '0', paddingTop: '40%', position: 'relative'}}
             {...props}></div>
     )
 }
@@ -610,7 +615,13 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
         }
     }, [places])
 
-    return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
+    return (
+        <div
+            ref={mapElement}
+            className={props.className}
+            style={{minHeight: '350px'}}
+            {...props}></div>
+    )
 }
 
 export type SearchMapRef = {
