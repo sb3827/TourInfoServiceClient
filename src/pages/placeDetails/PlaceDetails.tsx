@@ -8,9 +8,10 @@ import {
     BoardBox,
     BoardToggle,
     Button,
+    LoadingSppinner,
 } from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import {getPlaceDetailsInfo} from '../../api'
 import {PlaceBoardData} from '../../data/placeSearch'
 import {faList} from '@fortawesome/free-solid-svg-icons'
@@ -20,18 +21,21 @@ export const PlaceDetails = () => {
 
     const [boardData, setBoardData] = useState<PlaceBoardData[] | null>(null);
     const { pno } = useParams();
+    const [loading, setLoading] = useState<Boolean>(false)
     
     async function fetchData(pnoParam: string | undefined) {
         const pnoNumber = pnoParam ? Number(pno) : undefined; // pno를 숫자로 변환
         try {
             if (pnoNumber !== undefined) {
+                setLoading(true)
                 const data = await getPlaceDetailsInfo(pnoNumber);
                 setBoardData(data);
-                console.log(data);
+                setLoading(false)
             }
         } catch (err) {
-            console.log(err);
             alert('게시글이 없습니다!')
+            console.error('Error fetching data:', err)
+            setLoading(false)
         }
     }
 
@@ -41,6 +45,7 @@ export const PlaceDetails = () => {
 
     return (
         <Box>
+            {loading && <LoadingSppinner />}
             <div className="flex justify-center w-full">
                 <div className="w-2/3 m-10">     
                     {boardData && (
