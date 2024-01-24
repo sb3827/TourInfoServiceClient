@@ -7,15 +7,19 @@ import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 
-export const MyFollowingBox: FC = () => {
+type MyFollowingBoxProps = {
+    mno: number
+    closeModal: () => void
+}
+export const MyFollowingBox: FC<MyFollowingBoxProps> = ({mno, closeModal}) => {
     const [userFollowings, setUserFollowings] = useState<userFollows | null>(null)
 
-    const userMno = useSelector((state: RootState) => state.login.mno) || 0
+    // const userMno = useSelector((state: RootState) => state.login.mno) || 0
     const navigate = useNavigate()
 
     const fetchData = async () => {
         try {
-            const userFollowingData = await ShowUserFollowings(userMno)
+            const userFollowingData = await ShowUserFollowings(mno)
             setUserFollowings(userFollowingData)
             console.log(userFollowingData)
         } catch (error) {
@@ -42,9 +46,18 @@ export const MyFollowingBox: FC = () => {
                                     }
                                     alt="프로필 사진"
                                     className="w-20 h-20 cursor-pointer"
+                                    onClick={() => {
+                                        navigate(`/mypage/${followings.mno}`)
+                                        closeModal()
+                                    }}
                                 />
                             </div>
-                            <span className="flex items-center ml-8 cursor-pointer hover:underline">
+                            <span
+                                className="flex items-center ml-8 cursor-pointer hover:underline"
+                                onClick={() => {
+                                    navigate(`/mypage/${followings.mno}`)
+                                    closeModal()
+                                }}>
                                 {followings.name}
                             </span>
                             <button></button>

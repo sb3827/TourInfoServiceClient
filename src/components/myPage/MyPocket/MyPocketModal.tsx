@@ -17,6 +17,7 @@ import {registerPlace, appendCart} from './../../../api/index'
 import {getSearchPlaceInfo} from './../../../api'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
+import {useParams} from 'react-router-dom'
 
 //TODO -  category가 sight일때 등록안되는 오류
 
@@ -51,6 +52,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({
     //스팟 등록을 위한 값
     const [selectedSpotCategory, setSelectedSpotCategory] = useState<string>('SIGHT')
 
+    const {mno} = useParams()
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     const openSpotModal = () => {
@@ -143,11 +145,13 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({
 
     return (
         <div>
-            <button
-                onClick={openSpotModal}
-                className={`w-32 h-12 text-black bg-gray-400 rounded-xl ${className}`}>
-                스팟 추가
-            </button>
+            {userMno === Number(mno) && (
+                <button
+                    onClick={openSpotModal}
+                    className={`w-32 h-12 text-black bg-gray-400 rounded-xl ${className}`}>
+                    스팟 추가
+                </button>
+            )}
 
             {SpotModal ? (
                 <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-500 bg-opacity-75">

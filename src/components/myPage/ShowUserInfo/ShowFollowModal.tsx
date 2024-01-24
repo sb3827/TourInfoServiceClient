@@ -4,6 +4,7 @@ import {faUser, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {MyFollowerBox} from './MyFollowerBox'
 import {MyFollowingBox} from './MyFollowingBox'
 import {Subtitle} from './../../Texts'
+import {useParams} from 'react-router-dom'
 
 type ShowFollowModalProps = {
     following: string
@@ -12,6 +13,7 @@ type ShowFollowModalProps = {
 
 export const ShowFollowModal: FC<ShowFollowModalProps> = ({following, follower}) => {
     const [showModal, setShowModal] = useState(false)
+    const {mno} = useParams()
 
     // 모달을 열거나 닫는 함수
     const openModal = () => {
@@ -67,10 +69,16 @@ export const ShowFollowModal: FC<ShowFollowModalProps> = ({following, follower})
                             </div>
                             <div className="flex flex-row">
                                 <div className="w-1/2 p-4">
-                                    <MyFollowingBox />
+                                    <MyFollowingBox
+                                        mno={Number(mno)}
+                                        closeModal={closeModal}
+                                    />
                                 </div>
                                 <div className="w-1/2 p-4">
-                                    <MyFollowerBox />
+                                    <MyFollowerBox
+                                        mno={Number(mno)}
+                                        closeModal={closeModal}
+                                    />
                                 </div>
                             </div>
                         </div>

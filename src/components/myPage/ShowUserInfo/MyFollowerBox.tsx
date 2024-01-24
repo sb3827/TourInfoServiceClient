@@ -6,16 +6,21 @@ import profileImage from './../../../assets/profileImage.jpeg'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
+import {Button} from './../../../components'
 
-export const MyFollowerBox: FC = () => {
+type MyFollowerBoxProps = {
+    mno: number
+    closeModal: () => void
+}
+
+export const MyFollowerBox: FC<MyFollowerBoxProps> = ({mno, closeModal}) => {
     const [userFollowers, setUserFollowers] = useState<userFollows | null>(null)
     const navigate = useNavigate()
-
-    const userMno = useSelector((state: RootState) => state.login.mno) || 0
+    // const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     const fetchData = async () => {
         try {
-            const userFollowerData = await ShowUserFollowers(userMno)
+            const userFollowerData = await ShowUserFollowers(mno)
             setUserFollowers(userFollowerData)
             console.log(userFollowerData)
         } catch (error) {
@@ -35,17 +40,25 @@ export const MyFollowerBox: FC = () => {
                 {Array.isArray(userFollowers) &&
                     userFollowers.map((followers: userFollows) => (
                         <div className="flex w-full h-20 border">
-                            <div>
+                            <div
+                                onClick={() => {
+                                    navigate(`/mypage/${followers.mno}`)
+                                    closeModal()
+                                }}>
                                 <img
                                     src={followers.image ? followers.image : profileImage}
                                     alt="프로필 사진"
                                     className="w-20 h-20 cursor-pointer"
                                 />
                             </div>
-                            <span className="flex items-center ml-8 cursor-pointer hover:underline">
+                            <span
+                                className="flex items-center ml-8 cursor-pointer hover:underline"
+                                onClick={() => {
+                                    navigate(`/mypage/${followers.mno}`)
+                                    closeModal()
+                                }}>
                                 {followers.name}
                             </span>
-                            <button></button>
                         </div>
                     ))}
             </div>

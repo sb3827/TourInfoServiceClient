@@ -7,22 +7,23 @@ import {folderAll} from './../../../data/Folder/Folder'
 import {DragDropContext, OnDragEndResponder} from 'react-beautiful-dnd'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
+import {useParams} from 'react-router-dom'
 
 type ShowTotalLikesProps = {
+    mno: number
     cart: number
 }
 
-export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
+export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart, mno}) => {
     const [showModal, setShowModal] = useState(false)
     const [folder, setFolder] = useState<folderAll>()
     const [refreshFlag, setRefreshFlag] = useState<boolean>(false)
-    const [totalCart, setTotalCart] = useState<number>()
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     const fetchData = async () => {
         try {
-            const userFolderData = await ShowFolderAll(userMno)
+            const userFolderData = await ShowFolderAll(mno)
             setFolder(userFolderData)
             console.log(userFolderData)
         } catch (error) {
@@ -40,7 +41,6 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
     }
     const closeModal = () => {
         setShowModal(false)
-        setTotalCart(cart)
     }
 
     const handleMyPocketModalClose = () => {
@@ -72,9 +72,13 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart}) => {
                             <MyPocketModal onClose={handleMyPocketModalClose} />
                         </div>
                         <div>
-                            <h1>My Cart</h1>
+                            <h1>장바구니</h1>
                             <DragDropContext onDragEnd={() => {}}>
-                                <MyCart onClose={refreshFlag} dragDisable={true} />
+                                <MyCart
+                                    onClose={refreshFlag}
+                                    dragDisable={true}
+                                    mno={Number(mno)}
+                                />
                             </DragDropContext>
                         </div>
                     </div>

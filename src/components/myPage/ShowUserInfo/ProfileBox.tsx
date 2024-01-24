@@ -16,7 +16,7 @@ type ProfileProps = {
 export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     const [userProfile, setUserProfile] = useState<userProfile | null>(null)
 
-    // const userMno = useSelector((state: RootState) => state.login.mno) || 0
+    const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     const navigate = useNavigate()
 
@@ -36,7 +36,7 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [mno])
 
     return (
         <div>
@@ -56,14 +56,15 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                         follower={userProfile ? userProfile.followers.toString() : ''}
                     />
                     <br />
-                    <ShowTotalLikes cart={userProfile ? userProfile.cart : 0} />
-                    <br />
-                    {mno === userProfile?.mno && (
-                        <Button
-                            value="정보 수정"
-                            onClick={onModify}
-                            className="text-white bg-gray-400"
+                    {userMno !== 0 && (
+                        <ShowTotalLikes
+                            mno={Number(mno)}
+                            cart={userProfile ? userProfile.cart : 0}
                         />
+                    )}
+                    <br />
+                    {userMno === userProfile?.mno && (
+                        <Button value="정보 수정" className="text-white bg-gray-400" />
                     )}
                 </Box>
             </div>
