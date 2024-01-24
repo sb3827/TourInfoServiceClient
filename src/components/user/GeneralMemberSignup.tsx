@@ -1,5 +1,12 @@
 import {useState} from 'react'
-import {Title, Subtitle, DropdownSelect, Button, SignupInput} from '../../components'
+import {
+    Title,
+    Subtitle,
+    DropdownSelect,
+    Button,
+    SignupInput,
+    LoadingSppinner
+} from '../../components'
 import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
 import {useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
@@ -30,6 +37,7 @@ export const GeneralMemberSignup = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
+    const [loading, setLoading] = useState<Boolean>(false)
 
     //이메일 검증
     const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
@@ -139,6 +147,7 @@ export const GeneralMemberSignup = () => {
             return
         }
         try {
+            setLoading(true)
             const data: SignupData = {
                 email: userEmail + selectValue,
                 password: userPassword,
@@ -155,10 +164,12 @@ export const GeneralMemberSignup = () => {
             alert('회원가입 요청 실패')
             console.log(error)
         }
+        setLoading(false)
     }
 
     return (
         <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
+            {loading && <LoadingSppinner />}
             <div className="">
                 <Title className="my-6 text-[#609966]">여행의발견 계정 만들기</Title>
                 <Subtitle className="text-[#8EB682]">
@@ -168,7 +179,6 @@ export const GeneralMemberSignup = () => {
                     {' '}
                     DoT와 함께라면 여행은 더욱 특별해집니다.
                 </Subtitle>
-
                 <div onKeyDown={onSignupClicked}>
                     {/* 이메일 입력 창 */}
                     <div className="relative flex flex-row">
@@ -235,7 +245,6 @@ export const GeneralMemberSignup = () => {
                         onChange={onUserPhoneNumberChange}
                     />
                 </div>
-
                 <Button
                     type="button"
                     value="가입하기"

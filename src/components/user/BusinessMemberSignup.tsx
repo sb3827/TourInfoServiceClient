@@ -1,5 +1,12 @@
 import {useState} from 'react'
-import {Title, Subtitle, DropdownSelect, Button, SignupInput} from '../../components'
+import {
+    Title,
+    Subtitle,
+    DropdownSelect,
+    Button,
+    SignupInput,
+    LoadingSppinner
+} from '../../components'
 import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
 import {postBusinessCheck} from '../../api/Business/BusinessCheck'
 import {useDispatch} from 'react-redux'
@@ -32,6 +39,7 @@ export const BusinessMemberSignup = () => {
 
     const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
     const [isBussinesscodeChecked, setIsBussinesscodeChecked] = useState<Boolean>(false)
+    const [loading, setLoading] = useState<Boolean>(false)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -176,6 +184,7 @@ export const BusinessMemberSignup = () => {
             return
         }
         try {
+            setLoading(true)
             const formattedBusinessCode = `${userBusinessCode.slice(
                 0,
                 3
@@ -197,10 +206,12 @@ export const BusinessMemberSignup = () => {
             alert('회원가입 요청 실패')
             console.log(error)
         }
+        setLoading(false)
     }
 
     return (
         <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
+            {loading && <LoadingSppinner />}
             <Title className="my-6 text-[#609966]">야! 먹고놀자 계정 만들기</Title>
             <Subtitle className="text-[#8EB682]">
                 야! 먹고놀자는 당신의 비즈니스를 홍보하고
