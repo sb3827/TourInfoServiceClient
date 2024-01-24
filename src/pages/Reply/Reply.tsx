@@ -51,16 +51,20 @@ export const Reply: FC<PropsWithChildren<ReplyProps>> = () => {
     }, [])
 
     return (
-        <div className="py-10 mb-10 border-2 border-t-0 rounded-b-xl">
+        <div className="py-10 mb-10 ">
             {mno && (
-                <div className="flex flex-row items-center justify-center my-5 ">
+                <div className="flex flex-row items-center justify-center pt-5 my-5 border-t-2 border-lightGreen">
                     <Input
                         placeholder="댓글을 작성해 주세요"
-                        className="mx-2 border-black"
+                        className="mx-2 focus:shadow-lg outline-darkGreen border-darkGreen focus:outline-none focus:border-darkGreen"
                         size={80}
                         value={replyValue}
                         onChange={e => onChangeReply(e.target.value)}></Input>
-                    <Button value="작성" className="" onClick={registReply} />
+                    <Button
+                        value="작성"
+                        className="font-medium text-white bg-darkGreen"
+                        onClick={registReply}
+                    />
                 </div>
             )}
             <div className="flex flex-col items-center justify-center w-full ">
