@@ -40,3 +40,7 @@
 .ck-editor__editable_inline:not(.ck-comment__input *) {
     min-height: 500px; /* 원하는 높이로 설정 */
 }
+
+#board_box * {
+    border: none !important;
+}
