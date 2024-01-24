@@ -5,7 +5,8 @@ import {
     SearchInfo,
     SearchMap,
     Button,
-    SearchMapRef
+    SearchMapRef,
+    LoadingSppinner
 } from '../../components/index'
 import {PlaceData} from '../../data/placeSearch'
 import {getSearchPlaceInfo} from '../../api'
@@ -17,6 +18,7 @@ import { RootState } from '../../store/rootReducer'
 
 export const PlaceSearch = () => {
     const [searchParams, setSearchParams] = useSearchParams()
+    const [loading, setLoading] = useState<Boolean>(false)
 
     // 새로고침에 필요한 값 불러오기
     const searchMapRef = useRef<SearchMapRef | null>(null)
@@ -60,13 +62,14 @@ export const PlaceSearch = () => {
         }
 
         try {
+            setLoading(true)
             setSearchParams({filter: selectedCategory, search: searchValue})
             const data = await getSearchPlaceInfo(selectedCategory, searchValue)
             setPlaceInfoData(data)
-            console.log(data)
+            setLoading(false)
         } catch (err) {
-            console.log(err)
-            alert('서버와 연결이 끊겼습니다.')
+            console.error('Error fetching data:', err)
+            setLoading(false)
         }
 
     }
@@ -81,7 +84,8 @@ export const PlaceSearch = () => {
 
     return (
         <Box>
-            <div className="flex justify-center w-full">
+            {loading && <LoadingSppinner />}
+            <div className="flex justify-center w-full">         
                 <select
                     className="w-24 h-16 text-xl text-center border border-gray-300 rounded-xl"
                     value={selectedCategory}
@@ -110,9 +114,7 @@ export const PlaceSearch = () => {
                     {user && <Button onClick={handleRegisterClick} className="h-16 text-xl text-white w-36 bg-darkGreen" value={'게시글 작성'}/> } 
                 </div>
             </div> 
-
             
-
             <div className="flex justify-center w-full h-screen ">
                 <div className="flex w-5/6 h-5/6">
                     <div className="w-1/2 overflow-y-auto border rounded-lg border--300 border-lightGreen">
