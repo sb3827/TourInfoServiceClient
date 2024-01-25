@@ -3,7 +3,7 @@ import {Button} from './../../Button'
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {userProfile, userFollows} from './../../../data/User/User'
-import {ShowUserProfile, ShowUserFollowings} from './../../../api/MyPage/ShowUserInfo'
+import {ShowUserProfile, ShowUserFollowers} from './../../../api/MyPage/ShowUserInfo'
 import {postFollow, deleteFollow} from './../../../api/UserSearch/UserSearch'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
@@ -17,7 +17,6 @@ type ProfileProps = {
 export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     const [userProfile, setUserProfile] = useState<userProfile | null>(null)
     const [followState, setFollowState] = useState<boolean>()
-    const [userFollowings, setUserFollowings] = useState<userFollows>()
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
@@ -42,10 +41,15 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     const fetchData = async () => {
         try {
             const userProfileData = await ShowUserProfile(mno)
-            const userFollowingData = await ShowUserFollowings(mno)
+            const userFollowerData = await ShowUserFollowers(mno)
             setUserProfile(userProfileData)
-            setUserFollowings(userFollowingData)
-            console.log(userFollowingData)
+
+            setFollowState(
+                Array.isArray(userFollowerData) &&
+                    userFollowerData
+                        .map((followers: userFollows) => followers.mno)
+                        .includes(userMno)
+            )
         } catch (error) {
             console.error('에러 발생', error)
         }
@@ -53,7 +57,7 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
 
     useEffect(() => {
         fetchData()
-    }, [mno])
+    }, [mno, followState])
 
     return (
         <div>
