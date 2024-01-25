@@ -1,4 +1,4 @@
-import {FC, useState} from 'react'
+import {FC, useState, useEffect} from 'react'
 import {MyCourseBox, MyPostBox, MyReplyBox} from './../index'
 
 // 마이페이지 작성 글 보기 버튼
@@ -24,7 +24,7 @@ export const WritingButton: FC<WritingButtonProps> = ({mno}) => {
     }
 
     return (
-        <div className="w-4/5 pt-4 overflow-y-auto border rounded-xl h-80">
+        <div className="w-screen pt-4 mx-32 overflow-y-auto border rounded-xl h-80">
             <div className="justify-center inline-block ">
                 <button
                     onClick={() => onChangeContent('post')}
@@ -48,7 +48,7 @@ export const WritingButton: FC<WritingButtonProps> = ({mno}) => {
                     댓글 목록
                 </button>
             </div>
-            <div className="flex justify-center w-full">{content}</div>
+            <div className="flex justify-center ">{content}</div>
         </div>
     )
 }

@@ -56,7 +56,12 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                         follower={userProfile ? userProfile.followers.toString() : ''}
                     />
                     <br />
-                    <ShowTotalLikes cart={userProfile ? userProfile.cart : 0} />
+                    {userMno !== 0 && (
+                        <ShowTotalLikes
+                            mno={Number(mno)}
+                            cart={userProfile ? userProfile.cart : 0}
+                        />
+                    )}
                     <br />
                     {userMno === userProfile?.mno && (
                         <Button

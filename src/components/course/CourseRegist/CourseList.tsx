@@ -18,14 +18,13 @@ type DndProps = {
 }
 
 export const CourseList: FC<DndProps> = ({create, day}) => {
-    //이 더미 데이터는 추후에 장바구니 데이터로 바꿔야함
-    // const items = dummy
-
     const [items, setItems] = useState<Item[]>([])
 
     const onChangeItems = (item: Item[]) => {
         setItems(item)
     }
+
+    const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     const dispatch = useDispatch()
 
@@ -94,8 +93,8 @@ export const CourseList: FC<DndProps> = ({create, day}) => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             {/* 장바구니 데이터 */}
-            {create && <MyCart onChangeItems={onChangeItems} />}
-
+            {create && <MyCart onChangeItems={onChangeItems} mno={userMno} />}
+            {/* mno 삭제 */}
             {/* 요일 데이터 */}
             <DayItem day={day} create={create} />
         </DragDropContext>
