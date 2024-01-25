@@ -2,11 +2,11 @@ import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {
     Title,
     TextBox,
-    Slider,
     CoursePostMap,
     PlaceProps,
     DropIcon,
-    CourseList
+    CourseList,
+    MainSlider
 } from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -24,6 +24,8 @@ import {RootState} from '../../store/rootReducer'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import BoardReportModal from '../../components/board/BoardReportModal'
 import {BoardData} from '../../data/Board/BoardData'
+import {getCookie} from '../../util/cookie'
+import {SwiperSlide} from 'swiper/react'
 
 type DetailedCourseType = {
     title?: string
@@ -68,7 +70,11 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
 
     async function loadPage() {
         try {
-            const data = await coursePostLoad(parseInt(bno), user != null)
+            const data = await coursePostLoad(
+                parseInt(bno),
+                getCookie('refreshToken') != undefined
+            )
+            console.log(data)
             if (!data.isCourse) {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
@@ -151,90 +157,91 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     }
 
     return (
-        <div className="w-3/4 mx-auto">
-            <div className="my-2">
-                {/*header*/}
-                <div className="flex justify-between my-6">
-                    <FontAwesomeIcon
-                        className="hover:cursor-pointer"
-                        icon={faArrowLeft}
-                        size="2xl"
-                        onClick={backPage}
-                    />
-                    <DropIcon
-                        itemTexts={postText}
-                        itemActions={[nav, set]}
-                        itemEnabled={enables}>
-                        <FontAwesomeIcon
-                            className="hover:cursor-pointer"
-                            icon={faEllipsisVertical}
-                            size="2xl"
-                        />
-                    </DropIcon>
-                </div>
-                <Title>{title}</Title>
-                <div className="flex flex-row justify-end">
-                    <div className="flex flex-col">
-                        <FontAwesomeIcon
-                            icon={faStar}
-                            size="2xl"
-                            style={{color: '#fbfe3e'}}
-                        />
-                        {score}
-                    </div>
-                    <div className="flex flex-col ml-4">
-                        {heart && (
-                            <FontAwesomeIcon
-                                className="hover:cursor-pointer"
-                                icon={faHeart}
-                                size="2xl"
-                                style={{color: '#ff3050'}}
-                                onClick={clickHeart}
-                            />
-                        )}
-                        {heart || (
-                            <FontAwesomeIcon
-                                className="hover:cursor-pointer"
-                                icon={faHeart}
-                                size="2xl"
-                                style={{color: '#c2c2c2'}}
-                                onClick={clickHeart}
-                            />
-                        )}
-                        {likes}
-                    </div>
-                </div>
-                <div className="flex flex-row justify-end">작성자: {writer}</div>
-                <div className="flex flex-row justify-end">{date}</div>
-            </div>
-            <div className="my-2">
-                {/*body*/}
-                <div className="flex flex-row items-center justify-center">
-                    <Slider className="w-1/2">
-                        {images.map((image, index) => (
-                            <img
-                                width={'800px'}
-                                className="py-auto"
-                                key={index}
-                                src={image}
-                                alt="img"
-                                style={{maxWidth: '100%', maxHeight: '100%'}}
-                            />
-                        ))}
-                    </Slider>
-                    <Slider className="w-1/2">
-                        {placesList.map((places, idx) => (
-                            <div key={idx} style={{width: '800px'}}>
-                                <div>{`${idx + 1} 일차`}</div>
-                                {<CoursePostMap places={places}></CoursePostMap>}
+        <div className="w-1/2 mx-auto my-10">
+            <div className="py-5 ">
+                <div className="flex flex-col ">
+                    <div className="flex items-center justify-between">
+                        <Title className="my-5 text-5xl">{title}</Title>
+                        <div className="flex flex-row justify-end">
+                            <div className="flex flex-col mx-2 text-sm text-gray-500">
+                                <FontAwesomeIcon icon={faStar} size="xl" color="gold" />
+                                {score}
                             </div>
-                        ))}
-                    </Slider>
+                            <div className="flex flex-col mx-2 text-sm text-gray-500">
+                                {heart && (
+                                    <FontAwesomeIcon
+                                        className="hover:cursor-pointer"
+                                        icon={faHeart}
+                                        size="xl"
+                                        color="red"
+                                        onClick={clickHeart}
+                                    />
+                                )}
+                                {heart || (
+                                    <FontAwesomeIcon
+                                        className="hover:cursor-pointer"
+                                        icon={faHeart}
+                                        size="xl"
+                                        style={{color: '#c2c2c2'}}
+                                        onClick={clickHeart}
+                                    />
+                                )}
+                                {likes}
+                            </div>
+                            <DropIcon
+                                itemTexts={postText}
+                                itemActions={[nav, set]}
+                                itemEnabled={enables}>
+                                <FontAwesomeIcon
+                                    className="ml-2 hover:cursor-pointer"
+                                    icon={faEllipsisVertical}
+                                    size="xl"
+                                />
+                            </DropIcon>
+                        </div>
+                    </div>
+                    <div className="flex justify-between w-full my-5">
+                        <div>
+                            <div className="flex flex-row justify-start">
+                                작성자: {writer}
+                            </div>
+                            <div className="flex flex-row justify-end">{date}</div>
+                        </div>
+                    </div>
                 </div>
-                <CourseList create={false} day={day} />
-                <TextBox data={content}></TextBox>
             </div>
-            <div className="my-2">
+            <div>
+                {/*body*/}
+                <div className="flex flex-row items-center justify-center mb-5">
+                    <MainSlider className="w-full overflow-hidden border-none rounded-3xl">
+                        {placesList.map((places, idx) => (
+                            <SwiperSlide className="rounded-3xl">
+                                <div
+                                    key={idx}
+                                    className="flex flex-col justify-center w-full">
+                                    <div>
+                                        <p className="text-xl font-bold">{`${
+                                            idx + 1
+                                        } 일차`}</p>
+                                    </div>
+                                    <CoursePostMap
+                                        places={places}
+                                        className="rounded-3xl"></CoursePostMap>
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </MainSlider>
+                </div>
+                <div>
+                    <CourseList create={false} day={day} />
+                </div>
+                <div
+                    id="board_box"
+                    className="p-5 my-10 overflow-hidden shadow-xl rounded-3xl">
+                    <TextBox data={content}></TextBox>
+                </div>
+            </div>
+            <div>
                 <Reply />
             </div>
             {report && (

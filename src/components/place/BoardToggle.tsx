@@ -26,12 +26,14 @@ export const BoardToggle: FC<PropsWithChildren<ToggleButtonProps>> = ({
     }
     return (
         <div className="flex flex-col items-center justify-center w-full">
-            <div className="w-2/3">
-                <div className="flex">
+            <div className="w-full">
+                <div className="flex mb-3">
                     <button
                         onClick={onChangeFirstButton}
                         className={`grid h-16 flex-grow place-items-center : ${size} ${
-                            toggle === true ? 'btn btn-ghost' : 'btn btn-ghost'
+                            toggle === true
+                                ? 'btn btn-ghost bg-darkGreen text-white'
+                                : 'btn btn-ghost'
                         }`}>
                         {result[0]}
                     </button>
@@ -39,7 +41,9 @@ export const BoardToggle: FC<PropsWithChildren<ToggleButtonProps>> = ({
                     <button
                         onClick={onChangeSecondButton}
                         className={`grid h-16  flex-grow  place-items-center ${size} ${
-                            toggle === false ? 'btn btn-ghost' : 'btn btn-ghost'
+                            toggle === false
+                                ? 'btn btn-ghost bg-darkGreen text-white'
+                                : 'btn btn-ghost'
                         } `}>
                         {result[1]}
                     </button>

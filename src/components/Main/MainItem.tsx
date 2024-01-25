@@ -49,13 +49,13 @@ export const MostLikedMainItem: FC<PropsWithChildren<MainItemProps>> = props => 
 export const MostLikedCourseItem: FC<PropsWithChildren<MainItemProps>> = props => {
     return (
         <div
-            className="flex flex-col justify-between flex-1 overflow-hidden bg-white hover:cursor-pointer basis-2/5"
+            className="flex flex-col justify-between flex-1 w-1/2 overflow-hidden bg-white hover:cursor-pointer"
             onClick={props.onClick}>
-            <div className="w-full overflow-hidden basis-11/12">
+            <div className="flex justify-center w-full overflow-hidden basis-11/12">
                 <img
                     src={props.image}
                     alt={props.title}
-                    className="w-full h-full duration-150 hover:scale-110"
+                    className="h-full duration-150 hover:scale-110"
                 />
             </div>
             <div className="w-full p-6 border-t-2 basis-1/12">
