@@ -50,6 +50,8 @@ export const EditPassword = () => {
         // 새 비밀번호와 새 비밀번호 확인이 일치하지 않을 경우
         else if (newPassword !== reNewPassword) {
             alert('새 비밀번호가 일치하지 않습니다')
+        } else if (oldPassword === newPassword) {
+            alert('현재 비밀번호와 새로운 비밀번호가 같습니다')
         } else if (window.confirm('수정하시겠습니까?')) {
             if (email) {
                 try {
