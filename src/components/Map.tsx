@@ -779,7 +779,13 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
             infoWindows[idx]?.open(map, markers[idx])
         }, [places, idx])
 
-        return <div ref={mapElement} style={{minHeight: '500px'}} {...props}></div>
+        return (
+            <div
+                className="z-0"
+                ref={mapElement}
+                style={{minHeight: '500px'}}
+                {...props}></div>
+        )
     }
 )
 
