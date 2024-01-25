@@ -10,7 +10,12 @@ import {
     registCourseBoard
 } from '../../api/Board/board'
 import {useDispatch} from 'react-redux'
-import {addDay, deleteAll, deleteDay} from '../../store/slices/CourseSlice'
+import {
+    addDay,
+    deleteAll,
+    deleteDay,
+    setCommonState
+} from '../../store/slices/CourseSlice'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
@@ -22,9 +27,9 @@ type CourseRegisterProps = {
 }
 
 export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props => {
-    const [day, setDay] = useState(useSelector((state: RootState) => state.course))
+    const day = useSelector((state: RootState) => state.course)
     //코스 등록시 추가적으로 로직 필요 -> 아래 콘솔보고 할것
-    console.log(day)
+    console.log('날짜 데이터 ' + day)
 
     const dispatch = useDispatch()
 
@@ -158,13 +163,16 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             editorRef.current?.getEditor()?.editor?.data.set(data.content)
             starRef.current?.setSelectedRating(data.score)
 
-            setDay(
-                data.postingPlaceBoardDTOS.map(daliyPlace =>
-                    daliyPlace.map(place => ({
-                        pno: place.pno,
-                        pname: place.name,
-                        img: noImage
-                    }))
+            console.log(data)
+            dispatch(
+                setCommonState(
+                    data.postingPlaceBoardDTOS.map(dailyPlace =>
+                        dailyPlace.map(place => ({
+                            pno: place.pno,
+                            pname: place.name,
+                            img: noImage
+                        }))
+                    )
                 )
             )
         } catch (error) {
