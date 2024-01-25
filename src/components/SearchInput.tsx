@@ -19,7 +19,7 @@ export const SearchInput: FC<SearchInputProps> = ({
     onKeyDown,
     placeholder
 }) => {
-    const inputStyle = `flex items-center ${className} p-2 ml-10 bg-white border-2 border-lightGreen rounded-2xl shadow-xl`
+    const inputStyle = `flex items-center ${className} p-2 ml-3 bg-white border-2 border-lightGreen rounded-2xl shadow-xl`
     return (
         <div className={inputStyle}>
             <FontAwesomeIcon

@@ -274,12 +274,12 @@ export const Main: FC<MainProps> = () => {
                                                     noImage
                                                 }
                                             />
-                                            <div className="relative flex-1 basis-3/5">
+                                            <div className="relative flex-1 w-1/2">
                                                 <p className="absolute z-20 font-bold text-red-500 right-12 top-2">
                                                     1일차
                                                 </p>
                                                 <CoursePostMap
-                                                    className="z-10"
+                                                    className="z-10 h-full"
                                                     places={course.placeList}
                                                 />
                                             </div>
@@ -318,7 +318,7 @@ export const Main: FC<MainProps> = () => {
                 {fetchedData &&
                     fetchedData.data.adBoard &&
                     fetchedData.data.adBoard.length > 0 && (
-                        <div className="px-10 mb-20 py-14 rounded-3xl bg-orange-50 bg-opacity-60">
+                        <div className="px-10 mb-20 shadow-2xl py-14 rounded-3xl bg-orange-50 bg-opacity-60">
                             <Subtitle
                                 className="flex items-start mb-4 ml-16 text-2xl font-bold "
                                 value="광고"

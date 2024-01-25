@@ -1,13 +1,5 @@
 import {FC, PropsWithChildren, useEffect, useMemo, useRef, useState} from 'react'
-import {
-    TextEditor,
-    Input,
-    Button,
-    Rating,
-    RatingRef,
-    EditorRef,
-    MyCart
-} from '../../components'
+import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faMinus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate, useSearchParams} from 'react-router-dom'
@@ -24,14 +16,15 @@ import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
 import {saveCourseBoardDTO} from '../../data/Board/BoardData'
 import {MyPocketModal} from './../../components/myPage/MyPocket/MyPocketModal'
+import noImage from '../../assets/smallLogo.png'
 
 type CourseRegisterProps = {
     isModify: boolean // true: 수정, false: 등록
 }
 
 export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props => {
+    const [day, setDay] = useState(useSelector((state: RootState) => state.course))
     //코스 등록시 추가적으로 로직 필요 -> 아래 콘솔보고 할것
-    let day = useSelector((state: RootState) => state.course)
     console.log(day)
 
     const dispatch = useDispatch()
@@ -166,12 +159,14 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             editorRef.current?.getEditor()?.editor?.data.set(data.content)
             starRef.current?.setSelectedRating(data.score)
 
-            day = data.postingPlaceBoardDTOS.map(daliyPlace =>
-                daliyPlace.map(place => ({
-                    pno: place.pno,
-                    pname: place.name,
-                    img: ''
-                }))
+            setDay(
+                data.postingPlaceBoardDTOS.map(daliyPlace =>
+                    daliyPlace.map(place => ({
+                        pno: place.pno,
+                        pname: place.name,
+                        img: noImage
+                    }))
+                )
             )
         } catch (error) {
             navigate('/notFound')
