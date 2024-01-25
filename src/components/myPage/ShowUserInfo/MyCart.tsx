@@ -9,11 +9,10 @@ import {
 } from './../../../api/Folder/Folder'
 import {
     folderAll,
-    folder,
     registerFolderData,
     updateFolderData
 } from './../../../data/Folder/Folder'
-import {Spot, MyPocketModal, Subtitle, CartItem, Item} from './../../index'
+import {CartItem, Item} from './../../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faPenToSquare, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {RootState} from './../../../store/rootReducer'
@@ -59,6 +58,7 @@ export const MyCart: FC<MyCartProps> = ({
             const convertedItems: Item[] = userFolderData.data.flatMap(folderInfo =>
                 convertFolderInfoToItem(folderInfo)
             )
+            setSelectedFno(userFolderData.data[0].fno)
 
             console.log('convertedItems', convertedItems)
             onChangeItems && onChangeItems(convertedItems)
@@ -183,22 +183,24 @@ export const MyCart: FC<MyCartProps> = ({
 
     // 폴더 삭제
     const handleDeleteFolder = async (fno: number) => {
-        try {
-            await deleteFolder(fno)
+        if (window.confirm('폴더를 삭제하시겠습니까?')) {
+            try {
+                await deleteFolder(fno)
 
-            setFolder((prev: folderAll | undefined) => {
-                if (prev) {
-                    const updatedData = prev.data.filter(folder => folder.fno !== fno)
-                    return {
-                        ...prev,
-                        data: updatedData
+                setFolder((prev: folderAll | undefined) => {
+                    if (prev) {
+                        const updatedData = prev.data.filter(folder => folder.fno !== fno)
+                        return {
+                            ...prev,
+                            data: updatedData
+                        }
                     }
-                }
-                return prev
-            })
-            alert('삭제 완료')
-        } catch (error) {
-            console.error('Error', error)
+                    return prev
+                })
+                alert('삭제 완료')
+            } catch (error) {
+                console.error('Error', error)
+            }
         }
     }
 
@@ -227,55 +229,66 @@ export const MyCart: FC<MyCartProps> = ({
     }
 
     return (
-        <div className="">
-            <div className="flex justify-start w-full overflow-x-scroll overflow-y-hidden border h-fit ">
-                {folder &&
-                    Array.isArray(folder.data) &&
-                    folder.data
-                        .sort((a, b) => a.fno - b.fno) // fno 순서대로 정렬
-                        .map(folderInfo => (
-                            <div className="inline-block w-40 border">
-                                <button
+        <div className="w-full">
+            <div className="flex justify-between items-center w-full overflow-x-auto overflow-y-hidden  ">
+                <div className="flex w-full">
+                    {folder &&
+                        Array.isArray(folder.data) &&
+                        folder.data
+                            .sort((a, b) => a.fno - b.fno) // fno 순서대로 정렬
+                            .map(folderInfo => (
+                                <div
                                     key={folderInfo.fno}
-                                    className={`p-2 h-12 w-40 text-black text-sm ${
+                                    className={`h-full relative cursor-pointer justify-center flex items-center p-2 w-full text-black text-sm duration-150 border rounded-t-2xl ${
                                         selectedFno === folderInfo.fno
                                             ? 'bg-gray-400'
                                             : 'bg-white'
                                     }`}
                                     onClick={() => handleButtonClick(folderInfo.fno)}>
-                                    {folderInfo.title}
+                                    <div className="flex items-center basis-2/3 justify-center">
+                                        {userMno === mno && (
+                                            <FontAwesomeIcon
+                                                icon={faPenToSquare}
+                                                size="sm"
+                                                className="mr-1 text-gray-500 cursor-pointer hover:text-black"
+                                                onClick={event => {
+                                                    event.stopPropagation()
+                                                    openEditModal(folderInfo.fno)
+                                                }}
+                                            />
+                                        )}
+                                        <p className="text-ellipsis overflow-hidden">
+                                            {folderInfo.title}
+                                        </p>
+                                    </div>
+
                                     {userMno === mno && (
                                         <FontAwesomeIcon
-                                            icon={faPenToSquare}
-                                            className="ml-2 text-gray-500 cursor-pointer"
-                                            onClick={() => openEditModal(folderInfo.fno)}
+                                            icon={faTrash}
+                                            size="sm"
+                                            onClick={event => {
+                                                event.stopPropagation()
+                                                handleDeleteFolder(folderInfo.fno)
+                                            }}
+                                            className="text-gray-500 cursor-pointer basis-1/3 hover:text-black"
                                         />
                                     )}
-                                    {userMno === mno && (
-                                        <button className="h-12">
-                                            <FontAwesomeIcon
-                                                icon={faTrash}
-                                                onClick={() =>
-                                                    handleDeleteFolder(folderInfo.fno)
-                                                }
-                                                className="ml-2 cursor-pointer"
-                                            />
-                                        </button>
-                                    )}
-                                </button>
-                            </div>
-                        ))}
+                                </div>
+                            ))}
+                </div>
 
-                {folder &&
-                    Array.isArray(folder.data) &&
-                    folder.data.length < 7 &&
-                    userMno === mno && (
-                        <button
-                            className="w-12 h-12 text-xl bg-white border-black"
-                            onClick={openFolderNameModal}>
-                            <FontAwesomeIcon icon={faPlus} />
-                        </button>
-                    )}
+                <div>
+                    {folder &&
+                        Array.isArray(folder.data) &&
+                        folder.data.length < 7 &&
+                        userMno === mno && (
+                            <button
+                                className="w-20 text-xl bg-white border-black"
+                                onClick={openFolderNameModal}>
+                                <FontAwesomeIcon icon={faPlus} />
+                            </button>
+                        )}
+                </div>
             </div>
             <div
                 className={`overflow-y-scroll max-w-screen bg-gray-200 border mb-5 h-72 ${className}`}>

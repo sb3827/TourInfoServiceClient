@@ -194,57 +194,61 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     const courseList = useMemo(() => <CourseList create={true} day={day} />, [day])
 
     return (
-        <div className="w-3/4 mx-auto">
-            <div className="flex justify-start my-6">
-                <FontAwesomeIcon
-                    className="hover:cursor-pointer"
-                    icon={faArrowLeft}
-                    size="2xl"
-                    onClick={backPage}
-                />
-            </div>
-            <div className="">
-                <Input
-                    className="w-full my-2 border-black"
-                    size={70}
-                    placeholder="제목을 입력하세요"
-                    ref={titleRef}></Input>
-                <div>
-                    <div className="flex justify-end mb-2 ml-3">
-                        <MyPocketModal className="h-8 bg-white border" />
-                        <FontAwesomeIcon
-                            className="mx-2 hover:cursor-pointer"
-                            icon={faMinus}
-                            size="xl"
-                            onClick={daysMinus}
-                        />
-                        <FontAwesomeIcon
-                            className="mx-2 hover:cursor-pointer"
-                            icon={faPlus}
-                            size="xl"
-                            onClick={daysPlus}
-                        />
+        <div className="w-full py-14">
+            <div className="w-1/2 mx-auto">
+                <div className="">
+                    <Input
+                        className="w-full my-2 border-2 border-darkGreen focus:border-darkGreen"
+                        size={70}
+                        placeholder="제목을 입력하세요"
+                        ref={titleRef}></Input>
+                    <div>
+                        <div className="flex justify-end mb-2 ml-3">
+                            <MyPocketModal className="h-8 bg-white border" />
+                            <FontAwesomeIcon
+                                className="mx-2 hover:cursor-pointer"
+                                icon={faPlus}
+                                size="xl"
+                                onClick={daysPlus}
+                            />
+                            <FontAwesomeIcon
+                                className="mx-2 hover:cursor-pointer"
+                                icon={faMinus}
+                                size="xl"
+                                onClick={daysMinus}
+                            />
+                        </div>
+                        {courseList}
                     </div>
-                    {/* 테스트 코드 */}
-                    {/* <CourseList create={true} day={day} /> */}
-                    {courseList}
-                </div>
-                <div className="flex flex-row justify-end my-2">
-                    <Rating ref={starRef} />
-                </div>
-                <div>
-                    <TextEditor ref={editorRef}></TextEditor>
-                </div>
-                <div className="flex flex-row justify-end my-2 ml-6">
-                    {props.isModify && (
-                        <Button className="btn-error" value={'삭제'} onClick={erase} />
-                    )}
-                    {props.isModify && (
-                        <Button className="btn-warning" value={'수정'} onClick={modify} />
-                    )}
-                    {props.isModify || (
-                        <Button className="btn-success" value={'등록'} onClick={regist} />
-                    )}
+                    <div className="flex flex-row justify-end my-2">
+                        <Rating ref={starRef} />
+                    </div>
+                    <div>
+                        <TextEditor ref={editorRef}></TextEditor>
+                    </div>
+                    <div className="flex flex-row justify-end my-2 ml-6">
+                        {props.isModify && (
+                            <Button
+                                className="btn-error"
+                                value={'삭제'}
+                                onClick={erase}
+                            />
+                        )}
+                        {props.isModify && (
+                            <Button
+                                className="btn-warning"
+                                value={'수정'}
+                                onClick={modify}
+                            />
+                        )}
+                        {props.isModify || (
+                            <Button
+                                className="btn-success"
+                                value={'등록'}
+                                onClick={regist}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

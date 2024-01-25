@@ -163,11 +163,11 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                     <div className="flex items-center justify-between">
                         <Title className="my-5 text-5xl">{title}</Title>
                         <div className="flex flex-row justify-end">
-                            <div className="flex flex-col mx-2 text-sm text-gray-500">
+                            <div className="flex flex-col mx-2  text-gray-500">
                                 <FontAwesomeIcon icon={faStar} size="xl" color="gold" />
                                 {score}
                             </div>
-                            <div className="flex flex-col mx-2 text-sm text-gray-500">
+                            <div className="flex flex-col mx-2  text-gray-500">
                                 {heart && (
                                     <FontAwesomeIcon
                                         className="hover:cursor-pointer"
