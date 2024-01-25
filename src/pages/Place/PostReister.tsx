@@ -5,40 +5,42 @@ import {
     Button,
     Rating,
     InputPlace,
-    PlacePostMap
+    PlacePostMap,
+    Modal
 } from '../../components'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faArrowLeft} from '@fortawesome/free-solid-svg-icons'
-import {useNavigate, useSearchParams} from 'react-router-dom'
-import type {RatingRef, EditorRef, PlaceProps, PnoRef} from '../../components'
+import {useLocation, useNavigate, useSearchParams} from 'react-router-dom'
+import type {RatingRef, EditorRef, PlaceProps, PnoName} from '../../components'
 import {
     deleteBoard,
     modifyPlaceBoard,
     placePostLoad,
     registPlaceBoard
 } from '../../api/Board/board'
-import {ImageReturnData, savePlaceBoardDTO} from '../../data/Board/BoardData'
+import {savePlaceBoardDTO} from '../../data/Board/BoardData'
 import {RootState} from '../../store/rootReducer'
 import {useSelector} from 'react-redux'
 
 type PostRegisterProps = {
-    isModify: boolean // true: 수정, false: 등록
+    isModify: boolean // true: 수정, false: 등록,
 }
 
 // 장소 포스팅 등록
 export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     const navigate = useNavigate()
-    // left arrow button
-    function backPage() {
-        // 뒤로가기 로직
-        navigate(-1)
-    }
+    const location = useLocation()
+
+    const clearPlace = location.state?.clearPlace
+
+    //모달 상태값 닫기/열기
+    const [modalView, setModalView] = useState<boolean>(false)
+    const [placeData, setPlaceData] = useState<PnoName | null>(
+        clearPlace ? clearPlace : null
+    )
 
     // 자식 ref
     const titleRef = useRef<HTMLInputElement | null>(null)
     const starRef = useRef<RatingRef | null>(null)
     const editorRef = useRef<EditorRef | null>(null)
-    const placeRef = useRef<PnoRef | null>(null)
     const user = useSelector((state: RootState) => state.login.mno)!
 
     const [loadImg, setLoadImg] = useState<string[]>([])
@@ -50,6 +52,26 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
         localAddress: '부산광역시 서구 서면',
         engAddress: '678, Jungang-daero, Seo-gu, Busan'
     })
+
+    //취소
+    function goBack() {
+        navigate(-1)
+    }
+
+    //모달 열기
+    function onOpenModal() {
+        setModalView(true)
+    }
+
+    //모달 닫기
+    function onCloseModal() {
+        setModalView(false)
+    }
+
+    //장소 데이터 들고오기
+    function getPlaceData(pno: number, pname: string) {
+        setPlaceData({getPno: pno, getPname: pname})
+    }
 
     // 등록 onclick 함수
     function regist() {
@@ -64,7 +86,8 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
             alert('내용을 입력하세요')
             return
         }
-        const place = placeRef.current?.getPno as number
+
+        const place = placeData?.getPno as number
         if (place < 1 || place == null) {
             alert('장소를 입력하세요')
             return
@@ -179,27 +202,42 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     }
 
     return (
-        <div className="w-3/4 mx-auto">
-            <div className="flex justify-start my-6">
-                <FontAwesomeIcon
-                    className="hover:cursor-pointer"
-                    icon={faArrowLeft}
-                    size="2xl"
-                    onClick={backPage}
-                />
+        <div className="w-1/2 mx-auto mt-10">
+            <div className="flex items-center justify-between w-full">
+                <div className="flex items-center">
+                    {!props.isModify && (
+                        <Button
+                            className="mr-3 text-white bg-darkGreen"
+                            onClick={onOpenModal}
+                            value={'장소 입력'}
+                        />
+                    )}
+                    <p className="text-xl font-semibold">
+                        장소 : {placeData ? placeData.getPname : '장소를 선택해주세요'}
+                    </p>
+                </div>
+                <div className="flex flex-row justify-end my-2">
+                    <Rating ref={starRef} />
+                </div>
             </div>
             <Input
-                className="w-full my-2 border-black"
+                className="w-full my-2 border-2 outline-none border-lightGreen focus:outline-none focus:border-lightGreen"
                 size={70}
                 placeholder="제목을 입력하세요"
                 ref={titleRef}></Input>
             <div>
-                {!props.isModify && <InputPlace ref={placeRef} />}
+                {!props.isModify && modalView && (
+                    <Modal isOpen onClose={onCloseModal} className="w-full">
+                        <InputPlace
+                            className="w-full"
+                            getPlaceData={getPlaceData}
+                            onClose={onCloseModal}
+                        />
+                    </Modal>
+                )}
                 {props.isModify && <PlacePostMap place={loadPlace!}></PlacePostMap>}
             </div>
-            <div className="flex flex-row justify-end my-2">
-                <Rating ref={starRef} />
-            </div>
+
             <div>
                 <TextEditor ref={editorRef}></TextEditor>
             </div>
@@ -211,8 +249,13 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
                     <Button className="btn-warning" value={'수정'} onClick={modify} />
                 )}
                 {props.isModify || (
-                    <Button className="btn-success" value={'등록'} onClick={regist} />
+                    <Button
+                        className="text-white bg-darkGreen"
+                        value={'등록'}
+                        onClick={regist}
+                    />
                 )}
+                <Button className="text-white bg-black" onClick={goBack} value={'취소'} />
             </div>
         </div>
     )

@@ -91,6 +91,7 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
     async function onDeleteReply() {
         const data = mno && (await deleteReply({rno: reply.rno, mno}))
         alert('삭제완료')
+        setUpdateVeiw(false)
         getReply()
     }
 
@@ -164,8 +165,16 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
                         />
                         {updateView && (
                             <>
-                                <Button value={'수정'} onClick={onUpdateReply} />
-                                <Button value={'취소'} onClick={onUpdateCancel} />
+                                <Button
+                                    value={'수정'}
+                                    className="text-white bg-blue-500"
+                                    onClick={onUpdateReply}
+                                />
+                                <Button
+                                    value={'취소'}
+                                    className="text-white bg-black"
+                                    onClick={onUpdateCancel}
+                                />
                             </>
                         )}
                     </div>
@@ -198,11 +207,15 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
                 <div className="flex flex-row items-center justify-center my-5">
                     <Input
                         placeholder="대댓글을 작성해 주세요"
-                        className="mx-2 border-black"
+                        className="mx-2 focus:shadow-lg outline-darkGreen border-darkGreen focus:outline-none focus:border-darkGreen"
                         size={80}
                         value={reReplyValue}
                         onChange={e => onChangeRereply(e.target.value)}></Input>
-                    <Button value="작성" className="" onClick={registRereply} />
+                    <Button
+                        value="작성"
+                        className="font-medium text-white bg-darkGreen"
+                        onClick={registRereply}
+                    />
                 </div>
             )}
 
