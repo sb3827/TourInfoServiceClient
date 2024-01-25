@@ -57,7 +57,7 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, modal, ...prop
                 />
                 {user && !modal && (
                     <label
-                        className="absolute z-50 px-3 top-2 btn right-2"
+                        className="absolute z-0 px-3 top-2 btn right-2"
                         onClick={onOpenModal}>
                         <FontAwesomeIcon icon={faCartPlus} className="text-lg " />
                     </label>
