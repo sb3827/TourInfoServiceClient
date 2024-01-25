@@ -1,5 +1,15 @@
 import {FC, PropsWithChildren, useEffect, useMemo, useRef, useState} from 'react'
-import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
+import {
+    TextEditor,
+    Input,
+    Button,
+    Rating,
+    RatingRef,
+    EditorRef,
+    InputPlace,
+    Modal,
+    Title
+} from '../../components'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faMinus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate, useSearchParams} from 'react-router-dom'
@@ -196,33 +206,30 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     return (
         <div className="w-full py-14">
             <div className="w-1/2 mx-auto">
-                <div className="">
+                <div>
+                    <div className="flex flex-row justify-between ">
+                        <div>
+                            <Button
+                                className="flex items-center justify-center bg-darkGreen text-white "
+                                value={'일정 +'}
+                                onClick={daysPlus}
+                            />
+                        </div>
+                        <div className="flex items-center">
+                            <p className="text-orange-400 mt-1 text-xl font-bold mr-3">
+                                별점을 선택하세요
+                            </p>
+                            <Rating ref={starRef} />
+                        </div>
+                    </div>
                     <Input
                         className="w-full my-2 border-2 border-darkGreen focus:border-darkGreen"
                         size={70}
-                        placeholder="제목을 입력하세요"
+                        placeholder="코스 게시글 제목을 입력하세요"
                         ref={titleRef}></Input>
-                    <div>
-                        <div className="flex justify-end mb-2 ml-3">
-                            <MyPocketModal className="h-8 bg-white border" />
-                            <FontAwesomeIcon
-                                className="mx-2 hover:cursor-pointer"
-                                icon={faPlus}
-                                size="xl"
-                                onClick={daysPlus}
-                            />
-                            <FontAwesomeIcon
-                                className="mx-2 hover:cursor-pointer"
-                                icon={faMinus}
-                                size="xl"
-                                onClick={daysMinus}
-                            />
-                        </div>
-                        {courseList}
-                    </div>
-                    <div className="flex flex-row justify-end my-2">
-                        <Rating ref={starRef} />
-                    </div>
+
+                    <div>{courseList}</div>
+
                     <div>
                         <TextEditor ref={editorRef}></TextEditor>
                     </div>

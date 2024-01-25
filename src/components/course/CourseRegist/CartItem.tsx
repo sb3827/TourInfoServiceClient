@@ -29,20 +29,25 @@ export const CartItem: FC<CartItemProps> = ({
                                 index={index}>
                                 {provided => (
                                     <div
+                                        className="flex m-2 relative"
+                                        key={index}
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
-                                        {item.pno !== null && (
-                                            <Spot
-                                                key={index}
-                                                src={item.img}
-                                                isRegister={isRegister || false}
-                                                onDelete={() =>
-                                                    onDeleteSpot && onDeleteSpot(item.pno)
-                                                }>
-                                                {item.pname}
-                                            </Spot>
-                                        )}
+                                        <div className="bg-white cursor-pointer hover relative border rounded-2xl shadow-2xl flex justify-center items-center">
+                                            {item.pno !== null && (
+                                                <Spot
+                                                    key={index}
+                                                    src={item.img}
+                                                    isRegister={isRegister || false}
+                                                    onDelete={() =>
+                                                        onDeleteSpot &&
+                                                        onDeleteSpot(item.pno)
+                                                    }>
+                                                    {item.pname}
+                                                </Spot>
+                                            )}
+                                        </div>
                                     </div>
                                 )}
                             </Draggable>

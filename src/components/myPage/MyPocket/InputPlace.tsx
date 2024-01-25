@@ -24,6 +24,8 @@ import React, {
     Ref,
     useEffect
 } from 'react'
+import {useDispatch} from 'react-redux'
+import {addLastItem} from '../../../store/slices/CourseSlice'
 
 // 컴포넌트 className 값
 type InputPlaceProps = {
@@ -31,6 +33,7 @@ type InputPlaceProps = {
     ref?: Ref<PnoName>
     getPlaceData?: (pno: number, pname: string) => void
     onClose?: () => void
+    dayIndex?: number
 }
 
 export type PnoName = {
@@ -39,7 +42,7 @@ export type PnoName = {
 }
 
 export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlaceProps>(
-    ({className, getPlaceData, onClose}, ref) => {
+    ({className, getPlaceData, onClose, dayIndex}, ref) => {
         const [searchValue, setSearchValue] = useState<string>('')
         const [selectedCategory, setSelectedCategory] = useState<string>('') // 장소 검색할때 category
         const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null) // 장소 검색 결과
@@ -56,6 +59,9 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
         const [selectedSpotCategory, setSelectedSpotCategory] = useState<string>('SIGHT') // 장소 등록할때 category
 
         const [pno, setPno] = useState<number>(0)
+
+        //day 아이템 추가
+        const dispatch = useDispatch()
 
         useImperativeHandle(ref, () => ({
             getPno: pno,
@@ -115,10 +121,18 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
         }
 
         //장소 선택 확인 함수
-        function onCheckPlace(pno: number, pname: string) {
+        function onCheckPlace(pno: number, pname: string, src: string) {
             const con = window.confirm(`${pname} 장소를 선택 하시겠습니까?`)
             if (con) {
                 getPlaceData && getPlaceData(pno, pname)
+                if (typeof dayIndex === 'number' && dayIndex >= 0) {
+                    dispatch(
+                        addLastItem({
+                            index: dayIndex,
+                            item: {pno: pno, pname: pname, img: src}
+                        })
+                    )
+                }
                 onClose && onClose()
             }
         }
@@ -139,7 +153,6 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
             try {
                 const data = await getSearchPlaceInfo(selectedCategory, searchValue)
                 setPlaceInfoData(data)
-                console.log(data)
             } catch (err) {
                 console.log(err)
                 alert('서버와 연결이 끊겼습니다.')
@@ -197,12 +210,17 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                     {placeInfoData &&
                                         placeInfoData.map((data: PlaceData, index) => (
                                             <SearchInfo
+                                                key={index}
                                                 modal={true}
                                                 placeInfoData={data}
                                                 mapClick={() => {
                                                     onMap(index)
                                                     setPno(data.pno)
-                                                    onCheckPlace(data.pno, data.name)
+                                                    onCheckPlace(
+                                                        data.pno,
+                                                        data.name,
+                                                        data.image
+                                                    )
                                                 }}
                                             />
                                         ))}

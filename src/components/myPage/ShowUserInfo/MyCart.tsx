@@ -41,7 +41,7 @@ export const MyCart: FC<MyCartProps> = ({
     const [isFolderNameModalOpen, setIsFolderNameModalOpen] = useState(false)
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editingButtonIndex, setEditingButtonIndex] = useState<number | null>(null)
-    const [isAddButtonVisible, setAddButtonVisible] = useState(true) // 추가 버튼 숨김 여부 상태
+    // const [isAddButtonVisible, setAddButtonVisible] = useState(true) // 추가 버튼 숨김 여부 상태
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
@@ -283,7 +283,7 @@ export const MyCart: FC<MyCartProps> = ({
                         folder.data.length < 7 &&
                         userMno === mno && (
                             <button
-                                className="w-20 text-xl bg-white border-black"
+                                className="px-3 text-xl bg-white border-black"
                                 onClick={openFolderNameModal}>
                                 <FontAwesomeIcon icon={faPlus} />
                             </button>
@@ -291,15 +291,16 @@ export const MyCart: FC<MyCartProps> = ({
                 </div>
             </div>
             <div
-                className={`overflow-y-scroll max-w-screen bg-gray-200 border mb-5 h-72 ${className}`}>
+                className={`overflow-y-auto max-w-screen bg-gray-200 border mb-5 h-72 ${className}`}>
                 <div className="">
                     {folder &&
                         Array.isArray(folder.data) &&
                         folder.data
                             .filter(folderInfo => folderInfo.fno === selectedFno)
-                            .map(folderInfo => (
+                            .map((folderInfo, index) => (
                                 <div key={folderInfo.fno} className="">
                                     <CartItem
+                                        key={index}
                                         items={convertFolderInfoToItem(folderInfo)}
                                         dragDisable={dragDisable}
                                         isRegister={true}
@@ -315,7 +316,7 @@ export const MyCart: FC<MyCartProps> = ({
 
             {/* 폴더 이름 지정하는 모달 */}
             {isFolderNameModalOpen && (
-                <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+                <div className="z-50 fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
                     <div className="p-4 bg-white rounded">
                         <input
                             type="text"
@@ -339,7 +340,7 @@ export const MyCart: FC<MyCartProps> = ({
 
             {/* 폴더명 변경 모달 */}
             {editModalOpen && (
-                <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+                <div className="z-50 fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
                     <div className="p-4 bg-white rounded">
                         <input
                             type="text"

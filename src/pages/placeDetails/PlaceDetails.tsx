@@ -33,7 +33,6 @@ export const PlaceDetails = () => {
                 setLoading(false)
             }
         } catch (err) {
-            alert('게시글이 없습니다!')
             console.error('Error fetching data:', err)
             setLoading(false)
         }
