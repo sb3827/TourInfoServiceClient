@@ -20,6 +20,7 @@ import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
 import {saveCourseBoardDTO} from '../../data/Board/BoardData'
+import {MyPocketModal} from './../../components/myPage/MyPocket/MyPocketModal'
 import noImage from '../../assets/smallLogo.png'
 
 type CourseRegisterProps = {
@@ -210,6 +211,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
                     ref={titleRef}></Input>
                 <div>
                     <div className="flex justify-end mb-2 ml-3">
+                        <MyPocketModal className="h-8 bg-white border" />
                         <FontAwesomeIcon
                             className="mx-2 hover:cursor-pointer"
                             icon={faMinus}

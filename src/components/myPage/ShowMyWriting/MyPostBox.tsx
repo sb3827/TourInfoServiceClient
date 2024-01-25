@@ -1,4 +1,4 @@
-import {useState, useEffect, FC} from 'react'
+import {useState, useEffect, FC, useMemo} from 'react'
 import {userBoard} from './../../../data/User/User'
 import {ShowUserBoard} from './../../../api/MyPage/ShowUserInfo'
 import {useNavigate} from 'react-router-dom'
@@ -28,10 +28,10 @@ export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
         <div>
             <table className="w-full table-auto">
                 <thead className="justify-between">
-                    <tr className="">
-                        <th className="px-20">글번호</th>
-                        <th className="px-20">제목</th>
-                        <th className="px-20">작성자</th>
+                    <tr className="border-b ">
+                        <th className="px-20 border-r ">글번호</th>
+                        <th className="px-20 border-r ">제목</th>
+                        <th className="px-20 border-r ">작성자</th>
                         <th className="px-20">작성일자</th>
                     </tr>
                 </thead>

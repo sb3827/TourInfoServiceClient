@@ -30,7 +30,7 @@ export const Spot: FC<PropsWithChildren<SpotProps>> = props => {
                     />
                 </div>
             )}
-            <img src={props.src} alt="img" />
+            <img src={props.src} alt="img" className="object-fill h-20 p-2 w-28" />
             {props.children}
         </div>
     )

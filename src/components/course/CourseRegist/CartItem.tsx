@@ -17,7 +17,7 @@ export const CartItem: FC<CartItemProps> = ({
     onDeleteSpot
 }) => {
     return (
-        <div className="flex">
+        <div className="flex flex-wrap">
             {items.map((item, index) => (
                 <Droppable droppableId="droppable" direction="horizontal" isDropDisabled>
                     {provided => (
