@@ -105,7 +105,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                     daliyPlace.map(place => ({
                         pno: place.pno,
                         pname: place.name,
-                        img: '' || noImage
+                        img: place.src
                     }))
                 )
             )
