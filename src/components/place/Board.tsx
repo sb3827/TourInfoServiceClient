@@ -4,6 +4,8 @@ import {PlaceBoardData} from '../../data/placeSearch'
 import { useNavigate } from "react-router-dom"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faStar, faHeart} from '@fortawesome/free-solid-svg-icons'
+import noImage from '../../assets/smallLogo.png'
+
 type BoardProps = {
     placeBoardData: PlaceBoardData | null
 }
@@ -14,11 +16,14 @@ export const Board: FC<BoardProps> = ({placeBoardData}) => {
 
     const imageArray = placeBoardData?.src && placeBoardData.src.length > 0 ? (
         placeBoardData.src.map((src, index) => (
-          <figure key={index}><img src={src} alt="Image" /></figure>
-        ))
-      ) : (
-        <p>이미지가 없어요!</p>
-      );
+          <div key={index} className='flex justify-center w-full h-full'>
+            <img src={src ?? noImage} alt="Image" className='rounded-lg'/>
+          </div>
+        ))) :
+        <div className='flex justify-center w-full h-full'>
+            <img src={noImage} alt="Image" className='rounded-lg'/>
+        </div>
+
 
 
       const handleReviewClick = () => {
@@ -28,9 +33,11 @@ export const Board: FC<BoardProps> = ({placeBoardData}) => {
     
 
     return (
-        <div className="mb-4 border border-gray-200 shadow-xl card lg:card-side bg-base-100 ">
+        <div className="mb-4 border border-gray-200 shadow-xl card lg:card-side bg-base-100 hover:bg-gray-300">
             <div className="w-1/2 h-72">
-                <Slider>{imageArray}</Slider>
+                <Slider>
+                    {imageArray}
+                </Slider>
             </div>
             <div className="cursor-pointer card-body" onClick={handleReviewClick}>
                         <div className="flex justify-start">

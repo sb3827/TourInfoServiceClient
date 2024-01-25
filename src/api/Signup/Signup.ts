@@ -13,14 +13,15 @@ export const duplicatedEmailCheckRequest = async (
 
 // 회원가입
 export const signupRequest = async (data: SignupData): Promise<SignupResponse> => {
-    const {email, password, birth, phone, name, role} = data
+    const {email, password, birth, phone, name, role, businessId} = data
     const response = await commonAxios.post('/auth/signup', {
         email,
         password,
         birth,
         phone,
         name,
-        role
+        role,
+        businessId: businessId || null
     })
     return response.data
 }

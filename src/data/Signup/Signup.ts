@@ -7,6 +7,7 @@ export type SignupData = {
     phone: string
     name: string
     role: string
+    businessId?: string
 }
 
 export type EmailCheckResponse = {

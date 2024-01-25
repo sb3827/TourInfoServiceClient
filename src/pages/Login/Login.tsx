@@ -17,11 +17,13 @@ import Google from '../../assets/google_btn.png'
 import Naver from '../../assets/naver_btn.png'
 import {setMno} from '../../store/slices/LoginSlice'
 import {RootState} from '../../store/rootReducer'
+import {MailResend} from '../MailResend'
 
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')
     const [userPassword, setUserPassword] = useState<string>('')
     const [loading, setLoading] = useState<Boolean>(false)
+    const [resend, setResend] = useState<Boolean>(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -92,7 +94,13 @@ export const Login = () => {
                 })
                 navigate('/')
             } catch (err) {
-                alert('로그인 실패')
+                const message = (err as any).response.data.message
+                alert(message)
+                if (message === '이메일 인증이 필요합니다.') {
+                    setResend(true)
+                } else if (message === '관리자의 승인이 필요합니다.') {
+                    navigate('/')
+                }
             }
         }
         setLoading(false)
@@ -181,6 +189,13 @@ export const Login = () => {
                     </div>
                 </section>
             </div>
+            {resend && (
+                <MailResend
+                    email={userEmail}
+                    onClick={() => {
+                        setResend(false)
+                    }}></MailResend>
+            )}
         </div>
     )
 }

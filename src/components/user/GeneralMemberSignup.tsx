@@ -1,5 +1,12 @@
 import {useState} from 'react'
-import {Title, Subtitle, DropdownSelect, Button, SignupInput} from '../../components'
+import {
+    Title,
+    Subtitle,
+    DropdownSelect,
+    Button,
+    SignupInput,
+    LoadingSppinner
+} from '../../components'
 import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
 import {useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
@@ -30,6 +37,7 @@ export const GeneralMemberSignup = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
+    const [loading, setLoading] = useState<Boolean>(false)
 
     //이메일 검증
     const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
@@ -116,6 +124,12 @@ export const GeneralMemberSignup = () => {
         ) {
             return
         }
+        const formattedPhoneNumber = `${userPhoneNumber.slice(
+            0,
+            3
+        )}-${userPhoneNumber.slice(3, 7)}-${userPhoneNumber.slice(7)}`
+
+        console.log(formattedPhoneNumber)
         if (
             validateInput('비밀번호를 입력해주세요', !userPassword) ||
             validateInput(
@@ -127,17 +141,18 @@ export const GeneralMemberSignup = () => {
             validateInput('이메일 중복 체크를 해주세요', !isEmailChecked) ||
             validateInput(
                 '올바른 전화번호 형식이 아닙니다',
-                !phone_regex.test(userPhoneNumber)
+                !phone_regex.test(formattedPhoneNumber)
             )
         ) {
             return
         }
         try {
+            setLoading(true)
             const data: SignupData = {
                 email: userEmail + selectValue,
                 password: userPassword,
                 birth: userBirthDate,
-                phone: userPhoneNumber,
+                phone: formattedPhoneNumber,
                 name: userName,
                 role: 'MEMBER'
             }
@@ -149,10 +164,12 @@ export const GeneralMemberSignup = () => {
             alert('회원가입 요청 실패')
             console.log(error)
         }
+        setLoading(false)
     }
 
     return (
         <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
+            {loading && <LoadingSppinner />}
             <div className="">
                 <Title className="my-6 text-[#609966]">여행의발견 계정 만들기</Title>
                 <Subtitle className="text-[#8EB682]">
@@ -162,7 +179,6 @@ export const GeneralMemberSignup = () => {
                     {' '}
                     DoT와 함께라면 여행은 더욱 특별해집니다.
                 </Subtitle>
-
                 <div onKeyDown={onSignupClicked}>
                     {/* 이메일 입력 창 */}
                     <div className="relative flex flex-row">
@@ -179,7 +195,7 @@ export const GeneralMemberSignup = () => {
                                     value={selectValue}
                                     className="block py-3 pl-3 pr-10 leading-tight bg-white border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline">
                                     <option value="@naver.com">@naver.com</option>
-                                    <option value="@google.com">@google.com</option>
+                                    <option value="@gmail.com">@gmail.com</option>
                                     <option value="@kako.com">@kakao.com</option>
                                 </select>
                             </div>
@@ -225,11 +241,10 @@ export const GeneralMemberSignup = () => {
                         className="mb-6"
                         value={userPhoneNumber}
                         type="phoneNumber"
-                        text="전화번호(- 포함)"
+                        text="전화번호(- 미포함)"
                         onChange={onUserPhoneNumberChange}
                     />
                 </div>
-
                 <Button
                     type="button"
                     value="가입하기"

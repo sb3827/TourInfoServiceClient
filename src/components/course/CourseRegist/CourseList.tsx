@@ -18,9 +18,6 @@ type DndProps = {
 }
 
 export const CourseList: FC<DndProps> = ({create, day}) => {
-    //이 더미 데이터는 추후에 장바구니 데이터로 바꿔야함
-    // const items = dummy
-
     const [items, setItems] = useState<Item[]>([])
 
     const onChangeItems = (item: Item[]) => {

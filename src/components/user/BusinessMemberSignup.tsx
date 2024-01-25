@@ -1,5 +1,12 @@
 import {useState} from 'react'
-import {Title, Subtitle, DropdownSelect, Button, SignupInput} from '../../components'
+import {
+    Title,
+    Subtitle,
+    DropdownSelect,
+    Button,
+    SignupInput,
+    LoadingSppinner
+} from '../../components'
 import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
 import {postBusinessCheck} from '../../api/Business/BusinessCheck'
 import {useDispatch} from 'react-redux'
@@ -32,6 +39,7 @@ export const BusinessMemberSignup = () => {
 
     const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
     const [isBussinesscodeChecked, setIsBussinesscodeChecked] = useState<Boolean>(false)
+    const [loading, setLoading] = useState<Boolean>(false)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -76,11 +84,11 @@ export const BusinessMemberSignup = () => {
 
     // 회원가입 데이터 유효성 검사
     function validateInput(message: string, condition: boolean) {
-        if (!condition) {
+        if (condition) {
             alert(message)
-            return true // 유효하지 않은 경우 true 반환
+            return true
         }
-        return false // 유효한 경우 false 반환
+        return false
     }
 
     // 이메일 중복 체크 버튼 클릭 이벤트
@@ -153,6 +161,10 @@ export const BusinessMemberSignup = () => {
         ) {
             return
         }
+        const formattedPhoneNumber = `${userPhoneNumber.slice(
+            0,
+            3
+        )}-${userPhoneNumber.slice(3, 7)}-${userPhoneNumber.slice(7)}`
 
         if (
             validateInput('비밀번호를 입력해주세요', !userPassword) ||
@@ -166,18 +178,24 @@ export const BusinessMemberSignup = () => {
             validateInput('사업자 번호를 인증 해주세요', !isBussinesscodeChecked) ||
             validateInput(
                 '올바른 전화번호 형식이 아닙니다',
-                !phone_regex.test(userPhoneNumber)
+                !phone_regex.test(formattedPhoneNumber)
             )
         ) {
             return
         }
         try {
+            setLoading(true)
+            const formattedBusinessCode = `${userBusinessCode.slice(
+                0,
+                3
+            )}-${userBusinessCode.slice(3, 5)}-${userBusinessCode.slice(5)}`
             const data: SignupData = {
                 email: userEmail + selectValue,
                 password: userPassword,
                 birth: userBirthDate,
-                phone: userPhoneNumber,
+                phone: formattedPhoneNumber,
                 name: userName,
+                businessId: formattedBusinessCode,
                 role: 'BUSINESSPERSON'
             }
             const result = await signupRequest(data)
@@ -188,10 +206,12 @@ export const BusinessMemberSignup = () => {
             alert('회원가입 요청 실패')
             console.log(error)
         }
+        setLoading(false)
     }
 
     return (
         <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
+            {loading && <LoadingSppinner />}
             <Title className="my-6 text-[#609966]">야! 먹고놀자 계정 만들기</Title>
             <Subtitle className="text-[#8EB682]">
                 야! 먹고놀자는 당신의 비즈니스를 홍보하고
@@ -216,7 +236,7 @@ export const BusinessMemberSignup = () => {
                                 value={selectValue}
                                 className="block py-3 pl-3 pr-10 leading-tight bg-white border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline">
                                 <option value="@naver.com">@naver.com</option>
-                                <option value="@google.com">@google.com</option>
+                                <option value="@gmail.com">@gmail.com</option>
                                 <option value="@kako.com">@kakao.com</option>
                             </select>
                         </div>
@@ -232,7 +252,7 @@ export const BusinessMemberSignup = () => {
                         className="flex-1 mt-6"
                         value={userBusinessCode}
                         type="text"
-                        text="사업자번호"
+                        text="사업자번호(-제외)"
                         onChange={onChangeBusinessCode}
                     />
                     <Button
@@ -277,7 +297,7 @@ export const BusinessMemberSignup = () => {
                 className="mb-6"
                 value={userPhoneNumber}
                 type="phoneNumber"
-                text="전화번호(- 포함)"
+                text="전화번호( - 미포함)"
                 onChange={onUserPhoneNumberChange}
             />
 
