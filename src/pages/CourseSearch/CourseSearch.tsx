@@ -13,10 +13,10 @@ import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
 import {CourseBoardListData} from '../../data/Board/BoardData'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useSearchParams} from 'react-router-dom'
-import {faSignsPost } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/rootReducer';
+import {faSignsPost} from '@fortawesome/free-solid-svg-icons'
+import {useNavigate} from 'react-router-dom'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../store/rootReducer'
 
 export const CourseSearch = () => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -61,52 +61,69 @@ export const CourseSearch = () => {
         onCourseList()
     }, [])
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     const user = useSelector((state: RootState) => state.login.mno)!
 
     const handleRegisterClick = () => {
-        navigate(`/board/course/posting/register`);
+        navigate(`/board/course/posting/register`)
     }
 
     return (
         <Box>
-            {loading && <LoadingSppinner />}
-            <SearchInput
-                className="flex w-3/6 mb-4"
-                value={searchValue}
-                onChange={onChangeSearch}
-                onKeyDown={onCourseList}
-            />
-            <div className='flex justify-end w-4/6 '>
-               {user && <Button onClick={handleRegisterClick} className="h-16 text-xl text-white w-36 bg-darkGreen" value={'게시글 작성'}/> } 
+            <div className="w-1/2">
+                {loading && <LoadingSppinner />}
+                <div className="flex w-full mb-5">
+                    <div className="flex w-full">
+                        <SearchInput
+                            className="w-4/5 ml-0"
+                            value={searchValue}
+                            onChange={onChangeSearch}
+                            onKeyDown={onCourseList}
+                            placeholder="코스 검색"
+                        />
+                        <Button
+                            onClick={onCourseList}
+                            className="text-white shadow-xl bg-darkGreen"
+                            value={'검색'}
+                        />
+                    </div>
+                    {user && (
+                        <Button
+                            onClick={handleRegisterClick}
+                            className="text-white shadow-xl bg-lightGreen"
+                            value={'게시글 작성'}
+                        />
+                    )}
+                </div>
+                <div className="flex justify-end w-4/6 "></div>
+                <BoardToggle>
+                    <Subtitle
+                        value="유저"
+                        className="flex flex-row-reverse items-center text-left">
+                        <FontAwesomeIcon icon={faSignsPost} className="m-1" />
+                    </Subtitle>
+                    <Subtitle
+                        value="광고"
+                        className="flex flex-row-reverse items-center text-left">
+                        <FontAwesomeIcon icon={faSignsPost} className="m-1" />
+                    </Subtitle>
+                    <BoardBox className="flex flex-col">
+                        {boardInfoData &&
+                            boardInfoData.map(
+                                (data: CourseBoardListData) =>
+                                    !data.ad && <CourseInfo boardData={data} />
+                            )}
+                    </BoardBox>
+                    <BoardBox className="flex flex-col">
+                        {boardInfoData &&
+                            boardInfoData.map(
+                                (data: CourseBoardListData) =>
+                                    data.ad && <CourseInfo boardData={data} />
+                            )}
+                    </BoardBox>
+                </BoardToggle>
             </div>
-            <BoardToggle>
-                <Subtitle
-                    value="유저"
-                    className="flex flex-row-reverse items-center text-left">
-                    <FontAwesomeIcon icon={faSignsPost} className="m-1" />
-                </Subtitle>
-                <Subtitle
-                    value="광고"
-                    className="flex flex-row-reverse items-center text-left">
-                    <FontAwesomeIcon icon={faSignsPost} className="m-1" />
-                </Subtitle>
-                <BoardBox>
-                    {boardInfoData &&
-                        boardInfoData.map(
-                            (data: CourseBoardListData) =>
-                                !data.ad && <CourseInfo boardData={data} />
-                        )}
-                </BoardBox>
-                <BoardBox>
-                    {boardInfoData &&
-                        boardInfoData.map(
-                            (data: CourseBoardListData) =>
-                                data.ad && <CourseInfo boardData={data} />
-                        )}
-                </BoardBox>
-            </BoardToggle>
         </Box>
     )
 }

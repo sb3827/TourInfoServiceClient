@@ -97,11 +97,13 @@ export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorP
 
 type TextBoxProps = {
     data: string
+    id?: string
 }
 // show content
 export const TextBox: FC<TextBoxProps> = props => {
     return (
         <CKEditor
+            id={props.id}
             editor={CustomEditor}
             disabled={true}
             data={props.data}
