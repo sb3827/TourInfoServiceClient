@@ -49,7 +49,6 @@ export const MyModifyPage = () => {
         }
     }
 
-    // //TODO - 이미지를 같이 수정할 경우는 되는데 이미지를 수정하지 않을 경우에는 오류
     // //정보 수정
     async function onUserUpdate() {
         const data = {
@@ -60,8 +59,11 @@ export const MyModifyPage = () => {
         }
         try {
             await onChangeUserData(data, file)
+            alert('회원정보를 수정하였습니다.')
+            navigate(`/mypage/${userMno}`)
         } catch (err) {
             console.log(err)
+            alert('회원정보 수정 실패')
         }
     }
 
@@ -88,6 +90,7 @@ export const MyModifyPage = () => {
             try {
                 await deleteId(userMno)
                 alert('그동안 이용해주셔서 감사합니다.')
+                navigate(`/`)
             } catch (error) {
                 console.log(error)
             }
@@ -110,7 +113,7 @@ export const MyModifyPage = () => {
                     <img
                         src={ProfileImage}
                         alt="프로필사진"
-                        className="rounded-full cursor-pointer w-60 "
+                        className="rounded-full cursor-pointer w-60"
                         onClick={() => {
                             if (fileInput.current) {
                                 fileInput.current.click()
@@ -153,11 +156,19 @@ export const MyModifyPage = () => {
                             disabled
                         />
                     </div>
+                    {User && User.fromSocial === false && (
+                        <Button
+                            value="비밀번호 변경"
+                            onClick={() => {
+                                navigate(`/mypage/modify/password`)
+                            }}
+                            className="w-28"
+                        />
+                    )}
                     <Button
-                        value="수정하기"
+                        value="수정완료"
                         onClick={() => {
                             onUserUpdate()
-                            alert('회원정보를 수정하였습니다.')
                         }}
                         className="w-28"
                     />
@@ -165,7 +176,6 @@ export const MyModifyPage = () => {
                         value="탈퇴하기"
                         onClick={e => {
                             WithdrawalId(e)
-                            navigate(`/`)
                         }}
                         className="w-28"
                     />

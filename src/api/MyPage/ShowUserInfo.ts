@@ -88,3 +88,16 @@ export const deleteId = async (mno: number): Promise<void> => {
     const response = await refreshAxios.delete(`/users/delete?mno=${mno}`)
     return response.data
 }
+
+export const changePw = async (
+    email: string,
+    oldPassword: string,
+    newPassword: string
+): Promise<void> => {
+    const response = await refreshAxios.post(`/auth/password/change`, {
+        email,
+        oldPassword,
+        newPassword
+    })
+    return response.data
+}
