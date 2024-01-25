@@ -117,6 +117,9 @@ export const CourseSlice = createSlice({
                     dayItems.splice(itemIndex, 0, item)
                 }
             }
+        },
+        setCommonState: (state, action: PayloadAction<CommonState>) => {
+            return action.payload
         }
     }
 })
@@ -129,7 +132,8 @@ export const {
     addLastItem,
     deleteItem,
     moveItem,
-    addItemAtPosition
+    addItemAtPosition,
+    setCommonState
 } = CourseSlice.actions
 
 export default CourseSlice
