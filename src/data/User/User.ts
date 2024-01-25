@@ -49,6 +49,7 @@ export type UserInfoData = {
     phone: string
     birth: Date
     role: string
+    // fromSocial: boolean
 }
 
 //사업자 회원가입 대기 정보
@@ -86,6 +87,7 @@ export type user = {
     phone: string
     birth: string | null
     role: string
+    fromSocial: boolean
 }
 
 // 사용자 프로필

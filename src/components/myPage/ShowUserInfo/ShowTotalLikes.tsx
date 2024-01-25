@@ -61,7 +61,7 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart, mno}) => {
             </button>
             {showModal ? (
                 <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-500 bg-opacity-75">
-                    <div className="w-4/5 p-8 bg-white rounded shadow-lg h-5/6">
+                    <div className="w-4/5 p-8 bg-white rounded shadow-lg h-fit">
                         <div className="flex items-center justify-between">
                             <button onClick={closeModal}>
                                 <FontAwesomeIcon

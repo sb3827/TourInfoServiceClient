@@ -30,10 +30,10 @@ export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
             <div>
                 <table className="w-full table-auto">
                     <thead className="justify-between">
-                        <tr className="">
-                            <th className="px-20">글번호</th>
-                            <th className="px-20">제목</th>
-                            <th className="px-20">내용</th>
+                        <tr className="border-b ">
+                            <th className="px-20 border-r ">글번호</th>
+                            <th className="px-20 border-r ">제목</th>
+                            <th className="px-20 border-r ">내용</th>
                             <th className="px-20">작성일자</th>
                         </tr>
                     </thead>

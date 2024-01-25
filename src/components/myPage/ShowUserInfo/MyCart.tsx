@@ -227,37 +227,32 @@ export const MyCart: FC<MyCartProps> = ({
     }
 
     return (
-        <div>
-            <div
-                className={`w-full mt-8 overflow-y-auto bg-gray-200 border h-96 ${className}`}>
-                <div className="flex justify-start w-full h-12 border">
-                    {folder &&
-                        Array.isArray(folder.data) &&
-                        folder.data
-                            .sort((a, b) => a.fno - b.fno) // fno 순서대로 정렬
-                            .map(folderInfo => (
-                                <div className="inline-block border rounded-2xl">
-                                    <button
-                                        key={folderInfo.fno}
-                                        className={`p-2 h-12 w-28 text-black ${
-                                            selectedFno === folderInfo.fno
-                                                ? 'bg-gray-400'
-                                                : 'bg-white'
-                                        }`}
-                                        onClick={() => handleButtonClick(folderInfo.fno)}>
-                                        {folderInfo.title}
-                                        {userMno === mno && (
-                                            <FontAwesomeIcon
-                                                icon={faPenToSquare}
-                                                className="ml-2 text-gray-500 cursor-pointer"
-                                                onClick={() =>
-                                                    openEditModal(folderInfo.fno)
-                                                }
-                                            />
-                                        )}
-                                    </button>
+        <div className="">
+            <div className="flex justify-start w-full overflow-x-scroll overflow-y-hidden border h-fit ">
+                {folder &&
+                    Array.isArray(folder.data) &&
+                    folder.data
+                        .sort((a, b) => a.fno - b.fno) // fno 순서대로 정렬
+                        .map(folderInfo => (
+                            <div className="inline-block w-40 border">
+                                <button
+                                    key={folderInfo.fno}
+                                    className={`p-2 h-12 w-40 text-black text-sm ${
+                                        selectedFno === folderInfo.fno
+                                            ? 'bg-gray-400'
+                                            : 'bg-white'
+                                    }`}
+                                    onClick={() => handleButtonClick(folderInfo.fno)}>
+                                    {folderInfo.title}
                                     {userMno === mno && (
-                                        <button className="w-8 h-12 ">
+                                        <FontAwesomeIcon
+                                            icon={faPenToSquare}
+                                            className="ml-2 text-gray-500 cursor-pointer"
+                                            onClick={() => openEditModal(folderInfo.fno)}
+                                        />
+                                    )}
+                                    {userMno === mno && (
+                                        <button className="h-12">
                                             <FontAwesomeIcon
                                                 icon={faTrash}
                                                 onClick={() =>
@@ -267,29 +262,30 @@ export const MyCart: FC<MyCartProps> = ({
                                             />
                                         </button>
                                     )}
-                                </div>
-                            ))}
+                                </button>
+                            </div>
+                        ))}
 
-                    {folder &&
-                        Array.isArray(folder.data) &&
-                        folder.data.length < 7 &&
-                        userMno === mno && (
-                            <button
-                                className="w-12 h-12 text-xl bg-white border-black"
-                                onClick={openFolderNameModal}>
-                                <FontAwesomeIcon icon={faPlus} />
-                            </button>
-                        )}
-                </div>
-                <div className="flex">
+                {folder &&
+                    Array.isArray(folder.data) &&
+                    folder.data.length < 7 &&
+                    userMno === mno && (
+                        <button
+                            className="w-12 h-12 text-xl bg-white border-black"
+                            onClick={openFolderNameModal}>
+                            <FontAwesomeIcon icon={faPlus} />
+                        </button>
+                    )}
+            </div>
+            <div
+                className={`overflow-y-scroll max-w-screen bg-gray-200 border mb-5 h-72 ${className}`}>
+                <div className="">
                     {folder &&
                         Array.isArray(folder.data) &&
                         folder.data
                             .filter(folderInfo => folderInfo.fno === selectedFno)
                             .map(folderInfo => (
-                                <div
-                                    key={folderInfo.fno}
-                                    className="flex flex-row w-full">
+                                <div key={folderInfo.fno} className="">
                                     <CartItem
                                         items={convertFolderInfoToItem(folderInfo)}
                                         dragDisable={dragDisable}
@@ -298,7 +294,6 @@ export const MyCart: FC<MyCartProps> = ({
                                             deleteSpot(mno, pno, folderInfo.fno)
                                         }
                                     />
-
                                     {/* {folderInfo.title && <MyPocketModal />} */}
                                 </div>
                             ))}

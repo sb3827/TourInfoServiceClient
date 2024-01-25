@@ -145,13 +145,11 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({
 
     return (
         <div>
-            {userMno === Number(mno) && (
-                <button
-                    onClick={openSpotModal}
-                    className={`w-32 h-12 text-black bg-gray-400 rounded-xl ${className}`}>
-                    스팟 추가
-                </button>
-            )}
+            <button
+                onClick={openSpotModal}
+                className={`w-32 h-12 text-black bg-gray-400 rounded-xl ${className}`}>
+                스팟 추가
+            </button>
 
             {SpotModal ? (
                 <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-500 bg-opacity-75">
