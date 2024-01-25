@@ -27,6 +27,8 @@ export const CourseList: FC<DndProps> = ({create, day}) => {
         setItems(item)
     }
 
+    const userMno = useSelector((state: RootState) => state.login.mno) || 0
+
     const dispatch = useDispatch()
 
     const onDragEnd: OnDragEndResponder = result => {
@@ -94,8 +96,8 @@ export const CourseList: FC<DndProps> = ({create, day}) => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             {/* 장바구니 데이터 */}
-            {create && <MyCart onChangeItems={onChangeItems} />}
-
+            {create && <MyCart onChangeItems={onChangeItems} mno={userMno} />}
+            {/* mno 삭제 */}
             {/* 요일 데이터 */}
             <DayItem day={day} create={create} />
         </DragDropContext>
