@@ -7,7 +7,8 @@ import {
     Subtitle,
     BoardBox,
     Button,
-    LoadingSppinner
+    LoadingSppinner,
+    LoadingSppinnerSmall
 } from '../../components/index'
 import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
 import {CourseBoardListData} from '../../data/Board/BoardData'
@@ -72,7 +73,6 @@ export const CourseSearch = () => {
     return (
         <Box>
             <div className="w-1/2">
-                {loading && <LoadingSppinner />}
                 <div className="flex w-full mb-5">
                     <div className="flex w-full">
                         <SearchInput
@@ -108,7 +108,9 @@ export const CourseSearch = () => {
                         className="flex flex-row-reverse items-center text-left">
                         <FontAwesomeIcon icon={faSignsPost} className="m-1" />
                     </Subtitle>
+
                     <BoardBox className="flex flex-col">
+                        {loading && <LoadingSppinnerSmall />}
                         {boardInfoData &&
                             boardInfoData.map(
                                 (data: CourseBoardListData) =>
@@ -116,6 +118,7 @@ export const CourseSearch = () => {
                             )}
                     </BoardBox>
                     <BoardBox className="flex flex-col">
+                        {loading && <LoadingSppinnerSmall />}
                         {boardInfoData &&
                             boardInfoData.map(
                                 (data: CourseBoardListData) =>
