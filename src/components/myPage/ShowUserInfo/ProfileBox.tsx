@@ -2,8 +2,9 @@ import {Box, UserAvatar, ShowFollowModal, ShowTotalLikes} from './../../index'
 import {Button} from './../../Button'
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {userProfile} from './../../../data/User/User'
-import {ShowUserProfile} from './../../../api/MyPage/ShowUserInfo'
+import {userProfile, userFollows} from './../../../data/User/User'
+import {ShowUserProfile, ShowUserFollowings} from './../../../api/MyPage/ShowUserInfo'
+import {postFollow, deleteFollow} from './../../../api/UserSearch/UserSearch'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 
@@ -15,6 +16,8 @@ type ProfileProps = {
 
 export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     const [userProfile, setUserProfile] = useState<userProfile | null>(null)
+    const [followState, setFollowState] = useState<boolean>()
+    const [userFollowings, setUserFollowings] = useState<userFollows>()
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
@@ -24,11 +27,25 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
         navigate('/mypage/modify')
     }
 
+    async function onFollow() {
+        await postFollow(mno, userMno)
+        setFollowState(true)
+        fetchData()
+    }
+
+    async function onUnfollow() {
+        await deleteFollow(mno, userMno)
+        setFollowState(false)
+        fetchData()
+    }
+
     const fetchData = async () => {
         try {
             const userProfileData = await ShowUserProfile(mno)
+            const userFollowingData = await ShowUserFollowings(mno)
             setUserProfile(userProfileData)
-            console.log(userProfileData)
+            setUserFollowings(userFollowingData)
+            console.log(userFollowingData)
         } catch (error) {
             console.error('에러 발생', error)
         }
@@ -56,17 +73,30 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                         follower={userProfile ? userProfile.followers.toString() : ''}
                     />
                     <br />
-                    {userMno !== 0 && (
+                    {userMno === userProfile?.mno && (
                         <ShowTotalLikes
                             mno={Number(mno)}
                             cart={userProfile ? userProfile.cart : 0}
                         />
                     )}
+
                     <br />
-                    {userMno === userProfile?.mno && (
+                    {userMno === userProfile?.mno ? (
                         <Button
                             value="정보 수정"
                             onClick={onModify}
+                            className="text-white bg-gray-400"
+                        />
+                    ) : followState === true ? (
+                        <Button
+                            value="언팔로우"
+                            onClick={onUnfollow}
+                            className="text-white bg-gray-400"
+                        />
+                    ) : (
+                        <Button
+                            value="팔로우"
+                            onClick={onFollow}
                             className="text-white bg-gray-400"
                         />
                     )}
