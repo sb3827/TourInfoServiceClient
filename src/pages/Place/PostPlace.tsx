@@ -1,20 +1,8 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
-import {
-    Title,
-    TextBox,
-    Slider,
-    PlacePostMap,
-    PlaceProps,
-    DropIcon
-} from '../../components'
+import {Title, TextBox, PlacePostMap, PlaceProps, DropIcon} from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {
-    faHeart,
-    faStar,
-    faArrowLeft,
-    faEllipsisVertical
-} from '@fortawesome/free-solid-svg-icons'
+import {faHeart, faStar, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
 import noImage from '../../assets/smallLogo.png'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
@@ -149,21 +137,17 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                     <div className="flex items-center justify-between ">
                         <Title className="my-5 text-5xl">{title}</Title>
                         <div className="flex flex-row justify-end">
-                            <div className="flex flex-col mx-2 ">
-                                <FontAwesomeIcon
-                                    icon={faStar}
-                                    size="xl"
-                                    style={{color: '#fbfe3e'}}
-                                />
+                            <div className="flex flex-col mx-2 text-sm text-gray-500">
+                                <FontAwesomeIcon icon={faStar} size="xl" color="gold" />
                                 {score}
                             </div>
-                            <div className="flex flex-col mx-2">
+                            <div className="flex flex-col mx-2 text-sm text-gray-500">
                                 {heart && (
                                     <FontAwesomeIcon
                                         className="hover:cursor-pointer"
                                         icon={faHeart}
                                         size="xl"
-                                        style={{color: '#ff3050'}}
+                                        color="red"
                                         onClick={clickHeart}
                                     />
                                 )}

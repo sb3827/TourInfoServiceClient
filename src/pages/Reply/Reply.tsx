@@ -68,7 +68,7 @@ export const Reply: FC<PropsWithChildren<ReplyProps>> = () => {
                 </div>
             )}
             <div className="flex flex-col items-center justify-center w-full ">
-                <div className="w-11/12 rounded-2xl">
+                <div className="w-full rounded-2xl">
                     {replyes &&
                         replyes.map(reply => (
                             <ParentReply

@@ -11,25 +11,22 @@ import noImage from '../../assets/smallLogo.png'
 type SearchResultProps = {
     placeInfoData: PlaceData | null
     mapClick: () => void
+    modal?: boolean
 }
 
-export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => {
+export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, modal, ...props}) => {
     const navigate = useNavigate()
-    const [modalView,setModalView]=useState<boolean>(false)
-
+    const [modalView, setModalView] = useState<boolean>(false)
 
     //모달 열기
-    const onOpenModal=()=>{
+    const onOpenModal = () => {
         setModalView(true)
     }
 
     //모달 닫기
-    const onCloseModal=()=>{
+    const onCloseModal = () => {
         setModalView(false)
     }
-
-
-    // const han
 
     const user = useSelector((state: RootState) => state.login.mno)!
 
@@ -50,45 +47,69 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, ...props}) => 
 
     return (
         <div
-            className="m-4 border cursor-pointer border-lightGreen card lg:card-side rounded-xl hover:bg-gray-300"
+            className="flex flex-col p-2 mx-3 my-8 overflow-hidden duration-150 border rounded-lg cursor-pointer border-lightGreen hover:shadow-xl"
             onClick={props.mapClick}>
-            <div className="flex justify-center w-1/2 border border-gray-200 h-72 rounded-xl ">
-                    <img src={placeInfoData.image ?? noImage} alt="Image" className='rounded-lg' />
+            <div className="relative flex justify-center w-full overflow-hidden h-36">
+                <img
+                    src={placeInfoData.image ?? noImage}
+                    alt="Image"
+                    className="flex h-full overflow-hidden duration-150 hover:scale-110"
+                />
+                {user && !modal && (
+                    <label
+                        className="absolute z-50 px-3 top-2 btn right-2"
+                        onClick={onOpenModal}>
+                        <FontAwesomeIcon icon={faCartPlus} className="text-lg " />
+                    </label>
+                )}
             </div>
-            <div className=" card-body">
-                <div className="flex justify-end">
+            <div className="flex">
+                <div>
                     {/* {user && <PlaceCartModal pno={placeInfoData.pno}/>} */}
-                    {user && 
-                    <label className="btn btn-ghost" onClick={onOpenModal}>
-                        <FontAwesomeIcon icon={faCartPlus} className="m-1 text-2xl" />
-                    </label>}
-                    {modalView && <PlaceCartModal pno={placeInfoData.pno} onCloseModal={onCloseModal}/>}
+
+                    {modalView && (
+                        <PlaceCartModal
+                            pno={placeInfoData.pno}
+                            onCloseModal={onCloseModal}
+                        />
+                    )}
                 </div>
-                <div className="flex justify-start">
-                    <h2 className="card-title">이름 : {placeInfoData.name}</h2>
-                    <h2 className="ml-4 text-gray-400 card-title">
-                        {placeInfoData.category}
-                    </h2>
-                </div>
-                <div className="flex justify-start">
-                    <h2 className="card-title">주소 : {placeInfoData.localAddress}</h2>
-                </div>
-                <div className="flex justify-start"></div>
-                <div className="flex justify-start">
-                    <h2 className="card-title">
-                        <FontAwesomeIcon icon={faCartShopping} className="m-1" /> :{' '}
-                        {placeInfoData.cart}
-                    </h2>
-                </div>
-                <div className="justify-end card-actions">
-                    <Button
-                        onClick={handleReviewClick}
-                        className="text-white bg-darkGreen"
-                        value={'보러가기'}
-                    />
+                <div className="flex flex-col items-start w-full">
+                    <div className="w-full px-3">
+                        <div className="flex justify-between w-full">
+                            <div>
+                                <p className="text-lg font-bold">{placeInfoData.name}</p>
+                            </div>
+                            <div>
+                                <p className="text-sm text-gray-500">
+                                    {placeInfoData.category}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-between w-full">
+                            <div>
+                                <p className="text-left text-gray-500">
+                                    {placeInfoData.roadAddress}
+                                </p>
+                            </div>
+                            <p className="flex">
+                                <FontAwesomeIcon icon={faCartShopping} className="mx-2" />
+                                {placeInfoData.cart}
+                            </p>
+                        </div>
+                    </div>
+                    {!modal && (
+                        <div className="flex justify-center w-full">
+                            <Button
+                                onClick={handleReviewClick}
+                                className="w-full p-0 m-0 text-white bg-darkGreen"
+                                value={'보러가기'}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
     )
 }
-

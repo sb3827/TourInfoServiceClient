@@ -274,7 +274,7 @@ export const Main: FC<MainProps> = () => {
                                                     noImage
                                                 }
                                             />
-                                            <div className="relative flex-1 basis-3/5">
+                                            <div className="relative flex-1 w-1/2">
                                                 <p className="absolute z-20 font-bold text-red-500 right-12 top-2">
                                                     1일차
                                                 </p>
