@@ -54,6 +54,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
     async function onDeleteReply() {
         const data = mno && (await deleteReply({rno: reReplyData.rno, mno}))
         alert('삭제완료')
+        setUpdateVeiw(false)
         getRereply()
     }
 
@@ -129,8 +130,16 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
                         />
                         {updateView && (
                             <>
-                                <Button value={'수정'} onClick={onUpdateReply} />
-                                <Button value={'취소'} onClick={onUpdateCancel} />
+                                <Button
+                                    value={'수정'}
+                                    className="text-white bg-blue-500"
+                                    onClick={onUpdateReply}
+                                />
+                                <Button
+                                    value={'취소'}
+                                    className="text-white bg-black"
+                                    onClick={onUpdateCancel}
+                                />
                             </>
                         )}
                     </div>

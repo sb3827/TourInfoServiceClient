@@ -61,36 +61,38 @@ export const UserSearch = () => {
     }, [])
 
     return (
-        <Box>
-            <div className="flex justify-center w-full mb-10">
-                <SearchInput
-                    placeholder="유저 검색 (이름으로 검색)"
-                    className="w-3/6"
-                    value={searchValue}
-                    onChange={onChangeSearch}
-                    onKeyDown={onUserList}
-                />
-                <Button
-                    className="text-white bg-darkGreen"
-                    value={'검색'}
-                    onClick={onUserList}
-                />
+        <div className="flex flex-col items-center justify-center w-full mt-14">
+            <div className="w-1/2 ">
+                <div className="flex justify-center w-full mb-10">
+                    <SearchInput
+                        placeholder="유저 검색 (이름으로 검색)"
+                        className="w-full"
+                        value={searchValue}
+                        onChange={onChangeSearch}
+                        onKeyDown={onUserList}
+                    />
+                    <Button
+                        className="text-white bg-darkGreen"
+                        value={'검색'}
+                        onClick={onUserList}
+                    />
+                </div>
+                <BoardBox className="relative">
+                    {loading && <LoadingSppinnerSmall />}
+                    {userInfoData ? (
+                        userInfoData.map(
+                            (data: UserSearchData, index) =>
+                                !(data.mno == user) && (
+                                    <SearchUserInfo userInfo={data} key={index} />
+                                )
+                        )
+                    ) : (
+                        <p className="flex items-center justify-center w-full h-full text-xl font-semibold">
+                            검색 결과가 존재하지 않습니다...
+                        </p>
+                    )}
+                </BoardBox>
             </div>
-            <BoardBox className="relative">
-                {loading && <LoadingSppinnerSmall />}
-                {userInfoData ? (
-                    userInfoData.map(
-                        (data: UserSearchData, index) =>
-                            !(data.mno == user) && (
-                                <SearchUserInfo userInfo={data} key={index} />
-                            )
-                    )
-                ) : (
-                    <p className="flex items-center justify-center w-full h-full text-xl font-semibold">
-                        검색 결과가 존재하지 않습니다...
-                    </p>
-                )}
-            </BoardBox>
-        </Box>
+        </div>
     )
 }

@@ -1,14 +1,15 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
+import {faPlus} from '@fortawesome/free-solid-svg-icons'
 import {
     Button,
-    Box,
     SearchInput,
     SearchInfo,
     SearchMap,
     ChooseMap,
     Input,
-    SearchMapRef
+    SearchMapRef,
+    Title,
+    Modal
 } from './../../index'
 import {PlaceData} from './../../../data/placeSearch'
 import {registerPlace} from './../../../api/index'
@@ -20,21 +21,25 @@ import React, {
     useRef,
     forwardRef,
     useImperativeHandle,
-    Ref
+    Ref,
+    useEffect
 } from 'react'
 
 // 컴포넌트 className 값
 type InputPlaceProps = {
     className?: string
-    ref?: Ref<PnoRef>
+    ref?: Ref<PnoName>
+    getPlaceData?: (pno: number, pname: string) => void
+    onClose?: () => void
 }
 
-export type PnoRef = {
+export type PnoName = {
     getPno: number
+    getPname?: string
 }
 
-export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoRef, InputPlaceProps>(
-    ({className}, ref) => {
+export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlaceProps>(
+    ({className, getPlaceData, onClose}, ref) => {
         const [searchValue, setSearchValue] = useState<string>('')
         const [selectedCategory, setSelectedCategory] = useState<string>('') // 장소 검색할때 category
         const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null) // 장소 검색 결과
@@ -53,7 +58,8 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoRef, InputPlaceProp
         const [pno, setPno] = useState<number>(0)
 
         useImperativeHandle(ref, () => ({
-            getPno: pno
+            getPno: pno,
+            getPname: ''
         }))
 
         // 장소 등록 모달
@@ -108,6 +114,15 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoRef, InputPlaceProp
             setSelectedSpotCategory(e.target.value)
         }
 
+        //장소 선택 확인 함수
+        function onCheckPlace(pno: number, pname: string) {
+            const con = window.confirm(`${pname} 장소를 선택 하시겠습니까?`)
+            if (con) {
+                getPlaceData && getPlaceData(pno, pname)
+                onClose && onClose()
+            }
+        }
+
         async function onPlaceList(
             e?:
                 | React.KeyboardEvent<HTMLInputElement>
@@ -131,12 +146,17 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoRef, InputPlaceProp
             }
         }
 
+        useEffect(() => {
+            onPlaceList()
+        }, [RegisterSpotModal])
+
         return (
             <div className={className}>
-                <div className="w-full h-screen p-8 bg-white border rounded">
+                <div className="w-full h-screen p-5 bg-white ">
+                    <Title className="py-5">장소 선택</Title>
                     <div className="flex justify-center">
                         <select
-                            className="w-20 border border-gray-300 rounded-xl"
+                            className="px-3 border-2 border-lightGreen rounded-xl"
                             value={selectedCategory}
                             onChange={handleCategoryChange}>
                             <option value="">전체</option>
@@ -146,7 +166,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoRef, InputPlaceProp
                             <option value="ETC">기타</option>
                         </select>
                         <SearchInput
-                            className="w-2/5 ml-1"
+                            className="w-full ml-1"
                             value={searchValue}
                             onChange={onChangeSearch}
                             onKeyDown={onPlaceList}
@@ -160,88 +180,87 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoRef, InputPlaceProp
 
                         {/* 장소 등록하기 버튼 -> 모달창 */}
                     </div>
-                    <Box className="w-4/5 overflow-hidden bg-white h-4/5">
+                    <div className="flex items-center justify-end w-full py-3">
+                        <div
+                            className="flex items-center hover:cursor-pointer"
+                            onClick={openRegisterSpotModal}>
+                            <p className="mr-1">장소 추가</p>
+                            <FontAwesomeIcon icon={faPlus} />
+                        </div>
+                    </div>
+                    <div className="flex flex-col items-center justify-center w-full overflow-hidden h-4/5">
                         <div className="flex justify-center w-full h-full ">
                             <div className="flex w-full h-full ">
                                 {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}
-                                <div className="w-1/3 mr-2 overflow-y-auto border rounded-lg border--300">
+                                <div className="w-1/3 mr-2 overflow-y-auto">
                                     {/* 검색 결과를 보여줄 컴포넌트 */}
                                     {placeInfoData &&
                                         placeInfoData.map((data: PlaceData, index) => (
                                             <SearchInfo
+                                                modal={true}
                                                 placeInfoData={data}
                                                 mapClick={() => {
                                                     onMap(index)
                                                     setPno(data.pno)
+                                                    onCheckPlace(data.pno, data.name)
                                                 }}
                                             />
                                         ))}
 
                                     {/* 클릭시 장소등록 모달 열림, 장소등록 버튼 (수정하셔도 됩니다) */}
-                                    <button
-                                        onClick={openRegisterSpotModal}
-                                        className="flex justify-center w-full h-40 mt-8 hover:cursor-pointer">
-                                        <FontAwesomeIcon
-                                            icon={faPlus}
-                                            className="w-20 h-40"
-                                        />
-                                    </button>
                                 </div>
 
                                 {/* 장소등록 모달 */}
                                 <div>
                                     {RegisterSpotModal ? (
-                                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75">
-                                            <div className="w-4/5 p-8 bg-white rounded shadow-lg h-6/7">
+                                        <Modal isOpen onClose={closeRegisterSpotModal}>
+                                            <div className="w-full h-full p-8">
                                                 <div className="flex bg-white">
-                                                    <div className="flex justify-between w-full mb-8 ">
-                                                        <button
-                                                            className="mr-12"
-                                                            onClick={
-                                                                closeRegisterSpotModal
-                                                            }>
-                                                            <FontAwesomeIcon
-                                                                icon={faArrowLeft}
-                                                                className="w-12 h-12 cursor-pointer "
-                                                            />
-                                                        </button>
-                                                        <span className="w-24 mr-4 text-3xl">
-                                                            주소
-                                                        </span>
-                                                        <Input
-                                                            className="w-1/2 h-12 mr-8"
-                                                            value={placeLocal}
-                                                        />
-                                                        <span className="w-48 mr-4 text-3xl">
-                                                            장소 제목
-                                                        </span>
-                                                        <Input
-                                                            className="w-1/3 mr-8"
-                                                            onChange={onChangePlaceName}
-                                                        />
-                                                        <select
-                                                            className="w-20 border border-gray-300 rounded-xl"
-                                                            value={selectedSpotCategory}
-                                                            onChange={
-                                                                handleSpotCategoryChange
-                                                            }>
-                                                            <option value="SIGHT">
-                                                                관광지
-                                                            </option>
-                                                            <option value="RESTAURANT">
-                                                                음식점
-                                                            </option>
-                                                            <option value="LODGMENT">
-                                                                숙소
-                                                            </option>
-                                                            <option value="ETC">
-                                                                기타
-                                                            </option>
-                                                        </select>
+                                                    <div className="flex items-center justify-between w-full mb-3 ">
+                                                        {/* <div className="flex items-center">
+                                                            <span className="w-24 ">
+                                                                주소
+                                                            </span>
+                                                            <p className="w-full">
+                                                                {placeLocal}
+                                                            </p>
+                                                        </div> */}
+                                                        <div className="flex items-center w-full h-full">
+                                                            <select
+                                                                className="py-3 border-2 border-darkGreen rounded-xl"
+                                                                value={
+                                                                    selectedSpotCategory
+                                                                }
+                                                                onChange={
+                                                                    handleSpotCategoryChange
+                                                                }>
+                                                                <option value="SIGHT">
+                                                                    관광지
+                                                                </option>
+                                                                <option value="RESTAURANT">
+                                                                    음식점
+                                                                </option>
+                                                                <option value="LODGMENT">
+                                                                    숙소
+                                                                </option>
+                                                                <option value="ETC">
+                                                                    기타
+                                                                </option>
+                                                            </select>
+                                                            <div className="flex items-center ml-5">
+                                                                <Input
+                                                                    className="w-full border-2 border-darkGreen focus:border-darkGreen"
+                                                                    placeholder="장소명 입력해주세요"
+                                                                    onChange={
+                                                                        onChangePlaceName
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        </div>
 
                                                         <Button
                                                             value="등록하기"
-                                                            className="h-12 ml-4"
+                                                            className="text-white bg-darkGreen"
                                                             onClick={() => {
                                                                 onRegisterPlace()
                                                                 closeRegisterSpotModal()
@@ -261,7 +280,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoRef, InputPlaceProp
                                                     />
                                                 </div>
                                             </div>
-                                        </div>
+                                        </Modal>
                                     ) : null}
                                 </div>
                                 <div className="w-4/6 border border-gray-300 rounded-lg">
@@ -282,7 +301,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoRef, InputPlaceProp
                                 </div>
                             </div>
                         </div>
-                    </Box>
+                    </div>
                 </div>
             </div>
         )
