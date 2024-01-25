@@ -1,10 +1,11 @@
 import {user} from './../../data/User/User'
 import {useState, useEffect, useRef, ChangeEvent} from 'react'
-import {ShowUserInfo, onChangeUserData} from './../../api/MyPage/ShowUserInfo'
+import {ShowUserInfo, onChangeUserData, deleteId} from './../../api/MyPage/ShowUserInfo'
 import {Button} from './../../components/Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {Input} from './../../components/index'
+import {useNavigate} from 'react-router-dom'
 
 //TODO 수정하기 버튼 클릭 시 다시 마이페이지로 이동, margin/padding 조정, 이미지 업로드 수정
 
@@ -17,6 +18,8 @@ export const MyModifyPage = () => {
     const fileInput = useRef<HTMLInputElement | null>(null)
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
+
+    const navigate = useNavigate()
 
     const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
         setUserName(e.target.value)
@@ -77,6 +80,19 @@ export const MyModifyPage = () => {
     useEffect(() => {
         fetchData()
     }, [])
+
+    // 회원탈퇴
+    const WithdrawalId = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault()
+        if (window.confirm('탈퇴하시겠습니까?')) {
+            try {
+                await deleteId(userMno)
+                alert('그동안 이용해주셔서 감사합니다.')
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
 
     return (
         <div className="flex items-center justify-center h-full ">
@@ -146,9 +162,10 @@ export const MyModifyPage = () => {
                         className="w-28"
                     />
                     <Button
-                        value="취소"
-                        onClick={() => {
-                            // 다시 마이페이지로 이동
+                        value="탈퇴하기"
+                        onClick={e => {
+                            WithdrawalId(e)
+                            navigate(`/`)
                         }}
                         className="w-28"
                     />

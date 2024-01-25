@@ -263,7 +263,7 @@ export const Main: FC<MainProps> = () => {
                                 <SwiperSlide key={index}>
                                     <div className="flex justify-around p-2">
                                         <div
-                                            className="flex w-10/12 overflow-hidden duration-150 border-2 rounded-3xl hover:shadow-2xl"
+                                            className="flex w-10/12 overflow-hidden duration-150 border-2 rounded-3xl hover:shadow-2xl h-96"
                                             onClick={() =>
                                                 mostLikedCourseDetailView(index)
                                             }>
@@ -274,10 +274,15 @@ export const Main: FC<MainProps> = () => {
                                                     noImage
                                                 }
                                             />
-                                            <CoursePostMap
-                                                className="flex-1"
-                                                places={course.placeList}
-                                            />
+                                            <div className="relative flex-1 basis-3/5">
+                                                <p className="absolute z-20 font-bold text-red-500 right-12 top-2">
+                                                    1일차
+                                                </p>
+                                                <CoursePostMap
+                                                    className="z-10"
+                                                    places={course.placeList}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </SwiperSlide>

@@ -34,7 +34,7 @@ export const SimpleMap: FC<SimpleMapProps> = ({className, mno}) => {
     }
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [mno])
 
     const placeCountData = [
         {locale: '부산광역시', count: placeCount?.busan ?? '0'},

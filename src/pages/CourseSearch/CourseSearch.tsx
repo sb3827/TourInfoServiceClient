@@ -6,7 +6,8 @@ import {
     BoardToggle,
     Subtitle,
     BoardBox,
-    Button
+    Button,
+    LoadingSppinner
 } from '../../components/index'
 import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
 import {CourseBoardListData} from '../../data/Board/BoardData'
@@ -20,6 +21,7 @@ import { RootState } from '../../store/rootReducer';
 export const CourseSearch = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const initialSearch = searchParams.get('search') || ''
+    const [loading, setLoading] = useState<Boolean>(false)
 
     //검색 값
     const [searchValue, setSearchValue] = useState<string>(initialSearch)
@@ -44,12 +46,15 @@ export const CourseSearch = () => {
         }
 
         try {
+            setLoading(true)
             setSearchParams({search: searchValue})
             const data = await getSearchCourseInfo(searchValue)
             setBoardInfoData(data)
             console.log(data)
+            setLoading(false)
         } catch (err) {
-            console.log(err)
+            console.error('Error fetching data:', err)
+            setLoading(false)
         }
     }
     useEffect(() => {
@@ -66,6 +71,7 @@ export const CourseSearch = () => {
 
     return (
         <Box>
+            {loading && <LoadingSppinner />}
             <SearchInput
                 className="flex w-3/6 mb-4"
                 value={searchValue}

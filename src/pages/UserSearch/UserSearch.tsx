@@ -1,11 +1,11 @@
-import {FC, PropsWithChildren, useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {
     Box,
     SearchInput,
     Button,
     SearchUserInfo,
     BoardBox,
-    LoadingSppinner
+    LoadingSppinnerSmall
 } from '../../components/index'
 import {UserSearchData} from '../../data/User/User'
 import {getSearchUserInfo} from '../../api/UserSearch/UserSearch'
@@ -62,7 +62,6 @@ export const UserSearch = () => {
 
     return (
         <Box>
-            {loading && <LoadingSppinner />}
             <div className="flex justify-center w-full mb-10">
                 <SearchInput
                     placeholder="유저 검색 (이름으로 검색)"
@@ -77,7 +76,8 @@ export const UserSearch = () => {
                     onClick={onUserList}
                 />
             </div>
-            <BoardBox>
+            <BoardBox className="relative">
+                {loading && <LoadingSppinnerSmall />}
                 {userInfoData ? (
                     userInfoData.map(
                         (data: UserSearchData, index) =>

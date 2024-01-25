@@ -23,7 +23,7 @@ export const MyCourseBox: FC<MyCourseBoxProps> = ({mno}) => {
             }
         }
         fetchData()
-    }, [])
+    }, [mno])
 
     return (
         <div>

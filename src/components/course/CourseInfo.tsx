@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { CourseBoardListData } from "../../data/Board/BoardData";
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import noImage from '../../assets/smallLogo.png'
 
 type CourseInfoProps = {
     boardData : CourseBoardListData | null
@@ -14,13 +15,12 @@ export const CourseInfo: FC<CourseInfoProps> = ({boardData}) => {
 
     const navigate = useNavigate();
 
-    const imageArray = boardData?.srcList && boardData.srcList.length > 0 ? (
+    const imageArray = boardData?.srcList && boardData.srcList.length > 0 && (
         boardData.srcList.map((src, index) => (
-            <figure key={index}><img src={src} alt="Image" /></figure>
-            ))
-            ) : (
-              <p>이미지가 없어요!</p>
-            );
+            <div key={index} className='flex justify-center w-full h-full'>
+                <img src={src ?? noImage} alt="Image" className='rounded-lg' />
+            </div>
+            )))
 
             const handleReviewClick = () => {
                 navigate(`/board/course/posting?bno=${boardData?.bno}`)
@@ -29,7 +29,7 @@ export const CourseInfo: FC<CourseInfoProps> = ({boardData}) => {
             
     return (
         <div className="w-full my-4 shadow-xl cursor-pointer card bg-base-100 border-lightGreen hover:bg-gray-300" onClick={handleReviewClick}>
-            <div className='h-80'>
+            <div className='w-full h-80'>
             <Slider>{imageArray}</Slider>
             </div >
             <div className="flex items-center justify-between w-full h-full card-body " >
