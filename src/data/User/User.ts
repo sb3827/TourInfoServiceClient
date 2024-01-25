@@ -13,6 +13,7 @@ export type LoginResponseData = {
             refreshToken: string
         }
         mno: number
+        message: string
     }
 }
 
