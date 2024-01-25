@@ -4,7 +4,7 @@ import {RootState} from '../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 import {addItemAtPosition, moveItem} from '../../../store/slices/CourseSlice'
 import {useDispatch} from 'react-redux'
-import {CartItem, DayItem, MyCart} from '../../index'
+import {DayItem, MyCart} from '../../index'
 
 export type Item = {
     pno: number
