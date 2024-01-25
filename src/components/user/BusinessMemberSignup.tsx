@@ -44,6 +44,12 @@ export const BusinessMemberSignup = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const [customDomain, setCustomDomain] = useState<string>('@');
+
+    const onChangeCustomDomain = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setCustomDomain(e.target.value);
+      };
+
     //이메일 검증
     const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
     const phone_regex = /^010-([0-9]{3,4})-([0-9]{4})$/
@@ -102,13 +108,13 @@ export const BusinessMemberSignup = () => {
             alert('이메일을 입력하세요')
             return
         }
-        if (!email_regex.test(userEmail + selectValue)) {
+        if (!email_regex.test(userEmail + (selectValue == 'custom' ? customDomain : selectValue ))) {
             alert('이메일 형식이 아닙니다.')
             return
         }
         try {
-            const data = await duplicatedEmailCheckRequest(userEmail + selectValue)
-            dispatch(setEmail(userEmail + selectValue))
+            const data = await duplicatedEmailCheckRequest(userEmail + (selectValue == 'custom' ? customDomain : selectValue ))
+            dispatch(setEmail(userEmail + (selectValue == 'custom' ? customDomain : selectValue )))
 
             alert(
                 data.isDuplicate ? '이미 가입된 이메일입니다' : '사용 가능한 이메일입니다'
@@ -141,6 +147,7 @@ export const BusinessMemberSignup = () => {
             ) {
                 alert('사업자 인증 성공')
                 setIsBussinesscodeChecked(true)
+                
             } else {
                 alert('국세청에 등록되지 않은 사업자등록번호입니다.')
             }
@@ -182,7 +189,7 @@ export const BusinessMemberSignup = () => {
             )
         ) {
             return
-        }
+        } else {
         try {
             setLoading(true)
             const formattedBusinessCode = `${userBusinessCode.slice(
@@ -190,23 +197,32 @@ export const BusinessMemberSignup = () => {
                 3
             )}-${userBusinessCode.slice(3, 5)}-${userBusinessCode.slice(5)}`
             const data: SignupData = {
-                email: userEmail + selectValue,
+                email: userEmail + (selectValue == 'custom' ? customDomain : selectValue ),
                 password: userPassword,
                 birth: userBirthDate,
                 phone: formattedPhoneNumber,
                 name: userName,
                 businessId: formattedBusinessCode,
                 role: 'BUSINESSPERSON'
+            }     
+            if (
+                email_regex.test(userEmail + (selectValue == 'custom' ? customDomain : selectValue ))
+                ) {
+                const result = await signupRequest(data)
+                dispatch(setEmail(userEmail + (selectValue == 'custom' ? customDomain : selectValue )))
+                alert('회원가입성공! 이메일 인증을 진행해주세요')
+                navigate('/login')
             }
-            const result = await signupRequest(data)
-            dispatch(setEmail(userEmail + selectValue))
-            alert('회원가입성공! 이메일 인증을 진행해주세요')
-            navigate('/login')
+            else {
+                alert('이메일을 확인하세요')
+                setIsEmailChecked(false)
+            }
         } catch (error) {
             alert('회원가입 요청 실패')
             console.log(error)
         }
         setLoading(false)
+    }
     }
 
     return (
@@ -238,7 +254,17 @@ export const BusinessMemberSignup = () => {
                                 <option value="@naver.com">@naver.com</option>
                                 <option value="@gmail.com">@gmail.com</option>
                                 <option value="@kako.com">@kakao.com</option>
+                                <option value="custom">직접 입력</option>
                             </select>
+                            {selectValue === 'custom' && (
+                                    <input
+                                    type="text"
+                                    value={customDomain}
+                                    onChange={onChangeCustomDomain}
+                                    placeholder="Enter custom domain"
+                                    className="block p-2 mt-1 leading-tight bg-white border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline"
+                                  />
+                                )}
                         </div>
                     </DropdownSelect>
                     <Button
@@ -249,7 +275,7 @@ export const BusinessMemberSignup = () => {
                 {/* 사업자 번호 입력 창 */}
                 <div className="flex flex-row ">
                     <SignupInput
-                        className="flex-1 mt-6"
+                        className={`flex-1 mt-6 ${isBussinesscodeChecked ? 'pointer-events-none' : ''}`}
                         value={userBusinessCode}
                         type="text"
                         text="사업자번호(-제외)"
