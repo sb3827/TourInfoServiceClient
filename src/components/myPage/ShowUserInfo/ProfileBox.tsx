@@ -1,4 +1,4 @@
-import {Box, UserAvatar, ShowFollowModal, ShowTotalLikes} from './../../index'
+import {Box, UserAvatar, ShowFollowModal, ShowTotalLikes, Title} from './../../index'
 import {Button} from './../../Button'
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
@@ -58,48 +58,55 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     return (
         <div>
             <div>
-                <Box className=" rounded-3xl">
-                    <h1 className="mb-4 text-3xl text-black">My Profile</h1>
-                    <img
-                        src={userProfile ? userProfile.image : ''}
-                        alt="프로필이미지"
-                        className="w-48 h-48 rounded-full "
-                    />
-                    <br />
-                    <h1 className="text-3xl ">{userProfile ? userProfile.name : ''}</h1>
-                    <br />
-                    <ShowFollowModal
-                        following={userProfile ? userProfile.followings.toString() : ''}
-                        follower={userProfile ? userProfile.followers.toString() : ''}
-                    />
-                    <br />
-                    {userMno === userProfile?.mno && (
-                        <ShowTotalLikes
-                            mno={Number(mno)}
-                            cart={userProfile ? userProfile.cart : 0}
+                <Box>
+                    <div className="flex flex-col items-center justify-between h-full">
+                        <Title className="text-2xl text-black mb-9 ">My Profile</Title>
+                        <div className="w-32 h-32 overflow-hidden rounded-full">
+                            <img
+                                src={userProfile ? userProfile.image : ''}
+                                alt="프로필이미지"
+                            />
+                        </div>
+                        <br />
+                        <h1 className="text-xl font-semibold">
+                            {userProfile ? userProfile.name : ''}
+                        </h1>
+                        <br />
+                        <ShowFollowModal
+                            following={
+                                userProfile ? userProfile.followings.toString() : ''
+                            }
+                            follower={userProfile ? userProfile.followers.toString() : ''}
                         />
-                    )}
+                        <br />
+                        {userMno === userProfile?.mno && (
+                            <ShowTotalLikes
+                                mno={Number(mno)}
+                                cart={userProfile ? userProfile.cart : 0}
+                            />
+                        )}
 
-                    <br />
-                    {userMno === userProfile?.mno ? (
-                        <Button
-                            value="정보 수정"
-                            onClick={onModify}
-                            className="text-white bg-gray-400"
-                        />
-                    ) : followState === true ? (
-                        <Button
-                            value="언팔로우"
-                            onClick={onUnfollow}
-                            className="text-white bg-gray-400"
-                        />
-                    ) : (
-                        <Button
-                            value="팔로우"
-                            onClick={onFollow}
-                            className="text-white bg-gray-400"
-                        />
-                    )}
+                        <br />
+                        {userMno === userProfile?.mno ? (
+                            <Button
+                                value="정보 수정"
+                                onClick={onModify}
+                                className="text-white bg-lightGreen"
+                            />
+                        ) : followState === true ? (
+                            <Button
+                                value="언팔로우"
+                                onClick={onUnfollow}
+                                className="text-white bg-red-500"
+                            />
+                        ) : (
+                            <Button
+                                value="팔로우"
+                                onClick={onFollow}
+                                className="text-white bg-blue-500"
+                            />
+                        )}
+                    </div>
                 </Box>
             </div>
         </div>

@@ -34,35 +34,40 @@ export const MyFollowingBox: FC<MyFollowingBoxProps> = ({mno, closeModal}) => {
     //TODO 프로필 이미지 없을 경우 이미지 변경, 클릭시 클릭한 사람의 프로필 조회
     return (
         <div>
-            <div className="flex-row w-full pt-4 overflow-y-auto border-2 h-96 rounded-tr-3xl rounded-bl-3xl">
-                <Subtitle value="팔로잉" className="flex justify-center pb-4"></Subtitle>
-                {Array.isArray(userFollowings) &&
-                    userFollowings.map((followings: userFollows) => (
-                        <div className="flex w-full h-20 border">
-                            <div>
-                                <img
-                                    src={
-                                        followings.image ? followings.image : profileImage
-                                    }
-                                    alt="프로필 사진"
-                                    className="w-20 h-20 cursor-pointer"
+            <div className="flex-row w-full pt-4 overflow-y-auto border-2 shadow-xl h-96 rounded-tr-3xl rounded-bl-3xl">
+                <Subtitle
+                    value="팔로잉"
+                    className="flex justify-center pb-4 mb-2 border-b"></Subtitle>
+                <div className="p-3">
+                    {Array.isArray(userFollowings) &&
+                        userFollowings.map((followings: userFollows) => (
+                            <div className="flex w-full h-20 p-3 mb-3 border shadow-xl rounded-xl">
+                                <div className="overflow-hidden rounded-full">
+                                    <img
+                                        src={
+                                            followings.image
+                                                ? followings.image
+                                                : profileImage
+                                        }
+                                        alt="프로필 사진"
+                                        className="cursor-pointer w-14 h-14"
+                                        onClick={() => {
+                                            navigate(`/mypage/${followings.mno}`)
+                                            closeModal()
+                                        }}
+                                    />
+                                </div>
+                                <span
+                                    className="flex items-center ml-8 cursor-pointer hover:underline"
                                     onClick={() => {
                                         navigate(`/mypage/${followings.mno}`)
                                         closeModal()
-                                    }}
-                                />
+                                    }}>
+                                    {followings.name}
+                                </span>
                             </div>
-                            <span
-                                className="flex items-center ml-8 cursor-pointer hover:underline"
-                                onClick={() => {
-                                    navigate(`/mypage/${followings.mno}`)
-                                    closeModal()
-                                }}>
-                                {followings.name}
-                            </span>
-                            <button></button>
-                        </div>
-                    ))}
+                        ))}
+                </div>
             </div>
         </div>
     )
