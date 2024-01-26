@@ -1,9 +1,10 @@
 import {
-    faCartPlus,
     faPlus,
     faPen,
     faMinus,
-    faCheck
+    faCheck,
+    faX,
+    faFile
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {FC, useEffect, useState} from 'react'
@@ -21,19 +22,19 @@ import {
     registerFolderData,
     updateFolderData
 } from '../../../data/Folder/Folder'
-import { useDispatch } from 'react-redux'
-import { Modal } from '../../Modal'
+import {Modal} from '../../Modal'
 
 type Pno = {
     pno: number
-    onCloseModal:()=>void
+    onCloseModal: () => void
 }
 
-export const PlaceCartModal: FC<Pno> = ({pno,onCloseModal}) => {
+export const PlaceCartModal: FC<Pno> = ({pno, onCloseModal}) => {
     const user = useSelector((state: RootState) => state.login.mno)!
 
     const [folderData, setFolderData] = useState<folderAll | null>(null)
     const [folderTitle, setFolderTitle] = useState<string>('')
+    const [foldersTitle, setFoldersTitles] = useState<string[]>([])
     const [refreshFlag, setRefreshFlag] = useState<boolean>(false)
     const [editingFolder, setEditingFolder] = useState<number>(0)
 
@@ -48,14 +49,12 @@ export const PlaceCartModal: FC<Pno> = ({pno,onCloseModal}) => {
         title: folderTitle
     }
 
-
-
     const selectFolder = (fno: number) => {
         setEditingFolder(fno)
     }
 
-    const confirmUpdate = () => {
-        folderUpdate()
+    const confirmUpdate = (index: number) => {
+        folderUpdate(index)
         setEditingFolder(0)
     }
 
@@ -63,6 +62,7 @@ export const PlaceCartModal: FC<Pno> = ({pno,onCloseModal}) => {
         try {
             const data = await ShowFolderAll(user)
             setFolderData(data)
+            setFoldersTitles(data.data.map(item => item.title))
             console.log(data)
         } catch (err) {
             console.error(err)
@@ -78,15 +78,22 @@ export const PlaceCartModal: FC<Pno> = ({pno,onCloseModal}) => {
         }
     }
 
-    async function folderUpdate() {
+    //폴더 업데이트
+    async function folderUpdate(index: number) {
         try {
-            const data3 = await updateFolder(updateFolderData)
+            const data3 = await updateFolder({
+                fno: editingFolder,
+                mno: user,
+                title: foldersTitle[index]
+            })
+            alert('폴더명 변경 완료')
             setRefreshFlag(!refreshFlag) // 상태 변경 부분
         } catch (error) {
             console.log(error)
         }
     }
 
+    //폴더 삭제
     async function folderDelete(fno: number) {
         try {
             const data4 = await deleteFolder(fno)
@@ -96,6 +103,7 @@ export const PlaceCartModal: FC<Pno> = ({pno,onCloseModal}) => {
         }
     }
 
+    //폴더 선택
     async function folderSelect(fno: number) {
         try {
             const data4 = await appendCart({
@@ -104,81 +112,139 @@ export const PlaceCartModal: FC<Pno> = ({pno,onCloseModal}) => {
                 pno: pno
             })
             alert('등록되었습니다.')
+            onCloseModal()
             setRefreshFlag(!refreshFlag) // 상태 변경 부분
         } catch (error) {
             console.log(error)
         }
     }
 
+    //폴더명 변경
+    function onChangeFolder(index: number, title: string) {
+        const folder = [...foldersTitle]
+        folder[index] = title
+        setFoldersTitles(folder)
+    }
+
     useEffect(() => {
         fetchData()
     }, [refreshFlag])
 
-
     return (
         // FIX ReportModal 명 수정예정
-        <Modal onClose={onCloseModal} isOpen>
-                    <h3 className="text-4xl">모든 장바구니</h3>
-                    <h3 className="text-xl">
-                        어느 바구니에 넣을지 선택하세요!
-                        {folderData && (
-                            <label className="btn btn-ghost" onClick={folderRegister}>
-                                <FontAwesomeIcon icon={faPlus} className="m-1 text-xl" />
-                            </label>
-                        )}
-                    </h3>
+        <Modal className="cursor-default" onClose={onCloseModal} isOpen>
+            <div className="flex justify-center w-full">
+                <div className="flex flex-col items-center justify-center w-1/2">
+                    <h3 className="my-3 text-3xl">모든 장바구니</h3>
+                    <div className="mb-3">
+                        <h3 className="flex items-center justify-center text-xl text-center">
+                            어느 바구니에 넣을지 선택하세요!
+                            {folderData && (
+                                <FontAwesomeIcon
+                                    onClick={folderRegister}
+                                    icon={faPlus}
+                                    className="mx-2 text-xl cursor-pointer"
+                                />
+                            )}
+                        </h3>
+                    </div>
 
-                    {folderData?.data.map(folder => (
-                        <div className="w-full h-16 border-2 rounded-lg" key={folder.fno}>
-                            <div>
+                    {folderData?.data.map((folder, index) => (
+                        <div
+                            className="my-2 shadow-xl flex relative justify-center items-center  border-2 rounded-xl min-h-[60px] min-w-[400px] max-w-[400px] border-lightGreen hover:bg-lime-50 duration-150"
+                            key={index}>
+                            <div className="w-full">
                                 {editingFolder === folder.fno ? (
-                                    <>
+                                    <div className="flex items-center justify-center ">
                                         <input
-                                            className="w-64 mt-2 mr-2 text-2xl input input-bordered"
-                                            placeholder="Type here"
+                                            className="px-3 border-b border-darkGreen"
                                             type="text"
-                                            value={folderTitle}
-                                            onChange={e => setFolderTitle(e.target.value)}
+                                            value={foldersTitle[index]}
+                                            onChange={e =>
+                                                onChangeFolder(index, e.target.value)
+                                            }
                                         />
-                                        <label
-                                            className="btn btn-ghost"
-                                            onClick={confirmUpdate}>
-                                            <FontAwesomeIcon
-                                                icon={faCheck}
-                                                className="text-lg"
-                                            />
-                                        </label>
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="text-2xl ">
-                                            <label
-                                                className="text-2xl btn btn-ghost "
-                                                onClick={() => folderSelect(folder.fno)}>
-                                                {folder.title}
-                                            </label>
-                                            <label
-                                                className="btn btn-ghost"
-                                                onClick={() => selectFolder(folder.fno)}>
+                                        <div className="absolute right-5">
+                                            <label>
                                                 <FontAwesomeIcon
-                                                    icon={faPen}
-                                                    className="text-lg"
+                                                    size="sm"
+                                                    className="mx-3 cursor-pointer"
+                                                    icon={faCheck}
+                                                    onClick={() => confirmUpdate(index)}
                                                 />
                                             </label>
-                                            <label
-                                                className="btn btn-ghost "
-                                                onClick={() => folderDelete(folder.fno)}>
+                                            <label>
                                                 <FontAwesomeIcon
-                                                    icon={faMinus}
-                                                    className="text-lg"
+                                                    size="sm"
+                                                    className="cursor-pointer"
+                                                    onClick={() => setEditingFolder(0)}
+                                                    icon={faX}
                                                 />
                                             </label>
                                         </div>
-                                    </>
+                                    </div>
+                                ) : (
+                                    <div className="relative flex justify-center w-full ">
+                                        <div className="w-1/3 overflow-hidden text-left text-ellipsis">
+                                            <label
+                                                className="items-center overflow-hidden cursor-pointer whitespace-nowrap text-ellipsis"
+                                                onClick={() => {
+                                                    if (
+                                                        window.confirm(
+                                                            `${folder.title}파일에 담겠습니까?`
+                                                        )
+                                                    ) {
+                                                        folderSelect(folder.fno)
+                                                    }
+                                                }}>
+                                                <FontAwesomeIcon
+                                                    icon={faFile}
+                                                    className="mr-1 "
+                                                    size="sm"
+                                                />
+                                                {folder.title}
+                                            </label>
+                                        </div>
+                                        <div className="absolute right-5">
+                                            <label className="mx-3 ">
+                                                <FontAwesomeIcon
+                                                    size="sm"
+                                                    className="cursor-pointer"
+                                                    onClick={() =>
+                                                        selectFolder(folder.fno)
+                                                    }
+                                                    icon={faPen}
+                                                />
+                                            </label>
+                                            <label>
+                                                <FontAwesomeIcon
+                                                    className="cursor-pointer"
+                                                    size="sm"
+                                                    onClick={() => {
+                                                        if (
+                                                            window.confirm(
+                                                                '장바구니를 삭제하시겠습니까?'
+                                                            )
+                                                        ) {
+                                                            folderDelete(folder.fno)
+                                                        }
+                                                    }}
+                                                    icon={faMinus}
+                                                />
+                                            </label>
+                                        </div>
+                                    </div>
                                 )}
                             </div>
                         </div>
                     ))}
-                    </Modal>
+                    {folderData && folderData?.data.length <= 0 && (
+                        <div>
+                            <p className="text-lg">장바구니가 없습니다..</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </Modal>
     )
 }

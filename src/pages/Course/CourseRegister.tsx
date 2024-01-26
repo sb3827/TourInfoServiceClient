@@ -1,7 +1,5 @@
 import {FC, PropsWithChildren, useEffect, useMemo, useRef, useState} from 'react'
 import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlus, faMinus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {
     coursePostLoad,
@@ -10,12 +8,16 @@ import {
     registCourseBoard
 } from '../../api/Board/board'
 import {useDispatch} from 'react-redux'
-import {addDay, deleteAll, deleteDay} from '../../store/slices/CourseSlice'
+import {
+    addDay,
+    deleteAll,
+    deleteDay,
+    setCommonState
+} from '../../store/slices/CourseSlice'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
 import {saveCourseBoardDTO} from '../../data/Board/BoardData'
-import {MyPocketModal} from './../../components/myPage/MyPocket/MyPocketModal'
 import noImage from '../../assets/smallLogo.png'
 
 type CourseRegisterProps = {
@@ -23,9 +25,9 @@ type CourseRegisterProps = {
 }
 
 export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props => {
-    const [day, setDay] = useState(useSelector((state: RootState) => state.course))
+    const day = useSelector((state: RootState) => state.course)
     //코스 등록시 추가적으로 로직 필요 -> 아래 콘솔보고 할것
-    console.log(day)
+    console.log('날짜 데이터 ' + day)
 
     const dispatch = useDispatch()
 
@@ -159,13 +161,16 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             editorRef.current?.getEditor()?.editor?.data.set(data.content)
             starRef.current?.setSelectedRating(data.score)
 
-            setDay(
-                data.postingPlaceBoardDTOS.map(daliyPlace =>
-                    daliyPlace.map(place => ({
-                        pno: place.pno,
-                        pname: place.name,
-                        img: noImage
-                    }))
+            console.log(data)
+            dispatch(
+                setCommonState(
+                    data.postingPlaceBoardDTOS.map(dailyPlace =>
+                        dailyPlace.map(place => ({
+                            pno: place.pno,
+                            pname: place.name,
+                            img: noImage
+                        }))
+                    )
                 )
             )
         } catch (error) {
@@ -186,57 +191,58 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     const courseList = useMemo(() => <CourseList create={true} day={day} />, [day])
 
     return (
-        <div className="w-3/4 mx-auto">
-            <div className="flex justify-start my-6">
-                <FontAwesomeIcon
-                    className="hover:cursor-pointer"
-                    icon={faArrowLeft}
-                    size="2xl"
-                    onClick={backPage}
-                />
-            </div>
-            <div className="">
-                <Input
-                    className="w-full my-2 border-black"
-                    size={70}
-                    placeholder="제목을 입력하세요"
-                    ref={titleRef}></Input>
+        <div className="w-full py-14">
+            <div className="w-1/2 mx-auto">
                 <div>
-                    <div className="flex justify-end mb-2 ml-3">
-                        <MyPocketModal className="h-8 bg-white border" />
-                        <FontAwesomeIcon
-                            className="mx-2 hover:cursor-pointer"
-                            icon={faMinus}
-                            size="xl"
-                            onClick={daysMinus}
-                        />
-                        <FontAwesomeIcon
-                            className="mx-2 hover:cursor-pointer"
-                            icon={faPlus}
-                            size="xl"
-                            onClick={daysPlus}
-                        />
+                    <div className="flex flex-row justify-between ">
+                        <div>
+                            <Button
+                                className="flex items-center justify-center text-white bg-darkGreen "
+                                value={'일정 +'}
+                                onClick={daysPlus}
+                            />
+                        </div>
+                        <div className="flex items-center">
+                            <p className="mt-1 mr-3 text-xl font-bold text-orange-400">
+                                별점을 선택하세요
+                            </p>
+                            <Rating ref={starRef} />
+                        </div>
                     </div>
-                    {/* 테스트 코드 */}
-                    {/* <CourseList create={true} day={day} /> */}
-                    {courseList}
-                </div>
-                <div className="flex flex-row justify-end my-2">
-                    <Rating ref={starRef} />
-                </div>
-                <div>
-                    <TextEditor ref={editorRef}></TextEditor>
-                </div>
-                <div className="flex flex-row justify-end my-2 ml-6">
-                    {props.isModify && (
-                        <Button className="btn-error" value={'삭제'} onClick={erase} />
-                    )}
-                    {props.isModify && (
-                        <Button className="btn-warning" value={'수정'} onClick={modify} />
-                    )}
-                    {props.isModify || (
-                        <Button className="btn-success" value={'등록'} onClick={regist} />
-                    )}
+                    <Input
+                        className="w-full my-2 border-2 border-darkGreen focus:border-darkGreen"
+                        size={70}
+                        placeholder="코스 게시글 제목을 입력하세요"
+                        ref={titleRef}></Input>
+
+                    <div>{courseList}</div>
+
+                    <div>
+                        <TextEditor ref={editorRef}></TextEditor>
+                    </div>
+                    <div className="flex flex-row justify-end my-2 ml-6">
+                        {props.isModify && (
+                            <Button
+                                className="btn-error"
+                                value={'삭제'}
+                                onClick={erase}
+                            />
+                        )}
+                        {props.isModify && (
+                            <Button
+                                className="btn-warning"
+                                value={'수정'}
+                                onClick={modify}
+                            />
+                        )}
+                        {props.isModify || (
+                            <Button
+                                className="btn-success"
+                                value={'등록'}
+                                onClick={regist}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

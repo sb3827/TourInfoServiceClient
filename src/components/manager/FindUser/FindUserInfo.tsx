@@ -38,13 +38,8 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
         if (remind) {
             try {
                 const data = await userDelete(users.mno)
-
-                if (data.mno === users.mno.toString()) {
-                    dispatch(setUserCheck())
-                    alert('회원 삭제 하였습니다.')
-                } else {
-                    alert('회원 삭제를 실패 하였습니다.')
-                }
+                dispatch(setUserCheck())
+                alert('회원 삭제 하였습니다.')
             } catch (err) {
                 console.log(err)
             }

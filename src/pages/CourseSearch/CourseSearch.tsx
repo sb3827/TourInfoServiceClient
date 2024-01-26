@@ -7,7 +7,7 @@ import {
     Subtitle,
     BoardBox,
     Button,
-    LoadingSppinner
+    LoadingSppinnerSmall
 } from '../../components/index'
 import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
 import {CourseBoardListData} from '../../data/Board/BoardData'
@@ -72,7 +72,6 @@ export const CourseSearch = () => {
     return (
         <Box>
             <div className="w-1/2">
-                {loading && <LoadingSppinner />}
                 <div className="flex w-full mb-5">
                     <div className="flex w-full">
                         <SearchInput
@@ -108,19 +107,35 @@ export const CourseSearch = () => {
                         className="flex flex-row-reverse items-center text-left">
                         <FontAwesomeIcon icon={faSignsPost} className="m-1" />
                     </Subtitle>
+
                     <BoardBox className="flex flex-col">
+                        {loading && <LoadingSppinnerSmall />}
                         {boardInfoData &&
+                        boardInfoData.some(data => !data.ad === true) ? (
                             boardInfoData.map(
-                                (data: CourseBoardListData) =>
-                                    !data.ad && <CourseInfo boardData={data} />
-                            )}
+                                (data: CourseBoardListData, index) =>
+                                    !data.ad && (
+                                        <CourseInfo key={index} boardData={data} />
+                                    )
+                            )
+                        ) : (
+                            <div className="flex items-center justify-center w-full h-full">
+                                <p className="text-xl font-bold">게시글이 없습니다...</p>
+                            </div>
+                        )}
                     </BoardBox>
                     <BoardBox className="flex flex-col">
-                        {boardInfoData &&
+                        {loading && <LoadingSppinnerSmall />}
+                        {boardInfoData && boardInfoData.some(data => data.ad === true) ? (
                             boardInfoData.map(
-                                (data: CourseBoardListData) =>
-                                    data.ad && <CourseInfo boardData={data} />
-                            )}
+                                (data: CourseBoardListData, index) =>
+                                    data.ad && <CourseInfo key={index} boardData={data} />
+                            )
+                        ) : (
+                            <div className="flex items-center justify-center w-full h-full">
+                                <p className="text-xl font-bold">게시글이 없습니다...</p>
+                            </div>
+                        )}
                     </BoardBox>
                 </BoardToggle>
             </div>

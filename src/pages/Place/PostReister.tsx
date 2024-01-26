@@ -209,21 +209,24 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
                         <Button
                             className="mr-3 text-white bg-darkGreen"
                             onClick={onOpenModal}
-                            value={'장소 입력'}
+                            value={'장소 선택'}
                         />
                     )}
-                    <p className="text-xl font-semibold">
-                        장소 : {placeData ? placeData.getPname : '장소를 선택해주세요'}
+                    <p className="text-xl font-semibold text-darkGreen">
+                        {placeData ? placeData.getPname : '장소를 선택해주세요'}
                     </p>
                 </div>
-                <div className="flex flex-row justify-end my-2">
+                <div className="flex items-center">
+                    <p className="text-orange-400 mt-1 text-xl font-bold mr-3">
+                        별점을 선택하세요
+                    </p>
                     <Rating ref={starRef} />
                 </div>
             </div>
             <Input
                 className="w-full my-2 border-2 outline-none border-lightGreen focus:outline-none focus:border-lightGreen"
                 size={70}
-                placeholder="제목을 입력하세요"
+                placeholder="장소 게시글 제목을 입력하세요"
                 ref={titleRef}></Input>
             <div>
                 {!props.isModify && modalView && (
