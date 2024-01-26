@@ -121,14 +121,21 @@ export const PlaceSearch = () => {
                     {loading && <LoadingSppinnerSmall />}
                     <div className="w-1/3 overflow-y-auto border rounded-lg border--300 border-lightGreen">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
-                        {placeInfoData &&
+                        {placeInfoData && placeInfoData.length > 0 ? (
                             placeInfoData.map((data: PlaceData, index) => (
                                 <SearchInfo
                                     key={index}
                                     placeInfoData={data}
                                     mapClick={() => onMap(index)}
                                 />
-                            ))}
+                            ))
+                        ) : (
+                            <div className="flex items-center justify-center h-full ">
+                                <p className="text-lg font-semibold">
+                                    검색 결과가 없습니다...
+                                </p>
+                            </div>
+                        )}
                     </div>
                     <div className="w-2/3 border rounded-lg border-lightGreen ">
                         {/* MapAPI 컴포넌트 */}

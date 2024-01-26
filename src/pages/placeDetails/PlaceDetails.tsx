@@ -96,20 +96,30 @@ export const PlaceDetails = () => {
                         <FontAwesomeIcon icon={faList} className="m-1" />
                     </Subtitle>
                     <BoardBox>
-                        {boardData &&
+                        {boardData && boardData.some(data => !data.ad === true) ? (
                             boardData.map(
                                 (data: PlaceBoardData, index) =>
                                     !data.ad && (
                                         <Board key={index} placeBoardData={data} />
                                     )
-                            )}
+                            )
+                        ) : (
+                            <div className="flex items-center justify-center w-full h-full">
+                                <p className="text-xl font-bold">게시글이 없습니다...</p>
+                            </div>
+                        )}
                     </BoardBox>
                     <BoardBox>
-                        {boardData &&
+                        {boardData && boardData.some(data => data.ad === true) ? (
                             boardData.map(
                                 (data: PlaceBoardData, index) =>
                                     data.ad && <Board key={index} placeBoardData={data} />
-                            )}
+                            )
+                        ) : (
+                            <div className="flex items-center justify-center w-full h-full">
+                                <p className="text-xl font-bold">게시글이 없습니다...</p>
+                            </div>
+                        )}
                     </BoardBox>
                 </BoardToggle>
             </div>
