@@ -18,16 +18,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 // 로그인 input props로 input값(value) onChange이벤트, placeHolder값(text) 넣어서 사용, className은 선택
 type LoginInputProps = {
     value: string //input value
-    onChange: (value: string) => void // onChange Event
+    onChange?: (value: string) => void // onChange Event
     className?: string
     text: string //placeHolder
+    disabled?: boolean
 }
 
 export const LoginInput: React.FC<LoginInputProps> = ({
     value,
     onChange,
     className,
-    text
+    text,
+    disabled
 }) => {
     return (
         <div className={`relative ${className}`} data-te-input-wrapper-init>
@@ -36,7 +38,8 @@ export const LoginInput: React.FC<LoginInputProps> = ({
                 className="border rounded-lg focus:border-primary-focus  peer block min-h-[auto] w-full bg-transparent px-3 pt-3 pb-2 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                 id="id_input"
                 value={value}
-                onChange={e => onChange(e.target.value)}
+                disabled={disabled}
+                onChange={e => onChange && onChange(e.target.value)}
             />
             <label
                 htmlFor="exampleFormControlInput3"
