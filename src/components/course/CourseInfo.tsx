@@ -55,12 +55,12 @@ export const CourseInfo: FC<CourseInfoProps> = ({boardData}) => {
                     </div>
                     <div className="absolute flex items-center justify-center top-3 right-5">
                         <div className="mr-2">
-                            <FontAwesomeIcon icon={faHeart} size="lg" color="red" />
-                            <p className="text-sm">{boardData?.likes}</p>
-                        </div>
-                        <div>
                             <FontAwesomeIcon icon={faStar} size="lg" color="gold" />
                             <p className="text-sm">{boardData?.score}</p>
+                        </div>
+                        <div>
+                            <FontAwesomeIcon icon={faHeart} size="lg" color="red" />
+                            <p className="text-sm">{boardData?.likes}</p>
                         </div>
                     </div>
                 </div>
