@@ -2,8 +2,10 @@ import {useState} from 'react'
 import {Title, Subtitle, DropdownSelect, Button, LoginInput} from '../../components'
 import {FindEmailRequest} from '../../api/Find/Find'
 import {useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
 export const FindEmail = () => {
+    const navigate = useNavigate()
     const [userName, setUserName] = useState<string>('')
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>('')
     // 전화번호 검증
@@ -49,6 +51,7 @@ export const FindEmail = () => {
             const data = await FindEmailRequest(userName, userPhoneNumber)
             if (data.email) {
                 alert('가입한 이메일 : ' + data.email)
+                navigate('/login')
             } else {
                 alert('일치하는 회원정보가 없습니다')
             }
