@@ -1,6 +1,5 @@
 import {useParams} from 'react-router-dom'
 import {ProfileBox, SimpleMap, Title, WritingButton} from './../../components/index'
-import {useEffect} from 'react'
 
 export const MyPage = () => {
     const {mno} = useParams()
