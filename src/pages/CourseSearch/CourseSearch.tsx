@@ -7,7 +7,6 @@ import {
     Subtitle,
     BoardBox,
     Button,
-    LoadingSppinner,
     LoadingSppinnerSmall
 } from '../../components/index'
 import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
