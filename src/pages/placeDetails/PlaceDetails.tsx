@@ -34,7 +34,8 @@ export const PlaceDetails = () => {
             if (pnoNumber !== undefined) {
                 setLoading(true)
                 const data = await getPlaceDetailsInfo(pnoNumber)
-                setBoardData(data)
+
+                data && setBoardData(data)
                 setLoading(false)
             }
         } catch (err) {
@@ -97,15 +98,17 @@ export const PlaceDetails = () => {
                     <BoardBox>
                         {boardData &&
                             boardData.map(
-                                (data: PlaceBoardData) =>
-                                    !data.ad && <Board placeBoardData={data} />
+                                (data: PlaceBoardData, index) =>
+                                    !data.ad && (
+                                        <Board key={index} placeBoardData={data} />
+                                    )
                             )}
                     </BoardBox>
                     <BoardBox>
                         {boardData &&
                             boardData.map(
-                                (data: PlaceBoardData) =>
-                                    data.ad && <Board placeBoardData={data} />
+                                (data: PlaceBoardData, index) =>
+                                    data.ad && <Board key={index} placeBoardData={data} />
                             )}
                     </BoardBox>
                 </BoardToggle>

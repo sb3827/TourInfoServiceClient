@@ -112,16 +112,18 @@ export const CourseSearch = () => {
                         {loading && <LoadingSppinnerSmall />}
                         {boardInfoData &&
                             boardInfoData.map(
-                                (data: CourseBoardListData) =>
-                                    !data.ad && <CourseInfo boardData={data} />
+                                (data: CourseBoardListData, index) =>
+                                    !data.ad && (
+                                        <CourseInfo key={index} boardData={data} />
+                                    )
                             )}
                     </BoardBox>
                     <BoardBox className="flex flex-col">
                         {loading && <LoadingSppinnerSmall />}
                         {boardInfoData &&
                             boardInfoData.map(
-                                (data: CourseBoardListData) =>
-                                    data.ad && <CourseInfo boardData={data} />
+                                (data: CourseBoardListData, index) =>
+                                    data.ad && <CourseInfo key={index} boardData={data} />
                             )}
                     </BoardBox>
                 </BoardToggle>
