@@ -1,17 +1,5 @@
 import {FC, PropsWithChildren, useEffect, useMemo, useRef, useState} from 'react'
-import {
-    TextEditor,
-    Input,
-    Button,
-    Rating,
-    RatingRef,
-    EditorRef,
-    InputPlace,
-    Modal,
-    Title
-} from '../../components'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlus, faMinus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
+import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {
     coursePostLoad,
@@ -30,7 +18,6 @@ import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
 import {saveCourseBoardDTO} from '../../data/Board/BoardData'
-import {MyPocketModal} from './../../components/myPage/MyPocket/MyPocketModal'
 import noImage from '../../assets/smallLogo.png'
 
 type CourseRegisterProps = {
@@ -210,13 +197,13 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
                     <div className="flex flex-row justify-between ">
                         <div>
                             <Button
-                                className="flex items-center justify-center bg-darkGreen text-white "
+                                className="flex items-center justify-center text-white bg-darkGreen "
                                 value={'일정 +'}
                                 onClick={daysPlus}
                             />
                         </div>
                         <div className="flex items-center">
-                            <p className="text-orange-400 mt-1 text-xl font-bold mr-3">
+                            <p className="mt-1 mr-3 text-xl font-bold text-orange-400">
                                 별점을 선택하세요
                             </p>
                             <Rating ref={starRef} />

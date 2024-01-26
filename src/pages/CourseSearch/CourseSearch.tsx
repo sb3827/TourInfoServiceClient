@@ -111,20 +111,31 @@ export const CourseSearch = () => {
                     <BoardBox className="flex flex-col">
                         {loading && <LoadingSppinnerSmall />}
                         {boardInfoData &&
+                        boardInfoData.some(data => !data.ad === true) ? (
                             boardInfoData.map(
                                 (data: CourseBoardListData, index) =>
                                     !data.ad && (
                                         <CourseInfo key={index} boardData={data} />
                                     )
-                            )}
+                            )
+                        ) : (
+                            <div className="flex items-center justify-center w-full h-full">
+                                <p className="text-xl font-bold">게시글이 없습니다...</p>
+                            </div>
+                        )}
                     </BoardBox>
                     <BoardBox className="flex flex-col">
                         {loading && <LoadingSppinnerSmall />}
-                        {boardInfoData &&
+                        {boardInfoData && boardInfoData.some(data => data.ad === true) ? (
                             boardInfoData.map(
                                 (data: CourseBoardListData, index) =>
                                     data.ad && <CourseInfo key={index} boardData={data} />
-                            )}
+                            )
+                        ) : (
+                            <div className="flex items-center justify-center w-full h-full">
+                                <p className="text-xl font-bold">게시글이 없습니다...</p>
+                            </div>
+                        )}
                     </BoardBox>
                 </BoardToggle>
             </div>
