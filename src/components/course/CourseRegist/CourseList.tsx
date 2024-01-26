@@ -113,7 +113,15 @@ export const CourseList: FC<DndProps> = ({create, day}) => {
                     </span>
                 </div>
             )}
-            {create && cartView && <MyCart onChangeItems={onChangeItems} mno={userMno} />}
+            {create && (
+                <div className={cartView ? ' animate-slideDown' : 'animate-slideUp'}>
+                    <MyCart
+                        onChangeItems={onChangeItems}
+                        mno={userMno}
+                        animate={cartView ? 'block' : 'hidden'}
+                    />
+                </div>
+            )}
             {/* mno 삭제 */}
             {/* 요일 데이터 */}
             <DayItem day={day} create={create} />

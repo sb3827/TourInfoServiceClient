@@ -26,6 +26,7 @@ type MyCartProps = {
     dragDisable?: boolean
     onClose?: boolean
     mno: number
+    animate?: string
 }
 
 export const MyCart: FC<MyCartProps> = ({
@@ -33,7 +34,8 @@ export const MyCart: FC<MyCartProps> = ({
     className,
     dragDisable,
     onClose,
-    mno
+    mno,
+    animate
 }) => {
     const [folder, setFolder] = useState<folderAll>()
     const [selectedFno, setSelectedFno] = useState<number | null>(0)
@@ -229,8 +231,8 @@ export const MyCart: FC<MyCartProps> = ({
     }
 
     return (
-        <div className="w-full">
-            <div className="flex justify-between items-center w-full overflow-x-auto overflow-y-hidden  ">
+        <div className={`w-full ${animate}`}>
+            <div className="flex items-center justify-between w-full overflow-x-auto overflow-y-hidden ">
                 <div className="flex w-full">
                     {folder &&
                         Array.isArray(folder.data) &&
@@ -239,25 +241,26 @@ export const MyCart: FC<MyCartProps> = ({
                             .map(folderInfo => (
                                 <div
                                     key={folderInfo.fno}
-                                    className={`h-full relative cursor-pointer justify-center flex items-center p-2 w-full text-black text-sm duration-150 border rounded-t-2xl ${
+                                    className={`h-full relative cursor-pointer justify-center flex items-center p-2 w-full text-black text-sm duration-150 border border-b-0 rounded-t-2xl ${
                                         selectedFno === folderInfo.fno
-                                            ? 'bg-gray-400'
+                                            ? 'bg-lightGreen text-white'
                                             : 'bg-white'
                                     }`}
                                     onClick={() => handleButtonClick(folderInfo.fno)}>
-                                    <div className="flex items-center basis-2/3 justify-center">
+                                    <div className="basis-1/3"></div>
+                                    <div className="flex items-center justify-center overflow-hidden basis-1/3">
                                         {userMno === mno && (
                                             <FontAwesomeIcon
                                                 icon={faPenToSquare}
                                                 size="sm"
-                                                className="mr-1 text-gray-500 cursor-pointer hover:text-black"
+                                                className="mr-1 cursor-pointer hover:text-black"
                                                 onClick={event => {
                                                     event.stopPropagation()
                                                     openEditModal(folderInfo.fno)
                                                 }}
                                             />
                                         )}
-                                        <p className="text-ellipsis overflow-hidden">
+                                        <p className="overflow-hidden whitespace-nowrap text-ellipsis">
                                             {folderInfo.title}
                                         </p>
                                     </div>
@@ -270,7 +273,7 @@ export const MyCart: FC<MyCartProps> = ({
                                                 event.stopPropagation()
                                                 handleDeleteFolder(folderInfo.fno)
                                             }}
-                                            className="text-gray-500 cursor-pointer basis-1/3 hover:text-black"
+                                            className="cursor-pointer basis-1/3 hover:text-black"
                                         />
                                     )}
                                 </div>
@@ -291,14 +294,14 @@ export const MyCart: FC<MyCartProps> = ({
                 </div>
             </div>
             <div
-                className={`overflow-y-auto max-w-screen bg-gray-200 border mb-5 h-72 ${className}`}>
+                className={`p-5 overflow-y-auto max-w-screen bg-lightGreen border border-t-0 mb-5 h-96 rounded-b-2xl shadow-xl ${className}`}>
                 <div className="">
                     {folder &&
                         Array.isArray(folder.data) &&
                         folder.data
                             .filter(folderInfo => folderInfo.fno === selectedFno)
                             .map((folderInfo, index) => (
-                                <div key={folderInfo.fno} className="">
+                                <div key={folderInfo.fno}>
                                     <CartItem
                                         key={index}
                                         items={convertFolderInfoToItem(folderInfo)}
@@ -316,7 +319,7 @@ export const MyCart: FC<MyCartProps> = ({
 
             {/* 폴더 이름 지정하는 모달 */}
             {isFolderNameModalOpen && (
-                <div className="z-50 fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+                <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
                     <div className="p-4 bg-white rounded">
                         <input
                             type="text"
@@ -340,7 +343,7 @@ export const MyCart: FC<MyCartProps> = ({
 
             {/* 폴더명 변경 모달 */}
             {editModalOpen && (
-                <div className="z-50 fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+                <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
                     <div className="p-4 bg-white rounded">
                         <input
                             type="text"

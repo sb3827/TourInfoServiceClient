@@ -54,26 +54,26 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
         <div className="mt-2">
             {day.map((dayItem, dayIndex) => (
                 <div
-                    className="flex flex-col p-5 py-8 my-3 border shadow-xl rounded-xl"
+                    className="flex flex-col px-5 py-3 my-5 border shadow-xl rounded-xl"
                     key={dayIndex}>
-                    <div className="flex justify-between ">
+                    <div className="flex items-center justify-between">
                         <Subtitle className="flex ">{dayIndex + 1}일차</Subtitle>
                         <div className="flex ">
                             {create && (
                                 <div className="flex flex-col justify-between h-full">
-                                    <div className="w-full  flex items-center justify-around text-sm">
+                                    <div className="flex items-center justify-around w-full text-sm">
                                         <Button
-                                            className="bg-darkGreen text-white"
+                                            className="text-white bg-darkGreen"
                                             value={'장소 +'}
                                             onClick={() => onOpenModal(dayIndex)}
                                         />
                                         <Button
-                                            className="bg-lightGreen text-white"
+                                            className="text-white bg-lightGreen"
                                             value={'day +'}
                                             onClick={() => onAddDay(dayIndex)}
                                         />
                                         <Button
-                                            className="bg-red-400 text-white"
+                                            className="text-white bg-red-400"
                                             value={'day -'}
                                             onClick={() => onDeleteDay(dayIndex)}
                                         />
@@ -87,7 +87,7 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                             <InputPlace
                                                 dayIndex={dayIndex}
                                                 onClose={() => onCloseModal(dayIndex)}
-                                                className="border-none bg-white border"
+                                                className="bg-white border border-none"
                                             />
                                         </Modal>
                                     )}
@@ -95,7 +95,7 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                             )}
                         </div>
                     </div>
-                    <div className="flex">
+                    <div className="flex min-h-[165px]">
                         <Droppable
                             isDropDisabled={!create}
                             droppableId={`droppable-${dayIndex}`}
@@ -116,12 +116,12 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                             index={index}>
                                             {provided => (
                                                 <div
-                                                    className="flex m-2 relative"
+                                                    className="relative flex m-2"
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}>
                                                     <div
-                                                        className="cursor-pointer hover  border rounded-2xl shadow-2xl flex justify-center items-center"
+                                                        className="flex items-center justify-center border shadow-2xl cursor-pointer hover rounded-2xl"
                                                         onClick={() => {
                                                             !create &&
                                                                 navigate(
@@ -139,7 +139,7 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                                             {item.pname}
                                                         </Spot>
                                                         <div
-                                                            className="absolute top-1 right-1 flex justify-end cursor-pointer"
+                                                            className="absolute flex justify-end cursor-pointer top-1 right-1"
                                                             onClick={() =>
                                                                 onDeleteItem(
                                                                     dayIndex,
