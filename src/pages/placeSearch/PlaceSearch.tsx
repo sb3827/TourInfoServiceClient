@@ -1,12 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {
-    Box,
     SearchInput,
     SearchInfo,
     SearchMap,
     Button,
     SearchMapRef,
-    LoadingSppinner,
     LoadingSppinnerSmall
 } from '../../components/index'
 import {PlaceData} from '../../data/placeSearch'
@@ -119,9 +117,9 @@ export const PlaceSearch = () => {
             </div>
 
             <div className="flex justify-center w-full h-screen py-5 mb-12">
-                <div className="flex w-2/3 h-full relative ">
+                <div className="relative flex w-2/3 h-full ">
                     {loading && <LoadingSppinnerSmall />}
-                    <div className=" w-1/3 overflow-y-auto border rounded-lg border--300 border-lightGreen">
+                    <div className="w-1/3 overflow-y-auto border rounded-lg  border--300 border-lightGreen">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
                         {placeInfoData &&
                             placeInfoData.map((data: PlaceData, index) => (

@@ -11,13 +11,18 @@ import {
     Title
 } from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {useNavigate, useParams} from 'react-router-dom'
+import {useLocation, useNavigate, useParams} from 'react-router-dom'
 import {getPlaceDetailsInfo} from '../../api'
-import {PlaceBoardData} from '../../data/placeSearch'
+import {PlaceBoardData, PlaceData} from '../../data/placeSearch'
 import {faList, faPlus} from '@fortawesome/free-solid-svg-icons'
 
 // 장소 상세 페이지
 export const PlaceDetails = () => {
+    const location = useLocation()
+    const placeInfoData: PlaceData = location.state?.placeInfoData
+
+    const placeInfo = [placeInfoData]
+
     const [boardData, setBoardData] = useState<PlaceBoardData[] | null>(null)
     const {pno} = useParams()
     const navigate = useNavigate()
@@ -59,11 +64,13 @@ export const PlaceDetails = () => {
                 {loading && <LoadingSppinner />}
                 <div className="flex justify-center w-full">
                     <div className="w-full ">
-                        <Title className="py-3">{boardData && boardData[0].name}</Title>
-                        {boardData && (
+                        <Title className="py-3">
+                            {placeInfoData && placeInfoData.name}
+                        </Title>
+                        {placeInfoData && (
                             <div className="mb-10 overflow-hidden shadow-xl rounded-xl">
                                 <SearchMap
-                                    places={boardData}
+                                    places={placeInfo}
                                     className="w-full "
                                     innerRef={null}
                                 />
