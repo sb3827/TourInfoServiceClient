@@ -179,6 +179,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                             <option value="ETC">기타</option>
                         </select>
                         <SearchInput
+                            placeholder="장소 검색"
                             className="w-full ml-1"
                             value={searchValue}
                             onChange={onChangeSearch}
@@ -207,7 +208,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                 {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}
                                 <div className="w-1/3 mr-2 overflow-y-auto">
                                     {/* 검색 결과를 보여줄 컴포넌트 */}
-                                    {placeInfoData &&
+                                    {placeInfoData && placeInfoData.length > 0 ? (
                                         placeInfoData.map((data: PlaceData, index) => (
                                             <SearchInfo
                                                 key={index}
@@ -223,7 +224,14 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                                     )
                                                 }}
                                             />
-                                        ))}
+                                        ))
+                                    ) : (
+                                        <div className="flex items-center justify-center w-full h-full">
+                                            <p className="text-lg font-semibold">
+                                                검색결과가 존재하지 않습니다...
+                                            </p>
+                                        </div>
+                                    )}
 
                                     {/* 클릭시 장소등록 모달 열림, 장소등록 버튼 (수정하셔도 됩니다) */}
                                 </div>
