@@ -75,7 +75,7 @@ export const MyCart: FC<MyCartProps> = ({
 
     const handleButtonClick = (fno: number) => {
         console.log(`${fno} selected`) // 추후에 삭제 예정
-        setSelectedFno(prev => (prev === fno ? null : fno))
+        setSelectedFno(fno)
     }
 
     // 폴더 생성 시 이름 입력 모달
@@ -234,8 +234,7 @@ export const MyCart: FC<MyCartProps> = ({
         <div className={`w-full ${animate}`}>
             <div className="flex items-center justify-between w-full overflow-x-auto overflow-y-hidden ">
                 <div className="flex w-full">
-                    {folder &&
-                        Array.isArray(folder.data) &&
+                    {folder && Array.isArray(folder.data) && folder.data.length > 0 ? (
                         folder.data
                             .sort((a, b) => a.fno - b.fno) // fno 순서대로 정렬
                             .map(folderInfo => (
@@ -243,7 +242,7 @@ export const MyCart: FC<MyCartProps> = ({
                                     key={folderInfo.fno}
                                     className={`h-full relative cursor-pointer justify-center flex items-center p-2 w-full text-black text-sm duration-150 border border-b-0 rounded-t-2xl ${
                                         selectedFno === folderInfo.fno
-                                            ? 'bg-lightGreen text-white'
+                                            ? 'bg-lightGreen text-white bg-opacity-80'
                                             : 'bg-white'
                                     }`}
                                     onClick={() => handleButtonClick(folderInfo.fno)}>
@@ -266,18 +265,25 @@ export const MyCart: FC<MyCartProps> = ({
                                     </div>
 
                                     {userMno === mno && (
-                                        <FontAwesomeIcon
-                                            icon={faTrash}
-                                            size="sm"
-                                            onClick={event => {
-                                                event.stopPropagation()
-                                                handleDeleteFolder(folderInfo.fno)
-                                            }}
-                                            className="cursor-pointer basis-1/3 hover:text-black"
-                                        />
+                                        <div className="basis-1/3">
+                                            <FontAwesomeIcon
+                                                icon={faTrash}
+                                                size="sm"
+                                                onClick={event => {
+                                                    event.stopPropagation()
+                                                    handleDeleteFolder(folderInfo.fno)
+                                                }}
+                                                className="cursor-pointer hover:text-black"
+                                            />
+                                        </div>
                                     )}
                                 </div>
-                            ))}
+                            ))
+                    ) : (
+                        <div className="flex items-center justify-center w-full ">
+                            <p>장바구니를 만들어주세요 ➞</p>
+                        </div>
+                    )}
                 </div>
 
                 <div>
@@ -294,7 +300,7 @@ export const MyCart: FC<MyCartProps> = ({
                 </div>
             </div>
             <div
-                className={`p-5 overflow-y-auto max-w-screen bg-lightGreen border border-t-0 mb-5 h-96 rounded-b-2xl shadow-xl ${className}`}>
+                className={`p-5 overflow-y-auto max-w-screen bg-lightGreen bg-opacity-80 border border-t-0 mb-5 h-96 rounded-b-2xl shadow-xl ${className}`}>
                 <div className="">
                     {folder &&
                         Array.isArray(folder.data) &&
@@ -320,23 +326,27 @@ export const MyCart: FC<MyCartProps> = ({
             {/* 폴더 이름 지정하는 모달 */}
             {isFolderNameModalOpen && (
                 <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
-                    <div className="p-4 bg-white rounded">
+                    <div className="flex flex-col justify-between p-8 bg-white rounded-3xl ">
                         <input
                             type="text"
-                            placeholder="폴더 이름 입력(최대 8자)"
+                            placeholder="장바구니 이름 입력)"
                             value={newButtonName}
                             onChange={e => setNewButtonName(e.target.value)}
-                            className="p-2 mb-2 border"
+                            className="p-2 mb-2 border shadow-xl border-lightGreen rounded-xl"
                             maxLength={8}
                         />
-                        <button onClick={handleModalSubmit} className="p-2 border">
-                            추가
-                        </button>
-                        <button
-                            onClick={closeFolderNameModal}
-                            className="p-2 ml-2 border">
-                            취소
-                        </button>
+                        <div className="flex flex-col justify-end">
+                            <button
+                                onClick={handleModalSubmit}
+                                className="mb-2 text-white duration-150 rounded-lg shadow-lg hover:bg-lightGreen bg-darkGreen">
+                                추가
+                            </button>
+                            <button
+                                onClick={closeFolderNameModal}
+                                className="text-white duration-150 bg-red-500 rounded-lg shadow-lg hover:bg-red-300">
+                                취소
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
