@@ -173,7 +173,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                             </div>
                             <DropIcon
                                 itemTexts={postText}
-                                itemActions={[nav, set]}
+                                itemActions={[nav, set, delPage]}
                                 itemEnabled={enables}>
                                 <FontAwesomeIcon
                                     className="ml-2 hover:cursor-pointer"
