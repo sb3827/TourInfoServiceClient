@@ -57,7 +57,7 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
         <div
             className="flex w-full h-32 my-5 duration-100 border shadow cursor-pointer border-lightGreen stats hover:shadow-xl"
             onClick={onUserDetail}>
-            <div className="flex flex-col justify-center flex-2 stat">
+            <div className="flex flex-col justify-center basis-2/5 stat">
                 <div className="stat-figure text-secondary">
                     <div className="w-16 h-16 overflow-hidden rounded-full ">
                         <img
@@ -70,11 +70,11 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
                 <div className="my-1 text-base stat-value">{userInfo?.name}</div>
             </div>
 
-            <div className="flex-2 stat border-lightGreen">
+            <div className="basis-1/5 stat border-lightGreen">
                 <div className="stat-title">Total Follower</div>
                 <div className="text-base text-rose-500 stat-value">{totalFollow}</div>
             </div>
-            <div className="stat flex-2 border-lightGreen">
+            <div className="flex-1 basis-1/5 stat border-lightGreen">
                 <div className="stat-title">Total Following</div>
                 <div className="text-base stat-value text-primary">
                     {userInfo?.followings ? userInfo.followings : 0}
@@ -82,15 +82,15 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
             </div>
 
             {user && (
-                <div className="flex-1 stat border-lightGreen">
-                    <div className="mt-4">
+                <div className="flex items-center justify-center basis-1/5 border-lightGreen">
+                    <div className="flex">
                         <Button
                             value={buttonText}
                             onClick={event => {
                                 clickFollow(event)
                             }}
-                            className={`w-24 h-16 text-lg text-center ${
-                                follow ? 'text-blue-500' : 'text-lightGreen'
+                            className={`w-full text-center text-white ${
+                                follow ? 'bg-blue-500 ' : 'bg-lightGreen'
                             }`}
                         />
                     </div>

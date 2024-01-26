@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react'
 import {
-    Box,
     SearchInput,
     Button,
     SearchUserInfo,
@@ -46,10 +45,8 @@ export const UserSearch = () => {
         try {
             setLoading(true)
             setSearchParams({search: searchValue})
-            console.log(user)
             const data = await getSearchUserInfo(searchValue, user || null)
             setUserInfoData(data)
-            console.log(data)
             setLoading(false)
         } catch (error) {
             // 오류 처리
