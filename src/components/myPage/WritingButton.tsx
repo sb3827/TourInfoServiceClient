@@ -23,6 +23,10 @@ export const WritingButton: FC<WritingButtonProps> = ({mno}) => {
         setToggle(type)
     }
 
+    useEffect(() => {
+        onChangeContent('post')
+    }, [mno])
+
     return (
         <div className="flex flex-col items-center justify-center w-[1200px] p-10 mb-20 overflow-y-auto shadow-2xl rounded-2xl">
             <div className="justify-center inline-block w-full ">
