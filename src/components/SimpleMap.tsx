@@ -57,15 +57,15 @@ export const SimpleMap: FC<SimpleMapProps> = ({className, mno}) => {
     ]
 
     return (
-        <div className="flex justify-center w-full">
-            <div className={className + ' relative w-96  justify-center flex'}>
-                <div className="w-96 lg:w-96 md:w-72 ">
+        <div className="flex items-center justify-center w-3/4">
+            <div className={className + ' relative  justify-center flex'}>
+                <div className="z-0" id="simple_map">
                     <SimpleSouthKoreaMapChart
                         setColorByCount={setColorByCount}
                         data={placeCountData}
                     />
                 </div>
-                <div className="absolute flex flex-col items-center lg:-right-8 lg:top-28 md:right-0 top-44">
+                <div className="absolute flex flex-col items-center -right-14 top-40 ">
                     <img src={korea} className="w-5 h-5 ml-3" />
                     <p className="text-blue-500">독도</p>
                 </div>
