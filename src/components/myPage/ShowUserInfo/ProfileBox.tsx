@@ -1,4 +1,4 @@
-import {Box, UserAvatar, ShowFollowModal, ShowTotalLikes, Title} from './../../index'
+import {Box, ShowFollowModal, ShowTotalLikes, Title, LoadingSppinner} from './../../index'
 import {Button} from './../../Button'
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
@@ -15,6 +15,7 @@ type ProfileProps = {
 }
 
 export const ProfileBox: FC<ProfileProps> = ({mno}) => {
+    const [loading, setLoading] = useState<boolean>(false)
     const [userProfile, setUserProfile] = useState<userProfile | null>(null)
     const [followState, setFollowState] = useState<boolean>()
     const [userFollowings, setUserFollowings] = useState<userFollows>()
@@ -41,13 +42,16 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
 
     const fetchData = async () => {
         try {
+            setLoading(true)
             const userProfileData = await ShowUserProfile(mno)
             const userFollowingData = await ShowUserFollowings(mno)
             setUserProfile(userProfileData)
             setUserFollowings(userFollowingData)
             console.log(userFollowingData)
+            setLoading(false)
         } catch (error) {
             console.error('에러 발생', error)
+            setLoading(false)
         }
     }
 
@@ -57,6 +61,7 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
 
     return (
         <div>
+            {loading && <LoadingSppinner />}
             <div>
                 <Box>
                     <div className="flex flex-col items-center justify-between h-full">
@@ -91,19 +96,19 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                             <Button
                                 value="정보 수정"
                                 onClick={onModify}
-                                className="text-white bg-lightGreen"
+                                className="w-full text-white bg-lightGreen"
                             />
                         ) : followState === true ? (
                             <Button
                                 value="언팔로우"
                                 onClick={onUnfollow}
-                                className="text-white bg-red-500"
+                                className="w-full text-white bg-red-500"
                             />
                         ) : (
                             <Button
                                 value="팔로우"
                                 onClick={onFollow}
-                                className="text-white bg-blue-500"
+                                className="w-full text-white bg-blue-500"
                             />
                         )}
                     </div>
