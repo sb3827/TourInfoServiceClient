@@ -10,15 +10,9 @@ import {
 } from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {
-    faHeart,
-    faArrowLeft,
-    faEllipsisVertical,
-    faStar
-} from '@fortawesome/free-solid-svg-icons'
+import {faHeart, faEllipsisVertical, faStar} from '@fortawesome/free-solid-svg-icons'
 import noImage from '../../assets/smallLogo.png'
-import {postText} from "../../dummy data/sb's dummy"
-import {coursePostLoad, deleteLike, postLike} from '../../api/Board/board'
+import {coursePostLoad, deleteBoard, deleteLike, postLike} from '../../api/Board/board'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {useNavigate, useSearchParams} from 'react-router-dom'
@@ -32,8 +26,9 @@ type DetailedCourseType = {
 }
 
 export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
+    const postText = ['수정', '신고', '삭제']
     const [day, setDay] = useState(useSelector((state: RootState) => state.course))
-    const [enables, setEnables] = useState<boolean[]>([false, true])
+    const [enables, setEnables] = useState<boolean[]>([false, true, false])
     const [content, setContent] = useState<string>('')
     const [score, setScore] = useState<number>(5)
     const [likes, setLikes] = useState<number>(0)
@@ -66,6 +61,16 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     function backPage() {
         // 뒤로가기 로직
         navigate(-1)
+    }
+
+    const delPage = () => {
+        try {
+            deleteBoard(parseInt(bno))
+            alert('삭제 성공')
+            navigate('/board/place')
+        } catch (error) {
+            alert('삭제 실패')
+        }
     }
 
     async function loadPage() {
@@ -163,11 +168,11 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                     <div className="flex items-center justify-between">
                         <Title className="my-5 text-5xl">{title}</Title>
                         <div className="flex flex-row justify-end">
-                            <div className="flex flex-col mx-2  text-gray-500">
+                            <div className="flex flex-col mx-2 text-gray-500">
                                 <FontAwesomeIcon icon={faStar} size="xl" color="gold" />
                                 {score}
                             </div>
-                            <div className="flex flex-col mx-2  text-gray-500">
+                            <div className="flex flex-col mx-2 text-gray-500">
                                 {heart && (
                                     <FontAwesomeIcon
                                         className="hover:cursor-pointer"
@@ -190,7 +195,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                             </div>
                             <DropIcon
                                 itemTexts={postText}
-                                itemActions={[nav, set]}
+                                itemActions={[nav, set, delPage]}
                                 itemEnabled={enables}>
                                 <FontAwesomeIcon
                                     className="ml-2 hover:cursor-pointer"

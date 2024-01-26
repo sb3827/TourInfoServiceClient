@@ -7,7 +7,7 @@ import noImage from '../../assets/smallLogo.png'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {deleteLike, placePostLoad, postLike} from '../../api/Board/board'
+import {deleteBoard, deleteLike, placePostLoad, postLike} from '../../api/Board/board'
 import BoardReportModal from '../../components/board/BoardReportModal'
 import {BoardData} from '../../data/Board/BoardData'
 import {getCookie} from '../../util/cookie'
@@ -17,8 +17,8 @@ type PostPlaceProps = {
 }
 
 export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
-    const postText = ['수정', '신고']
-    const [enables, setEnables] = useState<boolean[]>([false, true])
+    const postText = ['수정', '신고', '삭제']
+    const [enables, setEnables] = useState<boolean[]>([false, true, false])
     const [content, setContent] = useState<string>('')
     const [score, setScore] = useState<number>(5)
     const [likes, setLikes] = useState<number>(0)
@@ -85,6 +85,15 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
         mno: writerNo as number,
         name: writer as string
     }
+    const delPage = () => {
+        try {
+            deleteBoard(parseInt(bno))
+            alert('삭제 성공')
+            navigate('/board/place')
+        } catch (error) {
+            alert('삭제 실패')
+        }
+    }
 
     async function loadPage() {
         try {
@@ -99,7 +108,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
             }
             setWriterNo(data.writerDTO.mno)
             if (user === data.writerDTO.mno) {
-                setEnables([true, false])
+                setEnables([true, false, true])
             }
 
             setTitle(data.title) // title
@@ -137,11 +146,11 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                     <div className="flex items-center justify-between ">
                         <Title className="my-5 text-5xl">{title}</Title>
                         <div className="flex flex-row justify-end">
-                            <div className="flex flex-col mx-2  text-gray-500">
+                            <div className="flex flex-col mx-2 text-gray-500">
                                 <FontAwesomeIcon icon={faStar} size="xl" color="gold" />
                                 {score}
                             </div>
-                            <div className="flex flex-col mx-2  text-gray-500">
+                            <div className="flex flex-col mx-2 text-gray-500">
                                 {heart && (
                                     <FontAwesomeIcon
                                         className="hover:cursor-pointer"
