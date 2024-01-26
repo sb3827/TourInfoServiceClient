@@ -19,7 +19,11 @@ export const CartItem: FC<CartItemProps> = ({
     return (
         <div className="flex flex-wrap">
             {items.map((item, index) => (
-                <Droppable droppableId="droppable" direction="horizontal" isDropDisabled>
+                <Droppable
+                    key={index}
+                    droppableId="droppable"
+                    direction="horizontal"
+                    isDropDisabled>
                     {provided => (
                         <div {...provided.droppableProps} ref={provided.innerRef}>
                             <Draggable
@@ -29,12 +33,12 @@ export const CartItem: FC<CartItemProps> = ({
                                 index={index}>
                                 {provided => (
                                     <div
-                                        className="flex m-2 relative"
+                                        className="relative flex m-2"
                                         key={index}
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
-                                        <div className="bg-white cursor-pointer hover relative border rounded-2xl shadow-2xl flex justify-center items-center">
+                                        <div className="relative flex items-center justify-center bg-white border shadow-2xl cursor-pointer hover rounded-2xl">
                                             {item.pno !== null && (
                                                 <Spot
                                                     key={index}
