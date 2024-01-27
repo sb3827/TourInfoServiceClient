@@ -237,11 +237,16 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
                         )}
                         {props.isModify || (
                             <Button
-                                className="btn-success"
+                                className="text-white bg-darkGreen"
                                 value={'등록'}
                                 onClick={regist}
                             />
                         )}
+                        <Button
+                            className="text-white bg-black"
+                            onClick={backPage}
+                            value={'취소'}
+                        />
                     </div>
                 </div>
             </div>
