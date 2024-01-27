@@ -19,7 +19,7 @@ type DndProps = {
 
 export const CourseList: FC<DndProps> = ({create, day}) => {
     const [items, setItems] = useState<Item[]>([])
-    const [cartView, setCartView] = useState<boolean>(false)
+    const [cartView, setCartView] = useState<boolean>(true)
 
     //장바구니 열기
     function onOpenCart() {
