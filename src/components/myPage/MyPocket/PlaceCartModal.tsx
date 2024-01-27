@@ -141,7 +141,13 @@ export const PlaceCartModal: FC<Pno> = ({pno, onCloseModal}) => {
                             어느 바구니에 넣을지 선택하세요!
                             {folderData && (
                                 <FontAwesomeIcon
-                                    onClick={folderRegister}
+                                    onClick={() => {
+                                        if (
+                                            window.confirm('장바구니를 만드시겠습니까?')
+                                        ) {
+                                            folderRegister()
+                                        }
+                                    }}
                                     icon={faPlus}
                                     className="mx-2 text-xl cursor-pointer"
                                 />
