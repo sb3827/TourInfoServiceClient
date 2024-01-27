@@ -57,7 +57,10 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
         <div
             className="flex w-full h-32 my-5 duration-100 border shadow cursor-pointer border-lightGreen stats hover:shadow-xl"
             onClick={onUserDetail}>
-            <div className="flex flex-col justify-center basis-2/5 stat">
+            <div
+                className={`flex flex-col justify-centerstat stat ${
+                    user ? 'basis-3/5' : 'basis-1/3'
+                }`}>
                 <div className="stat-figure text-secondary">
                     <div className="w-16 h-16 overflow-hidden rounded-full ">
                         <img
@@ -70,11 +73,13 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
                 <div className="my-1 text-base stat-value">{userInfo?.name}</div>
             </div>
 
-            <div className="basis-1/5 stat border-lightGreen">
+            <div
+                className={` stat border-lightGreen ${user ? 'basis-1/5' : 'basis-1/3'}`}>
                 <div className="stat-title">Total Follower</div>
                 <div className="text-base text-rose-500 stat-value">{totalFollow}</div>
             </div>
-            <div className="flex-1 basis-1/5 stat border-lightGreen">
+            <div
+                className={` stat border-lightGreen ${user ? 'basis-1/5' : 'basis-1/3'}`}>
                 <div className="stat-title">Total Following</div>
                 <div className="text-base stat-value text-primary">
                     {userInfo?.followings ? userInfo.followings : 0}
