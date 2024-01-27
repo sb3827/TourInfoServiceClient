@@ -67,13 +67,13 @@ export const ShowUserCourse = async (mno: number): Promise<userCourse> => {
 }
 
 // 팔로잉 조회
-export const ShowUserFollowings = async (mno: number): Promise<userFollows> => {
+export const ShowUserFollowings = async (mno: number): Promise<userFollows[]> => {
     const response = await commonAxios.get(`/follow/followings?mno=${mno}`)
     return response.data
 }
 
 // 팔로워 조회
-export const ShowUserFollowers = async (mno: number): Promise<userFollows> => {
+export const ShowUserFollowers = async (mno: number): Promise<userFollows[]> => {
     const response = await commonAxios.get(`/follow/followers?mno=${mno}`)
     return response.data
 }

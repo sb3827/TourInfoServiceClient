@@ -2,8 +2,8 @@ import {Box, ShowFollowModal, ShowTotalLikes, Title, LoadingSppinner} from './..
 import {Button} from './../../Button'
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {userProfile, userFollows} from './../../../data/User/User'
-import {ShowUserProfile, ShowUserFollowings} from './../../../api/MyPage/ShowUserInfo'
+import {userProfile} from './../../../data/User/User'
+import {ShowUserProfile, ShowUserFollowers} from './../../../api/MyPage/ShowUserInfo'
 import {postFollow, deleteFollow} from './../../../api/UserSearch/UserSearch'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
@@ -18,7 +18,6 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     const [loading, setLoading] = useState<boolean>(false)
     const [userProfile, setUserProfile] = useState<userProfile | null>(null)
     const [followState, setFollowState] = useState<boolean>()
-    const [userFollowings, setUserFollowings] = useState<userFollows>()
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
@@ -30,13 +29,11 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
 
     async function onFollow() {
         await postFollow(mno, userMno)
-        setFollowState(true)
         fetchData()
     }
 
     async function onUnfollow() {
         await deleteFollow(mno, userMno)
-        setFollowState(false)
         fetchData()
     }
 
@@ -44,10 +41,11 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
         try {
             setLoading(true)
             const userProfileData = await ShowUserProfile(mno)
-            const userFollowingData = await ShowUserFollowings(mno)
+            const userFollowingData = await ShowUserFollowers(mno)
             setUserProfile(userProfileData)
-            setUserFollowings(userFollowingData)
-            console.log(userFollowingData)
+            setFollowState(
+                userFollowingData.some(data => data.mno === userMno) ? true : false
+            )
             setLoading(false)
         } catch (error) {
             console.error('에러 발생', error)

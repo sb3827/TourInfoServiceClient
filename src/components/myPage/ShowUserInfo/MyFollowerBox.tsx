@@ -14,7 +14,7 @@ type MyFollowerBoxProps = {
 }
 
 export const MyFollowerBox: FC<MyFollowerBoxProps> = ({mno, closeModal}) => {
-    const [userFollowers, setUserFollowers] = useState<userFollows | null>(null)
+    const [userFollowers, setUserFollowers] = useState<userFollows[] | null>(null)
     const navigate = useNavigate()
     // const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
