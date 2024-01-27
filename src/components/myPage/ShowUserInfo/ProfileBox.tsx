@@ -78,6 +78,7 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                         </h1>
                         <br />
                         <ShowFollowModal
+                            userName={userProfile?.name}
                             following={
                                 userProfile ? userProfile.followings.toString() : ''
                             }
