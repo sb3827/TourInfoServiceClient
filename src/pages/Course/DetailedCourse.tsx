@@ -220,7 +220,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 <div className="flex flex-row items-center justify-center mb-5">
                     <MainSlider className="w-full overflow-hidden border-none rounded-3xl">
                         {placesList.map((places, idx) => (
-                            <SwiperSlide className="rounded-3xl">
+                            <SwiperSlide className="rounded-3xl" key={idx}>
                                 <div
                                     key={idx}
                                     className="flex flex-col justify-center w-full">

@@ -31,7 +31,7 @@ export const ShowFollowModal: FC<ShowFollowModalProps> = ({
 
     return (
         <div>
-            <div className="inline-block ">
+            <div className="inline-block my-2">
                 <button onClick={openModal} className="mr-4">
                     <p className="text-lg">팔로잉</p>
                 </button>

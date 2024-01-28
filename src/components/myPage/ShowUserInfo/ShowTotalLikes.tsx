@@ -43,7 +43,7 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart, mno}) => {
     }
 
     return (
-        <div className="inline-block">
+        <div className="inline-block my-2">
             {/* 버튼 클릭시 장바구니 페이지로 이동하도록 할 것*/}
             <button className="mr-2" onClick={openModal}>
                 <FontAwesomeIcon icon={faCartShopping} className="mr-3 cursor-pointer " />

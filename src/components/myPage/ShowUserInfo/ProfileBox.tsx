@@ -19,7 +19,7 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     const [userProfile, setUserProfile] = useState<userProfile | null>(null)
     const [followState, setFollowState] = useState<boolean>()
 
-    const userMno = useSelector((state: RootState) => state.login.mno) || 0
+    const userMno = useSelector((state: RootState) => state.login.mno)
 
     const navigate = useNavigate()
 
@@ -28,12 +28,12 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     }
 
     async function onFollow() {
-        await postFollow(mno, userMno)
+        userMno && (await postFollow(mno, userMno))
         fetchData()
     }
 
     async function onUnfollow() {
-        await deleteFollow(mno, userMno)
+        userMno && (await deleteFollow(mno, userMno))
         fetchData()
     }
 
@@ -64,17 +64,15 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                 <Box>
                     <div className="flex flex-col items-center justify-between h-full">
                         <Title className="text-2xl text-black mb-9 ">My Profile</Title>
-                        <div className="w-32 h-32 overflow-hidden rounded-full">
+                        <div className="w-32 h-32 my-2 overflow-hidden rounded-full">
                             <img
                                 src={userProfile ? userProfile.image : ''}
                                 alt="프로필이미지"
                             />
                         </div>
-                        <br />
-                        <h1 className="text-xl font-semibold">
+                        <h1 className="my-2 text-xl font-semibold">
                             {userProfile ? userProfile.name : ''}
                         </h1>
-                        <br />
                         <ShowFollowModal
                             userName={userProfile?.name}
                             following={
@@ -82,34 +80,34 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                             }
                             follower={userProfile ? userProfile.followers.toString() : ''}
                         />
-                        <br />
+
                         {userMno === userProfile?.mno && (
                             <ShowTotalLikes
                                 mno={Number(mno)}
-                                cart={userProfile ? userProfile.cart : 0}
+                                cart={userProfile && userProfile.cart}
                             />
                         )}
 
-                        <br />
-                        {userMno === userProfile?.mno ? (
-                            <Button
-                                value="정보 수정"
-                                onClick={onModify}
-                                className="w-full text-white bg-lightGreen"
-                            />
-                        ) : followState === true ? (
-                            <Button
-                                value="언팔로우"
-                                onClick={onUnfollow}
-                                className="w-full text-white bg-red-500"
-                            />
-                        ) : (
-                            <Button
-                                value="팔로우"
-                                onClick={onFollow}
-                                className="w-full text-white bg-blue-500"
-                            />
-                        )}
+                        {userMno &&
+                            (userMno === userProfile?.mno ? (
+                                <Button
+                                    value="정보 수정"
+                                    onClick={onModify}
+                                    className="w-full text-white bg-lightGreen"
+                                />
+                            ) : followState === true ? (
+                                <Button
+                                    value="언팔로우"
+                                    onClick={onUnfollow}
+                                    className="w-full text-white bg-red-500"
+                                />
+                            ) : (
+                                <Button
+                                    value="팔로우"
+                                    onClick={onFollow}
+                                    className="w-full text-white bg-blue-500"
+                                />
+                            ))}
                     </div>
                 </Box>
             </div>
