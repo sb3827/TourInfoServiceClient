@@ -504,7 +504,7 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
             disableDoubleClickZoom: true, // 더블 클릭 줌 해제
             draggable: true, // default true
             center: location,
-            zoom: 9, // default zoom
+            zoom: 14, // default zoom
             minZoom: 6, // min zoom
             maxZoom: 21, // max zoom
             zoomControl: true,
@@ -677,7 +677,7 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
                 disableDoubleClickZoom: true, // 더블 클릭 줌 해제
                 draggable: true, // default true
                 center: location,
-                zoom: 12, // default zoom
+                zoom: 16, // default zoom
                 minZoom: 6, // min zoom
                 maxZoom: 21, // max zoom
                 zoomControl: true,
