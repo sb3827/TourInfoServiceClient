@@ -529,15 +529,25 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
         const markers: naver.maps.Marker[] = []
         const infoWindows: naver.maps.InfoWindow[] = []
 
-        places.map(place => {
+        places.map((place, idx) => {
             const path = polyline.getPath()
             path.push(new naver.maps.LatLng(place.lat, place.lng))
 
             const maker = new naver.maps.Marker({
                 map: map,
-                position: new naver.maps.LatLng(place.lat, place.lng)
+                position: new naver.maps.LatLng(place.lat, place.lng),
+                title: idx + 1 + '',
+                icon: {
+                    content: [
+                        '<div style="color: white; font-size: 14px; border:1px solid black; padding:1px 8px; border-radius: 100%; background-color: #22B14C">',
+                        `   <h1>${idx + 1}</h1>`,
+                        '</div>'
+                    ].join(''),
+                    anchor: new naver.maps.Point(10, 0)
+                }
             })
-            //maker.setClickable(false) //최후의 방안
+
+            maker.setClickable(false) //최후의 방안
             markers.push(maker)
 
             const infowindow = new naver.maps.InfoWindow({
