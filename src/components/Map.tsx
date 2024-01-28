@@ -537,6 +537,7 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
                 map: map,
                 position: new naver.maps.LatLng(place.lat, place.lng)
             })
+            //maker.setClickable(false) //최후의 방안
             markers.push(maker)
 
             const infowindow = new naver.maps.InfoWindow({
