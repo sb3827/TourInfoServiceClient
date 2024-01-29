@@ -4,8 +4,9 @@ import {ShowUserInfo, onChangeUserData, deleteId} from './../../api/MyPage/ShowU
 import {Button} from './../../components/Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {Input, LoginInput} from './../../components/index'
+import {LoginInput} from './../../components/index'
 import {useNavigate} from 'react-router-dom'
+import common from '../../assets/profileImage.jpeg'
 
 //TODO 수정하기 버튼 클릭 시 다시 마이페이지로 이동, margin/padding 조정, 이미지 업로드 수정
 
@@ -118,7 +119,7 @@ export const MyModifyPage = () => {
                         />
                         <div className="w-24 h-24 my-3 overflow-hidden rounded-full cursor-pointer">
                             <img
-                                src={ProfileImage}
+                                src={ProfileImage ? ProfileImage : common}
                                 alt="프로필사진"
                                 onClick={() => {
                                     if (fileInput.current) {
@@ -147,7 +148,7 @@ export const MyModifyPage = () => {
                             text="전화번호 (-빼고 입력하세요)"
                             onChange={onChangeUserPhone}
                         />
-                        {User && User.fromSocial && (
+                        {User && User.fromSocial === false && (
                             <LoginInput
                                 className="my-3"
                                 value={User && User.birth ? User.birth : ''}
@@ -155,15 +156,7 @@ export const MyModifyPage = () => {
                                 disabled={true}
                             />
                         )}
-                        {User && User.fromSocial === false && (
-                            <Button
-                                value="비밀번호 변경"
-                                onClick={() => {
-                                    navigate(`/mypage/modify/password`)
-                                }}
-                                className="w-28"
-                            />
-                        )}
+
                         <div className="flex flex-col my-5">
                             <Button
                                 value="수정완료"
@@ -172,6 +165,15 @@ export const MyModifyPage = () => {
                                     onUserUpdate()
                                 }}
                             />
+                            {User && User.fromSocial === false && (
+                                <Button
+                                    value="비밀번호 변경"
+                                    onClick={() => {
+                                        navigate(`/mypage/modify/password`)
+                                    }}
+                                    className="text-white bg-blue-500"
+                                />
+                            )}
                             <Button
                                 className="text-white bg-red-500"
                                 value="탈퇴하기"

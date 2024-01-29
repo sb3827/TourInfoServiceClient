@@ -73,7 +73,7 @@ export const ShowUserFollowings = async (mno: number): Promise<userFollows[]> =>
 }
 
 // 팔로워 조회
-export const ShowUserFollowers = async (mno: number): Promise<userFollows[]> => {
+export const ShowUserFollowers = async (mno: number): Promise<userFollows[] | null> => {
     const response = await commonAxios.get(`/follow/followers?mno=${mno}`)
     return response.data
 }

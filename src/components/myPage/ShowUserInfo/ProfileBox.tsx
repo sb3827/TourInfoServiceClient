@@ -7,6 +7,7 @@ import {ShowUserProfile, ShowUserFollowers} from './../../../api/MyPage/ShowUser
 import {postFollow, deleteFollow} from './../../../api/UserSearch/UserSearch'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
+import common from '../../../assets/profileImage.jpeg'
 
 //TODO - 로그인 mno 받아와서 name 받아오기
 
@@ -42,10 +43,12 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
             setLoading(true)
             const userProfileData = await ShowUserProfile(mno)
             const userFollowingData = await ShowUserFollowers(mno)
+
             setUserProfile(userProfileData)
-            setFollowState(
-                userFollowingData.some(data => data.mno === userMno) ? true : false
-            )
+            userFollowingData &&
+                setFollowState(
+                    userFollowingData.some(data => data.mno === userMno!) ? true : false
+                )
             setLoading(false)
         } catch (error) {
             console.error('에러 발생', error)
@@ -66,7 +69,7 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                         <Title className="text-2xl text-black mb-9 ">My Profile</Title>
                         <div className="w-32 h-32 my-2 overflow-hidden rounded-full">
                             <img
-                                src={userProfile ? userProfile.image : ''}
+                                src={userProfile?.image ? userProfile.image : common}
                                 alt="프로필이미지"
                             />
                         </div>
@@ -90,11 +93,13 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
 
                         {userMno &&
                             (userMno === userProfile?.mno ? (
-                                <Button
-                                    value="정보 수정"
-                                    onClick={onModify}
-                                    className="w-full text-white bg-lightGreen"
-                                />
+                                <div>
+                                    <Button
+                                        value="정보 수정"
+                                        onClick={onModify}
+                                        className="w-full text-white bg-lightGreen"
+                                    />
+                                </div>
                             ) : followState === true ? (
                                 <Button
                                     value="언팔로우"
