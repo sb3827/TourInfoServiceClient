@@ -149,6 +149,7 @@ export const Login = () => {
                                         className="mb-3"
                                         value={userPassword}
                                         text="Password"
+                                        type="password"
                                         onChange={onUserPasswordChange}
                                     />
                                 </div>
