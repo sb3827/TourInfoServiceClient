@@ -66,6 +66,11 @@ export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
                         ))}
                 </tbody>
             </table>
+            {!boardList && (
+                <div className="py-8">
+                    <p>작성글이 없습니다.</p>
+                </div>
+            )}
         </div>
     )
 }
