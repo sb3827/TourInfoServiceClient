@@ -2,6 +2,7 @@ import {FC} from 'react'
 import {Item} from './CourseList'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
 import {Spot} from '../../Spot'
+import noImage from '../../../assets/smallLogo.png'
 
 type CartItemProps = {
     items: Item[]
@@ -42,7 +43,7 @@ export const CartItem: FC<CartItemProps> = ({
                                             {item.pno !== null && (
                                                 <Spot
                                                     key={index}
-                                                    src={item.img}
+                                                    src={item.img ? item.img : noImage}
                                                     isRegister={isRegister || false}
                                                     onDelete={() =>
                                                         onDeleteSpot &&
