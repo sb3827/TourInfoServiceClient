@@ -425,14 +425,12 @@ export const ChooseMap: FC<
             content: contentString.join(''),
 
             //maxWidth: 140,
-            backgroundColor: '#eee',
-            borderColor: '#2db400',
-            borderWidth: 5,
-            anchorSize: new naver.maps.Size(30, 30),
-            anchorSkew: true,
-            anchorColor: '#eee',
-
-            pixelOffset: new naver.maps.Point(20, -20)
+            borderColor: 'black',
+            borderWidth: 0,
+            anchorSize: new naver.maps.Size(15, 15),
+            anchorColor: 'white',
+            zIndex: 0,
+            backgroundColor: 'transparent'
         })
 
         naver.maps.Event.addListener(map, 'click', function (e) {
@@ -449,9 +447,9 @@ export const ChooseMap: FC<
                     }
 
                     contentString = [
-                        '<div class="iw_inner">',
+                        '<div class="rounded-full bg-white p-6 shadow-2xl">',
                         '   <div>',
-                        '       <p>',
+                        '       <p class="text-sm">',
                         `           [도로명 주소] ${result.roadAddress} <br />`,
                         `           [지  번 주소] ${result.localAddress}<br />`,
                         '       </p>',
@@ -461,6 +459,7 @@ export const ChooseMap: FC<
 
                     // infowindow의 내용을 업데이트합니다.
                     infowindow.setContent(contentString.join(''))
+
                     onRoadAddressChange(result.roadAddress) // 주소 보내주기
                     onLocalAddressChange(result.localAddress) // 주소 보내주기
                     onEngAddressChange(result.engAddress) // 주소 보내주기
@@ -535,44 +534,36 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
 
             const maker = new naver.maps.Marker({
                 map: map,
-                position: new naver.maps.LatLng(place.lat, place.lng),
-                title: idx + 1 + '',
-                icon: {
-                    content: [
-                        '<div style="color: white; font-size: 14px; border:1px solid black; padding:1px 8px; border-radius: 100%; background-color: #22B14C">',
-                        `   <h1>${idx + 1}</h1>`,
-                        '</div>'
-                    ].join(''),
-                    anchor: new naver.maps.Point(10, 0)
-                }
+                position: new naver.maps.LatLng(place.lat, place.lng)
             })
 
-            maker.setClickable(false) //최후의 방안
+            // maker.setClickable(false) //최후의 방안
             markers.push(maker)
 
             const infowindow = new naver.maps.InfoWindow({
                 content: [
-                    '<div class="iw_inner">',
-                    `   <h1>${place.name}</h1>`,
+                    '<div class="rounded-full bg-white p-6 shadow-xl">',
+                    `   <h1 class="my-1 text-xl text-darkGreen font-bold  ">${idx + 1}. ${
+                        place.name
+                    }</h1>`,
                     '   <div>',
-                    '       <p>',
+                    '       <p class="text-xs">',
                     `           [도로명 주소] ${place.roadAddress} <br />`,
                     `           [지  번 주소] ${place.localAddress}<br />`,
-                    `           [영문명 주소] ${place.engAddress}<br />`,
                     '       </p>',
                     '   </div>',
                     '</div>'
                 ].join(''),
 
                 //maxWidth: 140,
-                backgroundColor: '#eee',
-                borderColor: '#2db400',
-                borderWidth: 5,
-                anchorSize: new naver.maps.Size(30, 30),
-                anchorSkew: true,
-                anchorColor: '#eee',
+                borderColor: 'black',
+                borderWidth: 0,
+                anchorSize: new naver.maps.Size(15, 15),
+                anchorColor: 'white',
+                zIndex: 0,
+                backgroundColor: 'transparent',
 
-                pixelOffset: new naver.maps.Point(20, -20)
+                pixelOffset: new naver.maps.Point(0, -10)
             })
             infoWindows.push(infowindow)
         })
@@ -713,27 +704,24 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
 
                 const infowindow = new naver.maps.InfoWindow({
                     content: [
-                        '<div class="iw_inner">',
-                        `   <h1>${place.name}</h1>`,
+                        '<div class="rounded-full bg-white p-6 shadow-2xl">',
+                        `   <h1 class="my-1 text-xl text-darkGreen font-bold  ">${place.name}</h1>`,
                         '   <div>',
-                        '       <p>',
+                        '       <p class="text-xs">',
                         `           [도로명 주소] ${place.roadAddress} <br />`,
                         `           [지  번 주소] ${place.localAddress}<br />`,
-                        `           [영문명 주소] ${place.engAddress}<br />`,
                         '       </p>',
                         '   </div>',
                         '</div>'
                     ].join(''),
 
                     //maxWidth: 140,
-                    backgroundColor: '#eee',
-                    borderColor: '#2db400',
-                    borderWidth: 5,
-                    anchorSize: new naver.maps.Size(30, 30),
-                    anchorSkew: true,
-                    anchorColor: '#eee',
-
-                    pixelOffset: new naver.maps.Point(20, -20)
+                    borderColor: 'black',
+                    borderWidth: 0,
+                    anchorSize: new naver.maps.Size(15, 15),
+                    anchorColor: 'white',
+                    zIndex: 0,
+                    backgroundColor: 'transparent'
                 })
                 infoWindows.push(infowindow)
             })
