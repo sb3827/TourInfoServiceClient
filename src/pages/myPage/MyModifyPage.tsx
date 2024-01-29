@@ -10,10 +10,10 @@ import {useNavigate} from 'react-router-dom'
 //TODO 수정하기 버튼 클릭 시 다시 마이페이지로 이동, margin/padding 조정, 이미지 업로드 수정
 
 export const MyModifyPage = () => {
-    const [User, setUser] = useState<user | null>(null)
-    const [UserName, setUserName] = useState<string>(User ? User.name : '')
-    const [UserPhone, setUserPhone] = useState<string>(User ? User.phone : '')
-    const [ProfileImage, setProfileImage] = useState<string>(User ? User.image : '')
+    const [user, setUser] = useState<user | null>(null)
+    const [userName, setUserName] = useState<string>(user ? user.name : '')
+    const [userPhone, setUserPhone] = useState<string>(user ? user.phone : '')
+    const [profileImage, setProfileImage] = useState<string>(user ? user.image : '')
     const [file, setFile] = useState<File | null>(null)
     const fileInput = useRef<HTMLInputElement | null>(null)
 
@@ -52,10 +52,10 @@ export const MyModifyPage = () => {
     // //정보 수정
     async function onUserUpdate() {
         const data = {
-            mno: User!.mno,
-            name: UserName,
-            email: User!.email,
-            phone: UserPhone
+            mno: user!.mno,
+            name: userName,
+            email: user!.email,
+            phone: userPhone
         }
         try {
             await onChangeUserData(data, file)
@@ -74,7 +74,6 @@ export const MyModifyPage = () => {
             setProfileImage(userData.image)
             setUserName(userData.name)
             setUserPhone(userData.phone)
-            console.log(userData)
         } catch (error) {
             console.error('error', error)
         }
@@ -111,7 +110,7 @@ export const MyModifyPage = () => {
                         ref={fileInput}
                     />
                     <img
-                        src={ProfileImage}
+                        src={profileImage}
                         alt="프로필사진"
                         className="rounded-full cursor-pointer w-60"
                         onClick={() => {
@@ -127,14 +126,14 @@ export const MyModifyPage = () => {
                         <Input
                             className="w-64 bg-white"
                             onChange={onChangeUserName}
-                            value={UserName}
+                            value={userName}
                         />
                     </div>
                     <div className="p-4">
                         <span className="mr-4">이메일</span>
                         <input
                             type="text"
-                            value={User && User.email ? User.email : ''}
+                            value={user && user.email ? user.email : ''}
                             className="w-64 h-12 p-4 text-white rounded-md bg-gray-950"
                             disabled
                         />
@@ -143,7 +142,7 @@ export const MyModifyPage = () => {
                         <span className="mr-4">전화번호</span>
                         <Input
                             className="w-64 bg-white"
-                            value={UserPhone}
+                            value={userPhone}
                             onChange={onChangeUserPhone}
                         />
                     </div>
@@ -151,12 +150,12 @@ export const MyModifyPage = () => {
                         <span className="mr-4">생년월일</span>
                         <input
                             type="text"
-                            value={User && User.birth ? User.birth : ''}
+                            value={user && user.birth ? user.birth : ''}
                             className="w-64 h-12 p-4 text-white rounded-md bg-gray-950"
                             disabled
                         />
                     </div>
-                    {User && User.fromSocial === false && (
+                    {user && user.fromSocial === false && (
                         <Button
                             value="비밀번호 변경"
                             onClick={() => {
