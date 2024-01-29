@@ -58,6 +58,7 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart, mno}) => {
                         <div className="px-14">
                             <DragDropContext onDragEnd={() => {}}>
                                 <MyCart
+                                    myCart={true}
                                     onClose={refreshFlag}
                                     dragDisable={true}
                                     mno={Number(mno)}
