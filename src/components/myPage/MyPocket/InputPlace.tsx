@@ -240,7 +240,8 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                 <div>
                                     {RegisterSpotModal ? (
                                         <Modal isOpen onClose={closeRegisterSpotModal}>
-                                            <div className="w-full h-full p-8">
+                                            <div className="w-full h-full p-4">
+                                                <Title>장소 추가</Title>
                                                 <div className="flex bg-white">
                                                     <div className="flex items-center justify-between w-full mb-3 ">
                                                         {/* <div className="flex items-center">
@@ -253,7 +254,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                                         </div> */}
                                                         <div className="flex items-center w-full h-full">
                                                             <select
-                                                                className="py-3 border-2 border-darkGreen rounded-xl"
+                                                                className="px-2 py-3 border-2 border-darkGreen rounded-xl"
                                                                 value={
                                                                     selectedSpotCategory
                                                                 }
