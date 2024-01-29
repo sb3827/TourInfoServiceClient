@@ -21,7 +21,6 @@ export const MyFollowingBox: FC<MyFollowingBoxProps> = ({mno, closeModal}) => {
         try {
             const userFollowingData = await ShowUserFollowings(mno)
             setUserFollowings(userFollowingData)
-            console.log(userFollowingData)
         } catch (error) {
             console.error('에러 발생', error)
         }
@@ -31,7 +30,6 @@ export const MyFollowingBox: FC<MyFollowingBoxProps> = ({mno, closeModal}) => {
         fetchData()
     }, [])
 
-    //TODO 프로필 이미지 없을 경우 이미지 변경, 클릭시 클릭한 사람의 프로필 조회
     return (
         <div>
             <div className="flex-row w-full pt-4 overflow-y-auto border-2 h-96 rounded-tr-3xl rounded-bl-3xl">
