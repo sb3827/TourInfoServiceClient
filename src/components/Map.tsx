@@ -314,28 +314,21 @@ export const PlacePostMap: FC<PropsWithChildren<PlacePostMapProps>> = ({
             content: contentString.join(''),
 
             //maxWidth: 140,
-            backgroundColor: '#eee',
-            borderColor: '#2db400',
-            borderWidth: 5,
-            anchorSize: new naver.maps.Size(30, 30),
-            anchorSkew: true,
-            anchorColor: '#eee',
-
-            pixelOffset: new naver.maps.Point(20, -20)
+            borderColor: 'black',
+            borderWidth: 0,
+            anchorSize: new naver.maps.Size(15, 15),
+            anchorColor: 'white',
+            zIndex: 0,
+            backgroundColor: 'transparent'
         })
 
         contentString = [
-            '<div class="iw_inner">',
-            `   <h1>${place.name}</h1>`,
+            '<div class="rounded-full bg-white p-6 shadow-xl">',
+            `   <h1 class="my-1 text-xl text-darkGreen font-bold  ">${place.name}</h1>`,
             '   <div>',
-            '       <p>',
-            `           ${
-                place.roadAddress && `[도로명 주소] ${place.roadAddress} <br />`
-            }`,
-            `           ${
-                place.localAddress && `[지  번 주소] ${place.localAddress}<br />`
-            }`,
-            `           ${place.engAddress && `[영문명 주소] ${place.engAddress}<br />`}`,
+            '       <p class="text-xs">',
+            `           [도로명 주소] ${place.roadAddress} <br />`,
+            `           [지  번 주소] ${place.localAddress}<br />`,
             '       </p>',
             '   </div>',
             '</div>'
@@ -561,9 +554,7 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
                 anchorSize: new naver.maps.Size(15, 15),
                 anchorColor: 'white',
                 zIndex: 0,
-                backgroundColor: 'transparent',
-
-                pixelOffset: new naver.maps.Point(0, -10)
+                backgroundColor: 'transparent'
             })
             infoWindows.push(infowindow)
         })
