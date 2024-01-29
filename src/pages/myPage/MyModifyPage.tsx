@@ -4,7 +4,7 @@ import {ShowUserInfo, onChangeUserData, deleteId} from './../../api/MyPage/ShowU
 import {Button} from './../../components/Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {LoginInput} from './../../components/index'
+import {LoginInput, Title} from './../../components/index'
 import {useNavigate} from 'react-router-dom'
 import common from '../../assets/profileImage.jpeg'
 
@@ -106,6 +106,7 @@ export const MyModifyPage = () => {
         <div className="w-full my-14">
             <div className="flex items-center justify-center ">
                 <div className="flex flex-col items-center justify-center w-1/3 py-12 shadow-2xl rounded-3xl bg-red">
+                    <Title className="my-2">정보 수정</Title>
                     <div className="flex flex-col items-center justify-center w-1/3 ">
                         <input
                             type="file"
