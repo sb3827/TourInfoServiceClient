@@ -599,21 +599,21 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
         }
 
         // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
-        function getClickHandler(seq: number) {
+        function getMouseOverHandler(seq: number) {
             return function (e: any) {
-                var marker = markers[seq],
-                    infoWindow = infoWindows[seq]
+                infoWindows[seq].open(map, markers[seq])
+            }
+        }
 
-                if (infoWindow.getMap()) {
-                    infoWindow.close()
-                } else {
-                    infoWindow.open(map, marker)
-                }
+        function getMouseOutHandler(seq: number) {
+            return function (e: any) {
+                infoWindows[seq].close()
             }
         }
 
         for (var i = 0, ii = markers.length; i < ii; i++) {
-            naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i))
+            naver.maps.Event.addListener(markers[i], 'mouseover', getMouseOverHandler(i))
+            naver.maps.Event.addListener(markers[i], 'mouseout', getMouseOutHandler(i))
         }
     }, [places])
 
