@@ -1,12 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {
-    Box,
     SearchInput,
     SearchInfo,
     SearchMap,
     Button,
     SearchMapRef,
-    LoadingSppinner
+    LoadingSppinnerSmall
 } from '../../components/index'
 import {PlaceData} from '../../data/placeSearch'
 import {getSearchPlaceInfo} from '../../api'
@@ -83,7 +82,6 @@ export const PlaceSearch = () => {
 
     return (
         <div className="flex flex-col items-center justify-center w-full py-0 mt-14">
-            {loading && <LoadingSppinner />}
             <div className="flex justify-center w-2/3">
                 <div className="flex w-full">
                     <select
@@ -118,17 +116,26 @@ export const PlaceSearch = () => {
                 )}
             </div>
 
-            <div className="flex justify-center w-full h-screen py-5">
-                <div className="flex w-2/3 h-5/6">
+            <div className="flex justify-center w-full h-screen py-5 mb-12">
+                <div className="relative flex w-2/3 h-full ">
+                    {loading && <LoadingSppinnerSmall />}
                     <div className="w-1/3 overflow-y-auto border rounded-lg border--300 border-lightGreen">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
-                        {placeInfoData &&
+                        {placeInfoData && placeInfoData.length > 0 ? (
                             placeInfoData.map((data: PlaceData, index) => (
                                 <SearchInfo
+                                    key={index}
                                     placeInfoData={data}
                                     mapClick={() => onMap(index)}
                                 />
-                            ))}
+                            ))
+                        ) : (
+                            <div className="flex items-center justify-center h-full ">
+                                <p className="text-lg font-semibold">
+                                    검색 결과가 없습니다...
+                                </p>
+                            </div>
+                        )}
                     </div>
                     <div className="w-2/3 border rounded-lg border-lightGreen ">
                         {/* MapAPI 컴포넌트 */}

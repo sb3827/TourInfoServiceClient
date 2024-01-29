@@ -71,15 +71,15 @@ export const Board: FC<BoardProps> = ({placeBoardData}) => {
                     <div className="absolute flex right-3 top-3">
                         <div className="flex flex-col items-center mr-1">
                             <p>
-                                <FontAwesomeIcon icon={faHeart} size="lg" color="red" />
-                            </p>
-                            <p>{placeBoardData?.likes}</p>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <p>
                                 <FontAwesomeIcon icon={faStar} size="lg" color="gold" />
                             </p>
                             <p> {placeBoardData?.score}</p>
+                        </div>
+                        <div className="flex flex-col items-center ">
+                            <p>
+                                <FontAwesomeIcon icon={faHeart} size="lg" color="red" />
+                            </p>
+                            <p>{placeBoardData?.likes}</p>
                         </div>
                     </div>
                 </div>

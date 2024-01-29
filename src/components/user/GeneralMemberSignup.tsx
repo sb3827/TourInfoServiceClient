@@ -39,6 +39,12 @@ export const GeneralMemberSignup = () => {
     const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
     const [loading, setLoading] = useState<Boolean>(false)
 
+    const [customDomain, setCustomDomain] = useState<string>('@');
+
+    const onChangeCustomDomain = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setCustomDomain(e.target.value);
+      };
+
     //이메일 검증
     const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
     const phone_regex = /^010-([0-9]{3,4})-([0-9]{4})$/
@@ -93,13 +99,13 @@ export const GeneralMemberSignup = () => {
             alert('이메일을 입력하세요')
             return
         }
-        if (!email_regex.test(userEmail + selectValue)) {
+        if (!email_regex.test(userEmail + (selectValue == 'custom' ? customDomain : selectValue ))) {
             alert('이메일 형식이 아닙니다.')
             return
         }
         try {
-            const data = await duplicatedEmailCheckRequest(userEmail + selectValue)
-            dispatch(setEmail(userEmail + selectValue))
+            const data = await duplicatedEmailCheckRequest(userEmail + (selectValue == 'custom' ? customDomain : selectValue ))
+            dispatch(setEmail(userEmail + (selectValue == 'custom' ? customDomain : selectValue )))
 
             alert(
                 data.isDuplicate ? '이미 가입된 이메일입니다' : '사용 가능한 이메일입니다'
@@ -145,38 +151,48 @@ export const GeneralMemberSignup = () => {
             )
         ) {
             return
-        }
+        } else {
         try {
             setLoading(true)
             const data: SignupData = {
-                email: userEmail + selectValue,
+                email: userEmail + (selectValue == 'custom' ? customDomain : selectValue ),
                 password: userPassword,
                 birth: userBirthDate,
                 phone: formattedPhoneNumber,
                 name: userName,
                 role: 'MEMBER'
             }
+            if (
+                email_regex.test(userEmail + (selectValue == 'custom' ? customDomain : selectValue ))
+            ) {
             const result = await signupRequest(data)
-            dispatch(setEmail(userEmail + selectValue))
+            dispatch(setEmail(userEmail + (selectValue == 'custom' ? customDomain : selectValue )))
             alert('회원가입성공! 이메일 인증을 진행해주세요')
             navigate('/login')
+            }
+            else {
+                alert('이메일을 확인하세요')
+                setIsEmailChecked(false)
+            }
         } catch (error) {
             alert('회원가입 요청 실패')
             console.log(error)
         }
         setLoading(false)
+        }
     }
 
     return (
         <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
             {loading && <LoadingSppinner />}
             <div className="">
-                <Title className="my-6 text-[#609966]">여행의발견 계정 만들기</Title>
+                <Title className="my-6 mb-8 text-[#609966]">여행의발견 계정 만들기</Title>
                 <Subtitle className="text-[#8EB682]">
                     개성 있는 여행을 위한 맞춤형 계획을 세우세요.
+                    {' '}
                 </Subtitle>
                 <Subtitle className="mb-8 text-[#8EB682]">
-                    {' '}
+                    
                     DoT와 함께라면 여행은 더욱 특별해집니다.
                 </Subtitle>
                 <div onKeyDown={onSignupClicked}>
@@ -197,7 +213,17 @@ export const GeneralMemberSignup = () => {
                                     <option value="@naver.com">@naver.com</option>
                                     <option value="@gmail.com">@gmail.com</option>
                                     <option value="@kako.com">@kakao.com</option>
+                                    <option value="custom">직접 입력</option>
                                 </select>
+                                {selectValue === 'custom' && (
+                                    <input
+                                    type="text"
+                                    value={customDomain}
+                                    onChange={onChangeCustomDomain}
+                                    placeholder="Enter custom domain"
+                                    className="block p-2 mt-1 leading-tight bg-white border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline"
+                                  />
+                                )}
                             </div>
                         </DropdownSelect>
                         <Button

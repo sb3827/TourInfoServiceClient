@@ -2,8 +2,10 @@ import {useState} from 'react'
 import {Title, Subtitle, DropdownSelect, Button, LoginInput} from '../../components'
 import {FindPasswordRequest} from '../../api/Find/Find'
 import {useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
 export const FindPassword = () => {
+    const navigate = useNavigate()
     const [userEmail, setUserEmail] = useState<string>('')
     const dispatch = useDispatch()
     //이메일 검증
@@ -39,6 +41,7 @@ export const FindPassword = () => {
             const data = await FindPasswordRequest(userEmail)
             if (data.result) {
                 alert('이메일로 임시비밀번호를 전송하였습니다')
+                navigate('/login')
             } else {
                 alert('일치하는 회원정보가 없습니다')
             }

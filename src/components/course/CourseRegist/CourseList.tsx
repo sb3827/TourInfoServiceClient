@@ -4,7 +4,7 @@ import {RootState} from '../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 import {addItemAtPosition, moveItem} from '../../../store/slices/CourseSlice'
 import {useDispatch} from 'react-redux'
-import {CartItem, DayItem, MyCart} from '../../index'
+import {DayItem, MyCart} from '../../index'
 
 export type Item = {
     pno: number
@@ -19,6 +19,17 @@ type DndProps = {
 
 export const CourseList: FC<DndProps> = ({create, day}) => {
     const [items, setItems] = useState<Item[]>([])
+    const [cartView, setCartView] = useState<boolean>(false)
+
+    //장바구니 열기
+    function onOpenCart() {
+        setCartView(true)
+    }
+
+    //장바구니 닫기
+    function onCloseCart() {
+        setCartView(false)
+    }
 
     const onChangeItems = (item: Item[]) => {
         setItems(item)
@@ -93,7 +104,24 @@ export const CourseList: FC<DndProps> = ({create, day}) => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             {/* 장바구니 데이터 */}
-            {create && <MyCart onChangeItems={onChangeItems} mno={userMno} />}
+            {create && (
+                <div className="my-5">
+                    <span
+                        className="cursor-pointer hover:font-semibold"
+                        onClick={!cartView ? onOpenCart : onCloseCart}>
+                        {!cartView ? '- 장바구니 열기 -' : '- 장바구니 닫기 -'}
+                    </span>
+                </div>
+            )}
+            {create && (
+                <div className={cartView ? ' animate-slideDown' : 'animate-slideUp'}>
+                    <MyCart
+                        onChangeItems={onChangeItems}
+                        mno={userMno}
+                        animate={cartView ? 'block' : 'hidden'}
+                    />
+                </div>
+            )}
             {/* mno 삭제 */}
             {/* 요일 데이터 */}
             <DayItem day={day} create={create} />

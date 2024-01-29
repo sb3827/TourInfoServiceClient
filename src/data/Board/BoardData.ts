@@ -37,6 +37,7 @@ export type placeDTOS = {
     name: string
     lat: number
     lng: number
+    src: string
     roadAddress: string
     localAddress: string
     engAddress: string

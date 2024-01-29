@@ -34,7 +34,7 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, modal, ...prop
         if (placeInfoData && placeInfoData.pno) {
             // 예상되는 pno 데이터가 있다면
             const {pno} = placeInfoData
-            navigate(`/board/place/${pno}`) // 해당 pno를 사용하여 동적 경로로 이동
+            navigate(`/board/place/${pno}`, {state: {placeInfoData}}) // 해당 pno를 사용하여 동적 경로로 이동
         } else {
             console.error("No 'pno' data available")
         }
@@ -57,7 +57,7 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, modal, ...prop
                 />
                 {user && !modal && (
                     <label
-                        className="absolute z-50 px-3 top-2 btn right-2"
+                        className="absolute z-0 px-3 top-2 btn right-2"
                         onClick={onOpenModal}>
                         <FontAwesomeIcon icon={faCartPlus} className="text-lg " />
                     </label>
