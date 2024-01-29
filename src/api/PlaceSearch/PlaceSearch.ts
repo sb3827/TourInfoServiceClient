@@ -13,7 +13,7 @@ export const getSearchPlaceInfo = async (
 //장소에 대한 보드 들고오기
 export const getPlaceDetailsInfo = async (
     pno: number
-): Promise<PlaceBoardData[]> => {
+): Promise<PlaceBoardData[] | null> => {
     const response = await commonAxios.get(`/board/place?pno=${pno}`)
     return response.data
 }

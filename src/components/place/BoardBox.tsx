@@ -10,7 +10,7 @@ export const BoardBox: FC<PropsWithChildren<SubBoxProps>> = ({children, classNam
     const subBoxStyle = `p-3 overflow-y-auto bg-white border border-lightGreen rounded-lg h-screen  ${className}`
     return (
         <div className="flex justify-center w-full mb-5 ">
-            <div className="flex flex-col w-full ">
+            <div className="relative flex flex-col w-full ">
                 <div className={subBoxStyle}>{children}</div>
             </div>
         </div>

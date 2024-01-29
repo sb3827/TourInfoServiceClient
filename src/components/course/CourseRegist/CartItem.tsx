@@ -19,7 +19,11 @@ export const CartItem: FC<CartItemProps> = ({
     return (
         <div className="flex flex-wrap">
             {items.map((item, index) => (
-                <Droppable droppableId="droppable" direction="horizontal" isDropDisabled>
+                <Droppable
+                    key={index}
+                    droppableId="droppable"
+                    direction="horizontal"
+                    isDropDisabled>
                     {provided => (
                         <div {...provided.droppableProps} ref={provided.innerRef}>
                             <Draggable
@@ -29,20 +33,25 @@ export const CartItem: FC<CartItemProps> = ({
                                 index={index}>
                                 {provided => (
                                     <div
+                                        className="relative flex m-2"
+                                        key={index}
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
-                                        {item.pno !== null && (
-                                            <Spot
-                                                key={index}
-                                                src={item.img}
-                                                isRegister={isRegister || false}
-                                                onDelete={() =>
-                                                    onDeleteSpot && onDeleteSpot(item.pno)
-                                                }>
-                                                {item.pname}
-                                            </Spot>
-                                        )}
+                                        <div className="relative flex items-center justify-center bg-white border shadow-2xl cursor-pointer hover rounded-2xl">
+                                            {item.pno !== null && (
+                                                <Spot
+                                                    key={index}
+                                                    src={item.img}
+                                                    isRegister={isRegister || false}
+                                                    onDelete={() =>
+                                                        onDeleteSpot &&
+                                                        onDeleteSpot(item.pno)
+                                                    }>
+                                                    {item.pname}
+                                                </Spot>
+                                            )}
+                                        </div>
                                     </div>
                                 )}
                             </Draggable>

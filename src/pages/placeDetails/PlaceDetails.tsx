@@ -11,13 +11,18 @@ import {
     Title
 } from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {useNavigate, useParams} from 'react-router-dom'
+import {useLocation, useNavigate, useParams} from 'react-router-dom'
 import {getPlaceDetailsInfo} from '../../api'
-import {PlaceBoardData} from '../../data/placeSearch'
+import {PlaceBoardData, PlaceData} from '../../data/placeSearch'
 import {faList, faPlus} from '@fortawesome/free-solid-svg-icons'
 
 // 장소 상세 페이지
 export const PlaceDetails = () => {
+    const location = useLocation()
+    const placeInfoData: PlaceData = location.state?.placeInfoData
+
+    const placeInfo = [placeInfoData]
+
     const [boardData, setBoardData] = useState<PlaceBoardData[] | null>(null)
     const {pno} = useParams()
     const navigate = useNavigate()
@@ -29,11 +34,11 @@ export const PlaceDetails = () => {
             if (pnoNumber !== undefined) {
                 setLoading(true)
                 const data = await getPlaceDetailsInfo(pnoNumber)
-                setBoardData(data)
+
+                data && setBoardData(data)
                 setLoading(false)
             }
         } catch (err) {
-            alert('게시글이 없습니다!')
             console.error('Error fetching data:', err)
             setLoading(false)
         }
@@ -60,11 +65,13 @@ export const PlaceDetails = () => {
                 {loading && <LoadingSppinner />}
                 <div className="flex justify-center w-full">
                     <div className="w-full ">
-                        <Title className="py-3">{boardData && boardData[0].name}</Title>
-                        {boardData && (
+                        <Title className="py-3">
+                            {placeInfoData && placeInfoData.name}
+                        </Title>
+                        {placeInfoData && (
                             <div className="mb-10 overflow-hidden shadow-xl rounded-xl">
                                 <SearchMap
-                                    places={boardData}
+                                    places={placeInfo}
                                     className="w-full "
                                     innerRef={null}
                                 />
@@ -89,18 +96,30 @@ export const PlaceDetails = () => {
                         <FontAwesomeIcon icon={faList} className="m-1" />
                     </Subtitle>
                     <BoardBox>
-                        {boardData &&
+                        {boardData && boardData.some(data => !data.ad === true) ? (
                             boardData.map(
-                                (data: PlaceBoardData) =>
-                                    !data.ad && <Board placeBoardData={data} />
-                            )}
+                                (data: PlaceBoardData, index) =>
+                                    !data.ad && (
+                                        <Board key={index} placeBoardData={data} />
+                                    )
+                            )
+                        ) : (
+                            <div className="flex items-center justify-center w-full h-full">
+                                <p className="text-xl font-bold">게시글이 없습니다...</p>
+                            </div>
+                        )}
                     </BoardBox>
                     <BoardBox>
-                        {boardData &&
+                        {boardData && boardData.some(data => data.ad === true) ? (
                             boardData.map(
-                                (data: PlaceBoardData) =>
-                                    data.ad && <Board placeBoardData={data} />
-                            )}
+                                (data: PlaceBoardData, index) =>
+                                    data.ad && <Board key={index} placeBoardData={data} />
+                            )
+                        ) : (
+                            <div className="flex items-center justify-center w-full h-full">
+                                <p className="text-xl font-bold">게시글이 없습니다...</p>
+                            </div>
+                        )}
                     </BoardBox>
                 </BoardToggle>
             </div>

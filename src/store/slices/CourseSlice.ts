@@ -68,7 +68,12 @@ export const CourseSlice = createSlice({
         addLastItem: (state, action: PayloadAction<AddItem>) => {
             const {index, item} = action.payload
             if (index >= 0 && index < state.length) {
-                state[index].unshift(item)
+                // 해당 인덱스의 배열에서 동일한 pno를 가진 item이 있는지 확인
+                const existingItem = state[index].find(i => i.pno === item.pno)
+                if (!existingItem) {
+                    // 동일한 item이 없으면 배열에 추가
+                    state[index].push(item)
+                }
             }
         },
         //해당 날짜에서 선택한 place제거
@@ -117,6 +122,9 @@ export const CourseSlice = createSlice({
                     dayItems.splice(itemIndex, 0, item)
                 }
             }
+        },
+        setCommonState: (state, action: PayloadAction<CommonState>) => {
+            return action.payload
         }
     }
 })
@@ -129,7 +137,8 @@ export const {
     addLastItem,
     deleteItem,
     moveItem,
-    addItemAtPosition
+    addItemAtPosition,
+    setCommonState
 } = CourseSlice.actions
 
 export default CourseSlice
