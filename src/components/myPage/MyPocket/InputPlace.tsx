@@ -47,7 +47,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
         const [selectedCategory, setSelectedCategory] = useState<string>('') // 장소 검색할때 category
         const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null) // 장소 검색 결과
         const searchMapRef = useRef<SearchMapRef | null>(null)
-        const [RegisterSpotModal, setRegisterSpotModal] = useState(false)
+        const [registerSpotModal, setRegisterSpotModal] = useState(false)
 
         // 장소 등록을 위한 값
         const [placeName, setPlaceName] = useState<string>('')
@@ -161,7 +161,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
 
         useEffect(() => {
             onPlaceList()
-        }, [RegisterSpotModal])
+        }, [registerSpotModal])
 
         return (
             <div className={className}>
@@ -238,7 +238,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
 
                                 {/* 장소등록 모달 */}
                                 <div>
-                                    {RegisterSpotModal ? (
+                                    {registerSpotModal ? (
                                         <Modal isOpen onClose={closeRegisterSpotModal}>
                                             <div className="w-full h-full p-4">
                                                 <Title>장소 추가</Title>
@@ -311,7 +311,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                     ) : null}
                                 </div>
                                 <div className="w-4/6 border border-gray-300 rounded-lg">
-                                    {!RegisterSpotModal &&
+                                    {!registerSpotModal &&
                                         (placeInfoData ? (
                                             <SearchMap
                                                 places={placeInfoData}

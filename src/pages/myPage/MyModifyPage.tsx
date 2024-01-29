@@ -11,10 +11,10 @@ import common from '../../assets/profileImage.jpeg'
 //TODO 수정하기 버튼 클릭 시 다시 마이페이지로 이동, margin/padding 조정, 이미지 업로드 수정
 
 export const MyModifyPage = () => {
-    const [User, setUser] = useState<user | null>(null)
-    const [UserName, setUserName] = useState<string>(User ? User.name : '')
-    const [UserPhone, setUserPhone] = useState<string>(User ? User.phone : '')
-    const [ProfileImage, setProfileImage] = useState<string>(User ? User.image : '')
+    const [user, setUser] = useState<user | null>(null)
+    const [userName, setUserName] = useState<string>(user ? user.name : '')
+    const [userPhone, setUserPhone] = useState<string>(user ? user.phone : '')
+    const [profileImage, setProfileImage] = useState<string>(user ? user.image : '')
     const [file, setFile] = useState<File | null>(null)
     const fileInput = useRef<HTMLInputElement | null>(null)
 
@@ -53,10 +53,10 @@ export const MyModifyPage = () => {
     // //정보 수정
     async function onUserUpdate() {
         const data = {
-            mno: User!.mno,
-            name: UserName,
-            email: User!.email,
-            phone: UserPhone
+            mno: user!.mno,
+            name: userName,
+            email: user!.email,
+            phone: userPhone
         }
         try {
             await onChangeUserData(data, file)
@@ -75,7 +75,6 @@ export const MyModifyPage = () => {
             setProfileImage(userData.image)
             setUserName(userData.name)
             setUserPhone(userData.phone)
-            console.log(userData)
         } catch (error) {
             console.error('error', error)
         }
@@ -119,7 +118,7 @@ export const MyModifyPage = () => {
                         />
                         <div className="w-24 h-24 my-3 overflow-hidden rounded-full cursor-pointer">
                             <img
-                                src={ProfileImage ? ProfileImage : common}
+                                src={profileImage ? profileImage : common}
                                 alt="프로필사진"
                                 onClick={() => {
                                     if (fileInput.current) {
@@ -132,26 +131,26 @@ export const MyModifyPage = () => {
                     <div className="items-center w-1/2">
                         <LoginInput
                             className="my-3"
-                            value={UserName}
+                            value={userName}
                             text="이름"
                             onChange={onChangeUserName}
                         />
                         <LoginInput
                             className="my-3"
-                            value={User && User.email ? User.email : ''}
+                            value={user && user.email ? user.email : ''}
                             text="Email (변경불가)"
                             disabled={true}
                         />
                         <LoginInput
                             className="my-3"
-                            value={UserPhone}
+                            value={userPhone}
                             text="전화번호 (-빼고 입력하세요)"
                             onChange={onChangeUserPhone}
                         />
-                        {User && User.fromSocial === false && (
+                        {user && user.fromSocial === false && (
                             <LoginInput
                                 className="my-3"
-                                value={User && User.birth ? User.birth : ''}
+                                value={user && user.birth ? user.birth : ''}
                                 text="생년월일 (변경불가)"
                                 disabled={true}
                             />
@@ -165,7 +164,7 @@ export const MyModifyPage = () => {
                                     onUserUpdate()
                                 }}
                             />
-                            {User && User.fromSocial === false && (
+                            {user && user.fromSocial === false && (
                                 <Button
                                     value="비밀번호 변경"
                                     onClick={() => {

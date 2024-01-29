@@ -63,7 +63,6 @@ export const PlaceCartModal: FC<Pno> = ({pno, onCloseModal}) => {
             const data = await ShowFolderAll(user)
             setFolderData(data)
             setFoldersTitles(data.data.map(item => item.title))
-            console.log(data)
         } catch (err) {
             console.error(err)
         }
