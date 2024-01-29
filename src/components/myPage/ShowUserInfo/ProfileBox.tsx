@@ -55,7 +55,7 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
 
     useEffect(() => {
         fetchData()
-    }, [mno])
+    }, [mno, followState])
 
     return (
         <div>
