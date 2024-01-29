@@ -5,7 +5,8 @@ import {
     SearchMap,
     Button,
     SearchMapRef,
-    LoadingSppinnerSmall
+    LoadingSppinnerSmall,
+    Title
 } from '../../components/index'
 import {PlaceData} from '../../data/placeSearch'
 import {getSearchPlaceInfo} from '../../api'
@@ -82,6 +83,8 @@ export const PlaceSearch = () => {
 
     return (
         <div className="flex flex-col items-center justify-center w-full py-0 mt-14">
+            <Title className="mb-5 text-darkGreen">장소 게시판</Title>
+
             <div className="flex justify-center w-2/3">
                 <div className="flex w-full">
                     <select

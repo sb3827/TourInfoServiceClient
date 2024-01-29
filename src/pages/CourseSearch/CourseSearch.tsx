@@ -7,7 +7,8 @@ import {
     Subtitle,
     BoardBox,
     Button,
-    LoadingSppinnerSmall
+    LoadingSppinnerSmall,
+    Title
 } from '../../components/index'
 import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
 import {CourseBoardListData} from '../../data/Board/BoardData'
@@ -72,6 +73,7 @@ export const CourseSearch = () => {
     return (
         <Box>
             <div className="w-1/2">
+                <Title className="mb-5 text-darkGreen">코스 게시판</Title>
                 <div className="flex w-full mb-5">
                     <div className="flex w-full">
                         <SearchInput
