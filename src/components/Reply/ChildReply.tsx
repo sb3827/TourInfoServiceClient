@@ -11,6 +11,7 @@ import {deleteReply, updateReply} from '../../api'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import ReplyReportModal from './ReplyReportModal'
+import {useNavigate} from 'react-router-dom'
 
 type ChildReplyProps = {
     viewReply: Boolean
@@ -24,6 +25,8 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
     getRereply
 }) => {
     const mno = useSelector((state: RootState) => state.login.mno)
+
+    const navigate = useNavigate()
 
     //댓글 값
     const [replyValue, setReplyValue] = useState<string>(reReplyData.text)
@@ -99,11 +102,29 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
                 <div className="flex flex-col items-center justify-center w-24">
                     <div>
                         <img
-                            className="w-10"
+                            className="w-10 cursor-pointer"
+                            alt="프로필 사진"
                             src={reReplyData.src ? reReplyData.src : dummyImage}
+                            onClick={() => {
+                                if (reReplyData.mno !== null) {
+                                    navigate(`/mypage/${reReplyData.mno}`)
+                                } else {
+                                    alert('탈퇴한 회원입니다')
+                                }
+                            }}
                         />
                     </div>
-                    <div className="flex items-center">{reReplyData.name}</div>
+                    <div
+                        className="flex items-center cursor-pointer hover:underline"
+                        onClick={() => {
+                            if (reReplyData.mno !== null) {
+                                navigate(`/mypage/${reReplyData.mno}`)
+                            } else {
+                                alert('탈퇴한 회원입니다')
+                            }
+                        }}>
+                        {reReplyData.name}
+                    </div>
                 </div>
                 <div className="flex flex-col w-5/6">
                     <div className="flex justify-end mx-4 my-2">
