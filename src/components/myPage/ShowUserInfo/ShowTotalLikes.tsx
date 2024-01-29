@@ -25,7 +25,6 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart, mno}) => {
         try {
             const userFolderData = await ShowFolderAll(mno)
             setFolder(userFolderData)
-            console.log(userFolderData)
         } catch (error) {
             console.error('error', error)
         }
@@ -33,7 +32,6 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart, mno}) => {
 
     useEffect(() => {
         fetchData()
-        console.log(folder)
     }, [refreshFlag])
 
     const openModal = () => {

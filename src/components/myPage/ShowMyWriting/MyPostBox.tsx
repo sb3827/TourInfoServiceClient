@@ -8,7 +8,7 @@ type MyPostBoxProps = {
 }
 
 export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
-    const [BoardList, setBoardList] = useState<userBoard>()
+    const [boardList, setBoardList] = useState<userBoard>()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -16,7 +16,6 @@ export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
             try {
                 const userBoardData = await ShowUserBoard(mno)
                 setBoardList(userBoardData)
-                console.log(userBoardData)
             } catch {
                 console.error('error')
             }
@@ -36,8 +35,8 @@ export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {Array.isArray(BoardList) &&
-                        BoardList.map((board: userBoard) => (
+                    {Array.isArray(boardList) &&
+                        boardList.map((board: userBoard) => (
                             <tr>
                                 <td>
                                     <label

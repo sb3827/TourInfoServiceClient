@@ -8,7 +8,7 @@ type MyReplyBoxProps = {
 }
 
 export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
-    const [ReplyList, setReplyList] = useState<userReply | null>(null)
+    const [replyList, setReplyList] = useState<userReply | null>(null)
 
     const navigate = useNavigate()
 
@@ -17,7 +17,6 @@ export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
             try {
                 const userReplyData = await ShowUserReply(mno)
                 setReplyList(userReplyData)
-                console.log(userReplyData)
             } catch (error) {
                 console.error('error', error)
             }
@@ -38,8 +37,8 @@ export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {Array.isArray(ReplyList) &&
-                            ReplyList.map((reply: userReply) => (
+                        {Array.isArray(replyList) &&
+                            replyList.map((reply: userReply) => (
                                 <tr key={reply.rno}>
                                     <td className="px-4">
                                         <span>{reply.rno}</span>
