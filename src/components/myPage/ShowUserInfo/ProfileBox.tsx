@@ -1,4 +1,4 @@
-import {Box, UserAvatar, ShowFollowModal, ShowTotalLikes} from './../../index'
+import {Box, ShowFollowModal, ShowTotalLikes} from './../../index'
 import {Button} from './../../Button'
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
