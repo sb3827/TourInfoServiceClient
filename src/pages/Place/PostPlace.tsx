@@ -188,7 +188,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                             <div className="flex flex-row justify-start">
                                 작성자: {writer}
                             </div>
-                            <div className="flex flex-row justify-end">{date}</div>
+                            <div className="flex flex-row justify-end">{date.slice(0,16)}</div>
                         </div>
                     </div>
                 </div>

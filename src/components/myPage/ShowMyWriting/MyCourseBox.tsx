@@ -62,7 +62,7 @@ export const MyCourseBox: FC<MyCourseBoxProps> = ({mno}) => {
                                     </span>
                                 </td>
                                 <td className="">{course.writer}</td>
-                                <td className="">{course.regdate}</td>
+                                <td className="">{course.regdate.slice(0,10)}</td>
                             </tr>
                         ))}
                 </tbody>

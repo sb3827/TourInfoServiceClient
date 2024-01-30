@@ -165,7 +165,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
                         )}
                     </div>
                     <div className="flex justify-end mx-4 my-2">
-                        <Caption>작성일자: {reReplyData.regDate}</Caption>
+                        <Caption>작성일자: {reReplyData.regDate.slice(0,10)}</Caption>
                     </div>
                 </div>
             </div>
