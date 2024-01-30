@@ -4,7 +4,7 @@ import {
     faMinus,
     faCheck,
     faX,
-    faFile
+    faCartShopping
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {FC, useEffect, useState} from 'react'
@@ -63,7 +63,6 @@ export const PlaceCartModal: FC<Pno> = ({pno, onCloseModal}) => {
             const data = await ShowFolderAll(user)
             setFolderData(data)
             setFoldersTitles(data.data.map(item => item.title))
-            console.log(data)
         } catch (err) {
             console.error(err)
         }
@@ -141,7 +140,13 @@ export const PlaceCartModal: FC<Pno> = ({pno, onCloseModal}) => {
                             어느 바구니에 넣을지 선택하세요!
                             {folderData && (
                                 <FontAwesomeIcon
-                                    onClick={folderRegister}
+                                    onClick={() => {
+                                        if (
+                                            window.confirm('장바구니를 만드시겠습니까?')
+                                        ) {
+                                            folderRegister()
+                                        }
+                                    }}
                                     icon={faPlus}
                                     className="mx-2 text-xl cursor-pointer"
                                 />
@@ -191,14 +196,14 @@ export const PlaceCartModal: FC<Pno> = ({pno, onCloseModal}) => {
                                                 onClick={() => {
                                                     if (
                                                         window.confirm(
-                                                            `${folder.title}파일에 담겠습니까?`
+                                                            `${folder.title} 장바구니에 담겠습니까?`
                                                         )
                                                     ) {
                                                         folderSelect(folder.fno)
                                                     }
                                                 }}>
                                                 <FontAwesomeIcon
-                                                    icon={faFile}
+                                                    icon={faCartShopping}
                                                     className="mr-1 "
                                                     size="sm"
                                                 />

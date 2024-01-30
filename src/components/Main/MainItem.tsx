@@ -9,7 +9,7 @@ type MainItemProps = {
 export const MainItem: FC<PropsWithChildren<MainItemProps>> = props => {
     return (
         <div
-            className="flex flex-col overflow-hidden duration-150 bg-white border-2 rounded-lg shadow-md mx-14 hover:cursor-pointer hover:-translate-y-2 hover:shadow-xl"
+            className="flex flex-col w-11/12 mx-10 overflow-hidden duration-150 bg-white border-2 rounded-lg shadow-md hover:cursor-pointer hover:-translate-y-2 hover:shadow-xl"
             onClick={props.onClick}>
             <div className="w-full overflow-hidden">
                 <img
@@ -30,7 +30,7 @@ export const MostLikedMainItem: FC<PropsWithChildren<MainItemProps>> = props => 
         <div className="flex flex-col items-center justify-center py-10 overflow-hidden mx-14 ">
             <div
                 onClick={props.onClick}
-                className="flex flex-col items-center w-1/2 overflow-hidden duration-150 bg-white border-2 shadow-xl hover:cursor-pointer rounded-3xl hover:shadow-2xl">
+                className="flex flex-col items-center overflow-hidden duration-150 bg-white border-2 shadow-xl hover:cursor-pointer rounded-3xl hover:shadow-2xl">
                 <div className="flex justify-center w-full overflow-hidden">
                     <img
                         src={props.image}
@@ -49,7 +49,7 @@ export const MostLikedMainItem: FC<PropsWithChildren<MainItemProps>> = props => 
 export const MostLikedCourseItem: FC<PropsWithChildren<MainItemProps>> = props => {
     return (
         <div
-            className="flex flex-col justify-between flex-1 w-1/2 overflow-hidden bg-white hover:cursor-pointer"
+            className="flex flex-col justify-between flex-1 overflow-hidden bg-white hover:cursor-pointer"
             onClick={props.onClick}>
             <div className="flex justify-center w-full overflow-hidden basis-11/12">
                 <img

@@ -1,12 +1,13 @@
-import {Box, UserAvatar, ShowFollowModal, ShowTotalLikes} from './../../index'
+import {Box, ShowFollowModal, ShowTotalLikes, Title, LoadingSppinner} from './../../index'
 import {Button} from './../../Button'
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {userProfile, userFollows} from './../../../data/User/User'
-import {ShowUserProfile, ShowUserFollowings} from './../../../api/MyPage/ShowUserInfo'
+import {userProfile} from './../../../data/User/User'
+import {ShowUserProfile, ShowUserFollowers} from './../../../api/MyPage/ShowUserInfo'
 import {postFollow, deleteFollow} from './../../../api/UserSearch/UserSearch'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
+import common from '../../../assets/profileImage.jpeg'
 
 //TODO - 로그인 mno 받아와서 name 받아오기
 
@@ -15,11 +16,11 @@ type ProfileProps = {
 }
 
 export const ProfileBox: FC<ProfileProps> = ({mno}) => {
+    const [loading, setLoading] = useState<boolean>(false)
     const [userProfile, setUserProfile] = useState<userProfile | null>(null)
     const [followState, setFollowState] = useState<boolean>()
-    const [userFollowings, setUserFollowings] = useState<userFollows>()
 
-    const userMno = useSelector((state: RootState) => state.login.mno) || 0
+    const userMno = useSelector((state: RootState) => state.login.mno)
 
     const navigate = useNavigate()
 
@@ -28,78 +29,91 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     }
 
     async function onFollow() {
-        await postFollow(mno, userMno)
-        setFollowState(true)
+        userMno && (await postFollow(mno, userMno))
         fetchData()
     }
 
     async function onUnfollow() {
-        await deleteFollow(mno, userMno)
-        setFollowState(false)
+        userMno && (await deleteFollow(mno, userMno))
         fetchData()
     }
 
     const fetchData = async () => {
         try {
+            setLoading(true)
             const userProfileData = await ShowUserProfile(mno)
-            const userFollowingData = await ShowUserFollowings(mno)
+            const userFollowingData = await ShowUserFollowers(mno)
+
             setUserProfile(userProfileData)
-            setUserFollowings(userFollowingData)
-            console.log(userFollowingData)
+            userFollowingData &&
+                setFollowState(
+                    userFollowingData.some(data => data.mno === userMno!) ? true : false
+                )
+            setLoading(false)
         } catch (error) {
             console.error('에러 발생', error)
+            setLoading(false)
         }
     }
 
     useEffect(() => {
         fetchData()
-    }, [mno])
+    }, [mno, followState])
 
     return (
         <div>
+            {loading && <LoadingSppinner />}
             <div>
-                <Box className=" rounded-3xl">
-                    <h1 className="mb-4 text-3xl text-black">My Profile</h1>
-                    <img
-                        src={userProfile ? userProfile.image : ''}
-                        alt="프로필이미지"
-                        className="w-48 h-48 rounded-full "
-                    />
-                    <br />
-                    <h1 className="text-3xl ">{userProfile ? userProfile.name : ''}</h1>
-                    <br />
-                    <ShowFollowModal
-                        following={userProfile ? userProfile.followings.toString() : ''}
-                        follower={userProfile ? userProfile.followers.toString() : ''}
-                    />
-                    <br />
-                    {userMno === userProfile?.mno && (
-                        <ShowTotalLikes
-                            mno={Number(mno)}
-                            cart={userProfile ? userProfile.cart : 0}
+                <Box>
+                    <div className="flex flex-col items-center justify-between h-full">
+                        <Title className="text-2xl text-black mb-9 ">My Profile</Title>
+                        <div className="w-32 h-32 my-2 overflow-hidden rounded-full">
+                            <img
+                                src={userProfile?.image ? userProfile.image : common}
+                                alt="프로필이미지"
+                            />
+                        </div>
+                        <h1 className="my-2 text-xl font-semibold">
+                            {userProfile ? userProfile.name : ''}
+                        </h1>
+                        <ShowFollowModal
+                            userName={userProfile?.name}
+                            following={
+                                userProfile ? userProfile.followings.toString() : ''
+                            }
+                            follower={userProfile ? userProfile.followers.toString() : ''}
                         />
-                    )}
 
-                    <br />
-                    {userMno === userProfile?.mno ? (
-                        <Button
-                            value="정보 수정"
-                            onClick={onModify}
-                            className="text-white bg-gray-400"
-                        />
-                    ) : followState === true ? (
-                        <Button
-                            value="언팔로우"
-                            onClick={onUnfollow}
-                            className="text-white bg-gray-400"
-                        />
-                    ) : (
-                        <Button
-                            value="팔로우"
-                            onClick={onFollow}
-                            className="text-white bg-gray-400"
-                        />
-                    )}
+                        {userMno === userProfile?.mno && (
+                            <ShowTotalLikes
+                                mno={Number(mno)}
+                                cart={userProfile && userProfile.cart}
+                            />
+                        )}
+
+                        {userMno &&
+                            (userMno === userProfile?.mno ? (
+                                <div>
+                                    <Button
+                                        value="정보 수정"
+                                        onClick={onModify}
+                                        className="w-full text-white bg-lightGreen"
+                                    />
+                                </div>
+                            ) : followState === true ? (
+                                <Button
+                                    value="언팔로우"
+                                    onClick={onUnfollow}
+                                    className="w-full text-white bg-red-500"
+                                />
+                            ) : (
+                                <Button
+                                    value="팔로우"
+                                    onClick={onFollow}
+                                    className="w-full text-white bg-blue-500"
+                                />
+                            ))}
+                    </div>
                 </Box>
             </div>
         </div>

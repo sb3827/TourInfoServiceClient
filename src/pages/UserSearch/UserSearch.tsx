@@ -1,11 +1,11 @@
 import {useEffect, useState} from 'react'
 import {
-    Box,
     SearchInput,
     Button,
     SearchUserInfo,
     BoardBox,
-    LoadingSppinnerSmall
+    LoadingSppinnerSmall,
+    Title
 } from '../../components/index'
 import {UserSearchData} from '../../data/User/User'
 import {getSearchUserInfo} from '../../api/UserSearch/UserSearch'
@@ -46,10 +46,8 @@ export const UserSearch = () => {
         try {
             setLoading(true)
             setSearchParams({search: searchValue})
-            console.log(user)
             const data = await getSearchUserInfo(searchValue, user || null)
             setUserInfoData(data)
-            console.log(data)
             setLoading(false)
         } catch (error) {
             // 오류 처리
@@ -62,6 +60,8 @@ export const UserSearch = () => {
 
     return (
         <div className="flex flex-col items-center justify-center w-full mt-14">
+            <Title className="mb-5 text-darkGreen">유저 검색</Title>
+
             <div className="w-1/2 ">
                 <div className="flex justify-center w-full mb-10">
                     <SearchInput

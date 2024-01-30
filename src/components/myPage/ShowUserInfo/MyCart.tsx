@@ -18,8 +18,6 @@ import {faTrash, faPenToSquare, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 
-//TODO - spot 추가 후 새로고침해야 나오는 문제
-
 type MyCartProps = {
     onChangeItems?: (itme: Item[]) => void
     className?: string
@@ -27,6 +25,7 @@ type MyCartProps = {
     onClose?: boolean
     mno: number
     animate?: string
+    myCart?: Boolean
 }
 
 export const MyCart: FC<MyCartProps> = ({
@@ -35,7 +34,8 @@ export const MyCart: FC<MyCartProps> = ({
     dragDisable,
     onClose,
     mno,
-    animate
+    animate,
+    myCart
 }) => {
     const [folder, setFolder] = useState<folderAll>()
     const [selectedFno, setSelectedFno] = useState<number | null>(0)
@@ -43,7 +43,6 @@ export const MyCart: FC<MyCartProps> = ({
     const [isFolderNameModalOpen, setIsFolderNameModalOpen] = useState(false)
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editingButtonIndex, setEditingButtonIndex] = useState<number | null>(null)
-    // const [isAddButtonVisible, setAddButtonVisible] = useState(true) // 추가 버튼 숨김 여부 상태
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
@@ -51,18 +50,12 @@ export const MyCart: FC<MyCartProps> = ({
         try {
             const userFolderData = await ShowFolderAll(mno)
             setFolder(userFolderData)
-            console.log(userFolderData) // 추후에 삭제 예정
-
-            console.log(
-                userFolderData.data.map(folderInfo => convertFolderInfoToItem(folderInfo))
-            )
 
             const convertedItems: Item[] = userFolderData.data.flatMap(folderInfo =>
                 convertFolderInfoToItem(folderInfo)
             )
             setSelectedFno(userFolderData.data[0].fno)
 
-            console.log('convertedItems', convertedItems)
             onChangeItems && onChangeItems(convertedItems)
         } catch (error) {
             console.error('error', error)
@@ -74,7 +67,6 @@ export const MyCart: FC<MyCartProps> = ({
     }, [onClose])
 
     const handleButtonClick = (fno: number) => {
-        console.log(`${fno} selected`) // 추후에 삭제 예정
         setSelectedFno(fno)
     }
 
@@ -309,6 +301,7 @@ export const MyCart: FC<MyCartProps> = ({
                             .map((folderInfo, index) => (
                                 <div key={folderInfo.fno}>
                                     <CartItem
+                                        myCart={myCart}
                                         key={index}
                                         items={convertFolderInfoToItem(folderInfo)}
                                         dragDisable={dragDisable}

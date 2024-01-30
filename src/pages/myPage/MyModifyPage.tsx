@@ -4,16 +4,17 @@ import {ShowUserInfo, onChangeUserData, deleteId} from './../../api/MyPage/ShowU
 import {Button} from './../../components/Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {Input} from './../../components/index'
+import {LoginInput, Title} from './../../components/index'
 import {useNavigate} from 'react-router-dom'
+import common from '../../assets/profileImage.jpeg'
 
 //TODO 수정하기 버튼 클릭 시 다시 마이페이지로 이동, margin/padding 조정, 이미지 업로드 수정
 
 export const MyModifyPage = () => {
-    const [User, setUser] = useState<user | null>(null)
-    const [UserName, setUserName] = useState<string>(User ? User.name : '')
-    const [UserPhone, setUserPhone] = useState<string>(User ? User.phone : '')
-    const [ProfileImage, setProfileImage] = useState<string>(User ? User.image : '')
+    const [user, setUser] = useState<user | null>(null)
+    const [userName, setUserName] = useState<string>(user ? user.name : '')
+    const [userPhone, setUserPhone] = useState<string>(user ? user.phone : '')
+    const [profileImage, setProfileImage] = useState<string>(user ? user.image : '')
     const [file, setFile] = useState<File | null>(null)
     const fileInput = useRef<HTMLInputElement | null>(null)
 
@@ -21,12 +22,12 @@ export const MyModifyPage = () => {
 
     const navigate = useNavigate()
 
-    const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
-        setUserName(e.target.value)
+    const onChangeUserName = (e: string) => {
+        setUserName(e)
     }
 
-    const onChangeUserPhone = (e: ChangeEvent<HTMLInputElement>) => {
-        setUserPhone(e.target.value)
+    const onChangeUserPhone = (e: string) => {
+        setUserPhone(e)
     }
 
     const onChangeUserImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,10 +53,10 @@ export const MyModifyPage = () => {
     // //정보 수정
     async function onUserUpdate() {
         const data = {
-            mno: User!.mno,
-            name: UserName,
-            email: User!.email,
-            phone: UserPhone
+            mno: user!.mno,
+            name: userName,
+            email: user!.email,
+            phone: userPhone
         }
         try {
             await onChangeUserData(data, file)
@@ -74,7 +75,6 @@ export const MyModifyPage = () => {
             setProfileImage(userData.image)
             setUserName(userData.name)
             setUserPhone(userData.phone)
-            console.log(userData)
         } catch (error) {
             console.error('error', error)
         }
@@ -97,88 +97,97 @@ export const MyModifyPage = () => {
         }
     }
 
+    //취소(뒤로가기)
+    function goBack() {
+        navigate(-1)
+    }
+
     return (
-        <div className="flex items-center justify-center h-full ">
-            <div className="flex flex-row w-2/3 m-12">
-                <div className="flex flex-col items-center justify-center w-1/3">
-                    <input
-                        type="file"
-                        className="hidden"
-                        id="file"
-                        name="file"
-                        accept="image/*"
-                        onChange={onChangeUserImage}
-                        ref={fileInput}
-                    />
-                    <img
-                        src={ProfileImage}
-                        alt="프로필사진"
-                        className="rounded-full cursor-pointer w-60"
-                        onClick={() => {
-                            if (fileInput.current) {
-                                fileInput.current.click()
-                            }
-                        }}
-                    />
-                </div>
-                <div className="items-center w-2/3">
-                    <div className="p-4">
-                        <span className="mr-8">이름</span>
-                        <Input
-                            className="w-64 bg-white"
-                            onChange={onChangeUserName}
-                            value={UserName}
-                        />
-                    </div>
-                    <div className="p-4">
-                        <span className="mr-4">이메일</span>
+        <div className="w-full my-14">
+            <div className="flex items-center justify-center ">
+                <div className="flex flex-col items-center justify-center w-1/3 py-12 shadow-2xl rounded-3xl bg-red">
+                    <Title className="my-2">정보 수정</Title>
+                    <div className="flex flex-col items-center justify-center w-1/3 ">
                         <input
-                            type="text"
-                            value={User && User.email ? User.email : ''}
-                            className="w-64 h-12 p-4 text-white rounded-md bg-gray-950"
-                            disabled
+                            type="file"
+                            className="hidden"
+                            id="file"
+                            name="file"
+                            accept="image/*"
+                            onChange={onChangeUserImage}
+                            ref={fileInput}
                         />
+                        <div className="w-24 h-24 my-3 overflow-hidden rounded-full cursor-pointer">
+                            <img
+                                src={profileImage ? profileImage : common}
+                                alt="프로필사진"
+                                onClick={() => {
+                                    if (fileInput.current) {
+                                        fileInput.current.click()
+                                    }
+                                }}
+                            />
+                        </div>
                     </div>
-                    <div className="p-4">
-                        <span className="mr-4">전화번호</span>
-                        <Input
-                            className="w-64 bg-white"
-                            value={UserPhone}
+                    <div className="items-center w-1/2">
+                        <LoginInput
+                            className="my-3"
+                            value={userName}
+                            text="이름"
+                            onChange={onChangeUserName}
+                        />
+                        <LoginInput
+                            className="my-3"
+                            value={user && user.email ? user.email : ''}
+                            text="Email (변경불가)"
+                            disabled={true}
+                        />
+                        <LoginInput
+                            className="my-3"
+                            value={userPhone}
+                            text="전화번호 (-빼고 입력하세요)"
                             onChange={onChangeUserPhone}
                         />
+                        {user && user.fromSocial === false && (
+                            <LoginInput
+                                className="my-3"
+                                value={user && user.birth ? user.birth : ''}
+                                text="생년월일 (변경불가)"
+                                disabled={true}
+                            />
+                        )}
+
+                        <div className="flex flex-col my-5">
+                            <Button
+                                value="수정완료"
+                                className="text-white bg-lightGreen"
+                                onClick={() => {
+                                    onUserUpdate()
+                                }}
+                            />
+                            {user && user.fromSocial === false && (
+                                <Button
+                                    value="비밀번호 변경"
+                                    onClick={() => {
+                                        navigate(`/mypage/modify/password`)
+                                    }}
+                                    className="text-white bg-blue-500"
+                                />
+                            )}
+                            <Button
+                                className="text-white bg-red-500"
+                                value="탈퇴하기"
+                                onClick={e => {
+                                    WithdrawalId(e)
+                                }}
+                            />
+                            <Button
+                                className="text-white bg-black"
+                                value="취소하기"
+                                onClick={goBack}
+                            />
+                        </div>
                     </div>
-                    <div className="p-4">
-                        <span className="mr-4">생년월일</span>
-                        <input
-                            type="text"
-                            value={User && User.birth ? User.birth : ''}
-                            className="w-64 h-12 p-4 text-white rounded-md bg-gray-950"
-                            disabled
-                        />
-                    </div>
-                    {User && User.fromSocial === false && (
-                        <Button
-                            value="비밀번호 변경"
-                            onClick={() => {
-                                navigate(`/mypage/modify/password`)
-                            }}
-                            className="w-28"
-                        />
-                    )}
-                    <Button
-                        value="수정완료"
-                        onClick={() => {
-                            onUserUpdate()
-                        }}
-                        className="w-28"
-                    />
-                    <Button
-                        value="탈퇴하기"
-                        onClick={e => {
-                            WithdrawalId(e)
-                        }}
-                        className="w-28"
-                    />
                 </div>
             </div>
         </div>
