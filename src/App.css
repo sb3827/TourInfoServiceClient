@@ -48,3 +48,7 @@
 #board_box * {
     border: none !important;
 }
+
+#simple_map div {
+    display: none;
+}

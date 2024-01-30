@@ -1,4 +1,4 @@
-import {Input, Button} from './../../components/index'
+import {Button, Title, LoginInput, Subtitle} from './../../components/index'
 import {useState, ChangeEvent, useEffect} from 'react'
 import {changePw, ShowUserInfo} from './../../api/MyPage/ShowUserInfo'
 import {useSelector} from 'react-redux'
@@ -29,16 +29,16 @@ export const EditPassword = () => {
     }, [])
 
     // 현재 비밀번호
-    const onChangeOldPassword = (e: ChangeEvent<HTMLInputElement>) => {
-        setOldPassword(e.target.value)
+    const onChangeOldPassword = (e: string) => {
+        setOldPassword(e)
     }
     // 새 비밀번호
-    const onChangeNewPassword = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewPassword(e.target.value)
+    const onChangeNewPassword = (e: string) => {
+        setNewPassword(e)
     }
     // 새 비밀번호 확인
-    const onChangeReNewPassword = (e: ChangeEvent<HTMLInputElement>) => {
-        setReNewPassword(e.target.value)
+    const onChangeReNewPassword = (e: string) => {
+        setReNewPassword(e)
     }
 
     // 비밀번호 변경
@@ -68,52 +68,58 @@ export const EditPassword = () => {
     }
 
     return (
-        <div className="">
-            <div className="mb-2">
-                <h1 className="py-4 text-3xl font-bold">비밀번호 변경</h1>
-                <h1 className="text-red-500">
-                    다른 아이디/사이트에서 사용한 적 없는 비밀번호
-                </h1>
-                <h1 className="">이전에 사용한 적 없는 비밀번호가 안전합니다.</h1>
-            </div>
-            <div className="flex flex-col items-center">
-                <Input
-                    type="password"
-                    className="w-64 mb-4"
-                    value={oldPassword}
-                    onChange={onChangeOldPassword}
-                    placeholder="현재 비밀번호"
-                />
-                <Input
-                    type="password"
-                    className="w-64 mb-4"
-                    value={newPassword}
-                    onChange={onChangeNewPassword}
-                    placeholder="새 비밀번호"
-                />
-                <Input
-                    type="password"
-                    className="w-64 mb-4"
-                    value={reNewPassword}
-                    onChange={onChangeReNewPassword}
-                    placeholder="새 비밀번호 확인"
-                />
-                {newPassword === '' ? (
-                    ''
-                ) : newPassword !== reNewPassword ? (
-                    <span className="text-red-600">비밀번호가 일치하지 않습니다</span>
-                ) : (
-                    <span className="text-green-600">비밀번호가 일치합니다</span>
-                )}
+        <div className="flex items-center justify-center w-full my-10">
+            <div className="flex flex-col px-20 py-10 shadow-2xl rounded-2xl">
+                <div className="">
+                    <Title>비밀번호 변경</Title>
+                    <div className="my-5">
+                        <Subtitle className="text-red-500">
+                            다른 아이디/사이트에서 사용한 적 없는 비밀번호
+                        </Subtitle>
+                        <Subtitle className="">
+                            이전에 사용한 적 없는 비밀번호가 안전합니다.
+                        </Subtitle>
+                    </div>
+                </div>
+                <div className="flex flex-col items-center">
+                    <LoginInput
+                        className="w-64 mb-4"
+                        value={oldPassword}
+                        onChange={onChangeOldPassword}
+                        type="password"
+                        text="현재 비밀번호"
+                    />
+                    <LoginInput
+                        className="w-64 mb-4"
+                        value={newPassword}
+                        onChange={onChangeNewPassword}
+                        type="password"
+                        text="새 비밀번호"
+                    />
+                    <LoginInput
+                        className="w-64 mb-4"
+                        value={reNewPassword}
+                        onChange={onChangeReNewPassword}
+                        type="password"
+                        text="새 비밀번호 확인"
+                    />
+                    {newPassword === '' ? (
+                        ''
+                    ) : newPassword !== reNewPassword ? (
+                        <span className="text-red-600">비밀번호가 일치하지 않습니다</span>
+                    ) : (
+                        <span className="text-green-600">비밀번호가 일치합니다</span>
+                    )}
 
-                <div className="flex flex-row mt-4">
                     <Button
+                        className="w-full text-white bg-lightGreen"
                         value="수정하기"
                         onClick={e => {
                             resetPassword(e)
                         }}
                     />
                     <Button
+                        className="w-full text-white bg-black"
                         value="취소하기"
                         onClick={() => {
                             navigate(-1)

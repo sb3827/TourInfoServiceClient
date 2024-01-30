@@ -1,6 +1,6 @@
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector} from 'react-redux'
 import {
     SearchInput,
     Subtitle,
@@ -303,6 +303,9 @@ export const Main: FC<MainProps> = () => {
                                                     1일차
                                                 </p>
                                                 <CoursePostMap
+                                                    onClick={event =>
+                                                        event.stopPropagation()
+                                                    }
                                                     className="z-10 h-full"
                                                     places={course.placeList}
                                                 />
