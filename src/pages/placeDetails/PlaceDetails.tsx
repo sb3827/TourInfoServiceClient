@@ -60,7 +60,7 @@ export const PlaceDetails = () => {
                 {loading && <LoadingSppinner />}
                 <div className="flex justify-center w-full">
                     <div className="w-full ">
-                        <Title className="py-3">{boardData && boardData[0].name}</Title>
+                        <Title className="py-3 my-3">{boardData && boardData[0].name}</Title>
                         <div className="mb-10 overflow-hidden shadow-xl rounded-xl">
                             <SearchMap
                                 places={boardData && boardData}
