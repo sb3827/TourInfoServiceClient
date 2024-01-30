@@ -21,7 +21,7 @@ export const Signup: React.FC<SignupProps> = () => {
                                 type="radio"
                                 name="my_tabs_2"
                                 role="tab"
-                                className="tab"
+                                className="text-lg tab"
                                 aria-label="일반 회원 가입"
                                 checked={activeTab === 'general'}
                                 onClick={() => onTabChange('general')}
@@ -36,7 +36,7 @@ export const Signup: React.FC<SignupProps> = () => {
                                 type="radio"
                                 name="my_tabs_2"
                                 role="tab"
-                                className="tab"
+                                className="text-lg tab"
                                 checked={activeTab === 'business'}
                                 aria-label="사업자 회원 가입"
                                 onClick={() => onTabChange('business')}

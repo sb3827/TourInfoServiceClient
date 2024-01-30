@@ -104,7 +104,7 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                 <div
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
-                                    className="flex flex-wrap w-full h-full ">
+                                    className="flex w-full h-full py-3 overflow-x-auto ">
                                     {dayItem.map((item, index) => (
                                         <Draggable
                                             isDragDisabled={!create}
@@ -121,7 +121,7 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}>
                                                     <div
-                                                        className="flex items-center justify-center border shadow-2xl cursor-pointer hover rounded-2xl"
+                                                        className="flex items-center justify-center border shadow-xl cursor-pointer hover rounded-2xl"
                                                         onClick={() => {
                                                             !create &&
                                                                 navigate(

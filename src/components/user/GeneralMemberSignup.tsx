@@ -4,8 +4,8 @@ import {
     Subtitle,
     DropdownSelect,
     Button,
-    SignupInput,
-    LoadingSppinner
+    LoadingSppinner,
+    LoginInput
 } from '../../components'
 import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
 import {useDispatch} from 'react-redux'
@@ -39,11 +39,11 @@ export const GeneralMemberSignup = () => {
     const [isEmailChecked, setIsEmailChecked] = useState<Boolean>(false)
     const [loading, setLoading] = useState<Boolean>(false)
 
-    const [customDomain, setCustomDomain] = useState<string>('@');
+    const [customDomain, setCustomDomain] = useState<string>('@')
 
-    const onChangeCustomDomain = (e:React.ChangeEvent<HTMLInputElement>) => {
-        setCustomDomain(e.target.value);
-      };
+    const onChangeCustomDomain = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCustomDomain(e.target.value)
+    }
 
     //이메일 검증
     const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
@@ -99,13 +99,23 @@ export const GeneralMemberSignup = () => {
             alert('이메일을 입력하세요')
             return
         }
-        if (!email_regex.test(userEmail + (selectValue == 'custom' ? customDomain : selectValue ))) {
+        if (
+            !email_regex.test(
+                userEmail + (selectValue == 'custom' ? customDomain : selectValue)
+            )
+        ) {
             alert('이메일 형식이 아닙니다.')
             return
         }
         try {
-            const data = await duplicatedEmailCheckRequest(userEmail + (selectValue == 'custom' ? customDomain : selectValue ))
-            dispatch(setEmail(userEmail + (selectValue == 'custom' ? customDomain : selectValue )))
+            const data = await duplicatedEmailCheckRequest(
+                userEmail + (selectValue == 'custom' ? customDomain : selectValue)
+            )
+            dispatch(
+                setEmail(
+                    userEmail + (selectValue == 'custom' ? customDomain : selectValue)
+                )
+            )
 
             alert(
                 data.isDuplicate ? '이미 가입된 이메일입니다' : '사용 가능한 이메일입니다'
@@ -152,33 +162,41 @@ export const GeneralMemberSignup = () => {
         ) {
             return
         } else {
-        try {
-            setLoading(true)
-            const data: SignupData = {
-                email: userEmail + (selectValue == 'custom' ? customDomain : selectValue ),
-                password: userPassword,
-                birth: userBirthDate,
-                phone: formattedPhoneNumber,
-                name: userName,
-                role: 'MEMBER'
+            try {
+                setLoading(true)
+                const data: SignupData = {
+                    email:
+                        userEmail +
+                        (selectValue == 'custom' ? customDomain : selectValue),
+                    password: userPassword,
+                    birth: userBirthDate,
+                    phone: formattedPhoneNumber,
+                    name: userName,
+                    role: 'MEMBER'
+                }
+                if (
+                    email_regex.test(
+                        userEmail + (selectValue == 'custom' ? customDomain : selectValue)
+                    )
+                ) {
+                    const result = await signupRequest(data)
+                    dispatch(
+                        setEmail(
+                            userEmail +
+                                (selectValue == 'custom' ? customDomain : selectValue)
+                        )
+                    )
+                    alert('회원가입성공! 이메일 인증을 진행해주세요')
+                    navigate('/login')
+                } else {
+                    alert('이메일을 확인하세요')
+                    setIsEmailChecked(false)
+                }
+            } catch (error) {
+                alert('회원가입 요청 실패')
+                console.log(error)
             }
-            if (
-                email_regex.test(userEmail + (selectValue == 'custom' ? customDomain : selectValue ))
-            ) {
-            const result = await signupRequest(data)
-            dispatch(setEmail(userEmail + (selectValue == 'custom' ? customDomain : selectValue )))
-            alert('회원가입성공! 이메일 인증을 진행해주세요')
-            navigate('/login')
-            }
-            else {
-                alert('이메일을 확인하세요')
-                setIsEmailChecked(false)
-            }
-        } catch (error) {
-            alert('회원가입 요청 실패')
-            console.log(error)
-        }
-        setLoading(false)
+            setLoading(false)
         }
     }
 
@@ -188,17 +206,15 @@ export const GeneralMemberSignup = () => {
             <div className="">
                 <Title className="my-6 mb-8 text-[#609966]">여행의발견 계정 만들기</Title>
                 <Subtitle className="text-[#8EB682]">
-                    개성 있는 여행을 위한 맞춤형 계획을 세우세요.
-                    {' '}
+                    개성 있는 여행을 위한 맞춤형 계획을 세우세요.{' '}
                 </Subtitle>
                 <Subtitle className="mb-8 text-[#8EB682]">
-                    
                     DoT와 함께라면 여행은 더욱 특별해집니다.
                 </Subtitle>
                 <div onKeyDown={onSignupClicked}>
                     {/* 이메일 입력 창 */}
                     <div className="relative flex flex-row">
-                        <SignupInput
+                        <LoginInput
                             value={userEmail}
                             type="email"
                             text="이메일"
@@ -217,12 +233,12 @@ export const GeneralMemberSignup = () => {
                                 </select>
                                 {selectValue === 'custom' && (
                                     <input
-                                    type="text"
-                                    value={customDomain}
-                                    onChange={onChangeCustomDomain}
-                                    placeholder="Enter custom domain"
-                                    className="block p-2 mt-1 leading-tight bg-white border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline"
-                                  />
+                                        type="text"
+                                        value={customDomain}
+                                        onChange={onChangeCustomDomain}
+                                        placeholder="Enter custom domain"
+                                        className="block p-2 mt-1 leading-tight bg-white border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline"
+                                    />
                                 )}
                             </div>
                         </DropdownSelect>
@@ -232,7 +248,7 @@ export const GeneralMemberSignup = () => {
                             onClick={onEmailCheckClicked}></Button>
                     </div>
                     {/* 비밀번호 입력창 */}
-                    <SignupInput
+                    <LoginInput
                         className="my-6"
                         value={userPassword}
                         type="password"
@@ -240,7 +256,7 @@ export const GeneralMemberSignup = () => {
                         onChange={onUserPasswordChange}
                     />
                     {/* 비밀번호 재입력창 */}
-                    <SignupInput
+                    <LoginInput
                         className="mb-6"
                         value={repeatPassword}
                         type="password"
@@ -248,22 +264,22 @@ export const GeneralMemberSignup = () => {
                         onChange={onRepeatPasswordChange}
                     />
                     {/* 이름 입력창 */}
-                    <SignupInput
+                    <LoginInput
                         className="mb-6"
                         value={userName}
-                        type="userName"
                         text="이름"
                         onChange={onUserNameChange}
                     />
                     {/* 생년월일 입력창 */}
-                    <SignupInput
+                    <LoginInput
                         className="mb-6"
                         value={userBirthDate}
+                        text=""
                         type="date"
                         onChange={onUserBirthDateChange}
                     />
                     {/* 휴대폰번호 입력창 */}
-                    <SignupInput
+                    <LoginInput
                         className="mb-6"
                         value={userPhoneNumber}
                         type="phoneNumber"

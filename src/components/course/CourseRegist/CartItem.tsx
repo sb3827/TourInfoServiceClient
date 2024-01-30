@@ -2,20 +2,26 @@ import {FC} from 'react'
 import {Item} from './CourseList'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
 import {Spot} from '../../Spot'
+import noImage from '../../../assets/smallLogo.png'
+import {useNavigate} from 'react-router-dom'
 
 type CartItemProps = {
     items: Item[]
     dragDisable?: boolean
     isRegister?: boolean // MyCart에서 사용하기 위해 추가하였음
     onDeleteSpot?: (pno: number) => void
+    myCart?: Boolean
 }
 
 export const CartItem: FC<CartItemProps> = ({
     items,
     dragDisable,
     isRegister,
-    onDeleteSpot
+    onDeleteSpot,
+    myCart
 }) => {
+    const navigate = useNavigate()
+
     return (
         <div className="flex flex-wrap">
             {items.map((item, index) => (
@@ -33,6 +39,11 @@ export const CartItem: FC<CartItemProps> = ({
                                 index={index}>
                                 {provided => (
                                     <div
+                                        onClick={() =>
+                                            myCart &&
+                                            myCart !== null &&
+                                            navigate(`/board/place/${item.pno}`)
+                                        }
                                         className="relative flex m-2"
                                         key={index}
                                         ref={provided.innerRef}
@@ -42,7 +53,7 @@ export const CartItem: FC<CartItemProps> = ({
                                             {item.pno !== null && (
                                                 <Spot
                                                     key={index}
-                                                    src={item.img}
+                                                    src={item.img ? item.img : noImage}
                                                     isRegister={isRegister || false}
                                                     onDelete={() =>
                                                         onDeleteSpot &&

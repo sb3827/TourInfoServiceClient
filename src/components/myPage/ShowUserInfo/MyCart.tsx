@@ -25,6 +25,7 @@ type MyCartProps = {
     onClose?: boolean
     mno: number
     animate?: string
+    myCart?: Boolean
 }
 
 export const MyCart: FC<MyCartProps> = ({
@@ -33,7 +34,8 @@ export const MyCart: FC<MyCartProps> = ({
     dragDisable,
     onClose,
     mno,
-    animate
+    animate,
+    myCart
 }) => {
     const [folder, setFolder] = useState<folderAll>()
     const [selectedFno, setSelectedFno] = useState<number | null>(0)
@@ -299,6 +301,7 @@ export const MyCart: FC<MyCartProps> = ({
                             .map((folderInfo, index) => (
                                 <div key={folderInfo.fno}>
                                     <CartItem
+                                        myCart={myCart}
                                         key={index}
                                         items={convertFolderInfoToItem(folderInfo)}
                                         dragDisable={dragDisable}

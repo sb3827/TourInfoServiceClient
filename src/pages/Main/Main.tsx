@@ -1,6 +1,6 @@
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector} from 'react-redux'
 import {
     SearchInput,
     Subtitle,
@@ -29,6 +29,30 @@ export const Main: FC<MainProps> = () => {
     const [filterValue, setFilterValue] = useState<string>('place')
     const [fetchedData, setFetchedData] = useState<mainItemData | null>(null)
     const navigate = useNavigate()
+    const [preView, setPreView] = useState(3)
+
+    // 화면 폭에 따라 Slider 의 preView 값을 동적으로 조절
+    useEffect(() => {
+        const handleResize = () => {
+            const screenWidth = window.innerWidth
+            if (screenWidth <= 794) {
+                setPreView(1)
+            } else if (screenWidth <= 1200) {
+                setPreView(2)
+            } else {
+                setPreView(3)
+            }
+        }
+
+        // 페이지 로딩 시와 화면 크기 변경 시에 이벤트 핸들러 등록
+        handleResize()
+        window.addEventListener('resize', handleResize)
+
+        // 컴포넌트 언마운트 시 이벤트 핸들러 제거
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
 
     // 상세 페이지 이동
     function mostPostingDetailView(index: number) {
@@ -235,7 +259,7 @@ export const Main: FC<MainProps> = () => {
                         className="flex items-start mb-4 ml-16 text-2xl font-bold "
                         value="최근 포스팅"
                     />
-                    <MainSlider preView={3}>
+                    <MainSlider preView={preView}>
                         {fetchedData &&
                             fetchedData.data.recentlyBoard &&
                             fetchedData.data.recentlyBoard.map((recently, index) => (
@@ -279,6 +303,9 @@ export const Main: FC<MainProps> = () => {
                                                     1일차
                                                 </p>
                                                 <CoursePostMap
+                                                    onClick={event =>
+                                                        event.stopPropagation()
+                                                    }
                                                     className="z-10 h-full"
                                                     places={course.placeList}
                                                 />
@@ -296,7 +323,7 @@ export const Main: FC<MainProps> = () => {
                             value="팔로워들의 게시물"
                         />
                         {fetchedData.data.followBoard.length > 0 ? (
-                            <MainSlider preView={3}>
+                            <MainSlider preView={preView}>
                                 {fetchedData.data.followBoard.map((follow, index) => (
                                     <SwiperSlide key={index} className="p-2">
                                         <MainItem
@@ -323,7 +350,7 @@ export const Main: FC<MainProps> = () => {
                                 className="flex items-start mb-4 ml-16 text-2xl font-bold "
                                 value="광고"
                             />
-                            <MainSlider preView={3}>
+                            <MainSlider preView={preView}>
                                 {fetchedData.data.adBoard.map((ad, index) => (
                                     <SwiperSlide key={index} className="p-2">
                                         <MainItem
