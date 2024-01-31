@@ -61,7 +61,7 @@ export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
                                     </span>
                                 </td>
                                 <td>{board.writer}</td>
-                                <td>{board.regdate}</td>
+                                <td>{board.regdate.slice(0,10)}</td>
                             </tr>
                         ))}
                 </tbody>

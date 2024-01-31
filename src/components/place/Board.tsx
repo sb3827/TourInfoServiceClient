@@ -63,7 +63,7 @@ export const Board: FC<BoardProps> = ({placeBoardData}) => {
                         </div>
                         <div>
                             <h2 className="text-base text-gray-500">
-                                등록일 : {placeBoardData?.regdate}
+                                등록일 : {placeBoardData?.regdate.slice(0,10)}
                             </h2>
                         </div>
                     </div>

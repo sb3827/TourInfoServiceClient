@@ -80,7 +80,7 @@ export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
                                             {reply.text}
                                         </span>
                                     </td>
-                                    <td>{reply.regdate}</td>
+                                    <td>{reply.regdate.slice(0,10)}</td>
                                 </tr>
                             ))}
                     </tbody>
