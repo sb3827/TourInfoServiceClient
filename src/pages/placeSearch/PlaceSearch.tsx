@@ -17,6 +17,11 @@ import {RootState} from '../../store/rootReducer'
 // 장소 검색 페이지
 
 export const PlaceSearch = () => {
+    const placeRef = useRef(null) // 관찰할 요소에 대한 참조
+
+    const [page, setPage] = useState<number>(0)
+    const [placeRequest, setPlaceRequest] = useState<boolean>(true)
+
     const [searchParams, setSearchParams] = useSearchParams()
     const [loading, setLoading] = useState<Boolean>(false)
 
@@ -48,6 +53,9 @@ export const PlaceSearch = () => {
     function handleCategoryChange(e: React.ChangeEvent<HTMLSelectElement>) {
         setSelectedCategory(e.target.value)
     }
+    const handleRegisterClick = () => {
+        navigate(`/board/place/posting/register`)
+    }
 
     // 검색 파라미터 변경 시 URL 업데이트 및 데이터 들고오기
     async function onPlaceList(
@@ -61,10 +69,13 @@ export const PlaceSearch = () => {
             return
         }
 
+        setPage(1)
+        setPlaceRequest(true)
+
         try {
             setLoading(true)
             setSearchParams({filter: selectedCategory, search: searchValue})
-            const data = await getSearchPlaceInfo(selectedCategory, searchValue)
+            const data = await getSearchPlaceInfo(selectedCategory, searchValue, 0)
             setPlaceInfoData(data)
             setLoading(false)
         } catch (err) {
@@ -77,9 +88,41 @@ export const PlaceSearch = () => {
         onPlaceList()
     }, [])
 
-    const handleRegisterClick = () => {
-        navigate(`/board/place/posting/register`)
+    //스크롤 조회
+    async function onInfinityReportList() {
+        try {
+            const data = await getSearchPlaceInfo(selectedCategory, searchValue, page)
+            //데이터를 받는것이 없으면 스크롤 할 시 요청 보내지 못하도록 state 변경
+            if (data.length === 0) {
+                observer.disconnect()
+                placeInfoData !== null && setPlaceRequest(false)
+                return
+            }
+            placeInfoData !== null && setPlaceInfoData([...placeInfoData, ...data])
+            setPage(page + 1)
+        } catch (err) {
+            console.log(err)
+        }
     }
+
+    const observer = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+            placeRequest === true && onInfinityReportList()
+        }
+    })
+
+    //스크롤 설정
+    useEffect(() => {
+        //무한 스크롤
+        if (placeRef.current) {
+            observer.observe(placeRef.current) // loaderRef를 관찰 대상으로 등록
+        }
+        return () => {
+            if (placeRef.current) {
+                observer.unobserve(placeRef.current) // 컴포넌트 언마운트 시 관찰 취소
+            }
+        }
+    }, [placeInfoData, placeRequest, placeRef])
 
     return (
         <div className="flex flex-col items-center justify-center w-full py-0 mt-14">
@@ -139,6 +182,14 @@ export const PlaceSearch = () => {
                                 </p>
                             </div>
                         )}
+                        {placeInfoData?.length !== 0 &&
+                            (placeRequest === true ? (
+                                <div className="" ref={placeRef}>
+                                    로딩중 ...
+                                </div>
+                            ) : (
+                                <div>마지막 입니다.</div>
+                            ))}
                     </div>
                     <div className="w-2/3 border rounded-lg border-lightGreen ">
                         {/* MapAPI 컴포넌트 */}

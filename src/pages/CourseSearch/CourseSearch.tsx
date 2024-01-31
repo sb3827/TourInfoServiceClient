@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {
     Box,
     SearchInput,
@@ -20,6 +20,15 @@ import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 
 export const CourseSearch = () => {
+    const boardInfoRef = useRef(null) // 관찰할 요소에 대한 참조
+
+    const boardInfoAdRef = useRef(null) // 관찰할 요소에 대한 참조
+    const [boardInfoRequest, setBoardInfoRequest] = useState<boolean>(true)
+
+    const [boardInfoAdRequest, setBoardInfoAdRequest] = useState<boolean>(true)
+
+    const [page, setPage] = useState<number>(1)
+    const [adPage, setAdPage] = useState<number>(1)
     const [searchParams, setSearchParams] = useSearchParams()
     const initialSearch = searchParams.get('search') || ''
     const [loading, setLoading] = useState<Boolean>(false)
@@ -27,8 +36,12 @@ export const CourseSearch = () => {
     //검색 값
     const [searchValue, setSearchValue] = useState<string>(initialSearch)
 
-    // 검색 결과 데이터
+    // 검색 결과 데이터 - 유저
     const [boardInfoData, setBoardInfoData] = useState<CourseBoardListData[] | null>(null)
+    // 검색 결과 데이터 - 광고
+    const [boardInfoAdData, setBoardInfoAdData] = useState<CourseBoardListData[] | null>(
+        null
+    )
 
     //입력때마다 검색값 업데이트
     function onChangeSearch(value: string) {
@@ -49,8 +62,16 @@ export const CourseSearch = () => {
         try {
             setLoading(true)
             setSearchParams({search: searchValue})
-            const data = await getSearchCourseInfo(searchValue)
+            const data = await getSearchCourseInfo(searchValue, 0, false)
             setBoardInfoData(data)
+            const data2 = await getSearchCourseInfo(searchValue, 0, true)
+            setBoardInfoAdData(data2)
+
+            setPage(1)
+            setAdPage(1)
+            setBoardInfoRequest(true)
+            setBoardInfoAdRequest(true)
+
             console.log(data)
             setLoading(false)
         } catch (err) {
@@ -69,6 +90,67 @@ export const CourseSearch = () => {
     const handleRegisterClick = () => {
         navigate(`/board/course/posting/register`)
     }
+
+    //스크롤 조회 - 유저
+    async function onInfinityReportList(page: number, isAd: boolean) {
+        try {
+            const data = await getSearchCourseInfo(searchValue, page, isAd)
+            //데이터를 받는것이 없으면 스크롤 할 시 요청 보내지 못하도록 state 변경
+            if (data.length === 0) {
+                observer.disconnect()
+                boardInfoData !== null && setBoardInfoRequest(false)
+                return
+            }
+            if (isAd === false) {
+                boardInfoData !== null && setBoardInfoData([...boardInfoData, ...data])
+                setPage(page + 1)
+            } else {
+                boardInfoAdData !== null &&
+                    setBoardInfoAdData([...boardInfoAdData, ...data])
+                setAdPage(adPage + 1)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const observer = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+            boardInfoRequest === true && onInfinityReportList(page, false)
+        }
+    })
+
+    const observer1 = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+            boardInfoAdRequest === true && onInfinityReportList(adPage, true)
+        }
+    })
+
+    //스크롤 설정 - 유저
+    useEffect(() => {
+        //무한 스크롤
+        if (boardInfoRef.current) {
+            observer.observe(boardInfoRef.current) // loaderRef를 관찰 대상으로 등록
+        }
+        return () => {
+            if (boardInfoRef.current) {
+                observer.unobserve(boardInfoRef.current) // 컴포넌트 언마운트 시 관찰 취소
+            }
+        }
+    }, [boardInfoData, boardInfoRequest, boardInfoRef])
+
+    //스크롤 설정 - 광고
+    useEffect(() => {
+        //무한 스크롤
+        if (boardInfoAdRef.current) {
+            observer1.observe(boardInfoAdRef.current) // loaderRef를 관찰 대상으로 등록
+        }
+        return () => {
+            if (boardInfoAdRef.current) {
+                observer1.unobserve(boardInfoAdRef.current) // 컴포넌트 언마운트 시 관찰 취소
+            }
+        }
+    }, [boardInfoAdData, boardInfoAdRequest, boardInfoAdRef])
 
     return (
         <Box>
@@ -111,33 +193,42 @@ export const CourseSearch = () => {
                     </Subtitle>
 
                     <BoardBox className="flex flex-col">
-                        {loading && <LoadingSppinnerSmall />}
-                        {boardInfoData &&
-                        boardInfoData.some(data => !data.ad === true) ? (
-                            boardInfoData.map(
-                                (data: CourseBoardListData, index) =>
-                                    !data.ad && (
-                                        <CourseInfo key={index} boardData={data} />
-                                    )
-                            )
+                        {boardInfoData ? (
+                            boardInfoData.map((data: CourseBoardListData, index) => (
+                                <CourseInfo key={index} boardData={data} />
+                            ))
                         ) : (
                             <div className="flex items-center justify-center w-full h-full">
                                 <p className="text-xl font-bold">게시글이 없습니다...</p>
                             </div>
                         )}
+                        {boardInfoData?.length !== 0 &&
+                            (boardInfoRequest === true ? (
+                                <div className="" ref={boardInfoRef}>
+                                    로딩중 ...
+                                </div>
+                            ) : (
+                                <div>마지막 입니다.</div>
+                            ))}
                     </BoardBox>
                     <BoardBox className="flex flex-col">
-                        {loading && <LoadingSppinnerSmall />}
-                        {boardInfoData && boardInfoData.some(data => data.ad === true) ? (
-                            boardInfoData.map(
-                                (data: CourseBoardListData, index) =>
-                                    data.ad && <CourseInfo key={index} boardData={data} />
-                            )
+                        {boardInfoAdData ? (
+                            boardInfoAdData.map((data: CourseBoardListData, index) => (
+                                <CourseInfo key={index} boardData={data} />
+                            ))
                         ) : (
                             <div className="flex items-center justify-center w-full h-full">
                                 <p className="text-xl font-bold">게시글이 없습니다...</p>
                             </div>
                         )}
+                        {boardInfoAdData?.length !== 0 &&
+                            (boardInfoAdRequest === true ? (
+                                <div className="" ref={boardInfoAdRef}>
+                                    로딩중 ...
+                                </div>
+                            ) : (
+                                <div>마지막 입니다.</div>
+                            ))}
                     </BoardBox>
                 </BoardToggle>
             </div>

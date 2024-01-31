@@ -1,43 +1,23 @@
-import {useState} from 'react'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {
     Box,
     SearchMap,
     Subtitle,
-    Board,
-    BoardBox,
     BoardToggle,
     LoadingSppinner,
     Title
 } from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {useNavigate, useParams} from 'react-router-dom'
-import {getPlaceDetailsInfo} from '../../api'
-import {PlaceBoardData} from '../../data/placeSearch'
+import {useLocation, useNavigate, useParams} from 'react-router-dom'
+import {PlaceBoardData, PlaceData} from '../../data/placeSearch'
 import {faList, faPlus} from '@fortawesome/free-solid-svg-icons'
+import PlaceDetailsItem from '../../components/place/PlaceDetailsItem'
 
 // 장소 상세 페이지
 export const PlaceDetails = () => {
-    const [boardData, setBoardData] = useState<PlaceBoardData[] | null>(null)
+    const [place, setPlace] = useState<PlaceBoardData | null>(null)
     const {pno} = useParams()
     const navigate = useNavigate()
-    const [loading, setLoading] = useState<Boolean>(false)
-
-    async function fetchData(pnoParam: string | undefined) {
-        const pnoNumber = pnoParam ? Number(pno) : undefined // pno를 숫자로 변환
-        try {
-            if (pnoNumber !== undefined) {
-                setLoading(true)
-                const data = await getPlaceDetailsInfo(pnoNumber)
-
-                data && setBoardData(data)
-                setLoading(false)
-            }
-        } catch (err) {
-            console.error('Error fetching data:', err)
-            setLoading(false)
-        }
-    }
 
     //게시글 작성으로 이동 -> pno pname 넘겨줘야함
     function onPlacePosting() {
@@ -47,23 +27,29 @@ export const PlaceDetails = () => {
     }
     const clearPlaceData = {
         getPno: pno,
-        getPname: boardData && boardData[0].name
+        getPname: place && place.name
     }
 
-    useEffect(() => {
-        fetchData(pno) // fetchData 함수를 실행하여 초기 데이터를 가져옴
-    }, [pno]) // 빈 배열을 전달하여 컴포넌트가 처음 마운트될 때만 실행
+    const getPlaceData = (placeData: PlaceBoardData) => {
+        setPlace(placeData)
+    }
+
+    // useEffect(() => {
+    //     const placeData = location.state?.placeData
+    //     if (placeData) {
+    //         setPlace(placeData.placeData)
+    //     }
+    // }, [])
 
     return (
         <Box>
             <div className="w-1/2">
-                {loading && <LoadingSppinner />}
                 <div className="flex justify-center w-full">
                     <div className="w-full ">
-                        <Title className="py-3 my-3">{boardData && boardData[0].name}</Title>
+                        <Title className="py-3 my-3">{place && place.name}</Title>
                         <div className="mb-10 overflow-hidden shadow-xl rounded-xl">
                             <SearchMap
-                                places={boardData && boardData}
+                                places={place && [place]}
                                 className="w-full "
                                 innerRef={null}
                             />
@@ -86,38 +72,12 @@ export const PlaceDetails = () => {
                         className="flex flex-row-reverse items-center text-left">
                         <FontAwesomeIcon icon={faList} className="m-1" />
                     </Subtitle>
-                    <BoardBox>
-                        {boardData &&
-                        boardData.some(data => !data.ad === true && data.bno !== null) ? (
-                            boardData.map(
-                                (data: PlaceBoardData, index) =>
-                                    !data.ad &&
-                                    data.writer !== null && (
-                                        <Board key={index} placeBoardData={data} />
-                                    )
-                            )
-                        ) : (
-                            <div className="flex items-center justify-center w-full h-full">
-                                <p className="text-xl font-bold">게시글이 없습니다...</p>
-                            </div>
-                        )}
-                    </BoardBox>
-                    <BoardBox>
-                        {boardData &&
-                        boardData.some(data => data.ad === true && data.bno !== null) ? (
-                            boardData.map(
-                                (data: PlaceBoardData, index) =>
-                                    data.ad &&
-                                    data.writer !== null && (
-                                        <Board key={index} placeBoardData={data} />
-                                    )
-                            )
-                        ) : (
-                            <div className="flex items-center justify-center w-full h-full">
-                                <p className="text-xl font-bold">게시글이 없습니다...</p>
-                            </div>
-                        )}
-                    </BoardBox>
+                    <PlaceDetailsItem
+                        getPlaceData={getPlaceData}
+                        pno={Number(pno)}
+                        isAd={false}
+                    />
+                    <PlaceDetailsItem pno={Number(pno)} isAd={true} />
                 </BoardToggle>
             </div>
         </Box>

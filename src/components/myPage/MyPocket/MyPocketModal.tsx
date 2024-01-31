@@ -134,7 +134,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({
         }
 
         try {
-            const data = await getSearchPlaceInfo(selectedCategory, searchValue)
+            const data = await getSearchPlaceInfo(selectedCategory, searchValue, 0)
             setPlaceInfoData(data)
         } catch (err) {
             console.log(err)

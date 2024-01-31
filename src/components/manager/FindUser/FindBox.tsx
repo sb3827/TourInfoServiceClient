@@ -80,7 +80,7 @@ export const FindBox: FC<FindBoxProps> = () => {
     async function onInfinityReportList() {
         try {
             const data = await managerSearchUser(
-                page, //페이지 가격
+                page, //페이지
                 selectValue, //
                 searchValue //
             )
