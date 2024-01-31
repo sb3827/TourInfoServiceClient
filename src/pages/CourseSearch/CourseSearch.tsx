@@ -7,7 +7,6 @@ import {
     Subtitle,
     BoardBox,
     Button,
-    LoadingSppinnerSmall,
     Title
 } from '../../components/index'
 import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
@@ -91,17 +90,22 @@ export const CourseSearch = () => {
         navigate(`/board/course/posting/register`)
     }
 
-    //스크롤 조회 - 유저
+    //스크롤 조회
     async function onInfinityReportList(page: number, isAd: boolean) {
         try {
             const data = await getSearchCourseInfo(searchValue, page, isAd)
+            console.log(data, searchValue, page, isAd)
             //데이터를 받는것이 없으면 스크롤 할 시 요청 보내지 못하도록 state 변경
-            if (data.length === 0) {
+            if (!isAd && data.length <= 0) {
                 observer.disconnect()
                 boardInfoData !== null && setBoardInfoRequest(false)
                 return
+            } else if (isAd && data.length <= 0) {
+                observer.disconnect()
+                boardInfoAdData !== null && setBoardInfoAdRequest(false)
             }
-            if (isAd === false) {
+
+            if (!isAd) {
                 boardInfoData !== null && setBoardInfoData([...boardInfoData, ...data])
                 setPage(page + 1)
             } else {
@@ -114,12 +118,14 @@ export const CourseSearch = () => {
         }
     }
 
+    //유저 옵저버
     const observer = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
             boardInfoRequest === true && onInfinityReportList(page, false)
         }
     })
 
+    //광고 옵저버
     const observer1 = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
             boardInfoAdRequest === true && onInfinityReportList(adPage, true)
