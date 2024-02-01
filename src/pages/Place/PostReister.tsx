@@ -166,8 +166,11 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
 
     const [searchParams] = useSearchParams()
     useEffect(() => {
+        if (!user) {
+            alert('로그인 후 이용가능합니다.')
+            navigate('/login')
+        }
         if (props.isModify) {
-            if (!user) navigate('/unauthorized')
             loadPage()
         }
     }, [])
@@ -217,7 +220,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
                     </p>
                 </div>
                 <div className="flex items-center">
-                    <p className="text-orange-400 mt-1 text-xl font-bold mr-3">
+                    <p className="mt-1 mr-3 text-xl font-bold text-orange-400">
                         별점을 선택하세요
                     </p>
                     <Rating ref={starRef} />

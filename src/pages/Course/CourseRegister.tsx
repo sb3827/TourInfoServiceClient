@@ -8,12 +8,7 @@ import {
     registCourseBoard
 } from '../../api/Board/board'
 import {useDispatch} from 'react-redux'
-import {
-    addDay,
-    deleteAll,
-    deleteDay,
-    setCommonState
-} from '../../store/slices/CourseSlice'
+import {addDay, deleteAll, setCommonState} from '../../store/slices/CourseSlice'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
@@ -27,17 +22,12 @@ type CourseRegisterProps = {
 export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props => {
     const day = useSelector((state: RootState) => state.course)
     //코스 등록시 추가적으로 로직 필요 -> 아래 콘솔보고 할것
-    console.log('날짜 데이터 ' + day)
 
     const dispatch = useDispatch()
 
     // plus day box
     function daysPlus() {
         dispatch(addDay())
-    }
-    // minus day box
-    function daysMinus() {
-        dispatch(deleteDay())
     }
 
     const navigate = useNavigate()
@@ -179,11 +169,15 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     }
 
     useEffect(() => {
+        if (!user) {
+            alert('로그인 후 이용가능합니다.')
+            navigate('/login')
+            return
+        }
         //새로 고침시 초기화
         dispatch(deleteAll())
 
         if (props.isModify) {
-            if (!user) navigate('/unauthorized')
             loadPage()
         }
     }, [])
