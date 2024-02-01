@@ -121,12 +121,12 @@ export const MostLikedCourseItem: FC<PropsWithChildren<MainItemProps>> = ({
                     className="h-full duration-150 hover:scale-110"
                 />
             </div>
-            <div className="w-full p-6 border-t-2 basis-1/12">
+            <div className="w-full py-3 px-6 border-t-2 basis-1/12">
                 <div className="flex items-center justify-center flex-auto">
                     <p className="text-2xl font-bold text-darkGreen">{mainBoard.title}</p>
                 </div>
                 <div className="flex justify-between w-full">
-                    <div className="flex flex-col items-start justify-center flex-1">
+                    <div className="flex flex-col items-start justify-center ">
                         <p className="flex items-center justify-center mr-2">
                             {mainBoard.name}
                         </p>
@@ -135,7 +135,7 @@ export const MostLikedCourseItem: FC<PropsWithChildren<MainItemProps>> = ({
                         </p>
                     </div>
 
-                    <div className="flex items-end justify-end flex-1">
+                    <div className="flex items-end justify-end ">
                         <div className="mr-2">
                             <FontAwesomeIcon icon={faStar} size="lg" color="gold" />
                             <p className="text-sm">{mainBoard.score}</p>

@@ -295,9 +295,11 @@ export const Main: FC<MainProps> = () => {
                                                 mainBoard={course.mainBoardResponseDTO}
                                             />
                                             <div className="relative flex-1 w-1/2">
-                                                <p className="absolute z-20 font-bold text-red-500 right-12 top-2">
-                                                    1일차
-                                                </p>
+                                                {course.placeList.length !== 0 && (
+                                                    <div className="absolute z-20  text-darkGreen opacity-60 text-5xl font-thin xl w-full h-1/3 flex justify-start ml-5 mt-5">
+                                                        DAY-1
+                                                    </div>
+                                                )}
                                                 <CoursePostMap
                                                     onClick={event =>
                                                         event.stopPropagation()
