@@ -3,6 +3,7 @@ import {
     Button,
     DropdownSelect,
     LoadingSppinnerSmall,
+    MiniSppinner,
     ReportInfo,
     SearchInput,
     SubBox,
@@ -192,11 +193,11 @@ export const ReportBox: FC<ReportBoxProps> = () => {
                 )}
                 {reportData?.data.length !== 0 &&
                     (reportRequest === true ? (
-                        <div className="" ref={loaderRef}>
-                            로딩중 ...
+                        <div className="my-5" ref={loaderRef}>
+                            <MiniSppinner />
                         </div>
                     ) : (
-                        <div>마지막 입니다.</div>
+                        <div className="my-5">•</div>
                     ))}
             </SubBox>
         </div>

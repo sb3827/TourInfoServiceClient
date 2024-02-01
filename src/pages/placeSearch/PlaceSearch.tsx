@@ -6,7 +6,8 @@ import {
     Button,
     SearchMapRef,
     LoadingSppinnerSmall,
-    Title
+    Title,
+    MiniSppinner
 } from '../../components/index'
 import {PlaceData} from '../../data/placeSearch'
 import {getSearchPlaceInfo} from '../../api'
@@ -89,7 +90,7 @@ export const PlaceSearch = () => {
     }, [])
 
     //스크롤 조회
-    async function onInfinityReportList() {
+    async function onInfinityList() {
         try {
             const data = await getSearchPlaceInfo(selectedCategory, searchValue, page)
             //데이터를 받는것이 없으면 스크롤 할 시 요청 보내지 못하도록 state 변경
@@ -107,7 +108,7 @@ export const PlaceSearch = () => {
 
     const observer = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
-            placeRequest === true && onInfinityReportList()
+            placeRequest === true && onInfinityList()
         }
     })
 
@@ -162,10 +163,10 @@ export const PlaceSearch = () => {
                 )}
             </div>
 
-            <div className="flex justify-center w-full h-screen py-5 mb-12">
+            <div className="flex justify-center w-full h-screen py-5 mb-12 overflow-hidden">
                 <div className="relative flex w-2/3 h-full ">
                     {loading && <LoadingSppinnerSmall />}
-                    <div className="w-1/3 overflow-y-auto border rounded-lg border--300 border-lightGreen">
+                    <div className="w-1/3 overflow-y-auto border rounded-lg border-300 border-lightGreen">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
                         {placeInfoData && placeInfoData.length > 0 ? (
                             placeInfoData.map((data: PlaceData, index) => (
@@ -184,11 +185,11 @@ export const PlaceSearch = () => {
                         )}
                         {placeInfoData?.length !== 0 &&
                             (placeRequest === true ? (
-                                <div className="" ref={placeRef}>
-                                    로딩중 ...
+                                <div className="my-5" ref={placeRef}>
+                                    <MiniSppinner />
                                 </div>
                             ) : (
-                                <div>마지막 입니다.</div>
+                                <div className="my-5">•</div>
                             ))}
                     </div>
                     <div className="w-2/3 border rounded-lg border-lightGreen ">

@@ -4,6 +4,7 @@ import {Board} from './Board'
 import {PlaceBoardData} from '../../data/placeSearch'
 import {getPlaceDetailsInfo} from '../../api'
 import {useParams} from 'react-router-dom'
+import {LoadingSppinnerSmall, MiniSppinner} from '../LoadingSpinner'
 
 type PlaceDetailsItemProps = {
     getPlaceData?: (placeData: PlaceBoardData) => void
@@ -20,17 +21,21 @@ const PlaceDetailsItem: FC<PlaceDetailsItemProps> = ({isAd, getPlaceData}) => {
     const [boardRequest, setBoardRequest] = useState<boolean>(true)
 
     const [boardData, setBoardData] = useState<PlaceBoardData[] | null>(null)
+    const [loading, setLoading] = useState<boolean>(false)
 
     //초기 데이터
     async function fetchData() {
         // const pnoNumber = pnoParam ? Number(pno) : undefined // pno를 숫자로 변환
         try {
+            setLoading(true)
             const data = await getPlaceDetailsInfo(Number(pno), 0, isAd)
             data && setBoardData(data)
             getPlaceData && data && getPlaceData(data[0])
             setPage(1)
+            setLoading(false)
         } catch (err) {
             console.error('Error fetching data:', err)
+            setLoading(false)
         }
     }
 
@@ -80,8 +85,9 @@ const PlaceDetailsItem: FC<PlaceDetailsItemProps> = ({isAd, getPlaceData}) => {
     }, [boardData, boardRequest, boardRef])
 
     return (
-        <BoardBox>
-            {boardData && boardData?.length > 0 ? (
+        <BoardBox className="relative">
+            {loading && <LoadingSppinnerSmall />}
+            {boardData && boardData?.length > 1 ? (
                 boardData.map(
                     (data: PlaceBoardData, index) =>
                         data.writer !== null && (
@@ -93,13 +99,13 @@ const PlaceDetailsItem: FC<PlaceDetailsItemProps> = ({isAd, getPlaceData}) => {
                     <p className="text-xl font-bold">게시글이 없습니다...</p>
                 </div>
             )}
-            {boardData?.length !== 0 &&
+            {boardData?.length !== 1 &&
                 (boardRequest === true ? (
-                    <div className="" ref={boardRef}>
-                        로딩중 ...
+                    <div className="my-5" ref={boardRef}>
+                        <MiniSppinner />
                     </div>
                 ) : (
-                    <div>마지막 입니다.</div>
+                    <div className="my-5">•</div>
                 ))}
         </BoardBox>
     )

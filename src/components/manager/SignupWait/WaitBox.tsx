@@ -1,6 +1,7 @@
 import {FC, useEffect, useRef, useState} from 'react'
 import {
     LoadingSppinnerSmall,
+    MiniSppinner,
     SubBox,
     Subtitle,
     UserInfoItemBox,
@@ -125,11 +126,11 @@ export const WaitBox: FC<WaitBoxProps> = ({}) => {
                 )}
                 {waitData?.length !== 0 &&
                     (waitRequest === true ? (
-                        <div className="" ref={waitRef}>
-                            로딩중 ...
+                        <div className="my-5" ref={waitRef}>
+                            <MiniSppinner />
                         </div>
                     ) : (
-                        <div>마지막 입니다.</div>
+                        <div className="my-5">•</div>
                     ))}
             </SubBox>
         </div>

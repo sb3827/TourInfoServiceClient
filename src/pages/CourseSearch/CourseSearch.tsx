@@ -7,7 +7,9 @@ import {
     Subtitle,
     BoardBox,
     Button,
-    Title
+    Title,
+    MiniSppinner,
+    LoadingSppinnerSmall
 } from '../../components/index'
 import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
 import {CourseBoardListData} from '../../data/Board/BoardData'
@@ -31,6 +33,14 @@ export const CourseSearch = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const initialSearch = searchParams.get('search') || ''
     const [loading, setLoading] = useState<Boolean>(false)
+
+    const navigate = useNavigate()
+
+    const user = useSelector((state: RootState) => state.login.mno)!
+
+    const handleRegisterClick = () => {
+        navigate(`/board/course/posting/register`)
+    }
 
     //검색 값
     const [searchValue, setSearchValue] = useState<string>(initialSearch)
@@ -61,17 +71,19 @@ export const CourseSearch = () => {
         try {
             setLoading(true)
             setSearchParams({search: searchValue})
+
             const data = await getSearchCourseInfo(searchValue, 0, false)
             setBoardInfoData(data)
+
             const data2 = await getSearchCourseInfo(searchValue, 0, true)
             setBoardInfoAdData(data2)
 
             setPage(1)
             setAdPage(1)
+
             setBoardInfoRequest(true)
             setBoardInfoAdRequest(true)
 
-            console.log(data)
             setLoading(false)
         } catch (err) {
             console.error('Error fetching data:', err)
@@ -82,16 +94,8 @@ export const CourseSearch = () => {
         onCourseList()
     }, [])
 
-    const navigate = useNavigate()
-
-    const user = useSelector((state: RootState) => state.login.mno)!
-
-    const handleRegisterClick = () => {
-        navigate(`/board/course/posting/register`)
-    }
-
     //스크롤 조회
-    async function onInfinityReportList(page: number, isAd: boolean) {
+    async function onInfinityList(page: number, isAd: boolean) {
         try {
             const data = await getSearchCourseInfo(searchValue, page, isAd)
             console.log(data, searchValue, page, isAd)
@@ -107,11 +111,11 @@ export const CourseSearch = () => {
 
             if (!isAd) {
                 boardInfoData !== null && setBoardInfoData([...boardInfoData, ...data])
-                setPage(page + 1)
+                setPage(prevPage => prevPage + 1)
             } else {
                 boardInfoAdData !== null &&
                     setBoardInfoAdData([...boardInfoAdData, ...data])
-                setAdPage(adPage + 1)
+                setAdPage(prevAdPage => prevAdPage + 1)
             }
         } catch (err) {
             console.log(err)
@@ -121,21 +125,21 @@ export const CourseSearch = () => {
     //유저 옵저버
     const observer = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
-            boardInfoRequest === true && onInfinityReportList(page, false)
+            boardInfoRequest === true && onInfinityList(page, false)
         }
     })
 
     //광고 옵저버
     const observer1 = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
-            boardInfoAdRequest === true && onInfinityReportList(adPage, true)
+            boardInfoAdRequest === true && onInfinityList(adPage, true)
         }
     })
 
     //스크롤 설정 - 유저
     useEffect(() => {
         //무한 스크롤
-        if (boardInfoRef.current) {
+        if (boardInfoData && boardInfoRef.current) {
             observer.observe(boardInfoRef.current) // loaderRef를 관찰 대상으로 등록
         }
         return () => {
@@ -148,7 +152,7 @@ export const CourseSearch = () => {
     //스크롤 설정 - 광고
     useEffect(() => {
         //무한 스크롤
-        if (boardInfoAdRef.current) {
+        if (boardInfoAdData && boardInfoAdRef.current) {
             observer1.observe(boardInfoAdRef.current) // loaderRef를 관찰 대상으로 등록
         }
         return () => {
@@ -185,7 +189,6 @@ export const CourseSearch = () => {
                         />
                     )}
                 </div>
-                <div className="flex justify-end w-4/6 "></div>
                 <BoardToggle>
                     <Subtitle
                         value="유저"
@@ -198,7 +201,8 @@ export const CourseSearch = () => {
                         <FontAwesomeIcon icon={faSignsPost} className="m-1" />
                     </Subtitle>
 
-                    <BoardBox className="flex flex-col">
+                    <BoardBox className="relative flex flex-col">
+                        {loading && <LoadingSppinnerSmall />}
                         {boardInfoData ? (
                             boardInfoData.map((data: CourseBoardListData, index) => (
                                 <CourseInfo key={index} boardData={data} />
@@ -210,11 +214,11 @@ export const CourseSearch = () => {
                         )}
                         {boardInfoData?.length !== 0 &&
                             (boardInfoRequest === true ? (
-                                <div className="" ref={boardInfoRef}>
-                                    로딩중 ...
+                                <div className="my-5" ref={boardInfoRef}>
+                                    <MiniSppinner />
                                 </div>
                             ) : (
-                                <div>마지막 입니다.</div>
+                                <div className="my-5">•</div>
                             ))}
                     </BoardBox>
                     <BoardBox className="flex flex-col">
@@ -228,12 +232,12 @@ export const CourseSearch = () => {
                             </div>
                         )}
                         {boardInfoAdData?.length !== 0 &&
-                            (boardInfoAdRequest === true ? (
-                                <div className="" ref={boardInfoAdRef}>
-                                    로딩중 ...
+                            (boardInfoAdRequest ? (
+                                <div className="my-5" ref={boardInfoAdRef}>
+                                    <MiniSppinner />
                                 </div>
                             ) : (
-                                <div>마지막 입니다.</div>
+                                <div className="my-5">•</div>
                             ))}
                     </BoardBox>
                 </BoardToggle>

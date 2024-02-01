@@ -4,6 +4,7 @@ import {
     DropdownSelect,
     FindUserInfo,
     LoadingSppinnerSmall,
+    MiniSppinner,
     SearchInput,
     SubBox,
     Subtitle,
@@ -77,7 +78,7 @@ export const FindBox: FC<FindBoxProps> = () => {
     }, [userCheck])
 
     //스크롤 조회
-    async function onInfinityReportList() {
+    async function onInfinityList() {
         try {
             const data = await managerSearchUser(
                 page, //페이지
@@ -99,7 +100,7 @@ export const FindBox: FC<FindBoxProps> = () => {
 
     const observer = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
-            userRequest === true && onInfinityReportList()
+            userRequest === true && onInfinityList()
         }
     })
 
@@ -183,11 +184,11 @@ export const FindBox: FC<FindBoxProps> = () => {
                 )}
                 {userData?.length !== 0 &&
                     (userRequest === true ? (
-                        <div className="" ref={userLoadRef}>
-                            로딩중 ...
+                        <div className="my-5" ref={userLoadRef}>
+                            <MiniSppinner />
                         </div>
                     ) : (
-                        <div>마지막 입니다.</div>
+                        <div className="my-5">•</div>
                     ))}
             </SubBox>
         </div>
