@@ -1,38 +1,24 @@
-import {useEffect, useRef, useState} from 'react'
+import {useState} from 'react'
 import {
     Box,
     SearchInput,
-    CourseInfo,
     BoardToggle,
     Subtitle,
-    BoardBox,
     Button,
-    Title,
-    MiniSppinner,
-    LoadingSppinnerSmall
+    Title
 } from '../../components/index'
-import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
-import {CourseBoardListData} from '../../data/Board/BoardData'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useSearchParams} from 'react-router-dom'
 import {faSignsPost} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
+import CourseSearchItem from '../../components/course/CourseSearchItem'
 
 export const CourseSearch = () => {
-    const boardInfoRef = useRef(null) // 관찰할 요소에 대한 참조
-
-    const boardInfoAdRef = useRef(null) // 관찰할 요소에 대한 참조
-    const [boardInfoRequest, setBoardInfoRequest] = useState<boolean>(true)
-
-    const [boardInfoAdRequest, setBoardInfoAdRequest] = useState<boolean>(true)
-
-    const [page, setPage] = useState<number>(1)
-    const [adPage, setAdPage] = useState<number>(1)
     const [searchParams, setSearchParams] = useSearchParams()
+
     const initialSearch = searchParams.get('search') || ''
-    const [loading, setLoading] = useState<Boolean>(false)
 
     const navigate = useNavigate()
 
@@ -44,13 +30,6 @@ export const CourseSearch = () => {
 
     //검색 값
     const [searchValue, setSearchValue] = useState<string>(initialSearch)
-
-    // 검색 결과 데이터 - 유저
-    const [boardInfoData, setBoardInfoData] = useState<CourseBoardListData[] | null>(null)
-    // 검색 결과 데이터 - 광고
-    const [boardInfoAdData, setBoardInfoAdData] = useState<CourseBoardListData[] | null>(
-        null
-    )
 
     //입력때마다 검색값 업데이트
     function onChangeSearch(value: string) {
@@ -67,100 +46,12 @@ export const CourseSearch = () => {
         ) {
             return
         }
-
         try {
-            setLoading(true)
             setSearchParams({search: searchValue})
-
-            const data = await getSearchCourseInfo(searchValue, 0, false)
-            setBoardInfoData(data)
-
-            const data2 = await getSearchCourseInfo(searchValue, 0, true)
-            setBoardInfoAdData(data2)
-
-            setPage(1)
-            setAdPage(1)
-
-            setBoardInfoRequest(true)
-            setBoardInfoAdRequest(true)
-
-            setLoading(false)
-        } catch (err) {
-            console.error('Error fetching data:', err)
-            setLoading(false)
-        }
-    }
-    useEffect(() => {
-        onCourseList()
-    }, [])
-
-    //스크롤 조회
-    async function onInfinityList(page: number, isAd: boolean) {
-        try {
-            const data = await getSearchCourseInfo(searchValue, page, isAd)
-            console.log(data, searchValue, page, isAd)
-            //데이터를 받는것이 없으면 스크롤 할 시 요청 보내지 못하도록 state 변경
-            if (!isAd && data.length <= 0) {
-                observer.disconnect()
-                boardInfoData !== null && setBoardInfoRequest(false)
-                return
-            } else if (isAd && data.length <= 0) {
-                observer.disconnect()
-                boardInfoAdData !== null && setBoardInfoAdRequest(false)
-            }
-
-            if (!isAd) {
-                boardInfoData !== null && setBoardInfoData([...boardInfoData, ...data])
-                setPage(prevPage => prevPage + 1)
-            } else {
-                boardInfoAdData !== null &&
-                    setBoardInfoAdData([...boardInfoAdData, ...data])
-                setAdPage(prevAdPage => prevAdPage + 1)
-            }
         } catch (err) {
             console.log(err)
         }
     }
-
-    //유저 옵저버
-    const observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-            boardInfoRequest === true && onInfinityList(page, false)
-        }
-    })
-
-    //광고 옵저버
-    const observer1 = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-            boardInfoAdRequest === true && onInfinityList(adPage, true)
-        }
-    })
-
-    //스크롤 설정 - 유저
-    useEffect(() => {
-        //무한 스크롤
-        if (boardInfoData && boardInfoRef.current) {
-            observer.observe(boardInfoRef.current) // loaderRef를 관찰 대상으로 등록
-        }
-        return () => {
-            if (boardInfoRef.current) {
-                observer.unobserve(boardInfoRef.current) // 컴포넌트 언마운트 시 관찰 취소
-            }
-        }
-    }, [boardInfoData, boardInfoRequest, boardInfoRef])
-
-    //스크롤 설정 - 광고
-    useEffect(() => {
-        //무한 스크롤
-        if (boardInfoAdData && boardInfoAdRef.current) {
-            observer1.observe(boardInfoAdRef.current) // loaderRef를 관찰 대상으로 등록
-        }
-        return () => {
-            if (boardInfoAdRef.current) {
-                observer1.unobserve(boardInfoAdRef.current) // 컴포넌트 언마운트 시 관찰 취소
-            }
-        }
-    }, [boardInfoAdData, boardInfoAdRequest, boardInfoAdRef])
 
     return (
         <Box>
@@ -200,46 +91,14 @@ export const CourseSearch = () => {
                         className="flex flex-row-reverse items-center text-left">
                         <FontAwesomeIcon icon={faSignsPost} className="m-1" />
                     </Subtitle>
-
-                    <BoardBox className="relative flex flex-col">
-                        {loading && <LoadingSppinnerSmall />}
-                        {boardInfoData ? (
-                            boardInfoData.map((data: CourseBoardListData, index) => (
-                                <CourseInfo key={index} boardData={data} />
-                            ))
-                        ) : (
-                            <div className="flex items-center justify-center w-full h-full">
-                                <p className="text-xl font-bold">게시글이 없습니다...</p>
-                            </div>
-                        )}
-                        {boardInfoData?.length !== 0 &&
-                            (boardInfoRequest === true ? (
-                                <div className="my-5" ref={boardInfoRef}>
-                                    <MiniSppinner />
-                                </div>
-                            ) : (
-                                <div className="my-5">•</div>
-                            ))}
-                    </BoardBox>
-                    <BoardBox className="flex flex-col">
-                        {boardInfoAdData ? (
-                            boardInfoAdData.map((data: CourseBoardListData, index) => (
-                                <CourseInfo key={index} boardData={data} />
-                            ))
-                        ) : (
-                            <div className="flex items-center justify-center w-full h-full">
-                                <p className="text-xl font-bold">게시글이 없습니다...</p>
-                            </div>
-                        )}
-                        {boardInfoAdData?.length !== 0 &&
-                            (boardInfoAdRequest ? (
-                                <div className="my-5" ref={boardInfoAdRef}>
-                                    <MiniSppinner />
-                                </div>
-                            ) : (
-                                <div className="my-5">•</div>
-                            ))}
-                    </BoardBox>
+                    <CourseSearchItem
+                        isAd={false}
+                        searchValue={searchParams.get('search') || ''}
+                    />
+                    <CourseSearchItem
+                        isAd={true}
+                        searchValue={searchParams.get('search') || ''}
+                    />
                 </BoardToggle>
             </div>
         </Box>
