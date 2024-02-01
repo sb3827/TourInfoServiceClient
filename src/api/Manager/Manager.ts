@@ -3,18 +3,19 @@ import {refreshAxios} from '../Axios/RefreshAxios'
 
 //회원 검색
 export const managerSearchUser = async (
+    page: number,
     filter: string,
     search: string
 ): Promise<Array<ManagerSearchUserData>> => {
     const response = await refreshAxios.get(
-        `/users/filter-find?filter=${filter}&search=${search}`
+        `/users/filter-find?page=${page}&filter=${filter}&search=${search}`
     )
     return response.data
 }
 
 //대기 회원 들고오기
-export const getSignupWait = async (): Promise<Array<SignupWaitData>> => {
-    const response = await refreshAxios.get('/users/waiting')
+export const getSignupWait = async (page: number): Promise<Array<SignupWaitData>> => {
+    const response = await refreshAxios.get(`/users/waiting?page=${page}`)
     return response.data
 }
 

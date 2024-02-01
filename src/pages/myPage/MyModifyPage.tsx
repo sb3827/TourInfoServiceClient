@@ -7,16 +7,23 @@ import {RootState} from '../../store/rootReducer'
 import {LoginInput, Title} from './../../components/index'
 import {useNavigate} from 'react-router-dom'
 import common from '../../assets/profileImage.jpeg'
+import Cookie from 'js-cookie'
+import {useDispatch} from 'react-redux'
+import {setUser} from '../../store/slices/LoginSlice'
 
 //TODO 수정하기 버튼 클릭 시 다시 마이페이지로 이동, margin/padding 조정, 이미지 업로드 수정
 
 export const MyModifyPage = () => {
-    const [user, setUser] = useState<user | null>(null)
-    const [userName, setUserName] = useState<string>(user ? user.name : '')
-    const [userPhone, setUserPhone] = useState<string>(user ? user.phone : '')
-    const [profileImage, setProfileImage] = useState<string>(user ? user.image : '')
+    const [userData, setUserData] = useState<user | null>(null)
+    const [userName, setUserName] = useState<string>(userData ? userData.name : '')
+    const [userPhone, setUserPhone] = useState<string>(userData ? userData.phone : '')
+    const [profileImage, setProfileImage] = useState<string>(
+        userData ? userData.image : ''
+    )
     const [file, setFile] = useState<File | null>(null)
     const fileInput = useRef<HTMLInputElement | null>(null)
+
+    const dispatch = useDispatch()
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
@@ -53,9 +60,9 @@ export const MyModifyPage = () => {
     // //정보 수정
     async function onUserUpdate() {
         const data = {
-            mno: user!.mno,
+            mno: userData!.mno,
             name: userName,
-            email: user!.email,
+            email: userData!.email,
             phone: userPhone
         }
         try {
@@ -71,7 +78,7 @@ export const MyModifyPage = () => {
     const fetchData = async () => {
         try {
             const userData = await ShowUserInfo(userMno)
-            setUser(userData)
+            setUserData(userData)
             setProfileImage(userData.image)
             setUserName(userData.name)
             setUserPhone(userData.phone)
@@ -90,6 +97,9 @@ export const MyModifyPage = () => {
             try {
                 await deleteId(userMno)
                 alert('그동안 이용해주셔서 감사합니다.')
+                localStorage.removeItem('token')
+                Cookie.remove('refreshToken')
+                dispatch(setUser({mno: null, role: null}))
                 navigate(`/`)
             } catch (error) {
                 console.log(error)
@@ -138,7 +148,7 @@ export const MyModifyPage = () => {
                         />
                         <LoginInput
                             className="my-3"
-                            value={user && user.email ? user.email : ''}
+                            value={userData && userData.email ? userData.email : ''}
                             text="Email (변경불가)"
                             disabled={true}
                         />
@@ -148,10 +158,10 @@ export const MyModifyPage = () => {
                             text="전화번호 (-빼고 입력하세요)"
                             onChange={onChangeUserPhone}
                         />
-                        {user && user.fromSocial === false && (
+                        {userData && userData.fromSocial === false && (
                             <LoginInput
                                 className="my-3"
-                                value={user && user.birth ? user.birth : ''}
+                                value={userData && userData.birth ? userData.birth : ''}
                                 text="생년월일 (변경불가)"
                                 disabled={true}
                             />
@@ -165,7 +175,7 @@ export const MyModifyPage = () => {
                                     onUserUpdate()
                                 }}
                             />
-                            {user && user.fromSocial === false && (
+                            {userData && userData.fromSocial === false && (
                                 <Button
                                     value="비밀번호 변경"
                                     onClick={() => {
