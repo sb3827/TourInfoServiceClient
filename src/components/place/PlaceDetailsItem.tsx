@@ -3,7 +3,7 @@ import {BoardBox} from './BoardBox'
 import {Board} from './Board'
 import {PlaceBoardData} from '../../data/placeSearch'
 import {getPlaceDetailsInfo} from '../../api'
-import {useParams} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import {LoadingSppinnerSmall, MiniSppinner} from '../LoadingSpinner'
 
 type PlaceDetailsItemProps = {
@@ -13,6 +13,7 @@ type PlaceDetailsItemProps = {
 }
 
 const PlaceDetailsItem: FC<PlaceDetailsItemProps> = ({isAd, getPlaceData}) => {
+    const navigate = useNavigate()
     const {pno} = useParams()
 
     const boardRef = useRef(null) // 관찰할 요소에 대한 참조
@@ -29,6 +30,11 @@ const PlaceDetailsItem: FC<PlaceDetailsItemProps> = ({isAd, getPlaceData}) => {
         try {
             setLoading(true)
             const data = await getPlaceDetailsInfo(Number(pno), 0, isAd)
+            if (data?.length == 0) {
+                alert('해당 장소가 없습니다.')
+                navigate(-1)
+                return
+            }
             data && setBoardData(data)
             getPlaceData && data && getPlaceData(data[0])
             setPage(1)
