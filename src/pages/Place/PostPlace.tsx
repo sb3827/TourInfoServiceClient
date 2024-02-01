@@ -140,7 +140,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     }, [])
 
     return (
-        <div className="w-1/2 mx-auto my-10">
+        <div className="w-7/12 mx-auto my-10 shadow-2xl py-10 px-14 rounded-2xl">
             <div className="py-5 ">
                 <div className="flex flex-col ">
                     <div className="flex items-center justify-between ">
@@ -188,7 +188,9 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                             <div className="flex flex-row justify-start">
                                 작성자: {writer}
                             </div>
-                            <div className="flex flex-row justify-end">{date.slice(0,16)}</div>
+                            <div className="flex flex-row justify-end">
+                                {date.slice(0, 16)}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -205,6 +207,11 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                     className="p-5 my-10 overflow-hidden shadow-xl rounded-3xl">
                     <TextBox data={content}></TextBox>
                 </div>
+            </div>
+            <div className="w-full  border-b-2 border-lightGreen flex">
+                <p className="mx-5 mb-3 mt-8 text-3xl font-semibold text-darkGreen">
+                    댓글
+                </p>
             </div>
             <div>
                 {/*footer*/}
