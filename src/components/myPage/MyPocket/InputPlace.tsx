@@ -172,7 +172,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
         }, [registerSpotModal])
 
         //스크롤 조회
-        async function onInfinityReportList() {
+        async function onInfinityList() {
             try {
                 const data = await getSearchPlaceInfo(selectedCategory, searchValue, page)
                 //데이터를 받는것이 없으면 스크롤 할 시 요청 보내지 못하도록 state 변경
@@ -190,7 +190,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
 
         const observer = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) {
-                placeInfoRequest === true && onInfinityReportList()
+                placeInfoRequest === true && onInfinityList()
             }
         })
 
