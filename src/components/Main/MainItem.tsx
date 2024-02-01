@@ -9,7 +9,7 @@ type MainItemProps = {
 export const MainItem: FC<PropsWithChildren<MainItemProps>> = props => {
     return (
         <div
-            className="flex flex-col w-11/12 mx-10 overflow-hidden duration-150 bg-white border-2 rounded-lg shadow-md hover:cursor-pointer hover:-translate-y-2 hover:shadow-xl"
+            className="flex flex-col mx-10 overflow-hidden duration-150 bg-white border-2 rounded-lg shadow-md hover:cursor-pointer hover:-translate-y-2 hover:shadow-xl"
             onClick={props.onClick}>
             <div className="flex justify-center w-full overflow-hidden">
                 <img
