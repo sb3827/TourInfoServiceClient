@@ -225,12 +225,14 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                             <SwiperSlide className="rounded-3xl" key={idx}>
                                 <div
                                     key={idx}
-                                    className="flex flex-col justify-center w-full">
-                                    <div>
-                                        <p className="text-xl font-bold">{`${
-                                            idx + 1
-                                        } 일차`}</p>
-                                    </div>
+                                    className="flex flex-col justify-center w-full relative">
+                                    {places.length > 0 && (
+                                        <div>
+                                            <p className="text-xl font-bold">{`DAY-${
+                                                idx + 1
+                                            }`}</p>
+                                        </div>
+                                    )}
                                     <CoursePostMap
                                         places={places}
                                         className="rounded-3xl"></CoursePostMap>
