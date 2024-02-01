@@ -1,6 +1,11 @@
 import {Subtitle} from '../../Texts'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faCircleMinus, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons'
+import {
+    faArrowRight,
+    faCircleMinus,
+    faMinus,
+    faPlus
+} from '@fortawesome/free-solid-svg-icons'
 import {useDispatch} from 'react-redux'
 import {addDayAtPosition, deleteDay, deleteItem} from '../../../store/slices/CourseSlice'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
@@ -116,12 +121,12 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                             index={index}>
                                             {provided => (
                                                 <div
-                                                    className="relative flex m-2"
+                                                    className="flex m-2"
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}>
                                                     <div
-                                                        className="flex items-center justify-center border shadow-xl cursor-pointer hover rounded-2xl"
+                                                        className="relative flex items-center justify-center border shadow-xl cursor-pointer hover rounded-2xl"
                                                         onClick={() => {
                                                             !create &&
                                                                 navigate(
@@ -138,6 +143,7 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                                             isRegister={false}>
                                                             {item.pname}
                                                         </Spot>
+
                                                         <div
                                                             className="absolute flex justify-end cursor-pointer top-1 right-1"
                                                             onClick={() =>
@@ -155,6 +161,14 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                                                 />
                                                             )}
                                                         </div>
+                                                    </div>
+                                                    <div className="flex justify-center items-center ml-3">
+                                                        {dayItem.length !== index + 1 && (
+                                                            <FontAwesomeIcon
+                                                                color="darkGreen"
+                                                                icon={faArrowRight}
+                                                            />
+                                                        )}
                                                     </div>
                                                 </div>
                                             )}
