@@ -6,7 +6,8 @@ import {
     PlaceProps,
     DropIcon,
     CourseList,
-    MainSlider
+    MainSlider,
+    LoadingSppinner
 } from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -56,6 +57,8 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     const bno = searchParams.get('bno')!
     const [report, setReport] = useState<boolean>(false)
 
+    const [loading, setLoading] = useState<boolean>(false)
+
     const navigate = useNavigate()
     // left arrow button
     function backPage() {
@@ -74,6 +77,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     }
 
     async function loadPage() {
+        setLoading(true)
         try {
             const data = await coursePostLoad(
                 parseInt(bno),
@@ -117,6 +121,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
         } catch (error) {
             navigate('/notfound')
         }
+        setLoading(false)
     }
 
     // heart button state
@@ -163,6 +168,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
 
     return (
         <div className="w-7/12 mx-auto my-10  py-10 px-14 shadow-2xl rounded-2xl">
+            {loading && <LoadingSppinner />}
             <div className="py-5 ">
                 <div className="flex flex-col ">
                     <div className="flex items-center justify-between">

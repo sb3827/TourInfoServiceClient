@@ -1,5 +1,12 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
-import {Title, TextBox, PlacePostMap, PlaceProps, DropIcon} from '../../components'
+import {
+    Title,
+    TextBox,
+    PlacePostMap,
+    PlaceProps,
+    DropIcon,
+    LoadingSppinner
+} from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHeart, faStar, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
@@ -65,6 +72,8 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
         }
     }
 
+    const [loading, setLoading] = useState<boolean>(false)
+
     const navigate = useNavigate()
     // left arrow button
     function backPage() {
@@ -96,6 +105,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     }
 
     async function loadPage() {
+        setLoading(true)
         try {
             const data = await placePostLoad(
                 parseInt(bno),
@@ -134,6 +144,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
         } catch (error) {
             navigate('/notfound')
         }
+        setLoading(false)
     }
     useEffect(() => {
         loadPage()
@@ -141,6 +152,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
 
     return (
         <div className="w-7/12 mx-auto my-10 shadow-2xl py-10 px-14 rounded-2xl">
+            {loading && <LoadingSppinner />}
             <div className="py-5 ">
                 <div className="flex flex-col ">
                     <div className="flex items-center justify-between ">
