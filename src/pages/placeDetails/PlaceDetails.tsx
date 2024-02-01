@@ -34,13 +34,6 @@ export const PlaceDetails = () => {
         setPlace(placeData)
     }
 
-    // useEffect(() => {
-    //     const placeData = location.state?.placeData
-    //     if (placeData) {
-    //         setPlace(placeData.placeData)
-    //     }
-    // }, [])
-
     return (
         <Box>
             <div className="w-1/2">
