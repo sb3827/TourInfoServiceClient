@@ -3,10 +3,7 @@ import {Subtitle} from './../../Texts'
 import {ShowUserFollowers} from './../../../api/index'
 import {userFollows} from './../../../data/User/User'
 import profileImage from './../../../assets/profileImage.jpeg'
-import {RootState} from './../../../store/rootReducer'
-import {useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
-import {Button} from './../../../components'
 
 type MyFollowerBoxProps = {
     mno: number
@@ -16,7 +13,6 @@ type MyFollowerBoxProps = {
 export const MyFollowerBox: FC<MyFollowerBoxProps> = ({mno, closeModal}) => {
     const [userFollowers, setUserFollowers] = useState<userFollows[] | null>(null)
     const navigate = useNavigate()
-    // const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
     const fetchData = async () => {
         try {
@@ -33,7 +29,7 @@ export const MyFollowerBox: FC<MyFollowerBoxProps> = ({mno, closeModal}) => {
 
     return (
         <div>
-            <div className="flex-row w-full pt-4 overflow-y-auto border-2 shadow-xl h-96 rounded-tr-3xl rounded-bl-3xl">
+            <div className="flex-row w-full pt-4 overflow-y-auto border-2 shadow-xl h-96 rounded-2xl">
                 <Subtitle
                     value="팔로워"
                     className="flex justify-center pb-4 mb-2 border-b"></Subtitle>

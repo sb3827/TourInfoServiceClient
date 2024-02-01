@@ -244,8 +244,7 @@ export const Main: FC<MainProps> = () => {
                                                 onClick={() =>
                                                     mostPostingDetailView(index)
                                                 }
-                                                title={mostLiked.name}
-                                                image={mostLiked.src ?? noImage}
+                                                mainPlace={mostLiked}
                                             />
                                         </SwiperSlide>
                                     )
@@ -257,7 +256,7 @@ export const Main: FC<MainProps> = () => {
                 <div className="px-10 mb-20 shadow-2xl bg-opacity-60 py-14 rounded-3xl bg-emerald-50 ">
                     <Subtitle
                         className="flex items-start mb-4 ml-16 text-2xl font-bold "
-                        value="최근 포스팅"
+                        value="최근 장소 포스팅"
                     />
                     <MainSlider preView={preView}>
                         {fetchedData &&
@@ -266,8 +265,9 @@ export const Main: FC<MainProps> = () => {
                                 <SwiperSlide key={index} className="p-2">
                                     <MainItem
                                         onClick={() => recentlyDetailView(index)}
-                                        title={recently.title}
-                                        image={recently.src ?? noImage}
+                                        mainBoard={recently}
+                                        // title={recently.title}
+                                        // image={recently.src ?? noImage}
                                     />
                                 </SwiperSlide>
                             ))}
@@ -292,11 +292,7 @@ export const Main: FC<MainProps> = () => {
                                                 mostLikedCourseDetailView(index)
                                             }>
                                             <MostLikedCourseItem
-                                                title={course.mainBoardResponseDTO.title}
-                                                image={
-                                                    course.mainBoardResponseDTO.src ??
-                                                    noImage
-                                                }
+                                                mainBoard={course.mainBoardResponseDTO}
                                             />
                                             <div className="relative flex-1 w-1/2">
                                                 <p className="absolute z-20 font-bold text-red-500 right-12 top-2">
@@ -328,8 +324,7 @@ export const Main: FC<MainProps> = () => {
                                     <SwiperSlide key={index} className="p-2">
                                         <MainItem
                                             onClick={() => followDetailView(index)}
-                                            title={follow.title}
-                                            image={follow.src ?? noImage}
+                                            mainBoard={follow}
                                         />
                                     </SwiperSlide>
                                 ))}
@@ -355,8 +350,7 @@ export const Main: FC<MainProps> = () => {
                                     <SwiperSlide key={index} className="p-2">
                                         <MainItem
                                             onClick={() => adDetailView(index)}
-                                            title={ad.title}
-                                            image={ad.src ?? noImage}
+                                            mainBoard={ad}
                                         />
                                     </SwiperSlide>
                                 ))}

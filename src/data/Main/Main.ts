@@ -5,12 +5,19 @@ export type mainItemData = {
             pno: number
             name: string
             src: string | null
+            cart: number
+            board_count: number
+            category: string
         }[]
         recentlyBoard: {
             bno: number
             title: string
             src: string | null
             course: boolean | null
+            name: string
+            likes: number
+            score: number
+            regDate: string
         }[]
         mostLikeCourse: {
             mainBoardResponseDTO: {
@@ -18,6 +25,10 @@ export type mainItemData = {
                 title: string
                 src: string | null
                 course: boolean | null
+                name: string
+                likes: number
+                score: number
+                regDate: string
             }
             placeList: {
                 name: string
@@ -33,12 +44,40 @@ export type mainItemData = {
             title: string
             src: string | null
             course: boolean | null
+            name: string
+            likes: number
+            score: number
+            regDate: string
         }[]
         adBoard: {
             bno: number
             title: string
             src: string | null
             course: boolean | null
+            name: string
+            likes: number
+            score: number
+            regDate: string
         }[]
     }
+}
+
+export type MainPlaceData = {
+    pno: number
+    name: string
+    src: string | null
+    cart: number
+    board_count: number
+    category: string
+}
+
+export type MainBoardData = {
+    bno: number
+    title: string
+    src: string | null
+    course: boolean | null
+    name: string
+    likes: number
+    score: number
+    regDate: string
 }
