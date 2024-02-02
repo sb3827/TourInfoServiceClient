@@ -310,7 +310,6 @@ export const MyCart: FC<MyCartProps> = ({
                                             deleteSpot(mno, pno, folderInfo.fno)
                                         }
                                     />
-                                    {/* {folderInfo.title && <MyPocketModal />} */}
                                 </div>
                             ))}
                 </div>
