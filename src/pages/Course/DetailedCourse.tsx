@@ -6,7 +6,8 @@ import {
     PlaceProps,
     DropIcon,
     CourseList,
-    MainSlider
+    MainSlider,
+    LoadingSppinner
 } from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -56,6 +57,8 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     const bno = searchParams.get('bno')!
     const [report, setReport] = useState<boolean>(false)
 
+    const [loading, setLoading] = useState<boolean>(false)
+
     const navigate = useNavigate()
     // left arrow button
     function backPage() {
@@ -74,6 +77,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     }
 
     async function loadPage() {
+        setLoading(true)
         try {
             const data = await coursePostLoad(
                 parseInt(bno),
@@ -117,6 +121,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
         } catch (error) {
             navigate('/notfound')
         }
+        setLoading(false)
     }
 
     // heart button state
@@ -162,7 +167,8 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     }
 
     return (
-        <div className="w-1/2 mx-auto my-10">
+        <div className="w-7/12 py-10 mx-auto my-10 shadow-2xl px-14 rounded-2xl">
+            {loading && <LoadingSppinner />}
             <div className="py-5 ">
                 <div className="flex flex-col ">
                     <div className="flex items-center justify-between">
@@ -193,16 +199,18 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                                 )}
                                 {likes}
                             </div>
-                            <DropIcon
-                                itemTexts={postText}
-                                itemActions={[nav, set, delPage]}
-                                itemEnabled={enables}>
-                                <FontAwesomeIcon
-                                    className="ml-2 hover:cursor-pointer"
-                                    icon={faEllipsisVertical}
-                                    size="xl"
-                                />
-                            </DropIcon>
+                            {user && (
+                                <DropIcon
+                                    itemTexts={postText}
+                                    itemActions={[nav, set, delPage]}
+                                    itemEnabled={enables}>
+                                    <FontAwesomeIcon
+                                        className="ml-2 hover:cursor-pointer"
+                                        icon={faEllipsisVertical}
+                                        size="xl"
+                                    />
+                                </DropIcon>
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-between w-full my-5">
@@ -210,7 +218,9 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                             <div className="flex flex-row justify-start">
                                 작성자: {writer}
                             </div>
-                            <div className="flex flex-row justify-end">{date.slice(0,16)}</div>
+                            <div className="flex flex-row justify-end">
+                                {date.slice(0, 16)}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -223,12 +233,14 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                             <SwiperSlide className="rounded-3xl" key={idx}>
                                 <div
                                     key={idx}
-                                    className="flex flex-col justify-center w-full">
-                                    <div>
-                                        <p className="text-xl font-bold">{`${
-                                            idx + 1
-                                        } 일차`}</p>
-                                    </div>
+                                    className="relative flex flex-col justify-center w-full">
+                                    {places.length > 0 && (
+                                        <div>
+                                            <p className="text-xl font-bold">{`DAY-${
+                                                idx + 1
+                                            }`}</p>
+                                        </div>
+                                    )}
                                     <CoursePostMap
                                         places={places}
                                         className="rounded-3xl"></CoursePostMap>
@@ -245,6 +257,11 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                     className="p-5 my-10 overflow-hidden shadow-xl rounded-3xl">
                     <TextBox data={content}></TextBox>
                 </div>
+            </div>
+            <div className="flex w-full border-b-2 border-lightGreen">
+                <p className="mx-5 mt-8 mb-3 text-3xl font-semibold text-darkGreen">
+                    댓글
+                </p>
             </div>
             <div>
                 <Reply />

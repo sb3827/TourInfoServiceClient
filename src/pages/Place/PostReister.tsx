@@ -44,6 +44,17 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     const user = useSelector((state: RootState) => state.login.mno)!
 
     const [loadImg, setLoadImg] = useState<string[]>([])
+
+    //
+    const [place, setPlace] = useState<PlaceProps>({
+        name: '장소를 선택해주세요',
+        lat: 35.1584,
+        lng: 129.0583,
+        roadAddress: '',
+        localAddress: '',
+        engAddress: ''
+    })
+    //
     const [loadPlace, setLoadPlace] = useState<PlaceProps>({
         name: '서면 거리',
         lat: 35.1584,
@@ -68,9 +79,8 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
         setModalView(false)
     }
 
-    //장소 데이터 들고오기
-    function getPlaceData(pno: number, pname: string) {
-        setPlaceData({getPno: pno, getPname: pname})
+    function getPlaceData(place: PlaceProps) {
+        setPlace(place)
     }
 
     // 등록 onclick 함수
@@ -207,18 +217,25 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     return (
         <div className="w-1/2 mx-auto mt-10">
             <div className="flex items-center justify-between w-full">
-                <div className="flex items-center">
-                    {!props.isModify && (
+                {!props.isModify ? (
+                    <div className="flex items-center">
                         <Button
                             className="mr-3 text-white bg-darkGreen"
                             onClick={onOpenModal}
                             value={'장소 선택'}
                         />
-                    )}
-                    <p className="text-xl font-semibold text-darkGreen">
-                        {placeData ? placeData.getPname : '장소를 선택해주세요'}
-                    </p>
-                </div>
+                        <p className="text-xl font-semibold text-darkGreen">
+                            {place.name}
+                        </p>
+                    </div>
+                ) : (
+                    <div className="flex items-center">
+                        <p className="text-xl font-semibold text-darkGreen">
+                            {loadPlace.name}
+                        </p>
+                    </div>
+                )}
+
                 <div className="flex items-center">
                     <p className="mt-1 mr-3 text-xl font-bold text-orange-400">
                         별점을 선택하세요
@@ -241,7 +258,13 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
                         />
                     </Modal>
                 )}
-                {props.isModify && <PlacePostMap place={loadPlace!}></PlacePostMap>}
+                {props.isModify ? (
+                    <PlacePostMap place={loadPlace!}></PlacePostMap>
+                ) : (
+                    <PlacePostMap
+                        className="w-full border-0 shadow-xl rounded-3xl my-5"
+                        place={place}></PlacePostMap>
+                )}
             </div>
 
             <div>

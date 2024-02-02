@@ -1,5 +1,14 @@
 import {FC, PropsWithChildren, useEffect, useMemo, useRef, useState} from 'react'
-import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
+import {
+    TextEditor,
+    Input,
+    Button,
+    Rating,
+    RatingRef,
+    EditorRef,
+    MainSlider,
+    CoursePostMap
+} from '../../components'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {
     coursePostLoad,
@@ -14,6 +23,7 @@ import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
 import {saveCourseBoardDTO} from '../../data/Board/BoardData'
 import noImage from '../../assets/smallLogo.png'
+import {SwiperSlide} from 'swiper/react'
 
 type CourseRegisterProps = {
     isModify: boolean // true: 수정, false: 등록
@@ -21,7 +31,6 @@ type CourseRegisterProps = {
 
 export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props => {
     const day = useSelector((state: RootState) => state.course)
-    //코스 등록시 추가적으로 로직 필요 -> 아래 콘솔보고 할것
 
     const dispatch = useDispatch()
 

@@ -9,7 +9,9 @@ import {
     Input,
     SearchMapRef,
     Title,
-    Modal
+    Modal,
+    PlaceProps,
+    LoadingSppinnerSmall
 } from './../../index'
 import {PlaceData} from './../../../data/placeSearch'
 import {registerPlace} from './../../../api/index'
@@ -31,7 +33,7 @@ import {addLastItem} from '../../../store/slices/CourseSlice'
 type InputPlaceProps = {
     className?: string
     ref?: Ref<PnoName>
-    getPlaceData?: (pno: number, pname: string) => void
+    getPlaceData?: (place: PlaceProps) => void
     onClose?: () => void
     dayIndex?: number
 }
@@ -48,6 +50,8 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
         const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null) // 장소 검색 결과
         const searchMapRef = useRef<SearchMapRef | null>(null)
         const [registerSpotModal, setRegisterSpotModal] = useState(false)
+
+        const [loading, setLoading] = useState<boolean>(false)
 
         const placeInfoRef = useRef(null) // 관찰할 요소에 대한 참조
 
@@ -125,16 +129,15 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
             setSelectedSpotCategory(e.target.value)
         }
 
-        //장소 선택 확인 함수
-        function onCheckPlace(pno: number, pname: string, src: string) {
-            const con = window.confirm(`${pname} 장소를 선택 하시겠습니까?`)
+        function onCheckPlace(place: PlaceProps, img: string) {
+            const con = window.confirm(`${place.name} 장소를 선택 하시겠습니까?`)
             if (con) {
-                getPlaceData && getPlaceData(pno, pname)
+                getPlaceData && getPlaceData(place)
                 if (typeof dayIndex === 'number' && dayIndex >= 0) {
                     dispatch(
                         addLastItem({
                             index: dayIndex,
-                            item: {pno: pno, pname: pname, img: src}
+                            item: {pno: pno, pname: place.name, img: img}
                         })
                     )
                 }
@@ -154,7 +157,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
             ) {
                 return
             }
-
+            setLoading(true)
             try {
                 const data = await getSearchPlaceInfo(selectedCategory, searchValue, 0)
                 setPlaceInfoData(data)
@@ -164,6 +167,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                 console.log(err)
                 alert('서버와 연결이 끊겼습니다.')
             }
+            setLoading(false)
         }
 
         //초기
@@ -246,7 +250,8 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                             <FontAwesomeIcon icon={faPlus} />
                         </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center w-full overflow-hidden h-4/5">
+                    <div className="relative flex flex-col items-center justify-center w-full overflow-hidden h-4/5">
+                        {loading && <LoadingSppinnerSmall />}
                         <div className="flex justify-center w-full h-full ">
                             <div className="flex w-full h-full ">
                                 {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}
@@ -261,11 +266,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                                 mapClick={() => {
                                                     onMap(index)
                                                     setPno(data.pno)
-                                                    onCheckPlace(
-                                                        data.pno,
-                                                        data.name,
-                                                        data.image
-                                                    )
+                                                    onCheckPlace(data, data.image)
                                                 }}
                                             />
                                         ))
