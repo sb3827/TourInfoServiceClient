@@ -167,7 +167,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     }
 
     return (
-        <div className="w-7/12 mx-auto my-10  py-10 px-14 shadow-2xl rounded-2xl">
+        <div className="w-7/12 py-10 mx-auto my-10 shadow-2xl px-14 rounded-2xl">
             {loading && <LoadingSppinner />}
             <div className="py-5 ">
                 <div className="flex flex-col ">
@@ -199,16 +199,18 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                                 )}
                                 {likes}
                             </div>
-                            <DropIcon
-                                itemTexts={postText}
-                                itemActions={[nav, set, delPage]}
-                                itemEnabled={enables}>
-                                <FontAwesomeIcon
-                                    className="ml-2 hover:cursor-pointer"
-                                    icon={faEllipsisVertical}
-                                    size="xl"
-                                />
-                            </DropIcon>
+                            {user && (
+                                <DropIcon
+                                    itemTexts={postText}
+                                    itemActions={[nav, set, delPage]}
+                                    itemEnabled={enables}>
+                                    <FontAwesomeIcon
+                                        className="ml-2 hover:cursor-pointer"
+                                        icon={faEllipsisVertical}
+                                        size="xl"
+                                    />
+                                </DropIcon>
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-between w-full my-5">
@@ -231,7 +233,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                             <SwiperSlide className="rounded-3xl" key={idx}>
                                 <div
                                     key={idx}
-                                    className="flex flex-col justify-center w-full relative">
+                                    className="relative flex flex-col justify-center w-full">
                                     {places.length > 0 && (
                                         <div>
                                             <p className="text-xl font-bold">{`DAY-${
@@ -256,8 +258,8 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                     <TextBox data={content}></TextBox>
                 </div>
             </div>
-            <div className="w-full  border-b-2 border-lightGreen flex">
-                <p className="mx-5 mb-3 mt-8 text-3xl font-semibold text-darkGreen">
+            <div className="flex w-full border-b-2 border-lightGreen">
+                <p className="mx-5 mt-8 mb-3 text-3xl font-semibold text-darkGreen">
                     댓글
                 </p>
             </div>

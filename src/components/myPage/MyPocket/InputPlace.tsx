@@ -10,7 +10,8 @@ import {
     SearchMapRef,
     Title,
     Modal,
-    PlaceProps
+    PlaceProps,
+    LoadingSppinnerSmall
 } from './../../index'
 import {PlaceData} from './../../../data/placeSearch'
 import {registerPlace} from './../../../api/index'
@@ -49,6 +50,8 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
         const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null) // 장소 검색 결과
         const searchMapRef = useRef<SearchMapRef | null>(null)
         const [registerSpotModal, setRegisterSpotModal] = useState(false)
+
+        const [loading, setLoading] = useState<boolean>(false)
 
         const placeInfoRef = useRef(null) // 관찰할 요소에 대한 참조
 
@@ -154,7 +157,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
             ) {
                 return
             }
-
+            setLoading(true)
             try {
                 const data = await getSearchPlaceInfo(selectedCategory, searchValue, 0)
                 setPlaceInfoData(data)
@@ -164,6 +167,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                 console.log(err)
                 alert('서버와 연결이 끊겼습니다.')
             }
+            setLoading(false)
         }
 
         //초기
@@ -246,7 +250,8 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                             <FontAwesomeIcon icon={faPlus} />
                         </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center w-full overflow-hidden h-4/5">
+                    <div className="relative flex flex-col items-center justify-center w-full overflow-hidden h-4/5">
+                        {loading && <LoadingSppinnerSmall />}
                         <div className="flex justify-center w-full h-full ">
                             <div className="flex w-full h-full ">
                                 {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}

@@ -13,7 +13,6 @@ import {
     LoadingSppinner
 } from '../../components'
 import {RootState} from '../../store/rootReducer'
-import noImage from '../../assets/smallLogo.png'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faMapLocationDot, faRoute, faUsers} from '@fortawesome/free-solid-svg-icons'
 import MainFilter from '../../components/Main/MainFilter'
@@ -169,8 +168,8 @@ export const Main: FC<MainProps> = () => {
     }, [mno])
 
     return (
-        <div className="flex justify-center items-center w-full">
-            <div className="w-11/12 flex justify-center">
+        <div className="flex items-center justify-center w-full">
+            <div className="flex justify-center w-11/12">
                 {loading && <LoadingSppinner />}
                 <div className="w-4/5 mt-10 ">
                     <div className="flex flex-col items-center justify-center">

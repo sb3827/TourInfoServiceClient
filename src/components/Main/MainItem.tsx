@@ -78,13 +78,14 @@ export const MostLikedMainItem: FC<PropsWithChildren<MainPlaceProps>> = ({
                 <div className="flex flex-col w-full h-full p-5 border-t">
                     <div className="flex justify-between w-full">
                         <div className="flex items-center justify-start flex-1">
-                            <p className="flex items-center justify-center">
-                                <FontAwesomeIcon
-                                    icon={faCartShopping}
-                                    size="1x"
-                                    className="mx-2"
-                                />
-                                {mainPlace.cart}
+                            <p>
+                                {mainPlace.category === 'SIGHT'
+                                    ? '관광지'
+                                    : mainPlace.category === 'RESTAURANT'
+                                    ? '음식점'
+                                    : mainPlace.category === 'LODGMENT'
+                                    ? '숙소'
+                                    : '기타'}
                             </p>
                         </div>
                         <div className="flex items-center justify-center flex-auto">
@@ -94,8 +95,15 @@ export const MostLikedMainItem: FC<PropsWithChildren<MainPlaceProps>> = ({
                         </div>
 
                         <div className="flex flex-col items-end justify-center flex-1">
-                            <p>{mainPlace.category}</p>
                             <p className="text-sm text-gray-500">
+                                <p className="flex items-center justify-end">
+                                    <FontAwesomeIcon
+                                        icon={faCartShopping}
+                                        size="1x"
+                                        className="mx-2"
+                                    />
+                                    {mainPlace.cart}
+                                </p>
                                 {mainPlace.board_count}개의 게시글
                             </p>
                         </div>
@@ -121,7 +129,7 @@ export const MostLikedCourseItem: FC<PropsWithChildren<MainItemProps>> = ({
                     className="h-full duration-150 hover:scale-110"
                 />
             </div>
-            <div className="w-full py-3 px-6 border-t-2 basis-1/12">
+            <div className="w-full px-6 py-3 border-t-2 basis-1/12">
                 <div className="flex items-center justify-center flex-auto">
                     <p className="text-2xl font-bold text-darkGreen">{mainBoard.title}</p>
                 </div>
