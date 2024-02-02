@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {LoginInput, Title} from './../../components/index'
 import {useNavigate} from 'react-router-dom'
+import Cookies from 'js-cookie'
 import common from '../../assets/profileImage.jpeg'
 
 //TODO 수정하기 버튼 클릭 시 다시 마이페이지로 이동, margin/padding 조정, 이미지 업로드 수정
@@ -90,6 +91,8 @@ export const MyModifyPage = () => {
             try {
                 await deleteId(userMno)
                 alert('그동안 이용해주셔서 감사합니다.')
+                localStorage.removeItem('token')
+                Cookies.remove('refreshToken')
                 navigate(`/`)
             } catch (error) {
                 console.log(error)
