@@ -13,10 +13,13 @@ export const getUserDisciplinary = async (mno: number): Promise<DisciplinaryUser
 
 //신고 들고오기
 export const getAllReport = async (
+    page: number,
     filter: string,
     search: string
 ): Promise<ReportResponseData> => {
-    const response = await refreshAxios.get(`/report?filter=${filter}&search=${search}`)
+    const response = await refreshAxios.get(
+        `/report?page=${page}&filter=${filter}&search=${search}`
+    )
     return response.data
 }
 

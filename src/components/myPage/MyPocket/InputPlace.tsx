@@ -9,7 +9,9 @@ import {
     Input,
     SearchMapRef,
     Title,
-    Modal
+    Modal,
+    PlaceProps,
+    LoadingSppinnerSmall
 } from './../../index'
 import {PlaceData} from './../../../data/placeSearch'
 import {registerPlace} from './../../../api/index'
@@ -31,7 +33,7 @@ import {addLastItem} from '../../../store/slices/CourseSlice'
 type InputPlaceProps = {
     className?: string
     ref?: Ref<PnoName>
-    getPlaceData?: (pno: number, pname: string) => void
+    getPlaceData?: (place: PlaceProps) => void
     onClose?: () => void
     dayIndex?: number
 }
@@ -48,6 +50,13 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
         const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null) // 장소 검색 결과
         const searchMapRef = useRef<SearchMapRef | null>(null)
         const [registerSpotModal, setRegisterSpotModal] = useState(false)
+
+        const [loading, setLoading] = useState<boolean>(false)
+
+        const placeInfoRef = useRef(null) // 관찰할 요소에 대한 참조
+
+        const [page, setPage] = useState<number>(1)
+        const [placeInfoRequest, setPlaceInfoRequest] = useState<boolean>(true)
 
         // 장소 등록을 위한 값
         const [placeName, setPlaceName] = useState<string>('')
@@ -120,16 +129,15 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
             setSelectedSpotCategory(e.target.value)
         }
 
-        //장소 선택 확인 함수
-        function onCheckPlace(pno: number, pname: string, src: string) {
-            const con = window.confirm(`${pname} 장소를 선택 하시겠습니까?`)
+        function onCheckPlace(place: PlaceProps, img: string) {
+            const con = window.confirm(`${place.name} 장소를 선택 하시겠습니까?`)
             if (con) {
-                getPlaceData && getPlaceData(pno, pname)
+                getPlaceData && getPlaceData(place)
                 if (typeof dayIndex === 'number' && dayIndex >= 0) {
                     dispatch(
                         addLastItem({
                             index: dayIndex,
-                            item: {pno: pno, pname: pname, img: src}
+                            item: {pno: pno, pname: place.name, img: img}
                         })
                     )
                 }
@@ -149,19 +157,59 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
             ) {
                 return
             }
-
+            setLoading(true)
             try {
-                const data = await getSearchPlaceInfo(selectedCategory, searchValue)
+                const data = await getSearchPlaceInfo(selectedCategory, searchValue, 0)
                 setPlaceInfoData(data)
+                setPage(1)
+                setPlaceInfoRequest(true)
             } catch (err) {
                 console.log(err)
                 alert('서버와 연결이 끊겼습니다.')
             }
+            setLoading(false)
         }
 
+        //초기
         useEffect(() => {
             onPlaceList()
         }, [registerSpotModal])
+
+        //스크롤 조회
+        async function onInfinityList() {
+            try {
+                const data = await getSearchPlaceInfo(selectedCategory, searchValue, page)
+                //데이터를 받는것이 없으면 스크롤 할 시 요청 보내지 못하도록 state 변경
+                if (data.length === 0) {
+                    observer.disconnect()
+                    placeInfoData !== null && setPlaceInfoRequest(false)
+                    return
+                }
+                placeInfoData !== null && setPlaceInfoData([...placeInfoData, ...data])
+                setPage(page + 1)
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                placeInfoRequest === true && onInfinityList()
+            }
+        })
+
+        //스크롤 설정
+        useEffect(() => {
+            //무한 스크롤
+            if (placeInfoRef.current) {
+                observer.observe(placeInfoRef.current) // loaderRef를 관찰 대상으로 등록
+            }
+            return () => {
+                if (placeInfoRef.current) {
+                    observer.unobserve(placeInfoRef.current) // 컴포넌트 언마운트 시 관찰 취소
+                }
+            }
+        }, [placeInfoData, placeInfoRequest, placeInfoRef])
 
         return (
             <div className={className}>
@@ -202,7 +250,8 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                             <FontAwesomeIcon icon={faPlus} />
                         </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center w-full overflow-hidden h-4/5">
+                    <div className="relative flex flex-col items-center justify-center w-full overflow-hidden h-4/5">
+                        {loading && <LoadingSppinnerSmall />}
                         <div className="flex justify-center w-full h-full ">
                             <div className="flex w-full h-full ">
                                 {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}
@@ -217,11 +266,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                                 mapClick={() => {
                                                     onMap(index)
                                                     setPno(data.pno)
-                                                    onCheckPlace(
-                                                        data.pno,
-                                                        data.name,
-                                                        data.image
-                                                    )
+                                                    onCheckPlace(data, data.image)
                                                 }}
                                             />
                                         ))
@@ -232,6 +277,14 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                             </p>
                                         </div>
                                     )}
+                                    {placeInfoData?.length !== 0 &&
+                                        (placeInfoRequest === true ? (
+                                            <div className="" ref={placeInfoRef}>
+                                                로딩중 ...
+                                            </div>
+                                        ) : (
+                                            <div>마지막 입니다.</div>
+                                        ))}
 
                                     {/* 클릭시 장소등록 모달 열림, 장소등록 버튼 (수정하셔도 됩니다) */}
                                 </div>

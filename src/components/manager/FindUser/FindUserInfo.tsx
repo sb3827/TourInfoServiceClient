@@ -52,7 +52,11 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
 
     return (
         <div>
-            <UserInfoItemBox widthFull={false} isButton={true}>
+            <UserInfoItemBox
+                widthFull={false}
+                isButton={true}
+                onClick={openModal}
+                pointer>
                 <div className="flex">
                     <UserInfo text={users.mno.toString()} />
                     <UserInfo text={users.name} />
@@ -61,18 +65,6 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
                     <UserInfo text={users.regDate} />
                     <UserInfo
                         text={users.role === 'BUSINESSPERSON' ? '사업자' : '일반 회원'}
-                    />
-                </div>
-                <div className="flex justify-end p-3 min-w-fit">
-                    <Button
-                        value="조회"
-                        className="bg-white text-green-700 hover:text-white border border-green-700 hover:bg-green-800  focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 "
-                        onClick={openModal}
-                    />
-                    <Button
-                        value="탈퇴"
-                        className="bg-white text-red-700 hover:text-white border border-red-700 hover:bg-red-800  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 "
-                        onClick={onRemoveUser}
                     />
                 </div>
             </UserInfoItemBox>
@@ -87,21 +79,32 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
                 <p className="mt-4">전화번호 : {users.phone ? users.phone : '0'}</p>
                 <p className="mt-4">가입일 : {users.regDate}</p>
                 <p className="mt-4">
-                    사업자여부 :{' '}
-                    {users.role === 'BUSINESSPERSON' ? '사업자' : '일반 회원'}
+                    사업자여부 :{users.role === 'BUSINESSPERSON' ? '사업자' : '일반 회원'}
                 </p>
 
                 <p className="my-2 font-bold break-all">- 제재 이력 -</p>
-                <div className="flex-col">
+                <div className="flex-col border">
+                    <div className="flex justify-between p-2 border-b">
+                        <span className="flex-1">정지 시작일</span>
+                        <span className="flex-1">정지 종료일 </span>
+                        <span className="flex-1"> 정지 사유 </span>
+                    </div>
                     {disciplinaryData?.data.map((data, index) => (
-                        <p key={index} className="flex justify-between mb-1">
-                            <span>
-                                {index + 1}. 정지 시작일 : {data.strDate}
-                            </span>{' '}
-                            <span>정지 종료일 : {data.expDate}</span>
-                            <span> 정지 사유 : {data.reason}</span>
-                        </p>
+                        <div key={index} className="flex justify-between p-3">
+                            <span className="flex-1">
+                                {index + 1}. {data.strDate}
+                            </span>
+                            <span className="flex-1"> {data.expDate}</span>
+                            <span className="flex-1"> {data.reason}</span>
+                        </div>
                     ))}
+                </div>
+                <div className="flex justify-center p-3 min-w-fit">
+                    <Button
+                        value="탈퇴"
+                        className="bg-white text-red-700 hover:text-white border border-red-700 hover:bg-red-800  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 "
+                        onClick={onRemoveUser}
+                    />
                 </div>
             </Modal>
         </div>

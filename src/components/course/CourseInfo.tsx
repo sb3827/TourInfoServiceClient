@@ -51,7 +51,7 @@ export const CourseInfo: FC<CourseInfoProps> = ({boardData}) => {
                     <p className="my-3 text-xl font-bold">{boardData?.title}</p>
                     <div className="flex flex-col px-3 text-left text-gray-500">
                         <p className="">{boardData?.writer}</p>
-                        <p className="">{boardData?.regDate}</p>
+                        <p className="">{boardData?.regDate.slice(0,10)}</p>
                     </div>
                     <div className="absolute flex items-center justify-center top-3 right-5">
                         <div className="mr-2">

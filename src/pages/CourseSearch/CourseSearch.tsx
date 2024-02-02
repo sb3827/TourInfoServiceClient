@@ -1,34 +1,35 @@
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import {
     Box,
     SearchInput,
-    CourseInfo,
     BoardToggle,
     Subtitle,
-    BoardBox,
     Button,
-    LoadingSppinnerSmall,
     Title
 } from '../../components/index'
-import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
-import {CourseBoardListData} from '../../data/Board/BoardData'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useSearchParams} from 'react-router-dom'
 import {faSignsPost} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
+import CourseSearchItem from '../../components/course/CourseSearchItem'
 
 export const CourseSearch = () => {
     const [searchParams, setSearchParams] = useSearchParams()
+
     const initialSearch = searchParams.get('search') || ''
-    const [loading, setLoading] = useState<Boolean>(false)
+
+    const navigate = useNavigate()
+
+    const user = useSelector((state: RootState) => state.login.mno)!
+
+    const handleRegisterClick = () => {
+        navigate(`/board/course/posting/register`)
+    }
 
     //검색 값
     const [searchValue, setSearchValue] = useState<string>(initialSearch)
-
-    // 검색 결과 데이터
-    const [boardInfoData, setBoardInfoData] = useState<CourseBoardListData[] | null>(null)
 
     //입력때마다 검색값 업데이트
     function onChangeSearch(value: string) {
@@ -45,29 +46,11 @@ export const CourseSearch = () => {
         ) {
             return
         }
-
         try {
-            setLoading(true)
             setSearchParams({search: searchValue})
-            const data = await getSearchCourseInfo(searchValue)
-            setBoardInfoData(data)
-            console.log(data)
-            setLoading(false)
         } catch (err) {
-            console.error('Error fetching data:', err)
-            setLoading(false)
+            console.log(err)
         }
-    }
-    useEffect(() => {
-        onCourseList()
-    }, [])
-
-    const navigate = useNavigate()
-
-    const user = useSelector((state: RootState) => state.login.mno)!
-
-    const handleRegisterClick = () => {
-        navigate(`/board/course/posting/register`)
     }
 
     return (
@@ -97,7 +80,6 @@ export const CourseSearch = () => {
                         />
                     )}
                 </div>
-                <div className="flex justify-end w-4/6 "></div>
                 <BoardToggle>
                     <Subtitle
                         value="유저"
@@ -109,36 +91,14 @@ export const CourseSearch = () => {
                         className="flex flex-row-reverse items-center text-left">
                         <FontAwesomeIcon icon={faSignsPost} className="m-1" />
                     </Subtitle>
-
-                    <BoardBox className="flex flex-col">
-                        {loading && <LoadingSppinnerSmall />}
-                        {boardInfoData &&
-                        boardInfoData.some(data => !data.ad === true) ? (
-                            boardInfoData.map(
-                                (data: CourseBoardListData, index) =>
-                                    !data.ad && (
-                                        <CourseInfo key={index} boardData={data} />
-                                    )
-                            )
-                        ) : (
-                            <div className="flex items-center justify-center w-full h-full">
-                                <p className="text-xl font-bold">게시글이 없습니다...</p>
-                            </div>
-                        )}
-                    </BoardBox>
-                    <BoardBox className="flex flex-col">
-                        {loading && <LoadingSppinnerSmall />}
-                        {boardInfoData && boardInfoData.some(data => data.ad === true) ? (
-                            boardInfoData.map(
-                                (data: CourseBoardListData, index) =>
-                                    data.ad && <CourseInfo key={index} boardData={data} />
-                            )
-                        ) : (
-                            <div className="flex items-center justify-center w-full h-full">
-                                <p className="text-xl font-bold">게시글이 없습니다...</p>
-                            </div>
-                        )}
-                    </BoardBox>
+                    <CourseSearchItem
+                        isAd={false}
+                        searchValue={searchParams.get('search') || ''}
+                    />
+                    <CourseSearchItem
+                        isAd={true}
+                        searchValue={searchParams.get('search') || ''}
+                    />
                 </BoardToggle>
             </div>
         </Box>

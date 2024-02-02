@@ -75,16 +75,12 @@ export const Login = () => {
         } else {
             try {
                 const data = await loginRequest(userEmail, userPassword)
-                if (data.response.message === 'password 변경이 필요 합니다') {
-                    navigate('/mypage/modify/password')
-                    return
-                }
+
                 const {token, refreshToken} = data.response.tokens
 
                 //토큰은 localStorage에 저장
                 setWithTokenExpire('token', token)
 
-                //추후 role 넣어줘야함
                 dispatch(setMno(data.response.mno))
 
                 //refreshToken은 쿠키에 저장
@@ -96,14 +92,16 @@ export const Login = () => {
                     //secure:true
                     expires: expiryDate
                 })
+                if (data.response.message === 'password 변경이 필요 합니다') {
+                    navigate('/mypage/modify/password')
+                    return
+                }
                 navigate('/')
             } catch (err) {
                 const message = (err as any).response.data.message
                 alert(message)
                 if (message === '이메일 인증이 필요합니다.') {
                     setResend(true)
-                } else if (message === '관리자의 승인이 필요합니다.') {
-                    navigate('/')
                 }
             }
         }
