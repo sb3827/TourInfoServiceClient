@@ -1,4 +1,11 @@
-import {Box, ShowFollowModal, ShowTotalLikes, Title, LoadingSppinner} from './../../index'
+import {
+    Box,
+    ShowFollowModal,
+    ShowTotalLikes,
+    Title,
+    LoadingSppinner,
+    Modal
+} from './../../index'
 import {Button} from './../../Button'
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
@@ -19,10 +26,18 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
     const [loading, setLoading] = useState<boolean>(false)
     const [userProfile, setUserProfile] = useState<userProfile | null>(null)
     const [followState, setFollowState] = useState<boolean>()
+    const [showModal, setShowModal] = useState(false)
 
     const userMno = useSelector((state: RootState) => state.login.mno)
 
     const navigate = useNavigate()
+
+    const openModal = () => {
+        setShowModal(true)
+    }
+    const closeModal = () => {
+        setShowModal(false)
+    }
 
     function onModify() {
         navigate('/mypage/modify')
@@ -71,7 +86,24 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                             <img
                                 src={userProfile?.image ? userProfile.image : common}
                                 alt="프로필이미지"
+                                onClick={openModal}
                             />
+
+                            {showModal ? (
+                                <Modal isOpen onClose={closeModal}>
+                                    <div className="mx-auto">
+                                        <img
+                                            src={
+                                                userProfile?.image
+                                                    ? userProfile.image
+                                                    : common
+                                            }
+                                            alt="프로필 사진"
+                                            className="object-scale-down h-[600px]"
+                                        />
+                                    </div>
+                                </Modal>
+                            ) : null}
                         </div>
                         <h1 className="my-2 text-xl font-semibold">
                             {userProfile ? userProfile.name : ''}
