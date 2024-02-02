@@ -55,11 +55,11 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
 
     return (
         <div
-            className="flex w-full h-32 my-5 duration-100 border shadow cursor-pointer border-lightGreen stats hover:shadow-xl"
+            className="flex w-full h-32 my-5 overflow-x-hidden duration-100 border shadow cursor-pointer border-lightGreen stats hover:shadow-xl"
             onClick={onUserDetail}>
             <div
                 className={`flex flex-col justify-centerstat stat ${
-                    user ? 'basis-3/5' : 'basis-1/3'
+                    user ? 'basis-1/4' : 'basis-1/3'
                 }`}>
                 <div className="stat-figure text-secondary">
                     <div className="w-16 h-16 overflow-hidden rounded-full ">
@@ -74,12 +74,12 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
             </div>
 
             <div
-                className={` stat border-lightGreen ${user ? 'basis-1/5' : 'basis-1/3'}`}>
+                className={` stat border-lightGreen ${user ? 'basis-1/4' : 'basis-1/3'}`}>
                 <div className="stat-title">Total Follower</div>
                 <div className="text-base text-rose-500 stat-value">{totalFollow}</div>
             </div>
             <div
-                className={` stat border-lightGreen ${user ? 'basis-1/5' : 'basis-1/3'}`}>
+                className={` stat border-lightGreen ${user ? 'basis-1/4' : 'basis-1/3'}`}>
                 <div className="stat-title">Total Following</div>
                 <div className="text-base stat-value text-primary">
                     {userInfo?.followings ? userInfo.followings : 0}
@@ -87,7 +87,7 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
             </div>
 
             {user && (
-                <div className="flex items-center justify-center basis-1/5 border-lightGreen">
+                <div className="flex items-center justify-center basis-1/4 border-lightGreen">
                     <div className="flex">
                         <Button
                             value={buttonText}
