@@ -168,7 +168,11 @@ export const Oauth2LoginButton: FC<PropsWithChildren<Oauth2ButtonProps>> = ({
 }) => {
     return (
         <a
-            href={`http://localhost:8080/oauth2/authorization/${oauth2}`}
+            href={`${
+                oauth2 === 'kakao'
+                    ? process.env.REACT_APP_DOT_ADDRESS
+                    : process.env.REACT_APP_OAUTH2
+            }/oauth2/authorization/${oauth2}`}
             className="w-1/6 cursor-pointer hover:translate-y-0.5 hover:duration-150">
             {children}
         </a>
