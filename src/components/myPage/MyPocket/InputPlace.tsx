@@ -129,7 +129,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
             setSelectedSpotCategory(e.target.value)
         }
 
-        function onCheckPlace(place: PlaceProps, img: string) {
+        function onCheckPlace(pno: number, place: PlaceProps, img: string) {
             const con = window.confirm(`${place.name} 장소를 선택 하시겠습니까?`)
             if (con) {
                 getPlaceData && getPlaceData(place)
@@ -264,9 +264,14 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                                 modal={true}
                                                 placeInfoData={data}
                                                 mapClick={() => {
+                                                    console.log(data.pno)
                                                     onMap(index)
                                                     setPno(data.pno)
-                                                    onCheckPlace(data, data.image)
+                                                    onCheckPlace(
+                                                        data.pno,
+                                                        data,
+                                                        data.image
+                                                    )
                                                 }}
                                             />
                                         ))

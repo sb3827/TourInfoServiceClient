@@ -162,7 +162,7 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                                             )}
                                                         </div>
                                                     </div>
-                                                    <div className="flex justify-center items-center ml-3">
+                                                    <div className="flex items-center justify-center ml-3">
                                                         {dayItem.length !== index + 1 && (
                                                             <FontAwesomeIcon
                                                                 color="darkGreen"

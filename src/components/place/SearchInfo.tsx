@@ -48,7 +48,7 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, modal, ...prop
     return (
         <div
             className="flex flex-col p-2 mx-3 my-8 overflow-hidden duration-150 border rounded-lg cursor-pointer border-lightGreen hover:shadow-xl"
-            onClick={props.mapClick}>
+            onClick={() => props.mapClick()}>
             <div className="relative flex justify-center w-full overflow-hidden h-36">
                 <img
                     src={placeInfoData.image ?? noImage}
