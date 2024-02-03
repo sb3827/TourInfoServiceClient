@@ -6,7 +6,7 @@ import {AuthRoute, BoardRoute, ManagerRoute, MyPageRoute, Oauth2Route} from './r
 
 function App() {
     return (
-        <div className="App">
+        <div className="App min-w-[1024px]">
             <Routes>
                 <Route
                     element={
