@@ -201,9 +201,10 @@ export const MyCart: FC<MyCartProps> = ({
     // 스팟 삭제
     const deleteSpot = async (mno: number, pno: number, fno: number) => {
         try {
-            await deleteCart(mno, pno, fno)
-            fetchData()
-            alert('스팟 삭제!')
+            if (window.confirm('삭제 하시겠습니까?')) {
+                await deleteCart(mno, pno, fno)
+                fetchData()
+            }
         } catch (error) {
             console.log(error)
         }
