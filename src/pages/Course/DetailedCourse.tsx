@@ -68,9 +68,10 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
 
     const delPage = () => {
         try {
-            deleteBoard(parseInt(bno))
-            alert('삭제 성공')
-            navigate('/board/place')
+            if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
+                deleteBoard(parseInt(bno))
+                navigate('/board/place')
+            }
         } catch (error) {
             alert('삭제 실패')
         }
@@ -167,7 +168,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     }
 
     return (
-        <div className="w-7/12 py-10 mx-auto my-10 shadow-2xl px-14 rounded-2xl">
+        <div className="w-2/3 py-10 mx-auto my-10 shadow-2xl px-14 rounded-2xl xl:w-7/12">
             {loading && <LoadingSppinner />}
             <div className="py-5 ">
                 <div className="flex flex-col ">

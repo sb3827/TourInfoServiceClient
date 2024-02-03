@@ -129,7 +129,7 @@ export const PlaceSearch = () => {
         <div className="flex flex-col items-center justify-center w-full py-0 mt-14">
             <Title className="mb-5 text-darkGreen">장소 게시판</Title>
 
-            <div className="flex justify-center w-2/3">
+            <div className="flex justify-center w-10/12 xl:w-2/3">
                 <div className="flex w-full">
                     <select
                         className="px-2 border-2 shadow-xl outline-none border-lightGreen rounded-2xl"
@@ -164,9 +164,9 @@ export const PlaceSearch = () => {
             </div>
 
             <div className="flex justify-center w-full h-screen py-5 mb-12 overflow-hidden">
-                <div className="relative flex w-2/3 h-full ">
+                <div className="relative flex w-10/12 h-full xl:w-2/3">
                     {loading && <LoadingSppinnerSmall />}
-                    <div className="w-1/3 overflow-y-auto border rounded-lg border-300 border-lightGreen">
+                    <div className="w-2/5 overflow-y-auto border rounded-lg border-300 border-lightGreen xl:w-1/3">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
                         {placeInfoData && placeInfoData.length > 0 ? (
                             placeInfoData.map((data: PlaceData, index) => (
@@ -192,7 +192,7 @@ export const PlaceSearch = () => {
                                 <div className="my-5">•</div>
                             ))}
                     </div>
-                    <div className="w-2/3 border rounded-lg border-lightGreen ">
+                    <div className="w-3/5 border rounded-lg border-lightGreen xl:w-2/3">
                         {/* MapAPI 컴포넌트 */}
                         {placeInfoData ? (
                             <SearchMap

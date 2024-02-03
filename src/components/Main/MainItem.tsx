@@ -11,41 +11,42 @@ type MainItemProps = {
 
 export const MainItem: FC<PropsWithChildren<MainItemProps>> = ({onClick, mainBoard}) => {
     return (
-        <div
-            className="flex flex-col mx-10 overflow-hidden duration-150 bg-white border-2 rounded-lg shadow-md hover:cursor-pointer hover:-translate-y-2 hover:shadow-xl"
-            onClick={onClick}>
-            <div className="flex justify-center w-full overflow-hidden">
-                <img
-                    src={mainBoard?.src ? mainBoard?.src : noImage}
-                    alt={mainBoard.title}
-                    className="duration-150 h-60 hover:scale-110"
-                />
-            </div>
-            {/* <div className="p-4 border-t-2">
-                <h3 className="mb-2 text-xl font-semibold">{mainBoard.title}</h3>
-            </div> */}
-            <div className="flex flex-col w-full h-full px-3 py-1 border-t">
-                <div className="flex items-center justify-center flex-auto">
-                    <p className="text-2xl font-bold text-darkGreen">{mainBoard.title}</p>
+        <div className="flex flex-col items-center justify-center">
+            <div
+                className="flex flex-col w-3/5 overflow-hidden duration-150 bg-white border-2 rounded-lg shadow-md xl:w-10/12 hover:cursor-pointer hover:-translate-y-2 hover:shadow-xl"
+                onClick={onClick}>
+                <div className="flex justify-center w-full overflow-hidden">
+                    <img
+                        src={mainBoard?.src ? mainBoard?.src : noImage}
+                        alt={mainBoard.title}
+                        className="duration-150 h-52 xl:h-60 hover:scale-110"
+                    />
                 </div>
-                <div className="flex justify-between w-full">
-                    <div className="flex flex-col items-start justify-center flex-1">
-                        <p className="flex items-center justify-center mr-2">
-                            {mainBoard.name}
-                        </p>
-                        <p className="flex items-center justify-center text-sm text-gray-500">
-                            {mainBoard.regDate.slice(0, 10)}
+                <div className="flex flex-col w-full h-full px-3 py-1 border-t">
+                    <div className="flex items-center justify-center flex-auto">
+                        <p className="text-2xl font-bold text-darkGreen">
+                            {mainBoard.title}
                         </p>
                     </div>
-
-                    <div className="flex items-end justify-end flex-1">
-                        <div className="mr-2">
-                            <FontAwesomeIcon icon={faStar} size="lg" color="gold" />
-                            <p className="text-sm">{mainBoard.score}</p>
+                    <div className="flex justify-between w-full">
+                        <div className="flex flex-col items-start justify-center flex-1">
+                            <p className="flex items-center justify-center mr-2">
+                                {mainBoard.name}
+                            </p>
+                            <p className="flex items-center justify-center text-sm text-gray-500">
+                                {mainBoard.regDate.slice(0, 10)}
+                            </p>
                         </div>
-                        <div>
-                            <FontAwesomeIcon icon={faHeart} size="lg" color="red" />
-                            <p className="text-sm">{mainBoard.likes}</p>
+
+                        <div className="flex items-end justify-end flex-1">
+                            <div className="mr-2">
+                                <FontAwesomeIcon icon={faStar} size="lg" color="gold" />
+                                <p className="text-sm">{mainBoard.score}</p>
+                            </div>
+                            <div>
+                                <FontAwesomeIcon icon={faHeart} size="lg" color="red" />
+                                <p className="text-sm">{mainBoard.likes}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -67,12 +68,12 @@ export const MostLikedMainItem: FC<PropsWithChildren<MainPlaceProps>> = ({
         <div className="flex flex-col items-center justify-center py-10 overflow-hidden mx-14">
             <div
                 onClick={onClick}
-                className="flex flex-col items-center w-2/5 overflow-hidden duration-150 bg-white border-2 shadow-xl hover:cursor-pointer rounded-3xl hover:shadow-2xl">
+                className="flex flex-col items-center w-full overflow-hidden duration-150 bg-white border-2 shadow-xl xl:w-2/3 hover:cursor-pointer rounded-3xl hover:shadow-2xl">
                 <div className="flex justify-center w-full overflow-hidden">
                     <img
                         src={mainPlace?.src ? mainPlace.src : noImage}
                         alt={mainPlace.name}
-                        className="duration-150 h-80 hover:scale-110"
+                        className="duration-150 h-52 lg:h-72 hover:scale-110"
                     />
                 </div>
                 <div className="flex flex-col w-full h-full p-5 border-t">
@@ -153,7 +154,7 @@ export const MostLikedCourseItem: FC<PropsWithChildren<MainItemProps>> = ({
                             <p className="text-sm">{mainBoard.likes}</p>
                         </div>
                     </div>
-                </div>{' '}
+                </div>
             </div>
         </div>
     )

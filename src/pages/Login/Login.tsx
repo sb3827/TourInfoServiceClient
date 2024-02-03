@@ -117,9 +117,9 @@ export const Login = () => {
         navigate('/sign-up')
     }
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center ">
             {loading && <LoadingSppinner />}
-            <div className="flex flex-col items-center justify-center w-full ">
+            <div className="flex flex-col items-center justify-center w-full">
                 <section className="h-full">
                     <div className="container h-full px-6 pt-16 pb-24">
                         <div className="flex flex-wrap items-center justify-center h-fit g-6">
@@ -132,7 +132,7 @@ export const Login = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="w-full p-8 ml-5 border rounded-lg shadow-xl sm:w-fit md:w-fit lg:w-1/3">
+                            <div className="p-8 border rounded-lg shadow-xl md:w-fit lg:w-1/3 lg:ml-5 ">
                                 <Title className="mt-6 mb-8 text-3xl">LOGIN</Title>
                                 {/* 이메일 입력 창 */}
                                 <div onKeyDown={onLoginClick}>

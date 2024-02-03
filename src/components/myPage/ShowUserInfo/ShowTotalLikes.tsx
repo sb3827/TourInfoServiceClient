@@ -53,7 +53,7 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart, mno}) => {
                 <Modal isOpen onClose={closeModal}>
                     <div>
                         <Title className="my-8">장바구니</Title>
-                        <div className="px-14">
+                        <div className="px-10 xl:px-14">
                             <DragDropContext onDragEnd={() => {}}>
                                 <MyCart
                                     myCart={true}

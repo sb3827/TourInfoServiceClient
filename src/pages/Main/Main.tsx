@@ -34,9 +34,9 @@ export const Main: FC<MainProps> = () => {
     useEffect(() => {
         const handleResize = () => {
             const screenWidth = window.innerWidth
-            if (screenWidth <= 794) {
+            if (screenWidth <= 1280) {
                 setPreView(1)
-            } else if (screenWidth <= 1200) {
+            } else if (screenWidth <= 1800) {
                 setPreView(2)
             } else {
                 setPreView(3)
@@ -62,9 +62,6 @@ export const Main: FC<MainProps> = () => {
 
     function recentlyDetailView(index: number) {
         if (fetchedData && fetchedData.data.recentlyBoard[index].bno) {
-            console.log(
-                'isCourse ====>>> ' + fetchedData.data.recentlyBoard[index].course
-            )
             if (fetchedData.data.recentlyBoard[index].course === true) {
                 navigate(
                     `/board/course/posting?bno=${fetchedData.data.recentlyBoard[index].bno}`
@@ -168,7 +165,7 @@ export const Main: FC<MainProps> = () => {
     }, [mno])
 
     return (
-        <div className="flex items-center justify-center w-full">
+        <div className="flex items-center justify-center w-full ">
             <div className="flex justify-center w-11/12">
                 {loading && <LoadingSppinner />}
                 <div className="w-4/5 mt-10 ">
@@ -177,7 +174,7 @@ export const Main: FC<MainProps> = () => {
                             국내 여행 후기를 한눈에,
                             <br /> 여러분의 다음 여행지를 찾아보세요!
                         </p>
-                        <div className="flex justify-around w-1/3 py-2 shadow-xl bg-green-50 rounded-xl">
+                        <div className="flex justify-around py-2 shadow-xl bg-green-50 rounded-xl md:w-2/3 lg:w-7/12">
                             <MainFilter
                                 text="장소"
                                 filterChange={onSetFilterValue}
@@ -287,7 +284,7 @@ export const Main: FC<MainProps> = () => {
                                     <SwiperSlide key={index}>
                                         <div className="flex justify-around p-2">
                                             <div
-                                                className="flex w-10/12 overflow-hidden duration-150 border-2 rounded-3xl hover:shadow-2xl h-96"
+                                                className="flex w-3/5 overflow-hidden duration-150 border-2 xl:w-10/12 rounded-3xl hover:shadow-2xl h-72 xl:h-96"
                                                 onClick={() =>
                                                     mostLikedCourseDetailView(index)
                                                 }>
@@ -296,7 +293,7 @@ export const Main: FC<MainProps> = () => {
                                                         course.mainBoardResponseDTO
                                                     }
                                                 />
-                                                <div className="relative flex-1 w-1/2">
+                                                <div className="relative flex-1 hidden w-1/2 xl:block">
                                                     <CoursePostMap
                                                         onClick={event =>
                                                             event.stopPropagation()

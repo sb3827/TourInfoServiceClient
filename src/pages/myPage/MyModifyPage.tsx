@@ -116,7 +116,7 @@ export const MyModifyPage = () => {
     return (
         <div className="w-full my-14">
             <div className="flex items-center justify-center ">
-                <div className="flex flex-col items-center justify-center w-1/3 py-12 shadow-2xl rounded-3xl bg-red">
+                <div className="flex flex-col items-center justify-center w-1/2 py-12 shadow-2xl rounded-3xl bg-red xl:w-1/3">
                     <Title className="my-2">정보 수정</Title>
                     <div className="flex flex-col items-center justify-center w-1/3 ">
                         <input
@@ -140,7 +140,7 @@ export const MyModifyPage = () => {
                             />
                         </div>
                     </div>
-                    <div className="items-center w-1/2">
+                    <div className="items-center w-2/3 ">
                         <LoginInput
                             className="my-3"
                             value={userName}

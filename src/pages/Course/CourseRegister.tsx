@@ -185,7 +185,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
 
     return (
         <div className="w-full py-14">
-            <div className="w-1/2 mx-auto">
+            <div className="w-2/3 mx-auto xl:w-1/2">
                 <div>
                     <div className="flex flex-row justify-between ">
                         <div>

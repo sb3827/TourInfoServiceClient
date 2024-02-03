@@ -215,29 +215,29 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     }
 
     return (
-        <div className="w-1/2 mx-auto mt-10">
+        <div className="w-2/3 mx-auto mt-10 xl:1/2">
             <div className="flex items-center justify-between w-full">
                 {!props.isModify ? (
-                    <div className="flex items-center">
+                    <div className="flex flex-col-reverse items-center justify-center xl:flex-row">
                         <Button
                             className="mr-3 text-white bg-darkGreen"
                             onClick={onOpenModal}
                             value={'장소 선택'}
                         />
-                        <p className="text-xl font-semibold text-darkGreen">
+                        <p className="font-semibold text-md text-darkGreen xl:text-xl">
                             {place.name}
                         </p>
                     </div>
                 ) : (
                     <div className="flex items-center">
-                        <p className="text-xl font-semibold text-darkGreen">
+                        <p className="font-semibold text-md text-darkGreen xl:text-xl">
                             {loadPlace.name}
                         </p>
                     </div>
                 )}
 
-                <div className="flex items-center">
-                    <p className="mt-1 mr-3 text-xl font-bold text-orange-400">
+                <div className="flex flex-col items-center justify-center xl:flex-row">
+                    <p className="mx-3 font-bold text-orange-400 text-md xl:text-xl">
                         별점을 선택하세요
                     </p>
                     <Rating ref={starRef} />
@@ -262,7 +262,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
                     <PlacePostMap place={loadPlace!}></PlacePostMap>
                 ) : (
                     <PlacePostMap
-                        className="w-full border-0 shadow-xl rounded-3xl my-5"
+                        className="w-full my-5 border-0 shadow-xl rounded-3xl"
                         place={place}></PlacePostMap>
                 )}
             </div>

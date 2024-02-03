@@ -233,7 +233,7 @@ export const MyCart: FC<MyCartProps> = ({
                             .map(folderInfo => (
                                 <div
                                     key={folderInfo.fno}
-                                    className={`h-full relative cursor-pointer justify-center flex items-center p-2 w-full text-black text-sm duration-150 border border-b-0 rounded-t-2xl ${
+                                    className={`max-w-[250px] h-full relative cursor-pointer justify-center flex items-center p-2 w-full text-black text-sm duration-150 border border-b-0 rounded-t-2xl ${
                                         selectedFno === folderInfo.fno
                                             ? 'bg-lightGreen text-white bg-opacity-80'
                                             : 'bg-white'

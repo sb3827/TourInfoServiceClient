@@ -69,7 +69,7 @@ export const SidebarUser: FC<PropsWithChildren<SidebarUserProps>> = ({children})
             {loading && <LoadingSppinner />}
             {children}
             <div className="flex flex-col items-center w-full h-full ">
-                <div className="flex justify-center overflow-hidden w-28 h-28">
+                <div className="flex justify-center w-20 h-20 overflow-hidden xl-w-28 xl-h-28">
                     <img
                         onClick={onMypage}
                         src={imgSrc ? imgSrc : UserImage}

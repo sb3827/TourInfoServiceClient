@@ -86,16 +86,25 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
     }
     //댓글 수정
     async function onUpdateReply() {
-        const data = mno && (await updateReply({rno: reply.rno, mno, text: replyValue}))
-        setUpdateVeiw(false)
-        alert('수정완료')
+        try {
+            mno && (await updateReply({rno: reply.rno, mno, text: replyValue}))
+            setUpdateVeiw(false)
+            alert('수정완료')
+        } catch (err) {
+            console.log(err)
+        }
     }
     //댓글 삭제
     async function onDeleteReply() {
-        const data = mno && (await deleteReply({rno: reply.rno, mno}))
-        alert('삭제완료')
-        setUpdateVeiw(false)
-        getReply()
+        try {
+            mno && (await deleteReply({rno: reply.rno, mno}))
+            if (window.confirm('해당 댓글을 삭제하시겠습니까?')) {
+                setUpdateVeiw(false)
+                getReply()
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     //대댓글 조회
@@ -182,7 +191,7 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
 
                     <div className="flex items-center justify-start mx-6">
                         <Input
-                            className="w-4/5 text-left border-black cursor-default focus:outline-none read-only:border-none"
+                            className="w-full text-left border-black cursor-default focus:outline-none read-only:border-none xl:w-4/5"
                             readOnly={!updateView ? true : false}
                             value={replyValue}
                             onChange={e => onChangeReply(e.target.value)}
@@ -203,7 +212,7 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
                         )}
                     </div>
                     <div className="flex justify-end mx-4 my-2">
-                        <Caption>작성일자: {reply.regDate.slice(0,10)}</Caption>
+                        <Caption>작성일자: {reply.regDate.slice(0, 10)}</Caption>
                     </div>
                 </div>
             </div>
@@ -231,8 +240,7 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
                 <div className="flex flex-row items-center justify-center my-5">
                     <Input
                         placeholder="대댓글을 작성해 주세요"
-                        className="mx-2 focus:shadow-lg outline-darkGreen border-darkGreen focus:outline-none focus:border-darkGreen"
-                        size={80}
+                        className="w-full mx-2 focus:shadow-lg outline-darkGreen border-darkGreen focus:outline-none focus:border-darkGreen xl:w-2/3"
                         value={reReplyValue}
                         onChange={e => onChangeRereply(e.target.value)}></Input>
                     <Button
