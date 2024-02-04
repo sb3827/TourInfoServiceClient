@@ -65,7 +65,7 @@ export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorP
                 editor={CustomEditor}
                 config={{
                     ckfinder: {
-                        uploadUrl: 'http://localhost:8080/image'
+                        uploadUrl: `${process.env.REACT_APP_DOT_ADDRESS}/image`
                     },
                     placeholder: initialValue || '내용을 입력하세요',
                     extraPlugins: [uploadPlugin]
