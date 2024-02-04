@@ -81,7 +81,6 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     }
 
     function getPlaceData(pno: number, place: PlaceProps) {
-        console.log('장소가져오기 : ', place)
         setPlaceData({getPno: pno})
         setPlace(place)
     }
@@ -101,8 +100,6 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
             alert('내용을 입력하세요')
             return
         }
-
-        console.log(place)
         if (place == null) {
             alert('장소를 입력하세요')
             return
