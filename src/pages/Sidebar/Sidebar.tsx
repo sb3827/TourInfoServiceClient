@@ -58,7 +58,7 @@ export const Sidebar = () => {
             <div className="h-full ml-auto">
                 <div
                     className={` opacity-90 z-50 rounded-tr-3xl  fixed top-0 bg-lightGreen transition-all duration-200 flex-col items-center  ${
-                        isOpen ? ' w-40 xl:w-64  h-full ' : 'w-10 rounded-br-3xl'
+                        isOpen ? ' w-44 xl:w-64  h-full ' : 'w-10 rounded-br-3xl'
                     }`}>
                     <div
                         className={`bg-darkGreen  flex items-center px-4 text-2xl h-14  ${

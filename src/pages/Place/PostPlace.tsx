@@ -152,7 +152,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     }, [])
 
     return (
-        <div className="w-2/3 py-10 mx-auto my-10 shadow-2xl px-14 rounded-2xl xl:w-7/12">
+        <div className="w-7/12 py-10 mx-auto my-10 shadow-2xl  px-14 rounded-2xl">
             {loading && <LoadingSppinner />}
             <div className="py-5 ">
                 <div className="flex flex-col ">

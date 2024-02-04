@@ -36,7 +36,7 @@ export const PlaceDetails = () => {
 
     return (
         <Box>
-            <div className="w-2/3 xl:w-1/2">
+            <div className="w-1/2">
                 <div className="flex justify-center w-full">
                     <div className="flex flex-col justify-around w-full">
                         <Title className="xl:my-3 xl:py-3">{place && place.name}</Title>

@@ -55,7 +55,7 @@ export const CourseSearch = () => {
 
     return (
         <Box>
-            <div className="w-2/3 xl:w-1/2">
+            <div className="w-1/2">
                 <Title className="mb-5 text-darkGreen">코스 게시판</Title>
                 <div className="flex w-full mb-5">
                     <div className="flex w-full">
