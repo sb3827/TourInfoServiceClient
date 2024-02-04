@@ -46,7 +46,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     const [loadImg, setLoadImg] = useState<string[]>([])
 
     // 등록 onclick 함수
-    function regist() {
+    async function regist() {
         const title = titleRef.current?.value as string
         if (title == '') {
             alert('제목을 입력하세요')
@@ -74,11 +74,11 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             writer: user
         }
         ////
+        console.log(board, images)
 
-        registCourseBoard(board, images).then(res => {
-            alert(`${res.bno}번 글 등록 완료!`)
-            navigate(`/board/course/posting?bno=${res.bno}`)
-        })
+        const data = await registCourseBoard(board, images)
+        alert(`${data.bno}번 글 등록 완료!`)
+        navigate(`/board/course/posting?bno=${data.bno}`)
     }
     // 수정 onclick 함수
     function modify() {
