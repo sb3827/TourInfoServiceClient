@@ -217,7 +217,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     }
 
     return (
-        <div className="w-7/12 mx-auto mt-10 xl:1/2">
+        <div className="w-1/2 mx-auto mt-10 xl:1/2">
             <div className="flex items-center justify-between w-full">
                 {!props.isModify ? (
                     <div className="flex flex-col-reverse items-center justify-center xl:flex-row">
