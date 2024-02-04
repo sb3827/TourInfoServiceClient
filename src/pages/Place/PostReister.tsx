@@ -33,6 +33,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
 
     //모달 상태값 닫기/열기
     const [modalView, setModalView] = useState<boolean>(false)
+
     const [placeData, setPlaceData] = useState<PnoName | null>(
         clearPlace ? clearPlace : null
     )
@@ -79,12 +80,16 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
         setModalView(false)
     }
 
-    function getPlaceData(place: PlaceProps) {
+    function getPlaceData(pno: number, place: PlaceProps) {
+        console.log('장소가져오기 : ', place)
+        setPlaceData({getPno: pno})
         setPlace(place)
     }
 
     // 등록 onclick 함수
     function regist() {
+        const place = placeData?.getPno as number
+
         const title = titleRef.current?.value as string
         if (title == '') {
             alert('제목을 입력하세요')
@@ -97,8 +102,8 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
             return
         }
 
-        const place = placeData?.getPno as number
-        if (place < 1 || place == null) {
+        console.log(place)
+        if (place == null) {
             alert('장소를 입력하세요')
             return
         }
@@ -215,7 +220,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     }
 
     return (
-        <div className="w-2/3 mx-auto mt-10 xl:1/2">
+        <div className="w-7/12 mx-auto mt-10 xl:1/2">
             <div className="flex items-center justify-between w-full">
                 {!props.isModify ? (
                     <div className="flex flex-col-reverse items-center justify-center xl:flex-row">
