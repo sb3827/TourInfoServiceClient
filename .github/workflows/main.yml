@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]    # master 브랜치에서 push 이벤트가 일어났을 때 실행
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@master
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '18'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Create .env file
+      run: |
+        echo ${{secrets.ENV}} | base64 --decode > ./.env
+
+    - name: Build
+      run: npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        branch: release
+        folder: build
