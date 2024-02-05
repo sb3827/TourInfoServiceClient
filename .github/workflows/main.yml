@@ -25,7 +25,7 @@ jobs:
         echo ${{secrets.ENV}} | base64 --decode > ./.env
 
     - name: Build
-      run: npm run build
+      run: CI=false npm run build
 
   deploy:
     needs: build
