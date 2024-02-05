@@ -33,6 +33,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
 
     //모달 상태값 닫기/열기
     const [modalView, setModalView] = useState<boolean>(false)
+
     const [placeData, setPlaceData] = useState<PnoName | null>(
         clearPlace ? clearPlace : null
     )
@@ -79,12 +80,15 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
         setModalView(false)
     }
 
-    function getPlaceData(place: PlaceProps) {
+    function getPlaceData(pno: number, place: PlaceProps) {
+        setPlaceData({getPno: pno})
         setPlace(place)
     }
 
     // 등록 onclick 함수
     function regist() {
+        const place = placeData?.getPno as number
+
         const title = titleRef.current?.value as string
         if (title == '') {
             alert('제목을 입력하세요')
@@ -96,9 +100,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
             alert('내용을 입력하세요')
             return
         }
-
-        const place = placeData?.getPno as number
-        if (place < 1 || place == null) {
+        if (place == null) {
             alert('장소를 입력하세요')
             return
         }
@@ -215,29 +217,29 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
     }
 
     return (
-        <div className="w-1/2 mx-auto mt-10">
+        <div className="w-1/2 mx-auto mt-10 xl:1/2">
             <div className="flex items-center justify-between w-full">
                 {!props.isModify ? (
-                    <div className="flex items-center">
+                    <div className="flex flex-col-reverse items-center justify-center xl:flex-row">
                         <Button
                             className="mr-3 text-white bg-darkGreen"
                             onClick={onOpenModal}
                             value={'장소 선택'}
                         />
-                        <p className="text-xl font-semibold text-darkGreen">
+                        <p className="font-semibold text-md text-darkGreen xl:text-xl">
                             {place.name}
                         </p>
                     </div>
                 ) : (
                     <div className="flex items-center">
-                        <p className="text-xl font-semibold text-darkGreen">
+                        <p className="font-semibold text-md text-darkGreen xl:text-xl">
                             {loadPlace.name}
                         </p>
                     </div>
                 )}
 
-                <div className="flex items-center">
-                    <p className="mt-1 mr-3 text-xl font-bold text-orange-400">
+                <div className="flex flex-col items-center justify-center xl:flex-row">
+                    <p className="mx-3 font-bold text-orange-400 text-md xl:text-xl">
                         별점을 선택하세요
                     </p>
                     <Rating ref={starRef} />
@@ -262,7 +264,7 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
                     <PlacePostMap place={loadPlace!}></PlacePostMap>
                 ) : (
                     <PlacePostMap
-                        className="w-full border-0 shadow-xl rounded-3xl my-5"
+                        className="w-full my-5 border-0 shadow-xl rounded-3xl"
                         place={place}></PlacePostMap>
                 )}
             </div>

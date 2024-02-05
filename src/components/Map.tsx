@@ -653,7 +653,7 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
         useImperativeHandle(innerRef, () => ({
             setLocation: (index: number) => {
                 setIdx(index)
-                console.log(idx)
+                // console.log(idx)
             }
         }))
 

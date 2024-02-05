@@ -20,8 +20,8 @@ export const Board: FC<BoardProps> = ({placeBoardData}) => {
         <div
             className="flex py-3 my-5 duration-150 shadow-2xl cursor-pointer h-52 rounded-2xl hover:-translate-y-1"
             onClick={handleReviewClick}>
-            <div className="w-1/2">
-                <div className="flex justify-center h-full overflow-hidden ">
+            <div className="flex items-center justify-center w-1/2">
+                <div className="flex justify-center overflow-hidden h-5/6 xl:h-full rounded-xl">
                     <img
                         src={
                             placeBoardData && placeBoardData.src.length > 0

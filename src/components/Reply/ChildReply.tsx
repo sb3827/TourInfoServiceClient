@@ -55,10 +55,15 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
     }
 
     async function onDeleteReply() {
-        const data = mno && (await deleteReply({rno: reReplyData.rno, mno}))
-        alert('삭제완료')
-        setUpdateVeiw(false)
-        getRereply()
+        try {
+            if (window.confirm('해당 댓글을 삭제하시겠습니까?')) {
+                mno && (await deleteReply({rno: reReplyData.rno, mno}))
+                setUpdateVeiw(false)
+                getRereply()
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     function onOpenModal() {
@@ -76,10 +81,13 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
     }
     //댓글 수정
     async function onUpdateReply() {
-        const data =
+        try {
             mno && (await updateReply({rno: reReplyData.rno, mno, text: replyValue}))
-        setUpdateVeiw(false)
-        alert('수정완료')
+            setUpdateVeiw(false)
+            alert('수정완료')
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     useEffect(() => {
@@ -165,7 +173,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
                         )}
                     </div>
                     <div className="flex justify-end mx-4 my-2">
-                        <Caption>작성일자: {reReplyData.regDate.slice(0,10)}</Caption>
+                        <Caption>작성일자: {reReplyData.regDate.slice(0, 10)}</Caption>
                     </div>
                 </div>
             </div>

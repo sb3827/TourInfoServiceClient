@@ -110,7 +110,7 @@ export const UserSearch = () => {
         <div className="flex flex-col items-center justify-center w-full my-14">
             <Title className="mb-5 text-darkGreen">유저 검색</Title>
 
-            <div className="w-1/2 ">
+            <div className="w-7/12 xl:w-1/2">
                 <div className="flex justify-center w-full mb-10">
                     <SearchInput
                         placeholder="유저 검색 (이름으로 검색)"

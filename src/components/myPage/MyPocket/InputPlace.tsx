@@ -33,14 +33,14 @@ import {addLastItem} from '../../../store/slices/CourseSlice'
 type InputPlaceProps = {
     className?: string
     ref?: Ref<PnoName>
-    getPlaceData?: (place: PlaceProps) => void
+    getPlaceData?: (pno: number, place: PlaceProps) => void
     onClose?: () => void
     dayIndex?: number
 }
 
 export type PnoName = {
     getPno: number
-    getPname?: string
+    // getPname?: string
 }
 
 export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlaceProps>(
@@ -129,10 +129,11 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
             setSelectedSpotCategory(e.target.value)
         }
 
-        function onCheckPlace(place: PlaceProps, img: string) {
+        function onCheckPlace(pno: number, place: PlaceProps, img: string) {
             const con = window.confirm(`${place.name} 장소를 선택 하시겠습니까?`)
             if (con) {
-                getPlaceData && getPlaceData(place)
+                getPlaceData && getPlaceData(pno, place)
+                console.log(place)
                 if (typeof dayIndex === 'number' && dayIndex >= 0) {
                     dispatch(
                         addLastItem({
@@ -266,7 +267,11 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                                 mapClick={() => {
                                                     onMap(index)
                                                     setPno(data.pno)
-                                                    onCheckPlace(data, data.image)
+                                                    onCheckPlace(
+                                                        data.pno,
+                                                        data,
+                                                        data.image
+                                                    )
                                                 }}
                                             />
                                         ))

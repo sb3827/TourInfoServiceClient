@@ -38,12 +38,12 @@ export const PlaceDetails = () => {
         <Box>
             <div className="w-1/2">
                 <div className="flex justify-center w-full">
-                    <div className="w-full ">
-                        <Title className="py-3 my-3">{place && place.name}</Title>
-                        <div className="mb-10 overflow-hidden shadow-xl rounded-xl">
+                    <div className="flex flex-col justify-around w-full">
+                        <Title className="xl:my-3 xl:py-3">{place && place.name}</Title>
+                        <div className="overflow-hidden shadow-xl rounded-xl h-5/6 xl:h-full xl:mb-10">
                             <SearchMap
                                 places={place && [place]}
-                                className="w-full "
+                                className="w-full"
                                 innerRef={null}
                             />
                         </div>
@@ -51,7 +51,7 @@ export const PlaceDetails = () => {
                 </div>
                 <p
                     onClick={onPlacePosting}
-                    className="fixed flex items-center justify-center w-10 h-10 rounded-full cursor-pointer bg-darkGreen right-36 bottom-40">
+                    className="fixed flex items-center justify-center w-10 h-10 rounded-full cursor-pointer bg-darkGreen right-10 xl:right-36 bottom-40 ">
                     <FontAwesomeIcon icon={faPlus} size="lg" color="white" />
                 </p>
                 <BoardToggle>

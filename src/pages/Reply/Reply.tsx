@@ -56,8 +56,7 @@ export const Reply: FC<PropsWithChildren<ReplyProps>> = () => {
                 <div className="flex flex-row items-center justify-center my-3 ">
                     <Input
                         placeholder="댓글을 작성해 주세요"
-                        className="mx-2 focus:shadow-lg outline-darkGreen border-darkGreen focus:outline-none focus:border-darkGreen"
-                        size={80}
+                        className="w-full mx-2 focus:shadow-lg outline-darkGreen border-darkGreen focus:outline-none focus:border-darkGreen xl:w-2/3"
                         value={replyValue}
                         onChange={e => onChangeReply(e.target.value)}></Input>
                     <Button

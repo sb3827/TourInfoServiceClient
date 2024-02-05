@@ -82,7 +82,7 @@ const CourseSearchItem: React.FC<CourseSearchItemProps> = ({isAd, searchValue}) 
     }, [boardInfoData, boardInfoRequest, boardInfoRef])
 
     return (
-        <BoardBox className="relative flex flex-col">
+        <BoardBox className="relative flex flex-col ">
             {loading && <LoadingSppinnerSmall />}
             {boardInfoData ? (
                 boardInfoData.map((data: CourseBoardListData, index) => (

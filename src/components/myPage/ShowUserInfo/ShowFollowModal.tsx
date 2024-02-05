@@ -46,17 +46,17 @@ export const ShowFollowModal: FC<ShowFollowModalProps> = ({
                 </button>
                 {showModal ? (
                     <Modal isOpen onClose={closeModal}>
-                        <div className="p-8 bg-white rounded ">
+                        <div className="bg-white rounded xl:p-8 ">
                             <div className="flex flex-col">
                                 <Title className="my-3">{userName}</Title>
                                 <div className="flex">
-                                    <div className="w-1/2 p-4">
+                                    <div className="w-1/2 p-2 xl:p-4">
                                         <MyFollowingBox
                                             mno={Number(mno)}
                                             closeModal={closeModal}
                                         />
                                     </div>
-                                    <div className="w-1/2 p-4">
+                                    <div className="w-1/2 p-2 xl:p-4">
                                         <MyFollowerBox
                                             mno={Number(mno)}
                                             closeModal={closeModal}

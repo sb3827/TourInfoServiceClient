@@ -109,7 +109,9 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                 <div
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
-                                    className="flex w-full h-full py-3 overflow-x-auto ">
+                                    className={`flex w-full justify-start h-full py-3 ${
+                                        create ? 'overflow-x-auto' : 'flex-wrap'
+                                    }  `}>
                                     {dayItem.map((item, index) => (
                                         <Draggable
                                             isDragDisabled={!create}
@@ -162,9 +164,10 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
                                                             )}
                                                         </div>
                                                     </div>
-                                                    <div className="flex justify-center items-center ml-3">
+                                                    <div className="flex items-center justify-center ml-2 xl:ml-3">
                                                         {dayItem.length !== index + 1 && (
                                                             <FontAwesomeIcon
+                                                                className="text-sm xl:text-base"
                                                                 color="darkGreen"
                                                                 icon={faArrowRight}
                                                             />

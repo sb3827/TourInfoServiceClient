@@ -96,9 +96,10 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     }
     const delPage = () => {
         try {
-            deleteBoard(parseInt(bno))
-            alert('삭제 성공')
-            navigate('/board/place')
+            if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
+                deleteBoard(parseInt(bno))
+                navigate('/board/place')
+            }
         } catch (error) {
             alert('삭제 실패')
         }
@@ -151,7 +152,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     }, [])
 
     return (
-        <div className="w-7/12 mx-auto my-10 shadow-2xl py-10 px-14 rounded-2xl">
+        <div className="w-7/12 py-10 mx-auto my-10 shadow-2xl px-14 rounded-2xl">
             {loading && <LoadingSppinner />}
             <div className="py-5 ">
                 <div className="flex flex-col ">
@@ -220,8 +221,8 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                     <TextBox data={content}></TextBox>
                 </div>
             </div>
-            <div className="w-full  border-b-2 border-lightGreen flex">
-                <p className="mx-5 mb-3 mt-8 text-3xl font-semibold text-darkGreen">
+            <div className="flex w-full border-b-2 border-lightGreen">
+                <p className="mx-5 mt-8 mb-3 text-3xl font-semibold text-darkGreen">
                     댓글
                 </p>
             </div>

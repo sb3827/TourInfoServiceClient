@@ -63,7 +63,7 @@ export const FindEmail = () => {
 
     return (
         <div className="flex justify-center">
-            <div className="flex flex-col justify-around w-2/3 p-8 h-96">
+            <div className="flex flex-col justify-around w-full p-8 xl:w-2/3 h-96">
                 <Title className="my-6 text-[#609966]">계정 찾기</Title>
 
                 {/* 이름 입력창 */}

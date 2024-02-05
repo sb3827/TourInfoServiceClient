@@ -1,14 +1,5 @@
 import {FC, PropsWithChildren, useEffect, useMemo, useRef, useState} from 'react'
-import {
-    TextEditor,
-    Input,
-    Button,
-    Rating,
-    RatingRef,
-    EditorRef,
-    MainSlider,
-    CoursePostMap
-} from '../../components'
+import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {
     coursePostLoad,
@@ -23,7 +14,6 @@ import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
 import {saveCourseBoardDTO} from '../../data/Board/BoardData'
 import noImage from '../../assets/smallLogo.png'
-import {SwiperSlide} from 'swiper/react'
 
 type CourseRegisterProps = {
     isModify: boolean // true: 수정, false: 등록
@@ -56,7 +46,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     const [loadImg, setLoadImg] = useState<string[]>([])
 
     // 등록 onclick 함수
-    function regist() {
+    async function regist() {
         const title = titleRef.current?.value as string
         if (title == '') {
             alert('제목을 입력하세요')
@@ -84,11 +74,11 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             writer: user
         }
         ////
+        console.log(board, images)
 
-        registCourseBoard(board, images).then(res => {
-            alert(`${res.bno}번 글 등록 완료!`)
-            navigate(`/board/course/posting?bno=${res.bno}`)
-        })
+        const data = await registCourseBoard(board, images)
+        alert(`${data.bno}번 글 등록 완료!`)
+        navigate(`/board/course/posting?bno=${data.bno}`)
     }
     // 수정 onclick 함수
     function modify() {
@@ -195,7 +185,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
 
     return (
         <div className="w-full py-14">
-            <div className="w-1/2 mx-auto">
+            <div className="w-2/3 mx-auto xl:w-1/2">
                 <div>
                     <div className="flex flex-row justify-between ">
                         <div>

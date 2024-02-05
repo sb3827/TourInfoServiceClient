@@ -7,7 +7,7 @@ export const Footer: FC<FooterProps> = ({}) => {
     return (
         <div>
             <Outlet />
-            <footer className="items-center justify-center hidden w-full text-xs text-center text-gray-300 md:flex bg-slate-600">
+            <footer className="items-center justify-center w-full text-xs text-center text-gray-300 md:flex bg-slate-600">
                 <div className="flex-row items-center justify-center py-2">
                     <p className="m-2">배낭 가져와 - 여행의 발견 (Discovery of Travel)</p>
                     {/* 아래 수정해야함(깃허브 주소 추후 수정) */}
