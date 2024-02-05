@@ -6,6 +6,8 @@ import {
     forwardRef,
     PropsWithChildren
 } from 'react'
+import {useSelector} from 'react-redux'
+import {RootState} from '../store/rootReducer'
 
 //버튼 스타일
 
@@ -28,7 +30,10 @@ export const Button = forwardRef<HTMLInputElement, ButtonProps>((props, ref) => 
 })
 
 type DropdownProps = {
-    texts: string[]
+    texts?: string[]
+    replyMno?: number
+    replyParent?: number | null
+    onGetDropdownValue: (value: string) => void
 }
 
 // 버튼st dropdown list
@@ -41,11 +46,12 @@ export const DropdownButton: FC<PropsWithChildren<DropdownProps>> = props => {
             <ul
                 tabIndex={0}
                 className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                {props.texts.map((text, index) => (
-                    <li key={index}>
-                        <a>{text}</a>
-                    </li>
-                ))}
+                {props.texts &&
+                    props.texts.map((text, index) => (
+                        <li key={index}>
+                            <a>{text}</a>
+                        </li>
+                    ))}
             </ul>
         </div>
     )
@@ -53,6 +59,19 @@ export const DropdownButton: FC<PropsWithChildren<DropdownProps>> = props => {
 
 // icon button dropdown list
 export const DropdownIcon: FC<PropsWithChildren<DropdownProps>> = props => {
+    const mno = useSelector((state: RootState) => state.login.mno)
+    let text
+    if (props.replyMno == mno && props.replyParent == null) {
+        text = ['댓글 달기', '수정', '삭제']
+    } else if (props.replyMno == mno && props.replyParent) {
+        text = ['수정', '삭제']
+    } else if (props.replyParent) {
+        text = ['신고']
+    } else {
+        text = ['댓글 달기', '신고']
+    }
+    //props.replyMno == mno && props.replyParent==null ? ['댓글 달기', '수정', '삭제'] :props.replyParent!==null ? ['댓글 달기', '신고'] :['신고']
+
     return (
         <div className="dropdown dropdown-bottom dropdown-end">
             <label tabIndex={0} className="m-1">
@@ -61,9 +80,9 @@ export const DropdownIcon: FC<PropsWithChildren<DropdownProps>> = props => {
             <ul
                 tabIndex={0}
                 className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                {props.texts.map((text, index) => (
+                {text.map((text, index) => (
                     <li key={index}>
-                        <a>{text}</a>
+                        <p onClick={() => props.onGetDropdownValue(text)}>{text}</p>
                     </li>
                 ))}
             </ul>
@@ -79,7 +98,7 @@ type DropbtnProps = {
 
 export const DropIcon: FC<PropsWithChildren<DropbtnProps>> = props => {
     const handleItemClick = (index: number) => {
-        console.log('clicked')
+        console.log(props.itemActions[index], 'clicked')
         props.itemActions[index]()
     }
 
@@ -149,7 +168,11 @@ export const Oauth2LoginButton: FC<PropsWithChildren<Oauth2ButtonProps>> = ({
 }) => {
     return (
         <a
-            href={`http://localhost:8080/oauth2/authorization/${oauth2}`}
+            href={`${
+                oauth2 === 'kakao'
+                    ? process.env.REACT_APP_DOT_ADDRESS
+                    : process.env.REACT_APP_OAUTH2
+            }/oauth2/authorization/${oauth2}`}
             className="w-1/6 cursor-pointer hover:translate-y-0.5 hover:duration-150">
             {children}
         </a>

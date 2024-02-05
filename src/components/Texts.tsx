@@ -44,7 +44,7 @@ export const Subtitle: FC<SubtitleProps> = ({
     ...props
 }) => {
     const className = makeClassName(
-        'font-semibold text-xl text-center whitespace-pre-line',
+        'font-semibold text-center whitespace-pre-line',
         _className,
         numberOfLines
     )

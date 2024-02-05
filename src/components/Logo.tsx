@@ -9,12 +9,12 @@ export const Logo = ({}) => {
         navigate('/')
     }
     return (
-        <>
+        <div className="flex justify-center ">
             <Title
                 onClick={onMain}
-                className="flex justify-center mt-10 cursor-pointer -mb-9">
-                <img src={mainLogo} className="w-32 sm:w-32 md:w-52 lg:w-64" />
+                className="flex justify-center mt-8 -mb-4 cursor-pointer">
+                <img src={mainLogo} className="w-24 sm:w-24 md:w-36 lg:w-44" />
             </Title>
-        </>
+        </div>
     )
 }

@@ -1,5 +1,5 @@
 import {FC, useState} from 'react'
-import {Button, ReportModal, TextBox, UserInfo, UserInfoItemBox} from '../../index'
+import {Button, Modal, TextBox, UserInfo, UserInfoItemBox} from '../../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
 import {ReportData} from '../../../data/manager/index'
@@ -81,7 +81,7 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 <div
                     className={`flex justify-around w-full ${
                         reportData.isDone === true
-                            ? 'bg-darkGreen text-white rounded-lg'
+                            ? 'bg-lightGreen text-white rounded-lg'
                             : ''
                     }`}>
                     <UserInfo
@@ -89,12 +89,14 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                     />
                     <UserInfo text={reportData.regDate.toString()} />
                     <UserInfo text={reportData.sno.toString()} />
-                    <UserInfo text={reportData.complainant} />
-                    <UserInfo text={reportData.defendant} />
+                    <UserInfo
+                        text={reportData.complainant ? reportData.complainant : 'X'}
+                    />
+                    <UserInfo text={reportData.defendant ? reportData.defendant : 'X'} />
                 </div>
             </UserInfoItemBox>
             {/* 모달 창 */}
-            <ReportModal isOpen={isModalOpen} onClose={closeModal}>
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
                 <div className="flex flex-row items-center justify-center">
                     <FontAwesomeIcon icon={faBell} className="mr-2" />
                     <h1 className="text-xl font-bold">신고</h1>
@@ -102,8 +104,12 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
 
                 <p className="mt-4">날짜 : {reportData.regDate.toString()}</p>
                 <p className="mt-4">게시글 번호 : {reportData.sno.toString()}</p>
-                <p className="mt-4">아이디 : {reportData.complainant}</p>
-                <p className="mt-4">신고 유저 : {reportData.defendant}</p>
+                <p className="mt-4">
+                    아이디 : {reportData.complainant ? reportData.complainant : 'X'}
+                </p>
+                <p className="mt-4">
+                    신고 유저 : {reportData.defendant ? reportData.defendant : 'X'}
+                </p>
                 <p className="my-4 break-all">
                     신고 사유 :<br /> - {reportData.message}
                 </p>
@@ -130,7 +136,7 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 ) : (
                     ''
                 )}
-            </ReportModal>
+            </Modal>
         </div>
     )
 }

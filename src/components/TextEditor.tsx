@@ -2,9 +2,8 @@ import {useState, FC, Ref, useRef, forwardRef, useImperativeHandle} from 'react'
 import CustomEditor from 'ckeditor5-custom-build/build/ckeditor'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import {CKFinder} from '@ckeditor/ckeditor5-ckfinder'
-import axios from 'axios'
-import Editor from 'ckeditor5-custom-build/build/ckeditor'
+import {imageUpload} from '../api/Board/board'
+import {ImageReturnData} from '../data/Board/BoardData'
 
 type TextEditorProps = {
     initialValue?: string
@@ -14,16 +13,15 @@ type TextEditorProps = {
 }
 
 export type EditorRef = {
-    getImages: FormData | null
+    getImages: ImageReturnData[] | null
     getEditor: () => CKEditor<ClassicEditor> | null
 }
 
 export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorProps>(
-    ({initialValue, width, height}, ref) => {
+    ({initialValue}, ref) => {
         const [flag, setFlag] = useState(false)
-        const imgLink = 'C:workspace\test'
         const ckRef = useRef<CKEditor<ClassicEditor> | null>(null)
-        const images = new FormData()
+        const [images, setImages] = useState<ImageReturnData[]>([])
 
         useImperativeHandle(ref, () => ({
             getImages: images,
@@ -35,18 +33,17 @@ export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorP
             return {
                 upload() {
                     return new Promise((resolve, reject) => {
+                        const data = new FormData()
                         loader.file.then((file: File) => {
-                            images.append('file', file)
+                            data.append('name', file.name)
+                            data.append('file', file)
 
-                            axios
-                                .post('/api/upload', file)
+                            imageUpload(file)
                                 .then(res => {
-                                    if (!flag) {
-                                        setFlag(true)
-                                        //setImage(res.data.filename)
-                                    }
+                                    setImages([...images, res])
+                                    console.log(images)
                                     resolve({
-                                        default: `${imgLink}/${res.data.filename}`
+                                        default: `${res.src}`
                                     })
                                 })
                                 .catch(err => reject(err))
@@ -68,7 +65,7 @@ export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorP
                 editor={CustomEditor}
                 config={{
                     ckfinder: {
-                        uploadUrl: 'http://localhost:8080/image'
+                        uploadUrl: `${process.env.REACT_APP_DOT_ADDRESS}/image`
                     },
                     placeholder: initialValue || '내용을 입력하세요',
                     extraPlugins: [uploadPlugin]
@@ -100,11 +97,13 @@ export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorP
 
 type TextBoxProps = {
     data: string
+    id?: string
 }
 // show content
 export const TextBox: FC<TextBoxProps> = props => {
     return (
         <CKEditor
+            id={props.id}
             editor={CustomEditor}
             disabled={true}
             data={props.data}

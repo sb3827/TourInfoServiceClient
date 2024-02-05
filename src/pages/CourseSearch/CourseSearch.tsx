@@ -1,49 +1,105 @@
-import {FC, PropsWithChildren, useState} from 'react'
-import {Box, SearchInput, CourseInfo} from '../../components/index'
+import {useState} from 'react'
+import {
+    Box,
+    SearchInput,
+    BoardToggle,
+    Subtitle,
+    Button,
+    Title
+} from '../../components/index'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {useSearchParams} from 'react-router-dom'
+import {faSignsPost} from '@fortawesome/free-solid-svg-icons'
+import {useNavigate} from 'react-router-dom'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../store/rootReducer'
+import CourseSearchItem from '../../components/course/CourseSearchItem'
 
-type CourseSearchProps = {}
+export const CourseSearch = () => {
+    const [searchParams, setSearchParams] = useSearchParams()
 
-export const CourseSearch: FC<CourseSearchProps> = () => {
+    const initialSearch = searchParams.get('search') || ''
+
+    const navigate = useNavigate()
+
+    const user = useSelector((state: RootState) => state.login.mno)!
+
+    const handleRegisterClick = () => {
+        navigate(`/board/course/posting/register`)
+    }
+
     //검색 값
-    const [searchValue, setSearchValue] = useState<string>('')
+    const [searchValue, setSearchValue] = useState<string>(initialSearch)
 
     //입력때마다 검색값 업데이트
     function onChangeSearch(value: string) {
         setSearchValue(value)
     }
 
-    // 더미 검색 결과 데이터 (7개의 더미 데이터 생성, 테스트를 위한 하드코딩) 추후 배열의 길이로 반복해야함
-    const CourseInfos = Array.from({length: 7}, (_, index) => ({
-        title: `제목`,
-        information: '코스정보',
-        id: `id`,
-        date: `YYYY-MM-DD`,
-        imageUrl: `이미지` // 더미 이미지 URL로 대체 가능
-    }))
-    // 더미 데이터
+    async function onCourseList(
+        e?: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>
+    ) {
+        //키보드로 입력이 들어왔는데 Enter가 아닌경우 return
+        if (
+            e?.type === 'keydown' &&
+            (e as React.KeyboardEvent<HTMLInputElement>).key !== 'Enter'
+        ) {
+            return
+        }
+        try {
+            setSearchParams({search: searchValue})
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <Box>
-            <SearchInput
-                className="w-4/6 mb-4"
-                value={searchValue}
-                onChange={onChangeSearch}
-            />
-            <div className="flex justify-center w-full h-screen mb-32">
-                <div className="flex w-5/6 h-5/6">
-                    <div className="w-full p-3 overflow-y-auto border rounded-lg border--300">
-                        {/* 검색 결과를 보여줄 컴포넌트 */}
-                        {CourseInfos.map((result, index) => (
-                            <CourseInfo
-                                title={result.title}
-                                information={result.information}
-                                id={result.id}
-                                date={result.date}
-                                imageUrl={result.imageUrl}
-                            />
-                        ))}
+            <div className="w-1/2">
+                <Title className="mb-5 text-darkGreen">코스 게시판</Title>
+                <div className="flex w-full mb-5">
+                    <div className="flex w-full">
+                        <SearchInput
+                            className="w-4/5 ml-0"
+                            value={searchValue}
+                            onChange={onChangeSearch}
+                            onKeyDown={onCourseList}
+                            placeholder="코스 검색"
+                        />
+                        <Button
+                            onClick={onCourseList}
+                            className="text-white shadow-xl bg-darkGreen"
+                            value={'검색'}
+                        />
                     </div>
+                    {user && (
+                        <Button
+                            onClick={handleRegisterClick}
+                            className="text-white shadow-xl bg-lightGreen"
+                            value={'게시글 작성'}
+                        />
+                    )}
                 </div>
+                <BoardToggle>
+                    <Subtitle
+                        value="유저"
+                        className="flex flex-row-reverse items-center text-left">
+                        <FontAwesomeIcon icon={faSignsPost} className="m-1" />
+                    </Subtitle>
+                    <Subtitle
+                        value="광고"
+                        className="flex flex-row-reverse items-center text-left">
+                        <FontAwesomeIcon icon={faSignsPost} className="m-1" />
+                    </Subtitle>
+                    <CourseSearchItem
+                        isAd={false}
+                        searchValue={searchParams.get('search') || ''}
+                    />
+                    <CourseSearchItem
+                        isAd={true}
+                        searchValue={searchParams.get('search') || ''}
+                    />
+                </BoardToggle>
             </div>
         </Box>
     )

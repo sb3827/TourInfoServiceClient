@@ -1,12 +1,12 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {
     LoadingSppinner,
     LoginInput,
     LoginUseButton,
-    Logo,
     Oauth2LoginButton,
     Title
 } from '../../components'
+import {useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import {loginRequest} from '../../api/Login/Login'
 import {useDispatch} from 'react-redux'
@@ -16,13 +16,24 @@ import Kakao from '../../assets/kakao_btn.png'
 import Google from '../../assets/google_btn.png'
 import Naver from '../../assets/naver_btn.png'
 import {setMno} from '../../store/slices/LoginSlice'
+import {RootState} from '../../store/rootReducer'
+import {MailResend} from '../MailResend'
 
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')
     const [userPassword, setUserPassword] = useState<string>('')
     const [loading, setLoading] = useState<Boolean>(false)
+    const [resend, setResend] = useState<Boolean>(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    const emailFromSignup = useSelector((state: RootState) => state.signup.email)
+    useEffect(() => {
+        setUserEmail(String(emailFromSignup || ''))
+    }, [])
+
+    //이메일 검증
+    const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
 
     //아이디 state 변경
     function onUserEmailChange(value: string) {
@@ -35,8 +46,24 @@ export const Login = () => {
     }
 
     //로그인 버튼 클릭 이벤트
-    async function onLoginClick() {
+    async function onLoginClick(
+        e?: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement>
+    ) {
+        //키보드로 입력이 들어왔는데 Enter가 아닌경우 return
+        if (
+            e?.type === 'keydown' &&
+            (e as React.KeyboardEvent<HTMLInputElement>).key !== 'Enter'
+        ) {
+            return
+        }
+
         setLoading(true)
+        if (!email_regex.test(userEmail)) {
+            alert('이메일 형식이 아닙니다.')
+            setLoading(false)
+            return
+        }
+
         if (userEmail === '') {
             alert('이메일을 입력하세요')
             setLoading(false)
@@ -48,12 +75,12 @@ export const Login = () => {
         } else {
             try {
                 const data = await loginRequest(userEmail, userPassword)
+
                 const {token, refreshToken} = data.response.tokens
 
                 //토큰은 localStorage에 저장
                 setWithTokenExpire('token', token)
 
-                //추후 role 넣어줘야함
                 dispatch(setMno(data.response.mno))
 
                 //refreshToken은 쿠키에 저장
@@ -65,17 +92,20 @@ export const Login = () => {
                     //secure:true
                     expires: expiryDate
                 })
+                if (data.response.message === 'password 변경이 필요 합니다') {
+                    navigate('/mypage/modify/password')
+                    return
+                }
                 navigate('/')
             } catch (err) {
-                alert('로그인 실패')
+                const message = (err as any).response.data.message
+                alert(message)
+                if (message === '이메일 인증이 필요합니다.') {
+                    setResend(true)
+                }
             }
         }
         setLoading(false)
-    }
-
-    //메인 페이지로 이동
-    function onMain() {
-        navigate('/')
     }
 
     //아이디 비밀번호 찾기로 이동
@@ -87,13 +117,13 @@ export const Login = () => {
         navigate('/sign-up')
     }
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center ">
             {loading && <LoadingSppinner />}
-            <div className="flex flex-col items-center justify-center w-full ">
+            <div className="flex flex-col items-center justify-center w-full">
                 <section className="h-full">
                     <div className="container h-full px-6 pt-16 pb-24">
                         <div className="flex flex-wrap items-center justify-center h-fit g-6">
-                            <div className="hidden mb-0 mr-5 md:w-2/3 md:ml-5 md:mr-0 lg:block lg:w-1/3">
+                            <div className="hidden mb-0 mr-5 xl:block xl:w-1/3">
                                 <div className="flex justify-center">
                                     <img
                                         src="https://images.unsplash.com/photo-1655722723663-75b47de17a31?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -102,22 +132,25 @@ export const Login = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="w-full p-8 ml-5 border rounded-lg shadow-xl sm:w-fit md:w-fit lg:w-1/3">
+                            <div className="w-1/2 p-8 border rounded-lg shadow-xl xl:w-1/3 xl:ml-5 ">
                                 <Title className="mt-6 mb-8 text-3xl">LOGIN</Title>
                                 {/* 이메일 입력 창 */}
-                                <LoginInput
-                                    className="mb-6"
-                                    value={userEmail}
-                                    text="Email"
-                                    onChange={onUserEmailChange}
-                                />
-                                {/* 비밀번호 입력창 */}
-                                <LoginInput
-                                    className="mb-3"
-                                    value={userPassword}
-                                    text="Password"
-                                    onChange={onUserPasswordChange}
-                                />
+                                <div onKeyDown={onLoginClick}>
+                                    <LoginInput
+                                        className="mb-6"
+                                        value={userEmail}
+                                        text="Email"
+                                        onChange={onUserEmailChange}
+                                    />
+                                    {/* 비밀번호 입력창 */}
+                                    <LoginInput
+                                        className="mb-3"
+                                        value={userPassword}
+                                        text="Password"
+                                        type="password"
+                                        onChange={onUserPasswordChange}
+                                    />
+                                </div>
                                 <div className="flex items-center justify-end px-2 mb-3">
                                     <p
                                         onClick={onFind}
@@ -159,6 +192,13 @@ export const Login = () => {
                     </div>
                 </section>
             </div>
+            {resend && (
+                <MailResend
+                    email={userEmail}
+                    onClick={() => {
+                        setResend(false)
+                    }}></MailResend>
+            )}
         </div>
     )
 }

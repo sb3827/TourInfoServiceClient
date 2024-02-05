@@ -1,20 +1,27 @@
-import {ProfileBox, PersonalMap, WritingButton} from './../../components/index'
-import {SimpleMap} from './../../components/SimpleMap'
+import {useParams} from 'react-router-dom'
+import {ProfileBox, SimpleMap, Title, WritingButton} from './../../components/index'
 
 export const MyPage = () => {
+    const {mno} = useParams()
+
     return (
-        <div>
-            <h1 className="flex items-center justify-center mt-4">마이페이지</h1>
-            <div className="flex flex-row">
-                <div className="w-1/2 mt-8 ml-32 mr-8">
-                    <ProfileBox />
-                </div>
-                <div className="w-1/2 mt-8 mr-32">
-                    <SimpleMap />
+        <div className="flex flex-col justify-between w-full ">
+            <div className="flex flex-row items-center justify-center w-full ">
+                <div className="flex justify-center min-w-[1200px] w-[1200px] my-20 h-full">
+                    <div className="flex items-center justify-center w-full shadow-2xl rounded-2xl basis-1/2">
+                        <ProfileBox mno={Number(mno)} />
+                    </div>
+
+                    <div className="flex flex-col items-center justify-center w-full px-20 shadow-2xl rounded-2xl basis-1/2">
+                        <Title className="mt-16">여행기록</Title>
+                        <SimpleMap className="-mt-16" mno={Number(mno)} />
+                    </div>
                 </div>
             </div>
-            <div className="mt-8">
-                <WritingButton />
+            <div className="flex items-center justify-center w-full">
+                <div className="flex items-center justify-center w-full">
+                    <WritingButton mno={Number(mno)} />
+                </div>
             </div>
         </div>
     )

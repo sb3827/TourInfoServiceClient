@@ -12,7 +12,26 @@ body {
         'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* background-image: url('./assets/bgTop.png'), url('./assets/bgBottom.png'); */
+    /* background-image: url('./assets/bgtest.jpg'); */
+    /* background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: left top, right bottom 100px; */
+
+    /* background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    isolation: isolate; */
 }
+/* body::after {
+    content: '';
+    position: absolute;
+    background: white;
+    z-index: -1;
+    inset: 0;
+    opacity: 0.8;
+} */
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;

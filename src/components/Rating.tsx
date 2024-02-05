@@ -30,7 +30,7 @@ export const Rating: FC<RatingProps> = forwardRef<RatingRef, RatingProps>(
         }))
 
         return (
-            <div className="rating rating-md">
+            <div className="mb-1 rating rating-md">
                 {[1, 2, 3, 4, 5].map(rating => (
                     <input
                         key={rating}

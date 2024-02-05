@@ -26,7 +26,7 @@ export const Slider: FC<PropsWithChildren<DivProps>> = ({
     ...props
 }) => {
     const className = makeClassName(
-        'flex justify-center h-full border rounded-lg bg-slate-300 border--30',
+        'flex justify-center h-full border rounded-lg border--30',
         _className
     )
     const slides = React.Children.map(children, (child, index) => (
@@ -59,10 +59,14 @@ export const MainSlider: FC<PropsWithChildren<DivProps>> = ({
                 spaceBetween={30}
                 navigation={true}
                 autoplay={{
-                    delay: 10 * 1000,
+                    delay: 10 * 1500,
                     disableOnInteraction: false
                 }}
-                virtual>
+                virtual
+                simulateTouch={false} // 마우스 드래그 시뮬레이션 비활성화
+                allowTouchMove={false} // 슬라이더의 터치 움직임 비활성화
+                grabCursor={false} // 그랩 커서 비활성화
+            >
                 {children}
             </Swiper>
         </>

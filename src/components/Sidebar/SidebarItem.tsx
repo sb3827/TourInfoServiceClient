@@ -1,8 +1,7 @@
-import {FC, MouseEventHandler, PropsWithChildren, useState} from 'react'
+import {FC, MouseEventHandler, PropsWithChildren} from 'react'
 
 type SidebarItemProps = {
     sideTitle?: string
-    isOpen: boolean
     onClick?: MouseEventHandler<HTMLDivElement>
 }
 //children은 아이콘
@@ -10,20 +9,14 @@ type SidebarItemProps = {
 export const SidebarItem: FC<PropsWithChildren<SidebarItemProps>> = ({
     children,
     sideTitle,
-    isOpen,
     onClick
 }) => {
     return (
         <div
             onClick={onClick}
-            className="flex items-center justify-center px-4 text-left transition-all duration-100 cursor-pointer h-14 hover:bg-green-200 hover:border-r-8 hover:border-r-green-900">
+            className="flex items-center justify-center px-4 text-left transition-all duration-100 cursor-pointer h-14 hover:bg-darkGreen hover:border-r-8 hover:border-r-green-900">
             {children}
-            <span
-                className={
-                    !isOpen
-                        ? `hidden w-0 h-0 px-4 uppercase whitespace-nowrap overflow-hidden text-ellipsis `
-                        : `flex justify-center w-full h-auto`
-                }>
+            <span className="flex justify-center w-full h-auto text-sm text-white xl:text-base">
                 {sideTitle}
             </span>
         </div>
