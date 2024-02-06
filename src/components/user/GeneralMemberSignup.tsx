@@ -1,12 +1,5 @@
 import {useState} from 'react'
-import {
-    Title,
-    Subtitle,
-    DropdownSelect,
-    Button,
-    LoadingSppinner,
-    LoginInput
-} from '../../components'
+import {Title, Subtitle, DropdownSelect, Button, LoadingSppinner, LoginInput} from '..'
 import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
 import {useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'

@@ -1,10 +1,10 @@
 import {FC, useEffect, useRef, useState} from 'react'
 import {BoardBox} from './BoardBox'
 import {Board} from './Board'
-import {PlaceBoardData} from '../../data/placeSearch'
+import {PlaceBoardData} from '../../data/PlaceSearch'
 import {getPlaceDetailsInfo} from '../../api'
 import {useNavigate, useParams} from 'react-router-dom'
-import {LoadingSppinnerSmall, MiniSppinner} from '../common/LoadingSpinner'
+import {LoadingSppinnerSmall, MiniSppinner} from '../Common/LoadingSpinner'
 
 type PlaceDetailsItemProps = {
     getPlaceData?: (placeData: PlaceBoardData) => void

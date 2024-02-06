@@ -1,5 +1,5 @@
 import {FC} from 'react'
-import {PlaceBoardData} from '../../data/placeSearch'
+import {PlaceBoardData} from '../../data/PlaceSearch'
 import {useNavigate} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faStar, faHeart} from '@fortawesome/free-solid-svg-icons'

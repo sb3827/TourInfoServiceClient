@@ -13,7 +13,7 @@ import {
     PlaceProps,
     LoadingSppinnerSmall
 } from './../../index'
-import {PlaceData} from './../../../data/placeSearch'
+import {PlaceData} from '../../../data/PlaceSearch'
 import {registerPlace} from './../../../api/index'
 import {getSearchPlaceInfo} from './../../../api'
 import React, {

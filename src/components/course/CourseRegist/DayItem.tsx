@@ -1,17 +1,16 @@
-import {Subtitle} from '../../common/Texts'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowRight, faCircleMinus} from '@fortawesome/free-solid-svg-icons'
 import {useDispatch} from 'react-redux'
 import {addDayAtPosition, deleteDay, deleteItem} from '../../../store/slices/CourseSlice'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
-import {Spot} from '../../common/Spot'
 import {Item} from './CourseList'
 import {FC, useState} from 'react'
 import noImage from '../../../assets/smallLogo.png'
 import {useNavigate} from 'react-router-dom'
-import {Button} from '../../common/Button'
-import {Modal} from '../../common/Modal'
+import {Button} from '../../Common/Button'
+import {Modal} from '../../Common/Modal'
 import {InputPlace} from '../../myPage/MyPocket/InputPlace'
+import {Spot, Subtitle} from '../../Common'
 
 type DayItemProps = {
     day: Item[][]

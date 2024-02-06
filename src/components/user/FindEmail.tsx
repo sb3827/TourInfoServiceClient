@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {Title, Subtitle, DropdownSelect, Button, LoginInput} from '../../components'
+import {Title, Subtitle, DropdownSelect, Button, LoginInput} from '..'
 import {FindEmailRequest} from '../../api/Find/Find'
 import {useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'

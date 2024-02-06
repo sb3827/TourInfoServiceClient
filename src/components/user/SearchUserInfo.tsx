@@ -1,5 +1,5 @@
 import {FC, MouseEvent, useState} from 'react'
-import {Button} from '../../components/index'
+import {Button} from '../index'
 import {UserSearchData} from '../../data/User/User'
 import {useNavigate} from 'react-router-dom'
 import {postFollow, deleteFollow} from '../../api/UserSearch/UserSearch'

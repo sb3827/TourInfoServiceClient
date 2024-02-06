@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react'
-import {BoardBox} from '../place/BoardBox'
+import {BoardBox} from '../Place/BoardBox'
 import {CourseInfo} from './CourseInfo'
 import {CourseBoardListData} from '../../data/Board/Board'
-import {LoadingSppinnerSmall, MiniSppinner} from '../common/LoadingSpinner'
 import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
 import {useSearchParams} from 'react-router-dom'
+import {LoadingSppinnerSmall, MiniSppinner} from '../Common'
 
 type CourseSearchItemProps = {
     isAd: boolean

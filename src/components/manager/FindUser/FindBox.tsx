@@ -17,7 +17,7 @@ import {faUser} from '@fortawesome/free-solid-svg-icons'
 import {useDispatch} from 'react-redux'
 import {setManagerSearch} from '../../../store/slices/SearchSlice'
 import {managerSearchUser} from '../../../api/Manager/Manager'
-import {SubBox} from '../../common/SubBox'
+import {SubBox} from '../../Common/SubBox'
 
 type FindBoxProps = {}
 

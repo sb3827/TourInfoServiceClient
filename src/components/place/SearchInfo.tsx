@@ -1,7 +1,7 @@
 import {FC, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {Button, PlaceCartModal} from '../index'
-import {PlaceData} from '../../data/placeSearch'
+import {PlaceData} from '../../data/PlaceSearch'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCartShopping, faCartPlus} from '@fortawesome/free-solid-svg-icons'
 import {useSelector} from 'react-redux'

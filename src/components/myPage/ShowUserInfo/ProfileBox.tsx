@@ -6,7 +6,7 @@ import {
     LoadingSppinner,
     Modal
 } from './../../index'
-import {Button} from '../../common/Button'
+import {Button} from '../../Common/Button'
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {userProfile} from './../../../data/User/User'

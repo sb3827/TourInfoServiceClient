@@ -9,7 +9,7 @@ import {
     Subtitle,
     UserInfoItemBox
 } from '../../index'
-import {ReportResponseData} from '../../../data/manager'
+import {ReportResponseData} from '../../../data/Manager'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../../store/rootReducer'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -17,7 +17,7 @@ import {faBell} from '@fortawesome/free-solid-svg-icons'
 import {setReportSearch} from '../../../store/slices/SearchSlice'
 import {useDispatch} from 'react-redux'
 import {getAllReport} from '../../../api'
-import {SubBox} from '../../common/SubBox'
+import {SubBox} from '../../Common/SubBox'
 
 //신고 박스
 

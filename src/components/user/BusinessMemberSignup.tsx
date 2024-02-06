@@ -1,12 +1,5 @@
 import {useState} from 'react'
-import {
-    Title,
-    Subtitle,
-    DropdownSelect,
-    Button,
-    LoadingSppinner,
-    LoginInput
-} from '../../components'
+import {Title, Subtitle, DropdownSelect, Button, LoadingSppinner, LoginInput} from '..'
 import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
 import {postBusinessCheck} from '../../api/Business/BusinessCheck'
 import {useDispatch} from 'react-redux'

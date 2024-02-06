@@ -1,5 +1,5 @@
 import {FC, useState, useEffect} from 'react'
-import {Subtitle} from '../../common/Texts'
+import {Subtitle} from '../../Common/Texts'
 import {ShowUserFollowings} from './../../../api/index'
 import {userFollows} from './../../../data/User/User'
 import profileImage from './../../../assets/profileImage.jpeg'

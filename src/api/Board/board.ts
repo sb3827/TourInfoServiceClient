@@ -9,7 +9,7 @@ import {
 } from '../../data/Board/Board'
 import {commonAxios} from '../Axios/CommonAxios'
 import {refreshAxios, refreshFormAxios} from '../Axios/RefreshAxios'
-import {reportRequestData} from '../../data/manager'
+import {reportRequestData} from '../../data/Manager'
 
 export const placePostLoad = async (
     bno: number,

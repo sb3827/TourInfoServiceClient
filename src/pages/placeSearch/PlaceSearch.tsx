@@ -9,7 +9,7 @@ import {
     Title,
     MiniSppinner
 } from '../../components/index'
-import {PlaceData} from '../../data/placeSearch'
+import {PlaceData} from '../../data/PlaceSearch'
 import {getSearchPlaceInfo} from '../../api'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'

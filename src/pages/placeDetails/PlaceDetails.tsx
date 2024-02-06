@@ -9,9 +9,9 @@ import {
 } from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useNavigate, useParams} from 'react-router-dom'
-import {PlaceBoardData} from '../../data/placeSearch'
+import {PlaceBoardData} from '../../data/PlaceSearch'
 import {faList, faPlus} from '@fortawesome/free-solid-svg-icons'
-import PlaceDetailsItem from '../../components/place/PlaceDetailsItem'
+import PlaceDetailsItem from '../../components/Place/PlaceDetailsItem'
 
 // 장소 상세 페이지
 export const PlaceDetails = () => {

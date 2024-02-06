@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {Title, Button, LoginInput} from '../../components'
+import {Title, Button, LoginInput} from '..'
 import {FindPasswordRequest} from '../../api/Find/Find'
 import {useNavigate} from 'react-router-dom'
 
