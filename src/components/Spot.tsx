@@ -22,8 +22,9 @@ export const Spot: FC<PropsWithChildren<SpotProps>> = props => {
                         icon={faCircleMinus}
                         style={{color: '#c2c2c2'}}
                         className="cursor-pointer"
-                        onClick={() => {
+                        onClick={event => {
                             if (props.onDelete) {
+                                event.stopPropagation()
                                 props.onDelete()
                             }
                         }}

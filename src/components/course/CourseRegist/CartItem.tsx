@@ -39,11 +39,17 @@ export const CartItem: FC<CartItemProps> = ({
                                 index={index}>
                                 {provided => (
                                     <div
-                                        onClick={() =>
-                                            myCart &&
-                                            myCart !== null &&
-                                            navigate(`/board/place/${item.pno}`)
-                                        }
+                                        onClick={() => {
+                                            if (
+                                                window.confirm(
+                                                    `${item.pname} 페이지로 이동하시겠습니까?`
+                                                )
+                                            ) {
+                                                myCart &&
+                                                    myCart !== null &&
+                                                    navigate(`/board/place/${item.pno}`)
+                                            }
+                                        }}
                                         className="relative flex m-2"
                                         key={index}
                                         ref={provided.innerRef}
