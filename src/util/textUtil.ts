@@ -1,5 +1,3 @@
-// class name create function
-// css
 export const makeClassName = (
     setting: string,
     _className?: string,

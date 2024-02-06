@@ -12,7 +12,7 @@ import {addDay, deleteAll, setCommonState} from '../../store/slices/CourseSlice'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
-import {saveCourseBoardDTO} from '../../data/Board/BoardData'
+import {saveCourseBoardDTO} from '../../data/Board/Board'
 import noImage from '../../assets/smallLogo.png'
 
 type CourseRegisterProps = {

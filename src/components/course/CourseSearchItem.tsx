@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {BoardBox} from '../place/BoardBox'
 import {CourseInfo} from './CourseInfo'
-import {CourseBoardListData} from '../../data/Board/BoardData'
-import {LoadingSppinnerSmall, MiniSppinner} from '../LoadingSpinner'
+import {CourseBoardListData} from '../../data/Board/Board'
+import {LoadingSppinnerSmall, MiniSppinner} from '../common/LoadingSpinner'
 import {getSearchCourseInfo} from '../../api/CourseSearch/CourseSearch'
 import {useSearchParams} from 'react-router-dom'
 

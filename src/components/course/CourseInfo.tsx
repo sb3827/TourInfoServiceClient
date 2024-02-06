@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {CourseBoardListData} from '../../data/Board/BoardData'
+import {CourseBoardListData} from '../../data/Board/Board'
 import {faHeart, faStar} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import noImage from '../../assets/smallLogo.png'

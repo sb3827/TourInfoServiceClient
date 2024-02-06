@@ -2,8 +2,8 @@ import {useState, FC, Ref, useRef, forwardRef, useImperativeHandle} from 'react'
 import CustomEditor from 'ckeditor5-custom-build/build/ckeditor'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import {imageUpload} from '../api/Board/board'
-import {ImageReturnData} from '../data/Board/BoardData'
+import {imageUpload} from '../../api/Board/board'
+import {ImageReturnData} from '../../data/Board/Board'
 
 type TextEditorProps = {
     initialValue?: string

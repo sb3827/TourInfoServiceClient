@@ -1,7 +1,7 @@
 import {FC} from 'react'
 import {Item} from './CourseList'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
-import {Spot} from '../../Spot'
+import {Spot} from '../../common/Spot'
 import noImage from '../../../assets/smallLogo.png'
 import {useNavigate} from 'react-router-dom'
 

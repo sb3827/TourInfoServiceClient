@@ -17,7 +17,7 @@ import Google from '../../assets/google_btn.png'
 import Naver from '../../assets/naver_btn.png'
 import {setMno} from '../../store/slices/LoginSlice'
 import {RootState} from '../../store/rootReducer'
-import {MailResend} from '../MailResend'
+import {MailResend} from '../../components/common/MailResend'
 
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')

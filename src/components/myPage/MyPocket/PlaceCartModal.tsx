@@ -22,7 +22,7 @@ import {
     registerFolderData,
     updateFolderData
 } from '../../../data/Folder/Folder'
-import {Modal} from '../../Modal'
+import {Modal} from '../../common/Modal'
 
 type Pno = {
     pno: number

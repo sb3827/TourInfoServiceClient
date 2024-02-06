@@ -1,4 +1,4 @@
-import {CourseBoardListData} from '../../data/Board/BoardData'
+import {CourseBoardListData} from '../../data/Board/Board'
 import {commonAxios} from '../Axios/CommonAxios'
 
 //코스 보드 검색 결과 불러오기

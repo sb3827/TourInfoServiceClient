@@ -16,7 +16,7 @@ import {
     placePostLoad,
     registPlaceBoard
 } from '../../api/Board/board'
-import {savePlaceBoardDTO} from '../../data/Board/BoardData'
+import {savePlaceBoardDTO} from '../../data/Board/Board'
 import {RootState} from '../../store/rootReducer'
 import {useSelector} from 'react-redux'
 

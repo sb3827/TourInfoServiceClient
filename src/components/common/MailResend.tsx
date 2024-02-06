@@ -1,9 +1,9 @@
 import {FC} from 'react'
-import {Title} from '../components'
+import {Title} from '..'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEnvelopeOpenText} from '@fortawesome/free-solid-svg-icons'
-import noImage from '../assets/smallLogo.png'
-import {mailResendRequest} from '../api/MailResend/MailResend'
+import noImage from '../../assets/smallLogo.png'
+import {mailResendRequest} from '../../api/MailResend/MailResend'
 
 type MailResendProps = {
     email: string

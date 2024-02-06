@@ -6,7 +6,7 @@ import {
     PropsWithChildren
 } from 'react'
 import {useSelector} from 'react-redux'
-import {RootState} from '../store/rootReducer'
+import {RootState} from '../../store/rootReducer'
 
 //버튼 스타일
 

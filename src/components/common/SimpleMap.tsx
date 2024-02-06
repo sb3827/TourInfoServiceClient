@@ -1,8 +1,8 @@
 import {FC, useState, useEffect} from 'react'
 import {SimpleSouthKoreaMapChart} from 'react-simple-south-korea-map-chart' //우리나라 지도 - 마이페이지에서 사용, 추후에 Map파일과 합치는게 좋을것 같음
-import {ShowPlaceCount} from './../api/index'
-import {userPlaceCount} from './../data/User/User'
-import korea from '../assets/korea.png'
+import {ShowPlaceCount} from '../../api/index'
+import {userPlaceCount} from '../../data/User/User'
+import korea from '../../assets/korea.png'
 
 type SimpleMapProps = {
     className?: string

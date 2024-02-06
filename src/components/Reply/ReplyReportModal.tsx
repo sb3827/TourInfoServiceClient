@@ -1,10 +1,10 @@
 import {FC, useState} from 'react'
 import {replyData} from '../../data/Reply/Reply'
-import {Button} from '../Button'
+import {Button} from '../common/Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {reportReply} from '../../api'
-import {Modal} from '../Modal'
+import {Modal} from '../common/Modal'
 
 type ReplyReportModalProps = {
     replyData: replyData

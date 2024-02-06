@@ -6,7 +6,6 @@ import {
     MiniSppinner,
     ReportInfo,
     SearchInput,
-    SubBox,
     Subtitle,
     UserInfoItemBox
 } from '../../index'
@@ -18,6 +17,7 @@ import {faBell} from '@fortawesome/free-solid-svg-icons'
 import {setReportSearch} from '../../../store/slices/SearchSlice'
 import {useDispatch} from 'react-redux'
 import {getAllReport} from '../../../api'
+import {SubBox} from '../../common/SubBox'
 
 //신고 박스
 

@@ -11,7 +11,7 @@ import 'swiper/css/navigation'
 // import required modules
 import {Autoplay, Navigation, Virtual} from 'swiper/modules'
 
-import {makeClassName} from '../textUtil'
+import {makeClassName} from '../../util/textUtil'
 
 type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
     preView?: number

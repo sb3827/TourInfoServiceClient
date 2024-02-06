@@ -1,9 +1,9 @@
 import {FC, useState} from 'react'
-import {BoardData} from '../../data/Board/BoardData'
-import {Button} from '../Button'
+import {BoardData} from '../../data/Board/Board'
+import {Button} from '../common/Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {Modal} from '../Modal'
+import {Modal} from '../common/Modal'
 import {reportBoard} from '../../api/Board/board'
 
 type BoardReportModalProps = {

@@ -15,8 +15,8 @@ import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {deleteBoard, deleteLike, placePostLoad, postLike} from '../../api/Board/board'
-import BoardReportModal from '../../components/board/BoardReportModal'
-import {BoardData} from '../../data/Board/BoardData'
+import BoardReportModal from '../../components/Board/BoardReportModal'
+import {BoardData} from '../../data/Board/Board'
 import {getCookie} from '../../util/cookie'
 
 type PostPlaceProps = {

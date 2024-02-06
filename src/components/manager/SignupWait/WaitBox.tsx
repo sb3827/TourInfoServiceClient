@@ -2,7 +2,6 @@ import {FC, useEffect, useRef, useState} from 'react'
 import {
     LoadingSppinnerSmall,
     MiniSppinner,
-    SubBox,
     Subtitle,
     UserInfoItemBox,
     WaitUser
@@ -14,6 +13,7 @@ import {RootState} from '../../../store/rootReducer'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faList} from '@fortawesome/free-solid-svg-icons'
 import {useDispatch} from 'react-redux'
+import {SubBox} from '../../common/SubBox'
 
 //회원 대기 목록 컴포넌트 합체 - 추후 WaitUser에 props 추가하여야하고 반복문으로 수정해야함
 

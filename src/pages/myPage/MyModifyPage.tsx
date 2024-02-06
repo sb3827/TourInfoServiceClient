@@ -1,7 +1,7 @@
 import {user} from './../../data/User/User'
 import {useState, useEffect, useRef, ChangeEvent} from 'react'
 import {ShowUserInfo, onChangeUserData, deleteId} from './../../api/MyPage/ShowUserInfo'
-import {Button} from './../../components/Button'
+import {Button} from '../../components/common/Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {LoginInput, Title} from './../../components/index'

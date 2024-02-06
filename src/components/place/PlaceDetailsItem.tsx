@@ -4,7 +4,7 @@ import {Board} from './Board'
 import {PlaceBoardData} from '../../data/placeSearch'
 import {getPlaceDetailsInfo} from '../../api'
 import {useNavigate, useParams} from 'react-router-dom'
-import {LoadingSppinnerSmall, MiniSppinner} from '../LoadingSpinner'
+import {LoadingSppinnerSmall, MiniSppinner} from '../common/LoadingSpinner'
 
 type PlaceDetailsItemProps = {
     getPlaceData?: (placeData: PlaceBoardData) => void

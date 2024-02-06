@@ -1,5 +1,5 @@
 import {Title} from './Texts'
-import mainLogo from '../assets/mainLogo.png'
+import mainLogo from '../../assets/mainLogo.png'
 import {useNavigate} from 'react-router-dom'
 
 export const Logo = ({}) => {

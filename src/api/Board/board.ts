@@ -6,7 +6,7 @@ import {
     savePlaceBoardDTO,
     ResponseResult,
     reportBoardResponseData
-} from '../../data/Board/BoardData'
+} from '../../data/Board/Board'
 import {commonAxios} from '../Axios/CommonAxios'
 import {refreshAxios, refreshFormAxios} from '../Axios/RefreshAxios'
 import {reportRequestData} from '../../data/manager'
