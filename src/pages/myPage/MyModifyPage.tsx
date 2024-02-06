@@ -6,7 +6,6 @@ import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {LoginInput, Title} from './../../components/index'
 import {useNavigate} from 'react-router-dom'
-import Cookies from 'js-cookie'
 import common from '../../assets/profileImage.jpeg'
 import Cookie from 'js-cookie'
 import {useDispatch} from 'react-redux'
@@ -71,7 +70,7 @@ export const MyModifyPage = () => {
             alert('회원정보를 수정하였습니다.')
             navigate(`/mypage/${userMno}`)
         } catch (err) {
-            console.log(err)
+            console.error(err)
             alert('회원정보 수정 실패')
         }
     }
@@ -83,8 +82,8 @@ export const MyModifyPage = () => {
             setProfileImage(userData.image)
             setUserName(userData.name)
             setUserPhone(userData.phone)
-        } catch (error) {
-            console.error('error', error)
+        } catch (err) {
+            console.error(err)
         }
     }
     useEffect(() => {
@@ -102,8 +101,8 @@ export const MyModifyPage = () => {
                 Cookie.remove('refreshToken')
                 dispatch(setUser({mno: null, role: null}))
                 navigate(`/`)
-            } catch (error) {
-                console.log(error)
+            } catch (err) {
+                console.error(err)
             }
         }
     }

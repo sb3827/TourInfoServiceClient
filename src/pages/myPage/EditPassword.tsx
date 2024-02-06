@@ -1,5 +1,5 @@
 import {Button, Title, LoginInput, Subtitle} from './../../components/index'
-import {useState, ChangeEvent, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import {changePw, ShowUserInfo} from './../../api/MyPage/ShowUserInfo'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
@@ -20,8 +20,8 @@ export const EditPassword = () => {
         try {
             const userData = await ShowUserInfo(userMno)
             setemail(userData.email)
-        } catch (error) {
-            console.error('error', error)
+        } catch (err) {
+            console.error(err)
         }
     }
     useEffect(() => {

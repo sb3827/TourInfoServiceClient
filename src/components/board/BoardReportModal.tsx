@@ -3,7 +3,6 @@ import {BoardData} from '../../data/Board/BoardData'
 import {Button} from '../Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {reportReply} from '../../api'
 import {Modal} from '../Modal'
 import {reportBoard} from '../../api/Board/board'
 

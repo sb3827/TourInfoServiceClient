@@ -57,8 +57,8 @@ export const MyCart: FC<MyCartProps> = ({
             setSelectedFno(userFolderData.data[0].fno)
 
             onChangeItems && onChangeItems(convertedItems)
-        } catch (error) {
-            console.error('error', error)
+        } catch (err) {
+            console.error(err)
         }
     }
 
@@ -110,8 +110,8 @@ export const MyCart: FC<MyCartProps> = ({
                 ...prev!,
                 data: [...(prev?.data || []), newFolder]
             }))
-        } catch (error) {
-            console.error('Error', error)
+        } catch (err) {
+            console.error(err)
         }
         alert('등록 완료')
         closeFolderNameModal()
@@ -164,8 +164,8 @@ export const MyCart: FC<MyCartProps> = ({
                     data: updatedData
                 }
             })
-        } catch (error) {
-            console.error('Error', error)
+        } catch (err) {
+            console.error(err)
         }
         alert('수정 완료')
         closeEditModal()
@@ -192,8 +192,8 @@ export const MyCart: FC<MyCartProps> = ({
                     return prev
                 })
                 alert('삭제 완료')
-            } catch (error) {
-                console.error('Error', error)
+            } catch (err) {
+                console.error(err)
             }
         }
     }
@@ -205,8 +205,8 @@ export const MyCart: FC<MyCartProps> = ({
                 await deleteCart(mno, pno, fno)
                 fetchData()
             }
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.error(err)
         }
     }
 

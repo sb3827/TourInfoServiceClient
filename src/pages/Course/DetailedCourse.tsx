@@ -84,7 +84,6 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 parseInt(bno),
                 getCookie('refreshToken') != undefined
             )
-            console.log(data)
             if (!data.isCourse) {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
@@ -119,7 +118,8 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                     }))
                 )
             )
-        } catch (error) {
+        } catch (err) {
+            console.error(err)
             navigate('/notfound')
         }
         setLoading(false)
@@ -138,7 +138,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 setLikes(likes + 1)
             }
             setHeart(!heart)
-            console.log(date)
+            console.error(date)
         } catch (error) {
             if (heart) {
                 setLikes(likes + 1)
@@ -168,7 +168,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     }
 
     return (
-        <div className="w-7/12 py-10 mx-auto my-10 shadow-2xl  px-14 rounded-2xl">
+        <div className="w-7/12 py-10 mx-auto my-10 shadow-2xl px-14 rounded-2xl">
             {loading && <LoadingSppinner />}
             <div className="py-5 ">
                 <div className="flex flex-col ">

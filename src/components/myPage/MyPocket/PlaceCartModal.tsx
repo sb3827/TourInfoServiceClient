@@ -73,7 +73,7 @@ export const PlaceCartModal: FC<Pno> = ({pno, onCloseModal}) => {
             const data2 = await registerFolder(newFolderData)
             setRefreshFlag(!refreshFlag) // 상태 변경 부분
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
@@ -88,7 +88,7 @@ export const PlaceCartModal: FC<Pno> = ({pno, onCloseModal}) => {
             alert('폴더명 변경 완료')
             setRefreshFlag(!refreshFlag) // 상태 변경 부분
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
@@ -98,7 +98,7 @@ export const PlaceCartModal: FC<Pno> = ({pno, onCloseModal}) => {
             const data4 = await deleteFolder(fno)
             setRefreshFlag(!refreshFlag) // 상태 변경 부분
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
@@ -114,7 +114,7 @@ export const PlaceCartModal: FC<Pno> = ({pno, onCloseModal}) => {
             onCloseModal()
             setRefreshFlag(!refreshFlag) // 상태 변경 부분
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

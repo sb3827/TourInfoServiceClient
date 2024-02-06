@@ -41,7 +41,6 @@ export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorP
                             imageUpload(file)
                                 .then(res => {
                                     setImages([...images, res])
-                                    console.log(images)
                                     resolve({
                                         default: `${res.src}`
                                     })
@@ -71,23 +70,21 @@ export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorP
                     extraPlugins: [uploadPlugin]
                     // extraPlugins: [CKFinder]
                 }}
-                onReady={editor => {
-                    // You can store the "editor" and use when it is needed.
-                    console.log('Editor is ready to use!', editor)
-                }}
+                // onReady={editor => {
+                //     // You can store the "editor" and use when it is needed.
+                //     // console.error('Editor is ready to use!', editor)
+                // }}
                 onChange={(event, editor) => {
                     const data = editor.getData()
-                    console.log({images})
-                    console.log({event, editor, data})
                 }}
                 // onBlur={(event, editor) => {
-                //     console.log('Blur.', editor)
+                //     console.error('Blur.', editor)
                 // }}
                 // onFocus={(event, editor) => {
-                //     console.log('Focus.', editor)
+                //     console.error('Focus.', editor)
                 // }}
-                onError={(error, {willEditorRestart}) => {
-                    console.log('Error.')
+                onError={(err, {willEditorRestart}) => {
+                    console.error(err)
                 }}
                 ref={ckRef}
             />

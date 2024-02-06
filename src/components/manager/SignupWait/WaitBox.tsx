@@ -38,7 +38,7 @@ export const WaitBox: FC<WaitBoxProps> = ({}) => {
             setLoading(false)
             setPage(1)
         } catch (err) {
-            console.log(err)
+            console.error(err)
             setLoading(false)
         }
     }
@@ -59,7 +59,7 @@ export const WaitBox: FC<WaitBoxProps> = ({}) => {
             waitData !== null && setWaitData([...waitData, ...data])
             setPage(page + 1)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

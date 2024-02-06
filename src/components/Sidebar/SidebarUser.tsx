@@ -38,8 +38,8 @@ export const SidebarUser: FC<PropsWithChildren<SidebarUserProps>> = ({children})
                 setUserName(data.name)
                 setImgSrc(data.image)
             }
-        } catch (e) {
-            console.log(e)
+        } catch (err) {
+            console.error(err)
         }
     }
 

@@ -1,10 +1,4 @@
-import React, {
-    Children,
-    DetailedHTMLProps,
-    FC,
-    HTMLAttributes,
-    PropsWithChildren
-} from 'react'
+import {Children, DetailedHTMLProps, FC, HTMLAttributes, PropsWithChildren} from 'react'
 
 type ReactDivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 

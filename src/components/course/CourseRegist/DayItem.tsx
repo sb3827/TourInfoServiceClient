@@ -1,11 +1,6 @@
 import {Subtitle} from '../../Texts'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {
-    faArrowRight,
-    faCircleMinus,
-    faMinus,
-    faPlus
-} from '@fortawesome/free-solid-svg-icons'
+import {faArrowRight, faCircleMinus} from '@fortawesome/free-solid-svg-icons'
 import {useDispatch} from 'react-redux'
 import {addDayAtPosition, deleteDay, deleteItem} from '../../../store/slices/CourseSlice'
 import {Draggable, Droppable} from 'react-beautiful-dnd'

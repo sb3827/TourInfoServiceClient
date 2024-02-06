@@ -151,11 +151,10 @@ export const Main: FC<MainProps> = () => {
         try {
             setLoading(true)
             const data = await GetMainitemRequest(mno)
-            console.log('Fetched data:', data)
             setFetchedData(data)
             setLoading(false)
-        } catch (error) {
-            console.error('Error fetching data:', error)
+        } catch (err) {
+            console.error(err)
             setLoading(false)
         }
     }

@@ -85,7 +85,6 @@ export * from './myPage/ShowUserInfo/MyCart'
 
 // /mypage/MyPocket
 export * from './myPage/MyPocket/InputPlace'
-export * from './myPage/MyPocket/MyPocketModal'
 export * from './myPage/MyPocket/PlaceCartModal'
 
 //Sidebar

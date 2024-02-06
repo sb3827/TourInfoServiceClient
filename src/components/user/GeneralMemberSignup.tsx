@@ -123,9 +123,9 @@ export const GeneralMemberSignup = () => {
             if (!data.isDuplicate) {
                 setIsEmailChecked(true)
             }
-        } catch (error) {
+        } catch (err) {
             alert('이메일 중복 체크 실패')
-            console.log(error)
+            console.error(err)
         }
     }
 
@@ -145,7 +145,6 @@ export const GeneralMemberSignup = () => {
             3
         )}-${userPhoneNumber.slice(3, 7)}-${userPhoneNumber.slice(7)}`
 
-        console.log(formattedPhoneNumber)
         if (
             validateInput('비밀번호를 입력해주세요', !userPassword) ||
             validateInput(
@@ -192,9 +191,9 @@ export const GeneralMemberSignup = () => {
                     alert('이메일을 확인하세요')
                     setIsEmailChecked(false)
                 }
-            } catch (error) {
+            } catch (err) {
                 alert('회원가입 요청 실패')
-                console.log(error)
+                console.error(err)
             }
             setLoading(false)
         }

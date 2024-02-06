@@ -38,7 +38,7 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 closeModal()
             }
         } catch (err) {
-            console.log(err)
+            console.error(err)
             dispatch(setReportSearch(false))
         }
     }
@@ -66,7 +66,7 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 closeModal()
             }
         } catch (err) {
-            console.log(err)
+            console.error(err)
             dispatch(setReportSearch(false))
         }
     }

@@ -18,7 +18,6 @@ import {useDispatch} from 'react-redux'
 export const UserSearch = () => {
     const userSearchRef = useRef(null) // 관찰할 요소에 대한 참조
 
-    const dispatch = useDispatch()
     const [page, setPage] = useState<number>(0)
     const [userRequest, setUserRequest] = useState<boolean>(true)
 
@@ -59,9 +58,9 @@ export const UserSearch = () => {
             const data = await getSearchUserInfo(searchValue, user || null, 0)
             setUserInfoData(data)
             setLoading(false)
-        } catch (error) {
+        } catch (err) {
             // 오류 처리
-            console.error(error)
+            console.error(err)
         }
     }
 
@@ -83,7 +82,7 @@ export const UserSearch = () => {
             userInfoData !== null && setUserInfoData([...userInfoData, ...data])
             setPage(page + 1)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

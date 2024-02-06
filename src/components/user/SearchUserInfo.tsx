@@ -43,8 +43,8 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
                 setFollow(!follow)
                 setButtonText('팔로잉')
             }
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.error(err)
         }
     }
 

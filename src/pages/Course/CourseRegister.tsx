@@ -74,7 +74,6 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             writer: user
         }
         ////
-        console.log(board, images)
 
         const data = await registCourseBoard(board, images)
         alert(`${data.bno}번 글 등록 완료!`)
@@ -98,8 +97,6 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
         let images = editorRef.current?.getImages || []
         const placeList = course.map(daliyPlace => daliyPlace.map(place => place.pno))
         images.push(...loadImg.map(src => ({ino: -1, src: src})))
-
-        console.log(images)
 
         ////
         const board: saveCourseBoardDTO = {
@@ -150,7 +147,6 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             editorRef.current?.getEditor()?.editor?.data.set(data.content)
             starRef.current?.setSelectedRating(data.score)
 
-            console.log(data)
             dispatch(
                 setCommonState(
                     data.postingPlaceBoardDTOS.map(dailyPlace =>

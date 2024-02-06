@@ -156,7 +156,6 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
             writer: user
         }
         ////
-        console.log(user)
 
         modifyPlaceBoard(board, images).then(res => {
             alert(`${res.bno}번 글 수정 완료!`)

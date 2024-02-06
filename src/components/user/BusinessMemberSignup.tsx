@@ -132,9 +132,9 @@ export const BusinessMemberSignup = () => {
             if (!data.isDuplicate) {
                 setIsEmailChecked(true)
             }
-        } catch (error) {
+        } catch (err) {
             alert('이메일 중복 체크 실패')
-            console.log(error)
+            console.error(err)
         }
     }
 
@@ -160,9 +160,9 @@ export const BusinessMemberSignup = () => {
             } else {
                 alert('국세청에 등록되지 않은 사업자등록번호입니다.')
             }
-        } catch (error) {
+        } catch (err) {
             alert('사업자 번호 인증 요청 실패')
-            console.log(error)
+            console.error(err)
         }
     }
 
@@ -234,9 +234,9 @@ export const BusinessMemberSignup = () => {
                     alert('이메일을 확인하세요')
                     setIsEmailChecked(false)
                 }
-            } catch (error) {
+            } catch (err) {
                 alert('회원가입 요청 실패')
-                console.log(error)
+                console.error(err)
             }
             setLoading(false)
         }

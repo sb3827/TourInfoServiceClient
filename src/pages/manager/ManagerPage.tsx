@@ -1,7 +1,6 @@
 import {Box, FindBox, ReportBox, Title, WaitBox} from '../../components/index'
 
 //관리자 페이지
-
 export const Manager = () => {
     return (
         <Box>

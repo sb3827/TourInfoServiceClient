@@ -21,7 +21,7 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
             token = response.data.token
             setWithTokenExpire('token', token)
         } catch (err) {
-            console.log(err)
+            console.error(err)
             refreshErrorHandle('로그인 만료!')
         }
     }

@@ -70,7 +70,7 @@ export const ReportBox: FC<ReportBoxProps> = () => {
             dispatch(setReportSearch(false))
         } catch (err) {
             dispatch(setReportSearch(false))
-            console.log(err)
+            console.error(err)
         }
     }
 
@@ -100,7 +100,7 @@ export const ReportBox: FC<ReportBoxProps> = () => {
                 })
             setPage(page + 1)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

@@ -17,8 +17,8 @@ export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
             try {
                 const userReplyData = await ShowUserReply(mno)
                 setReplyList(userReplyData)
-            } catch (error) {
-                console.error('error', error)
+            } catch (err) {
+                console.error(err)
             }
         }
         fetchData()
@@ -80,7 +80,7 @@ export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
                                             {reply.text}
                                         </span>
                                     </td>
-                                    <td>{reply.regdate.slice(0,10)}</td>
+                                    <td>{reply.regdate.slice(0, 10)}</td>
                                 </tr>
                             ))}
                     </tbody>

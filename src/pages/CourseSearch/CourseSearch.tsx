@@ -49,7 +49,7 @@ export const CourseSearch = () => {
         try {
             setSearchParams({search: searchValue})
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

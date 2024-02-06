@@ -110,7 +110,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                 })
                 alert('등록 완료')
             } catch (err) {
-                console.log(err)
+                console.error(err)
             }
         }
 
@@ -133,7 +133,6 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
             const con = window.confirm(`${place.name} 장소를 선택 하시겠습니까?`)
             if (con) {
                 getPlaceData && getPlaceData(pno, place)
-                console.log(place)
                 if (typeof dayIndex === 'number' && dayIndex >= 0) {
                     dispatch(
                         addLastItem({
@@ -165,7 +164,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                 setPage(1)
                 setPlaceInfoRequest(true)
             } catch (err) {
-                console.log(err)
+                console.error(err)
                 alert('서버와 연결이 끊겼습니다.')
             }
             setLoading(false)
@@ -189,7 +188,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                 placeInfoData !== null && setPlaceInfoData([...placeInfoData, ...data])
                 setPage(page + 1)
             } catch (err) {
-                console.log(err)
+                console.error(err)
             }
         }
 

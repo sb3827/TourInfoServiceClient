@@ -18,8 +18,8 @@ export const MyFollowerBox: FC<MyFollowerBoxProps> = ({mno, closeModal}) => {
         try {
             const userFollowerData = await ShowUserFollowers(mno)
             setUserFollowers(userFollowerData)
-        } catch (error) {
-            console.error('에러 발생', error)
+        } catch (err) {
+            console.error(err)
         }
     }
 

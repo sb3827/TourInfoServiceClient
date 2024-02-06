@@ -3,7 +3,6 @@ import {Caption} from '../Texts'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
 import {Button, DropdownIcon} from '../Button'
-import {dropdownText} from "../../dummy data/sb's dummy"
 import dummyImage from '../../assets/profileImage.jpeg'
 import {replyData} from '../../data/Reply/Reply'
 import {useSearchParams} from 'react-router-dom'
@@ -26,6 +25,8 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
     getReply
 }) => {
     const mno = useSelector((state: RootState) => state.login.mno)
+
+    const dropdownText = ['댓글 달기', '수정', '삭제', '신고']
 
     const navigate = useNavigate()
 
@@ -91,7 +92,7 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
             setUpdateVeiw(false)
             alert('수정완료')
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
     //댓글 삭제
@@ -103,7 +104,7 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
                 getReply()
             }
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

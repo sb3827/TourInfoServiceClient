@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
+import {FC, useState} from 'react'
 import {FindEmail, FindPassword} from '../../components'
 
 interface FindProps {}
 
-export const Find: React.FC<FindProps> = () => {
+export const Find: FC<FindProps> = () => {
     const [activeTab, setActiveTab] = useState<'email' | 'password'>('email')
 
     function onTabChange(activeTab: 'email' | 'password') {

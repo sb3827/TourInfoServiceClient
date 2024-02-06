@@ -1,5 +1,4 @@
-import React, {Children, FC, PropsWithChildren, useState} from 'react'
-import {Button} from '../Button'
+import {Children, FC, PropsWithChildren, useState} from 'react'
 
 //토글 버튼 컴포넌트
 type ToggleButtonProps = {

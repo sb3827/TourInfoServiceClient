@@ -112,7 +112,6 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                 parseInt(bno),
                 getCookie('refreshToken') != undefined
             )
-            console.log(data)
             if (data.isCourse) {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
@@ -125,7 +124,6 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
             setTitle(data.title) // title
             setScore(data.score) // number of star
             setHeart(data.isLiked) // set isLiked
-            console.log(data.isLiked)
             setLikes(data.likes) // number of likes
             // set write Date
             if (data.moddate == data.regdate) {
@@ -142,7 +140,8 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                 setPlace(data.postingPlaceBoardDTOS[0][0])
             }
             setContent(data.content) // content
-        } catch (error) {
+        } catch (err) {
+            console.error(err)
             navigate('/notfound')
         }
         setLoading(false)

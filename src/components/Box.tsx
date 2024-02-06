@@ -1,4 +1,4 @@
-import {FC, PropsWithChildren, HTMLAttributes} from 'react'
+import {FC, PropsWithChildren} from 'react'
 
 type BoxProps = {
     className?: string

@@ -47,7 +47,6 @@ export const FindEmail = () => {
         }
 
         try {
-            console.log('userName : ', userName, 'userPhoneNumber : ', userPhoneNumber)
             const data = await FindEmailRequest(userName, userPhoneNumber)
             if (data.email) {
                 alert('가입한 이메일 : ' + data.email)
@@ -55,9 +54,9 @@ export const FindEmail = () => {
             } else {
                 alert('일치하는 회원정보가 없습니다')
             }
-        } catch (error) {
+        } catch (err) {
             alert('요청 실패')
-            console.log(error)
+            console.error(err)
         }
     }
 

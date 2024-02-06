@@ -1,6 +1,5 @@
 import {
     ButtonHTMLAttributes,
-    Children,
     DetailedHTMLProps,
     FC,
     forwardRef,
@@ -98,7 +97,6 @@ type DropbtnProps = {
 
 export const DropIcon: FC<PropsWithChildren<DropbtnProps>> = props => {
     const handleItemClick = (index: number) => {
-        console.log(props.itemActions[index], 'clicked')
         props.itemActions[index]()
     }
 

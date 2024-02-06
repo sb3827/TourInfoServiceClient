@@ -17,8 +17,8 @@ export const MyCourseBox: FC<MyCourseBoxProps> = ({mno}) => {
             try {
                 const userCourseData = await ShowUserCourse(mno)
                 setCourseList(userCourseData)
-            } catch {
-                console.error('error')
+            } catch (err) {
+                console.error(err)
             }
         }
         fetchData()
@@ -62,7 +62,7 @@ export const MyCourseBox: FC<MyCourseBoxProps> = ({mno}) => {
                                     </span>
                                 </td>
                                 <td className="">{course.writer}</td>
-                                <td className="">{course.regdate.slice(0,10)}</td>
+                                <td className="">{course.regdate.slice(0, 10)}</td>
                             </tr>
                         ))}
                 </tbody>

@@ -27,8 +27,8 @@ export const SimpleMap: FC<SimpleMapProps> = ({className, mno}) => {
         try {
             const userPlaceData = await ShowPlaceCount(mno)
             setPlaceCount(userPlaceData)
-        } catch (error) {
-            console.error('에러 발생', error)
+        } catch (err) {
+            console.error(err)
         }
     }
     useEffect(() => {

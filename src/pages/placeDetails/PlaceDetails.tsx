@@ -8,8 +8,8 @@ import {
     Title
 } from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {useLocation, useNavigate, useParams} from 'react-router-dom'
-import {PlaceBoardData, PlaceData} from '../../data/placeSearch'
+import {useNavigate, useParams} from 'react-router-dom'
+import {PlaceBoardData} from '../../data/placeSearch'
 import {faList, faPlus} from '@fortawesome/free-solid-svg-icons'
 import PlaceDetailsItem from '../../components/place/PlaceDetailsItem'
 

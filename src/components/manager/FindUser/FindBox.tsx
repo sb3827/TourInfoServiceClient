@@ -67,7 +67,7 @@ export const FindBox: FC<FindBoxProps> = () => {
             setUserData(data)
             dispatch(setManagerSearch(false))
         } catch (err) {
-            console.log(err)
+            console.error(err)
             dispatch(setManagerSearch(false))
         }
     }
@@ -94,7 +94,7 @@ export const FindBox: FC<FindBoxProps> = () => {
             userData !== null && setUserData([...userData, ...data])
             setPage(page + 1)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

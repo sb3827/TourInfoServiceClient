@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react'
 import {Button, DropdownIcon} from '../Button'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowTurnUp, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
-import {dropdownText} from "../../dummy data/sb's dummy"
 import {Caption} from '../Texts'
 import dummyImage from '../../assets/profileImage.jpeg'
 import {replyData} from '../../data/Reply/Reply'
@@ -25,6 +24,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
     getRereply
 }) => {
     const mno = useSelector((state: RootState) => state.login.mno)
+    const dropdownText = ['댓글 달기', '수정', '삭제', '신고']
 
     const navigate = useNavigate()
 
@@ -62,7 +62,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
                 getRereply()
             }
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 
@@ -86,7 +86,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
             setUpdateVeiw(false)
             alert('수정완료')
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

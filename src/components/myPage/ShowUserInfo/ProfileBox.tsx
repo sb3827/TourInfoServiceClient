@@ -65,8 +65,8 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
                     userFollowingData.some(data => data.mno === userMno!) ? true : false
                 )
             setLoading(false)
-        } catch (error) {
-            console.error('에러 발생', error)
+        } catch (err) {
+            console.error(err)
             setLoading(false)
         }
     }

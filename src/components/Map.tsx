@@ -28,7 +28,7 @@ export type AddressResult = {
 } & Address
 
 // 주소 to 주소 검색
-// 사용법 : searchAddressToCoordinate('불정로 6').then(result => console.log(result))
+// 사용법 : searchAddressToCoordinate('불정로 6').then(result => console.error(result))
 export function searchAddressToCoordinate(address: string): Promise<AddressResult> {
     return new Promise<AddressResult>((resolve, reject) => {
         let result: AddressResult = {
@@ -154,7 +154,7 @@ function makeAddress(item: any) {
 }
 
 // 좌표 to 지도 검색
-// 사용법 : searchCoordinateToAddress([37.5666805, 126.9784147]).then(result => console.log(result))
+// 사용법 : searchCoordinateToAddress([37.5666805, 126.9784147]).then(result => console.error(result))
 function searchCoordinateToAddress(coord: number[]): Promise<AddressResult> {
     return new Promise<AddressResult>((resolve, reject) => {
         let result: AddressResult = {
@@ -458,8 +458,8 @@ export const ChooseMap: FC<
                     onEngAddressChange(result.engAddress) // 주소 보내주기
                     onLatChange(e.coord._lat)
                     onLngChange(e.coord._lng)
-                } catch (error) {
-                    console.error(error)
+                } catch (err) {
+                    console.error(err)
                 }
             }
 
@@ -653,7 +653,6 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
         useImperativeHandle(innerRef, () => ({
             setLocation: (index: number) => {
                 setIdx(index)
-                // console.log(idx)
             }
         }))
 

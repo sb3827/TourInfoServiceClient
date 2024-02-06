@@ -1,4 +1,4 @@
-import React, {FC, useState, forwardRef, useImperativeHandle, Ref} from 'react'
+import {FC, useState, forwardRef, useImperativeHandle, Ref} from 'react'
 
 // rating props 정의
 type RatingProps = {

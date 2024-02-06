@@ -29,7 +29,6 @@ const CourseSearchItem: React.FC<CourseSearchItemProps> = ({isAd, searchValue}) 
             setLoading(true)
             // setSearchParams({search: searchValue})
             const data = await getSearchCourseInfo(searchValue, 0, isAd)
-            console.log(data)
             setBoardInfoData(data)
             // const data2 = await getSearchCourseInfo(searchValue, 0, true)
             // setBoardInfoAdData(data2)
@@ -37,7 +36,7 @@ const CourseSearchItem: React.FC<CourseSearchItemProps> = ({isAd, searchValue}) 
             setBoardInfoRequest(true)
             setLoading(false)
         } catch (err) {
-            console.error('Error fetching data:', err)
+            console.error(err)
             setLoading(false)
         }
     }
@@ -58,7 +57,7 @@ const CourseSearchItem: React.FC<CourseSearchItemProps> = ({isAd, searchValue}) 
             boardInfoData !== null && setBoardInfoData([...boardInfoData, ...data])
             setPage(page + 1)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

@@ -1,9 +1,7 @@
 import {FC, useState} from 'react'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {MyFollowerBox} from './MyFollowerBox'
 import {MyFollowingBox} from './MyFollowingBox'
-import {Subtitle, Title} from './../../Texts'
+import {Title} from './../../Texts'
 import {useParams} from 'react-router-dom'
 import {Modal} from '../../Modal'
 

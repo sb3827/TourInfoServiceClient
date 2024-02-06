@@ -36,7 +36,6 @@ const ReplyReportModal: FC<ReplyReportModalProps> = ({replyData, onCloseModal}) 
                 content: replyData.text,
                 message: reportReason
             })
-            console.log('데이터값 : ', data.data)
             if (data.data == -1) {
                 alert('이미 신고한 댓글입니다.')
             } else if (data.data == 1) {

@@ -1,4 +1,4 @@
-import {useState, useEffect, FC, useMemo} from 'react'
+import {useState, useEffect, FC} from 'react'
 import {userBoard} from './../../../data/User/User'
 import {ShowUserBoard} from './../../../api/MyPage/ShowUserInfo'
 import {useNavigate} from 'react-router-dom'
@@ -16,8 +16,8 @@ export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
             try {
                 const userBoardData = await ShowUserBoard(mno)
                 setBoardList(userBoardData)
-            } catch {
-                console.error('error')
+            } catch (err) {
+                console.error(err)
             }
         }
         fetchData()
@@ -61,7 +61,7 @@ export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
                                     </span>
                                 </td>
                                 <td>{board.writer}</td>
-                                <td>{board.regdate.slice(0,10)}</td>
+                                <td>{board.regdate.slice(0, 10)}</td>
                             </tr>
                         ))}
                 </tbody>

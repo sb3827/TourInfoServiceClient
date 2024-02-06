@@ -25,7 +25,7 @@ export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
                 alert('현재 휴업자')
             }
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 
@@ -40,7 +40,7 @@ export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
                 alert('회원가입 승인 실패 하였습니다.')
             }
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 
@@ -55,7 +55,7 @@ export const WaitUser: FC<WaitUserProps> = ({waitUser}) => {
                 alert('회원가입 거절 실패 하였습니다.')
             }
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

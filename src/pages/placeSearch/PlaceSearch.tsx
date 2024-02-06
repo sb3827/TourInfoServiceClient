@@ -80,7 +80,7 @@ export const PlaceSearch = () => {
             setPlaceInfoData(data)
             setLoading(false)
         } catch (err) {
-            console.error('Error fetching data:', err)
+            console.error(err)
             setLoading(false)
         }
     }
@@ -102,7 +102,7 @@ export const PlaceSearch = () => {
             placeInfoData !== null && setPlaceInfoData([...placeInfoData, ...data])
             setPage(page + 1)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

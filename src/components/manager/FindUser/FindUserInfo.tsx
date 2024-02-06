@@ -28,7 +28,7 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
             const data = await getUserDisciplinary(users.mno)
             setDisciplinaryData(data)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 
@@ -37,11 +37,11 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
         const remind = window.confirm('회원을 탈퇴 시키겠습니까?')
         if (remind) {
             try {
-                const data = await userDelete(users.mno)
+                await userDelete(users.mno)
                 dispatch(setUserCheck())
                 alert('회원 삭제 하였습니다.')
             } catch (err) {
-                console.log(err)
+                console.error(err)
             }
         }
     }

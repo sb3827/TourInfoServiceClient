@@ -5,7 +5,7 @@ export default function useInfinite(callback: () => void) {
 
     const observer = new IntersectionObserver((entries, _observer) => {
         if (entries[0].isIntersecting) {
-            console.log('IN!')
+            console.error('IN!')
             callback()
         }
     })

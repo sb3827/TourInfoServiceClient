@@ -13,7 +13,7 @@ type MailResendProps = {
 export const MailResend: FC<MailResendProps> = ({...props}) => {
     function send() {
         try {
-            const data = mailResendRequest(props.email)
+            mailResendRequest(props.email)
         } catch (err) {
             alert('mail 전송 오류')
         }

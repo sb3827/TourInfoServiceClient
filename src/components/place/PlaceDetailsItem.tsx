@@ -40,7 +40,7 @@ const PlaceDetailsItem: FC<PlaceDetailsItemProps> = ({isAd, getPlaceData}) => {
             setPage(1)
             setLoading(false)
         } catch (err) {
-            console.error('Error fetching data:', err)
+            console.error(err)
             setLoading(false)
         }
     }
@@ -67,7 +67,7 @@ const PlaceDetailsItem: FC<PlaceDetailsItemProps> = ({isAd, getPlaceData}) => {
             data && boardData !== null && setBoardData([...boardData, ...data])
             setPage(page + 1)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

@@ -1,10 +1,10 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faCartShopping, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
+import {faCartShopping} from '@fortawesome/free-solid-svg-icons'
 import {FC, useState, useEffect} from 'react'
-import {MyPocketModal, MyCart, Modal, Title} from './../../index'
+import {MyCart, Modal, Title} from './../../index'
 import {ShowFolderAll} from './../../../api/Folder/Folder'
 import {folderAll} from './../../../data/Folder/Folder'
-import {DragDropContext, OnDragEndResponder} from 'react-beautiful-dnd'
+import {DragDropContext} from 'react-beautiful-dnd'
 
 type ShowTotalLikesProps = {
     mno: number
@@ -20,8 +20,8 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart, mno}) => {
         try {
             const userFolderData = await ShowFolderAll(mno)
             setFolder(userFolderData)
-        } catch (error) {
-            console.error('error', error)
+        } catch (err) {
+            console.error(err)
         }
     }
 
@@ -34,10 +34,6 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart, mno}) => {
     }
     const closeModal = () => {
         setShowModal(false)
-    }
-
-    const handleMyPocketModalClose = () => {
-        setRefreshFlag(!refreshFlag)
     }
 
     return (
