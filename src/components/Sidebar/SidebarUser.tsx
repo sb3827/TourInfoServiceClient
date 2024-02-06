@@ -1,16 +1,15 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import UserImage from '../../assets/profileImage.jpeg'
-import {LoadingSppinner, Subtitle} from '../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faRightFromBracket} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
-import {logoutRequest} from '../../api'
 import Cookies from 'js-cookie'
 import {setRole, setUser} from '../../store/slices/LoginSlice'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {getUserInfo} from '../../api/Member/Member'
+import {getUserInfo, logoutRequest} from '../../api'
+import {LoadingSppinner, Subtitle} from '../Common'
 
 type SidebarUserProps = {}
 

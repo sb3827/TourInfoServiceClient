@@ -1,16 +1,9 @@
-import {useEffect, useState} from 'react'
-import {
-    Box,
-    SearchMap,
-    Subtitle,
-    BoardToggle,
-    LoadingSppinner,
-    Title
-} from '../../components/index'
+import {useState} from 'react'
+import {Box, SearchMap, Subtitle, BoardToggle, Title} from '../../components'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useNavigate, useParams} from 'react-router-dom'
-import {PlaceBoardData} from '../../data/PlaceSearch'
 import {faList, faPlus} from '@fortawesome/free-solid-svg-icons'
+import {PlaceBoardData} from '../../data'
 import PlaceDetailsItem from '../../components/Place/PlaceDetailsItem'
 
 // 장소 상세 페이지

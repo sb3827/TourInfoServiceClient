@@ -1,10 +1,6 @@
-import {FC, PropsWithChildren, useState, useEffect} from 'react'
-import {folderAll} from '../../data/Folder/Folder'
-import {ShowFolderAll, deleteCart} from '../../api/index'
+import {FC, PropsWithChildren} from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCircleMinus} from '@fortawesome/free-solid-svg-icons'
-import {useSelector} from 'react-redux'
-import {RootState} from '../../store/rootReducer'
 
 type SpotProps = {
     src: string // image src

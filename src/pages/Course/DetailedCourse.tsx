@@ -9,18 +9,18 @@ import {
     MainSlider,
     LoadingSppinner
 } from '../../components'
-import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHeart, faEllipsisVertical, faStar} from '@fortawesome/free-solid-svg-icons'
 import noImage from '../../assets/smallLogo.png'
-import {coursePostLoad, deleteBoard, deleteLike, postLike} from '../../api/Board/board'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {useNavigate, useSearchParams} from 'react-router-dom'
-import BoardReportModal from '../../components/Board/BoardReportModal'
-import {BoardData} from '../../data/Board/Board'
 import {getCookie} from '../../util/cookie'
 import {SwiperSlide} from 'swiper/react'
+import {coursePostLoad, deleteBoard, deleteLike, postLike} from '../../api'
+import {BoardData} from '../../data'
+import {Reply} from '../Reply'
+import BoardReportModal from '../../components/Board/BoardReportModal'
 
 type DetailedCourseType = {
     title?: string

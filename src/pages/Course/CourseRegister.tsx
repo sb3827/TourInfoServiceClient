@@ -1,19 +1,18 @@
 import {FC, PropsWithChildren, useEffect, useMemo, useRef, useState} from 'react'
-import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
 import {useNavigate, useSearchParams} from 'react-router-dom'
+import {useDispatch} from 'react-redux'
+import {addDay, deleteAll, setCommonState} from '../../store/slices/CourseSlice'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../store/rootReducer'
+import noImage from '../../assets/smallLogo.png'
+import {EditorRef, RatingRef, saveCourseBoardDTO} from '../../data'
 import {
     coursePostLoad,
     deleteBoard,
     modifyCourseBoard,
     registCourseBoard
-} from '../../api/Board/board'
-import {useDispatch} from 'react-redux'
-import {addDay, deleteAll, setCommonState} from '../../store/slices/CourseSlice'
-import {useSelector} from 'react-redux'
-import {RootState} from '../../store/rootReducer'
-import {CourseList} from '../../components/course/CourseRegist/CourseList'
-import {saveCourseBoardDTO} from '../../data/Board/Board'
-import noImage from '../../assets/smallLogo.png'
+} from '../../api'
+import {Button, CourseList, Input, Rating, TextEditor} from '../../components'
 
 type CourseRegisterProps = {
     isModify: boolean // true: 수정, false: 등록

@@ -1,22 +1,18 @@
 import React, {FC, useState, useEffect} from 'react'
-import {
-    ShowFolderAll,
-    registerFolder,
-    updateFolder,
-    deleteFolder,
-    ShowFolderInfo,
-    deleteCart
-} from './../../../api/Folder/Folder'
-import {
-    folderAll,
-    registerFolderData,
-    updateFolderData
-} from './../../../data/Folder/Folder'
-import {CartItem, Item} from './../../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faPenToSquare, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
+import {Item, folderAll, registerFolderData, updateFolderData} from '../../../data'
+import {
+    ShowFolderAll,
+    ShowFolderInfo,
+    deleteCart,
+    deleteFolder,
+    registerFolder,
+    updateFolder
+} from '../../../api'
+import {CartItem} from '../../Course'
 
 type MyCartProps = {
     onChangeItems?: (itme: Item[]) => void

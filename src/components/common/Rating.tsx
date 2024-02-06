@@ -1,15 +1,10 @@
 import {FC, useState, forwardRef, useImperativeHandle, Ref} from 'react'
+import {RatingRef} from '../../data'
 
 // rating props 정의
 type RatingProps = {
     onChange?: (rating: number) => void
     ref?: Ref<RatingRef>
-}
-
-// ref type 정의 current.getSelectedRating()로 값 도출
-export type RatingRef = {
-    getSelectedRating: () => number | null
-    setSelectedRating: (score: number) => void
 }
 
 // fowardRef를 사용하여 Rating 참조

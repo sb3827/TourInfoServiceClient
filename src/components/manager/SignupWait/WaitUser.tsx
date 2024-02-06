@@ -1,10 +1,11 @@
 import {FC} from 'react'
-import {Button, UserInfo, UserInfoItemBox} from '../../index'
-import {postBusinessCheck} from '../../../api/Business/BusinessCheck'
-import {SignupWaitData} from '../../../data/User/User'
-import {signupApprove, userDelete} from '../../../api/Manager/Manager'
 import {useDispatch} from 'react-redux'
 import {setUserCheck} from '../../../store/slices/ManagerSlice'
+import {SignupWaitData} from '../../../data'
+import {postBusinessCheck, signupApprove, userDelete} from '../../../api'
+import {Button} from '../../Common'
+import {UserInfoItemBox} from '../UserInfoItemBox'
+import {UserInfo} from '../UserInfo'
 
 // 유저 정보 한줄 - 추후 UserInfo로 prop 추가해줘야함
 

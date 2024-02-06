@@ -1,7 +1,7 @@
 import {useState, useEffect, FC} from 'react'
-import {userReply} from './../../../data/User/User'
-import {ShowUserReply} from './../../../api/MyPage/ShowUserInfo'
 import {useNavigate} from 'react-router-dom'
+import {userReply} from '../../../data'
+import {ShowUserReply} from '../../../api'
 
 type MyReplyBoxProps = {
     mno: number

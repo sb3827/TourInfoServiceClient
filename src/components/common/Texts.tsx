@@ -6,7 +6,7 @@ type TextProps = DetailedHTMLProps<
     HTMLParagraphElement
 >
 
-export type HeadlineProps = TextProps & {
+type HeadlineProps = TextProps & {
     numberOfLines?: number
 }
 export const Headline: FC<HeadlineProps> = ({
@@ -22,7 +22,7 @@ export const Headline: FC<HeadlineProps> = ({
     return <p {...props} className={className} />
 }
 
-export type TitleProps = HeadlineProps & {}
+type TitleProps = HeadlineProps & {}
 export const Title: FC<SubtitleProps> = ({
     className: _className,
     numberOfLines,
@@ -36,7 +36,7 @@ export const Title: FC<SubtitleProps> = ({
     return <p {...props} className={className} />
 }
 
-export type SubtitleProps = HeadlineProps & {value?: string}
+type SubtitleProps = HeadlineProps & {value?: string}
 export const Subtitle: FC<SubtitleProps> = ({
     className: _className,
     numberOfLines,
@@ -56,7 +56,7 @@ export const Subtitle: FC<SubtitleProps> = ({
     )
 }
 
-export type CaptionProps = SubtitleProps & {}
+type CaptionProps = SubtitleProps & {}
 export const Caption: FC<CaptionProps> = ({
     className: _className,
     numberOfLines,
@@ -70,7 +70,7 @@ export const Caption: FC<CaptionProps> = ({
     return <p {...props} className={className} />
 }
 
-export type BodyProps = SubtitleProps & {}
+type BodyProps = SubtitleProps & {}
 export const Body: FC<BodyProps> = ({className: _className, numberOfLines, ...props}) => {
     const className = makeClassName(
         'font-normal text-base whitespace-pre-line',

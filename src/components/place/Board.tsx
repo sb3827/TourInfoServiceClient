@@ -1,9 +1,9 @@
 import {FC} from 'react'
-import {PlaceBoardData} from '../../data/PlaceSearch'
 import {useNavigate} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faStar, faHeart} from '@fortawesome/free-solid-svg-icons'
 import noImage from '../../assets/smallLogo.png'
+import {PlaceBoardData} from '../../data'
 
 type BoardProps = {
     placeBoardData: PlaceBoardData | null

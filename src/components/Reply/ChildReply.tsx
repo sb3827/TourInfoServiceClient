@@ -2,15 +2,14 @@ import React, {useEffect, useState} from 'react'
 import {Button, DropdownIcon} from '../Common/Button'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowTurnUp, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
-import {Caption} from '../Common/Texts'
 import dummyImage from '../../assets/profileImage.jpeg'
-import {replyData} from '../../data/Reply/Reply'
-import {Input} from '../Common/Input'
 import {deleteReply, updateReply} from '../../api'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import ReplyReportModal from './ReplyReportModal'
 import {useNavigate} from 'react-router-dom'
+import {replyData} from '../../data'
+import {Caption, Input} from '../Common'
 
 type ChildReplyProps = {
     viewReply: Boolean

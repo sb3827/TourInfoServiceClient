@@ -1,23 +1,23 @@
 import {FC, useEffect, useRef, useState} from 'react'
-import {
-    Button,
-    DropdownSelect,
-    FindUserInfo,
-    LoadingSppinnerSmall,
-    MiniSppinner,
-    SearchInput,
-    Subtitle,
-    UserInfoItemBox
-} from '../../index'
-import {ManagerSearchUserData} from '../../../data/User/User'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../../store/rootReducer'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faUser} from '@fortawesome/free-solid-svg-icons'
 import {useDispatch} from 'react-redux'
 import {setManagerSearch} from '../../../store/slices/SearchSlice'
-import {managerSearchUser} from '../../../api/Manager/Manager'
+import {ManagerSearchUserData} from '../../../data'
+import {managerSearchUser} from '../../../api'
+import {
+    Button,
+    DropdownSelect,
+    LoadingSppinnerSmall,
+    MiniSppinner,
+    SearchInput,
+    Subtitle
+} from '../../Common'
 import {SubBox} from '../../Common/SubBox'
+import {UserInfoItemBox} from '../UserInfoItemBox'
+import {FindUserInfo} from './FindUserInfo'
 
 type FindBoxProps = {}
 

@@ -1,8 +1,8 @@
 import {FC, PropsWithChildren} from 'react'
-import {MainBoardData, MainPlaceData} from '../../data/Main/Main'
 import noImage from '../../assets/smallLogo.png'
 import {faCartShopping, faHeart, faStar} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {MainBoardData, MainPlaceData} from '../../data'
 
 type MainItemProps = {
     onClick?: () => void

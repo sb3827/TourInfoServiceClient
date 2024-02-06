@@ -7,17 +7,17 @@ import {
     DropIcon,
     LoadingSppinner
 } from '../../components'
-import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHeart, faStar, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
 import noImage from '../../assets/smallLogo.png'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {deleteBoard, deleteLike, placePostLoad, postLike} from '../../api/Board/board'
-import BoardReportModal from '../../components/Board/BoardReportModal'
-import {BoardData} from '../../data/Board/Board'
+import {deleteBoard, deleteLike, placePostLoad, postLike} from '../../api'
+import {BoardData} from '../../data'
 import {getCookie} from '../../util/cookie'
+import {Reply} from '../Reply'
+import BoardReportModal from '../../components/Board/BoardReportModal'
 
 type PostPlaceProps = {
     title?: string

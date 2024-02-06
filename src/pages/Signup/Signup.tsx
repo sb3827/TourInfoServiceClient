@@ -1,9 +1,7 @@
-import {FC, useState} from 'react'
+import {useState} from 'react'
 import {GeneralMemberSignup, BusinessMemberSignup} from '../../components'
 
-interface SignupProps {}
-
-export const Signup: FC<SignupProps> = () => {
+export const Signup = () => {
     const [activeTab, setActiveTab] = useState<'general' | 'business'>('general')
 
     function onTabChange(activeTab: 'general' | 'business') {

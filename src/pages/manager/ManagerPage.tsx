@@ -1,4 +1,4 @@
-import {Box, FindBox, ReportBox, Title, WaitBox} from '../../components/index'
+import {Box, FindBox, ReportBox, Title, WaitBox} from '../../components'
 
 //관리자 페이지
 export const Manager = () => {

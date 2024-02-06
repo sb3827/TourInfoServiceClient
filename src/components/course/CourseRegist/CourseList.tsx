@@ -4,13 +4,9 @@ import {RootState} from '../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 import {addItemAtPosition, moveItem} from '../../../store/slices/CourseSlice'
 import {useDispatch} from 'react-redux'
-import {DayItem, MyCart} from '../../index'
-
-export type Item = {
-    pno: number
-    img: string
-    pname: string
-}
+import {Item} from '../../../data'
+import {MyCart} from '../../MyPage'
+import {DayItem} from './DayItem'
 
 type DndProps = {
     create: boolean

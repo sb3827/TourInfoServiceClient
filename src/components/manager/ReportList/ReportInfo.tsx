@@ -2,11 +2,11 @@ import {FC, useState} from 'react'
 import {Button, Modal, TextBox, UserInfo, UserInfoItemBox} from '../../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
-import {ReportData} from '../../../data/Manager/index'
 import {useDispatch} from 'react-redux'
 import {setIsDone} from '../../../store/slices/ReportSlice'
 import {checkReport, disciplinary} from '../../../api'
 import {setReportSearch} from '../../../store/slices/SearchSlice'
+import {ReportData} from '../../../data'
 
 //신고 정보
 

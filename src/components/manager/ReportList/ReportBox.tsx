@@ -1,23 +1,23 @@
 import {FC, useEffect, useRef, useState} from 'react'
-import {
-    Button,
-    DropdownSelect,
-    LoadingSppinnerSmall,
-    MiniSppinner,
-    ReportInfo,
-    SearchInput,
-    Subtitle,
-    UserInfoItemBox
-} from '../../index'
-import {ReportResponseData} from '../../../data/Manager'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../../store/rootReducer'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
 import {setReportSearch} from '../../../store/slices/SearchSlice'
 import {useDispatch} from 'react-redux'
+import {ReportResponseData} from '../../../data'
 import {getAllReport} from '../../../api'
+import {
+    Button,
+    DropdownSelect,
+    LoadingSppinnerSmall,
+    MiniSppinner,
+    SearchInput,
+    Subtitle
+} from '../../Common'
 import {SubBox} from '../../Common/SubBox'
+import {UserInfoItemBox} from '../UserInfoItemBox'
+import {ReportInfo} from './ReportInfo'
 
 //신고 박스
 

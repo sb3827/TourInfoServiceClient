@@ -3,7 +3,7 @@ import {Title} from '..'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEnvelopeOpenText} from '@fortawesome/free-solid-svg-icons'
 import noImage from '../../assets/smallLogo.png'
-import {mailResendRequest} from '../../api/MailResend/MailResend'
+import {mailResendRequest} from '../../api'
 
 type MailResendProps = {
     email: string
@@ -11,7 +11,7 @@ type MailResendProps = {
 }
 
 export const MailResend: FC<MailResendProps> = ({...props}) => {
-    function send() {
+    function onSend() {
         try {
             mailResendRequest(props.email)
         } catch (err) {
@@ -40,7 +40,7 @@ export const MailResend: FC<MailResendProps> = ({...props}) => {
                 </p>
                 <div
                     className="flex mt-2 border rounded-lg hover:cursor-pointer hover:border-gray-400"
-                    onClick={send}>
+                    onClick={onSend}>
                     <FontAwesomeIcon
                         className="mx-2 my-2 border-b-2 h-11"
                         icon={faEnvelopeOpenText}

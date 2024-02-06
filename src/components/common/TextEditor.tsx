@@ -2,8 +2,8 @@ import {useState, FC, Ref, useRef, forwardRef, useImperativeHandle} from 'react'
 import CustomEditor from 'ckeditor5-custom-build/build/ckeditor'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import {imageUpload} from '../../api/Board/board'
-import {ImageReturnData} from '../../data/Board/Board'
+import {EditorRef, ImageReturnData} from '../../data'
+import {imageUpload} from '../../api'
 
 type TextEditorProps = {
     initialValue?: string
@@ -12,14 +12,8 @@ type TextEditorProps = {
     ref?: Ref<EditorRef>
 }
 
-export type EditorRef = {
-    getImages: ImageReturnData[] | null
-    getEditor: () => CKEditor<ClassicEditor> | null
-}
-
 export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorProps>(
     ({initialValue}, ref) => {
-        const [flag, setFlag] = useState(false)
         const ckRef = useRef<CKEditor<ClassicEditor> | null>(null)
         const [images, setImages] = useState<ImageReturnData[]>([])
 

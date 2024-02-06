@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {Item} from '../../components'
+import {Item} from '../../data'
 
 // 개별 객체에 대한 인터페이스 정의
 

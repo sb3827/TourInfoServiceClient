@@ -1,20 +1,13 @@
-import {
-    Box,
-    ShowFollowModal,
-    ShowTotalLikes,
-    Title,
-    LoadingSppinner,
-    Modal
-} from './../../index'
-import {Button} from '../../Common/Button'
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {userProfile} from './../../../data/User/User'
-import {ShowUserProfile, ShowUserFollowers} from './../../../api/MyPage/ShowUserInfo'
-import {postFollow, deleteFollow} from './../../../api/UserSearch/UserSearch'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 import common from '../../../assets/profileImage.jpeg'
+import {userProfile} from '../../../data'
+import {ShowUserFollowers, ShowUserProfile, deleteFollow, postFollow} from '../../../api'
+import {Box, Button, LoadingSppinner, Modal, Title} from '../../Common'
+import {ShowFollowModal} from './ShowFollowModal'
+import {ShowTotalLikes} from './ShowTotalLikes'
 
 //TODO - 로그인 mno 받아와서 name 받아오기
 

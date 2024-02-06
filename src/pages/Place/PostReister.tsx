@@ -6,19 +6,16 @@ import {
     Rating,
     InputPlace,
     PlacePostMap,
-    Modal
+    Modal,
+    PnoName,
+    PlaceProps
 } from '../../components'
 import {useLocation, useNavigate, useSearchParams} from 'react-router-dom'
-import type {RatingRef, EditorRef, PlaceProps, PnoName} from '../../components'
-import {
-    deleteBoard,
-    modifyPlaceBoard,
-    placePostLoad,
-    registPlaceBoard
-} from '../../api/Board/board'
-import {savePlaceBoardDTO} from '../../data/Board/Board'
+// import type {RatingRef, EditorRef, PlaceProps, PnoName} from '../../components'
 import {RootState} from '../../store/rootReducer'
 import {useSelector} from 'react-redux'
+import {EditorRef, RatingRef, savePlaceBoardDTO} from '../../data'
+import {deleteBoard, modifyPlaceBoard, placePostLoad, registPlaceBoard} from '../../api'
 
 type PostRegisterProps = {
     isModify: boolean // true: 수정, false: 등록,

@@ -1,15 +1,14 @@
-import {user} from './../../data/User/User'
 import {useState, useEffect, useRef, ChangeEvent} from 'react'
-import {ShowUserInfo, onChangeUserData, deleteId} from './../../api/MyPage/ShowUserInfo'
-import {Button} from '../../components/Common/Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {LoginInput, Title} from './../../components/index'
+import {Button, LoginInput, Title} from '../../components'
 import {useNavigate} from 'react-router-dom'
 import common from '../../assets/profileImage.jpeg'
 import Cookie from 'js-cookie'
 import {useDispatch} from 'react-redux'
 import {setUser} from '../../store/slices/LoginSlice'
+import {user} from '../../data'
+import {ShowUserInfo, deleteId, onChangeUserData} from '../../api'
 
 //TODO 수정하기 버튼 클릭 시 다시 마이페이지로 이동, margin/padding 조정, 이미지 업로드 수정
 

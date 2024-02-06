@@ -1,21 +1,5 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
-import {
-    Button,
-    SearchInput,
-    SearchInfo,
-    SearchMap,
-    ChooseMap,
-    Input,
-    SearchMapRef,
-    Title,
-    Modal,
-    PlaceProps,
-    LoadingSppinnerSmall
-} from './../../index'
-import {PlaceData} from '../../../data/PlaceSearch'
-import {registerPlace} from './../../../api/index'
-import {getSearchPlaceInfo} from './../../../api'
 import React, {
     useState,
     FC,
@@ -28,6 +12,21 @@ import React, {
 } from 'react'
 import {useDispatch} from 'react-redux'
 import {addLastItem} from '../../../store/slices/CourseSlice'
+import {
+    Button,
+    ChooseMap,
+    Input,
+    LoadingSppinnerSmall,
+    Modal,
+    PlaceProps,
+    SearchInput,
+    SearchMap,
+    SearchMapRef,
+    Title
+} from '../../Common'
+import {PlaceData} from '../../../data'
+import {getSearchPlaceInfo, registerPlace} from '../../../api'
+import {SearchInfo} from '../../Place'
 
 // 컴포넌트 className 값
 type InputPlaceProps = {

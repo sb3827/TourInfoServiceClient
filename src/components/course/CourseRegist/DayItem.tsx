@@ -3,14 +3,12 @@ import {faArrowRight, faCircleMinus} from '@fortawesome/free-solid-svg-icons'
 import {useDispatch} from 'react-redux'
 import {addDayAtPosition, deleteDay, deleteItem} from '../../../store/slices/CourseSlice'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
-import {Item} from './CourseList'
 import {FC, useState} from 'react'
 import noImage from '../../../assets/smallLogo.png'
 import {useNavigate} from 'react-router-dom'
-import {Button} from '../../Common/Button'
-import {Modal} from '../../Common/Modal'
-import {InputPlace} from '../../myPage/MyPocket/InputPlace'
-import {Spot, Subtitle} from '../../Common'
+import {Item} from '../../../data'
+import {Button, Modal, Spot, Subtitle} from '../../Common'
+import {InputPlace} from '../../MyPage'
 
 type DayItemProps = {
     day: Item[][]

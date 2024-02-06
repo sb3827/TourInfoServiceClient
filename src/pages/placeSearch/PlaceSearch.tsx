@@ -8,12 +8,12 @@ import {
     LoadingSppinnerSmall,
     Title,
     MiniSppinner
-} from '../../components/index'
-import {PlaceData} from '../../data/PlaceSearch'
-import {getSearchPlaceInfo} from '../../api'
+} from '../../components'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
+import {PlaceData} from '../../data'
+import {getSearchPlaceInfo} from '../../api'
 
 // 장소 검색 페이지
 

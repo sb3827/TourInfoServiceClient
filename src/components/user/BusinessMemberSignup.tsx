@@ -1,11 +1,18 @@
 import {useState} from 'react'
-import {Title, Subtitle, DropdownSelect, Button, LoadingSppinner, LoginInput} from '..'
-import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
 import {postBusinessCheck} from '../../api/Business/BusinessCheck'
 import {useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import {setEmail} from '../../store/slices/SignupSlice'
-import {SignupData} from '../../data/Signup/Signup'
+import {duplicatedEmailCheckRequest, signupRequest} from '../../api'
+import {SignupData} from '../../data'
+import {
+    Button,
+    DropdownSelect,
+    LoadingSppinner,
+    LoginInput,
+    Subtitle,
+    Title
+} from '../Common'
 
 export const BusinessMemberSignup = () => {
     const [formData, setFormData] = useState({

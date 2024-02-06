@@ -1,12 +1,13 @@
 import {FC, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {Button, PlaceCartModal} from '../index'
-import {PlaceData} from '../../data/PlaceSearch'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCartShopping, faCartPlus} from '@fortawesome/free-solid-svg-icons'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import noImage from '../../assets/smallLogo.png'
+import {PlaceData} from '../../data'
+import {PlaceCartModal} from '../MyPage'
+import {Button} from '../Common'
 
 type SearchResultProps = {
     placeInfoData: PlaceData | null

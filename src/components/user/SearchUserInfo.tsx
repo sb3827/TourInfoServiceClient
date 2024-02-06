@@ -1,11 +1,11 @@
 import {FC, MouseEvent, useState} from 'react'
-import {Button} from '../index'
-import {UserSearchData} from '../../data/User/User'
 import {useNavigate} from 'react-router-dom'
-import {postFollow, deleteFollow} from '../../api/UserSearch/UserSearch'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import UserImage from '../../assets/profileImage.jpeg'
+import {UserSearchData} from '../../data'
+import {deleteFollow, postFollow} from '../../api'
+import {Button} from '../Common'
 
 type SearchResultProps = {
     userInfo: UserSearchData

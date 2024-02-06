@@ -1,7 +1,7 @@
 import {useState, useEffect, FC} from 'react'
-import {userCourse} from './../../../data/User/User'
-import {ShowUserCourse} from './../../../api/MyPage/ShowUserInfo'
 import {useNavigate} from 'react-router-dom'
+import {userCourse} from '../../../data'
+import {ShowUserCourse} from '../../../api'
 
 type MyCourseBoxProps = {
     mno: number

@@ -1,7 +1,7 @@
 import {useState, useEffect, FC} from 'react'
-import {userBoard} from './../../../data/User/User'
-import {ShowUserBoard} from './../../../api/MyPage/ShowUserInfo'
 import {useNavigate} from 'react-router-dom'
+import {userBoard} from '../../../data'
+import {ShowUserBoard} from '../../../api'
 
 type MyPostBoxProps = {
     mno: number

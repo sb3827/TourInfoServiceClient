@@ -7,13 +7,12 @@ import {
     LoadingSppinnerSmall,
     Title,
     MiniSppinner
-} from '../../components/index'
-import {UserSearchData} from '../../data/User/User'
-import {getSearchUserInfo} from '../../api/UserSearch/UserSearch'
+} from '../../components'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {useSearchParams} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import {UserSearchData} from '../../data'
+import {getSearchUserInfo} from '../../api'
 
 export const UserSearch = () => {
     const userSearchRef = useRef(null) // 관찰할 요소에 대한 참조

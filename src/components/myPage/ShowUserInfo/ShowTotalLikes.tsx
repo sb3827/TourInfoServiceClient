@@ -1,10 +1,11 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCartShopping} from '@fortawesome/free-solid-svg-icons'
 import {FC, useState, useEffect} from 'react'
-import {MyCart, Modal, Title} from './../../index'
-import {ShowFolderAll} from './../../../api/Folder/Folder'
-import {folderAll} from './../../../data/Folder/Folder'
 import {DragDropContext} from 'react-beautiful-dnd'
+import {folderAll} from '../../../data'
+import {ShowFolderAll} from '../../../api'
+import {Modal, Title} from '../../Common'
+import {MyCart} from './MyCart'
 
 type ShowTotalLikesProps = {
     mno: number

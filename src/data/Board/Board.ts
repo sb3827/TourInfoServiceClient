@@ -89,3 +89,9 @@ export type saveCourseBoardDTO = {
     coursePlaceList: number[][]
     writer: number // 사용자 검증
 }
+
+export type Item = {
+    pno: number
+    img: string
+    pname: string
+}

@@ -1,5 +1,7 @@
 import {FC, useState, useEffect} from 'react'
-import {MyCourseBox, MyPostBox, MyReplyBox} from './../index'
+import {MyPostBox} from './ShowMyWriting/MyPostBox'
+import {MyCourseBox} from './ShowMyWriting/MyCourseBox'
+import {MyReplyBox} from './ShowMyWriting/MyReplyBox'
 
 // 마이페이지 작성 글 보기 버튼
 

@@ -1,18 +1,16 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
-import {Caption} from '../Common/Texts'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
-import {Button, DropdownIcon} from '../Common/Button'
 import dummyImage from '../../assets/profileImage.jpeg'
-import {replyData} from '../../data/Reply/Reply'
 import {useSearchParams} from 'react-router-dom'
 import {createReply, deleteReply, getChildreply, updateReply} from '../../api'
-import {Input} from '../Common/Input'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import ReplyReportModal from './ReplyReportModal'
-import {ChildReply} from './ChildReply'
 import {useNavigate} from 'react-router-dom'
+import {replyData} from '../../data'
+import {Button, Caption, DropdownIcon, Input} from '../Common'
+import {ChildReply} from './ChildReply'
+import ReplyReportModal from './ReplyReportModal'
 
 type ParentReplyProps = {
     reply: replyData

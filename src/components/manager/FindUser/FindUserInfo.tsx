@@ -1,11 +1,11 @@
 import {FC, useEffect, useState} from 'react'
-import {Button, Modal, UserInfo, UserInfoItemBox} from '../../index'
-import {ManagerSearchUserData} from '../../../data/User/User'
-import {getUserDisciplinary} from '../../../api'
-import {DisciplinaryUserData} from '../../../data/Manager'
-import {userDelete} from '../../../api/Manager/Manager'
 import {useDispatch} from 'react-redux'
 import {setUserCheck} from '../../../store/slices/ManagerSlice'
+import {DisciplinaryUserData, ManagerSearchUserData} from '../../../data'
+import {getUserDisciplinary, userDelete} from '../../../api'
+import {UserInfoItemBox} from '../UserInfoItemBox'
+import {UserInfo} from '../UserInfo'
+import {Button, Modal} from '../../Common'
 
 type FindUserInfoProps = {
     users: ManagerSearchUserData

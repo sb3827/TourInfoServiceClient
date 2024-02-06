@@ -1,9 +1,9 @@
 import {FC, useState} from 'react'
-import {MyFollowerBox} from './MyFollowerBox'
-import {MyFollowingBox} from './MyFollowingBox'
 import {Title} from '../../Common/Texts'
 import {useParams} from 'react-router-dom'
 import {Modal} from '../../Common/Modal'
+import {MyFollowingBox} from './MyFollowingBox'
+import {MyFollowerBox} from './MyFollowerBox'
 
 type ShowFollowModalProps = {
     following: string

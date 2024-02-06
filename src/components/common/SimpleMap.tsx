@@ -23,7 +23,7 @@ export const SimpleMap: FC<SimpleMapProps> = ({className, mno}) => {
         else return '#ebfffd'
     }
 
-    const fetchData = async () => {
+    async function fetchData() {
         try {
             const userPlaceData = await ShowPlaceCount(mno)
             setPlaceCount(userPlaceData)
@@ -31,6 +31,7 @@ export const SimpleMap: FC<SimpleMapProps> = ({className, mno}) => {
             console.error(err)
         }
     }
+
     useEffect(() => {
         fetchData()
     }, [mno])

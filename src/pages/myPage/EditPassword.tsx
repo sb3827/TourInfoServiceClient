@@ -1,10 +1,10 @@
-import {Button, Title, LoginInput, Subtitle} from './../../components/index'
+import {Button, Title, LoginInput, Subtitle} from '../../components'
 import {useState, useEffect} from 'react'
-import {changePw, ShowUserInfo} from './../../api/MyPage/ShowUserInfo'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {useNavigate} from 'react-router-dom'
 import Cookies from 'js-cookie'
+import {ShowUserInfo, changePw} from '../../api'
 
 export const EditPassword = () => {
     const [email, setemail] = useState<string>()

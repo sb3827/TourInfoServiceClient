@@ -1,6 +1,6 @@
-import {Title} from './Texts'
 import mainLogo from '../../assets/mainLogo.png'
 import {useNavigate} from 'react-router-dom'
+import {Title} from './Texts'
 
 export const Logo = ({}) => {
     const navigate = useNavigate()

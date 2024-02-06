@@ -12,18 +12,18 @@ import {
     Ref
 } from 'react'
 
-export type PlaceData = {
+type PlaceData = {
     name: string
     lng: number
     lat: number
 } & Address
 
-export type Address = {
+type Address = {
     roadAddress: string // 도로명
     localAddress: string // 지번
     engAddress: string // 영문
 }
-export type AddressResult = {
+type AddressResult = {
     msg: string // 처리 message
 } & Address
 
@@ -80,12 +80,12 @@ function makeAddress(item: any) {
         return
     }
 
-    var name = item.name,
+    let name = item.name,
         region = item.region,
         land = item.land,
         isRoadAddress = name === 'roadaddr'
 
-    var sido = '',
+    let sido = '',
         sigugun = '',
         dongmyun = '',
         ri = '',
@@ -179,11 +179,11 @@ function searchCoordinateToAddress(coord: number[]): Promise<AddressResult> {
                 } else {
                     result.msg = 'success'
 
-                    var items = response.v2.results,
+                    let items = response.v2.results,
                         address = '',
                         htmlAddresses = []
 
-                    for (var i = 0, ii = items.length, item, addrType; i < ii; i++) {
+                    for (let i = 0, ii = items.length, item, addrType; i < ii; i++) {
                         item = items[i]
                         address = makeAddress(item) || ''
                         if (item.name === 'roadaddr') {
@@ -308,7 +308,7 @@ export const PlacePostMap: FC<PropsWithChildren<PlacePostMapProps>> = ({
             position: new naver.maps.LatLng(place.lat, place.lng)
         })
 
-        var contentString = ['']
+        let contentString = ['']
 
         const infowindow = new naver.maps.InfoWindow({
             content: contentString.join(''),
@@ -413,7 +413,7 @@ export const ChooseMap: FC<
             map: map,
             position: location
         })
-        var contentString = ['']
+        let contentString = ['']
         const infowindow = new naver.maps.InfoWindow({
             content: contentString.join(''),
 
@@ -564,10 +564,10 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
         })
 
         function updateMarkers(map: any, markers: any) {
-            var mapBounds = map.getBounds()
-            var marker, position
+            let mapBounds = map.getBounds()
+            let marker, position
 
-            for (var i = 0; i < markers.length; i++) {
+            for (let i = 0; i < markers.length; i++) {
                 marker = markers[i]
                 position = marker.getPosition()
 
@@ -602,7 +602,7 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
             }
         }
 
-        for (var i = 0, ii = markers.length; i < ii; i++) {
+        for (let i = 0, ii = markers.length; i < ii; i++) {
             naver.maps.Event.addListener(markers[i], 'mouseover', getMouseOverHandler(i))
             naver.maps.Event.addListener(markers[i], 'mouseout', getMouseOutHandler(i))
         }
@@ -721,10 +721,10 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
             })
 
             function updateMarkers(map: any, markers: any) {
-                var mapBounds = map.getBounds()
-                var marker, position
+                let mapBounds = map.getBounds()
+                let marker, position
 
-                for (var i = 0; i < markers.length; i++) {
+                for (let i = 0; i < markers.length; i++) {
                     marker = markers[i]
                     position = marker.getPosition()
 
@@ -749,7 +749,7 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
             // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
             function getClickHandler(seq: number) {
                 return function (e: any) {
-                    var marker = markers[seq],
+                    let marker = markers[seq],
                         infoWindow = infoWindows[seq],
                         position = marker.getPosition()
                     map.panTo(position)
@@ -762,7 +762,7 @@ export const SearchMap = forwardRef<SearchMapRef, PropsWithChildren<SearchMapPro
                 }
             }
 
-            for (var i = 0, ii = markers.length; i < ii; i++) {
+            for (let i = 0, ii = markers.length; i < ii; i++) {
                 naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i))
             }
             infoWindows[idx]?.open(map, markers[idx])
