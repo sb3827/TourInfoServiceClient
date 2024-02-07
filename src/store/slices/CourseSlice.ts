@@ -1,33 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {Item} from '../../data'
+import {
+    AddItem,
+    AddItemAtPositionPayload,
+    DeleteItemPayload,
+    Item,
+    MoveItemPayload
+} from '../../data'
 
 // 개별 객체에 대한 인터페이스 정의
-
-interface AddItem {
-    index: number // 아이템을 추가할 날짜의 인덱스
-    item: Item // 추가할 아이템
-}
-
-// 삭제할 아이템의 날짜 인덱스와 아이템 인덱스를 나타내는 인터페이스
-interface DeleteItemPayload {
-    dayIndex: number // 아이템을 삭제할 날짜의 인덱스
-    itemIndex: number // 삭제할 아이템의 인덱스
-}
-
-// 아이템을 이동시킬 때 필요한 정보를 나타내는 인터페이스
-interface MoveItemPayload {
-    sourceDayIndex: number // 원본 날짜의 인덱스
-    targetDayIndex: number // 목표 날짜의 인덱스
-    itemIndex: number // 이동시킬 아이템의 인덱스
-    targetIndex: number // 목표 날짜에서의 아이템을 삽입할 위치의 인덱스
-}
-
-// 아이템을 추가할 때 필요한 정보를 나타내는 인터페이스
-interface AddItemAtPositionPayload {
-    dayIndex: number // 아이템을 추가할 날짜의 인덱스
-    itemIndex: number // 추가할 위치의 인덱스
-    item: Item // 추가할 아이템
-}
 
 // 배열의 배열 타입 정의
 type CommonState = Item[][]
