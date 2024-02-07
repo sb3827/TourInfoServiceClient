@@ -38,6 +38,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     const [report, setReport] = useState<boolean>(false)
     // user mno
     const user = useSelector((state: RootState) => state.login.mno)!
+    const role = useSelector((state: RootState) => state.login.role)
     // board bno
     const [searchParams] = useSearchParams()
     const bno = searchParams.get('bno')!
@@ -111,6 +112,9 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
             setWriterNo(data.writerDTO.mno)
             if (user === data.writerDTO.mno) {
                 setEnables([true, false, true])
+            }
+            if (role === 'ADMIN') {
+                setEnables([false, false, true])
             }
 
             setTitle(data.title) // title

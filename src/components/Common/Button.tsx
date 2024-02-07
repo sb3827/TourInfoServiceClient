@@ -33,6 +33,7 @@ type DropdownProps = {
     replyMno?: number
     replyParent?: number | null
     onGetDropdownValue: (value: string) => void
+    role: String | null
 }
 
 // 버튼st dropdown list
@@ -60,7 +61,9 @@ export const DropdownButton: FC<PropsWithChildren<DropdownProps>> = props => {
 export const DropdownIcon: FC<PropsWithChildren<DropdownProps>> = props => {
     const mno = useSelector((state: RootState) => state.login.mno)
     let text
-    if (props.replyMno == mno && props.replyParent == null) {
+    if (props.role && props.role === 'ADMIN') {
+        text = ['댓글 달기', '삭제']
+    } else if (props.replyMno == mno && props.replyParent == null) {
         text = ['댓글 달기', '수정', '삭제']
     } else if (props.replyMno == mno && props.replyParent) {
         text = ['수정', '삭제']
@@ -69,7 +72,6 @@ export const DropdownIcon: FC<PropsWithChildren<DropdownProps>> = props => {
     } else {
         text = ['댓글 달기', '신고']
     }
-    //props.replyMno == mno && props.replyParent==null ? ['댓글 달기', '수정', '삭제'] :props.replyParent!==null ? ['댓글 달기', '신고'] :['신고']
 
     return (
         <div className="dropdown dropdown-bottom dropdown-end">

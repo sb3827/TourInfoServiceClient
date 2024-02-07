@@ -23,6 +23,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
     getRereply
 }) => {
     const mno = useSelector((state: RootState) => state.login.mno)
+    const role = useSelector((state: RootState) => state.login.role)
     const dropdownText = ['댓글 달기', '수정', '삭제', '신고']
 
     const navigate = useNavigate()
@@ -137,6 +138,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
                     <div className="flex justify-end mx-4 my-2">
                         {mno && reReplyData.mno && (
                             <DropdownIcon
+                                role={role}
                                 texts={dropdownText}
                                 replyMno={reReplyData.mno}
                                 replyParent={reReplyData.parent_rno}

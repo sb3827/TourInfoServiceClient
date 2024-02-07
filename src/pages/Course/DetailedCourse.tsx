@@ -52,6 +52,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
 
     // user mno
     const user = useSelector((state: RootState) => state.login.mno)!
+    const role = useSelector((state: RootState) => state.login.role)
     const [searchParams] = useSearchParams()
     const bno = searchParams.get('bno')!
     const [report, setReport] = useState<boolean>(false)
@@ -85,6 +86,9 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
             setWriterNo(data.writerDTO.mno)
             if (user === data.writerDTO.mno) {
                 setEnables([true, false])
+            }
+            if (role === 'ADMIN') {
+                setEnables([false, false, true])
             }
             setTitle(data.title) // title
             setScore(data.score) // number of star
