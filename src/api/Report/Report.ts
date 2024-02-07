@@ -2,7 +2,7 @@ import {
     DisciplinaryUserData,
     ReportCheckData,
     ReportResponseData
-} from '../../data/manager'
+} from '../../data/Manager'
 import {refreshAxios} from '../Axios/RefreshAxios'
 
 //회원 제재내역 들고오기

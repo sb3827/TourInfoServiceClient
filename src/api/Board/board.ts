@@ -1,4 +1,3 @@
-import {AxiosInstance} from 'axios'
 import {
     ResponseBoard,
     ResponseDeleteResult,
@@ -7,10 +6,10 @@ import {
     savePlaceBoardDTO,
     ResponseResult,
     reportBoardResponseData
-} from '../../data/Board/BoardData'
+} from '../../data/Board/Board'
 import {commonAxios} from '../Axios/CommonAxios'
 import {refreshAxios, refreshFormAxios} from '../Axios/RefreshAxios'
-import {reportRequestData} from '../../data/manager'
+import {reportRequestData} from '../../data/Manager'
 
 export const placePostLoad = async (
     bno: number,
@@ -41,7 +40,6 @@ export const coursePostLoad = async (
     } else {
         response = await commonAxios.get(`/board/course/posting?bno=${bno}`)
     }
-    console.log(response.data)
     return response.data
 }
 
@@ -88,13 +86,9 @@ const parsingImg = (images: ImageReturnData[], content: string) => {
     // 이미지 태그의 src 속성 추출
     imgTags.forEach((imgTag, index) => {
         const src = imgTag.getAttribute('src')
-        // console.log(`Image ${index + 1} src: ${src}`);
         addImages.push(...images.filter(img => img.src === src).map(img => img.ino))
         deleteImages = deleteImages.filter(img => img !== src)
     })
-
-    // console.log(addImages)
-    // console.log(deleteImages)
     return [[...addImages], [...deleteImages]]
 }
 
@@ -106,8 +100,6 @@ export const registPlaceBoard = async (
     const imgList = parsingImg(images, board.content)
     board.images = imgList[0] as number[]
     board.deleteImages = imgList[1] as string[]
-
-    // console.log(board)
 
     const response = await refreshAxios.post(`/board/place/posting/register`, board)
     return response.data
@@ -135,8 +127,6 @@ export const registCourseBoard = async (
     board.images = imgList[0] as number[]
     board.deleteImages = imgList[1] as string[]
 
-    console.log(board.images)
-
     const response = await refreshAxios.post(`/board/course/posting/register`, board)
     return response.data
 }
@@ -149,8 +139,6 @@ export const modifyCourseBoard = async (
     const imgList = parsingImg(images, board.content)
     board.images = imgList[0] as number[]
     board.deleteImages = imgList[1] as string[]
-
-    console.log(board.images)
 
     const response = await refreshAxios.put(`/board/course/posting/modify`, board)
     return response.data

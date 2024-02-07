@@ -6,7 +6,6 @@ import {
     deleteFolderData,
     spotAddData
 } from './../../data/Folder/Folder'
-import {commonAxios} from './../Axios/CommonAxios'
 import {refreshAxios} from './../Axios/RefreshAxios'
 
 export const ShowFolderAll = async (mno: number): Promise<folderAll> => {

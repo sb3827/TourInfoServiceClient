@@ -9,16 +9,10 @@ import {
     Modal
 } from '../../components'
 import {useLocation, useNavigate, useSearchParams} from 'react-router-dom'
-import type {RatingRef, EditorRef, PlaceProps, PnoName} from '../../components'
-import {
-    deleteBoard,
-    modifyPlaceBoard,
-    placePostLoad,
-    registPlaceBoard
-} from '../../api/Board/board'
-import {savePlaceBoardDTO} from '../../data/Board/BoardData'
 import {RootState} from '../../store/rootReducer'
 import {useSelector} from 'react-redux'
+import {EditorRef, PlaceProps, PnoName, RatingRef, savePlaceBoardDTO} from '../../data'
+import {deleteBoard, modifyPlaceBoard, placePostLoad, registPlaceBoard} from '../../api'
 
 type PostRegisterProps = {
     isModify: boolean // true: 수정, false: 등록,
@@ -156,7 +150,6 @@ export const PostRegister: FC<PropsWithChildren<PostRegisterProps>> = props => {
             writer: user
         }
         ////
-        console.log(user)
 
         modifyPlaceBoard(board, images).then(res => {
             alert(`${res.bno}번 글 수정 완료!`)

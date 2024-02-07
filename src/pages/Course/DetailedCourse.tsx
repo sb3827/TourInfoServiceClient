@@ -3,24 +3,23 @@ import {
     Title,
     TextBox,
     CoursePostMap,
-    PlaceProps,
     DropIcon,
     CourseList,
     MainSlider,
     LoadingSppinner
 } from '../../components'
-import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHeart, faEllipsisVertical, faStar} from '@fortawesome/free-solid-svg-icons'
 import noImage from '../../assets/smallLogo.png'
-import {coursePostLoad, deleteBoard, deleteLike, postLike} from '../../api/Board/board'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {useNavigate, useSearchParams} from 'react-router-dom'
-import BoardReportModal from '../../components/board/BoardReportModal'
-import {BoardData} from '../../data/Board/BoardData'
 import {getCookie} from '../../util/cookie'
 import {SwiperSlide} from 'swiper/react'
+import {coursePostLoad, deleteBoard, deleteLike, postLike} from '../../api'
+import {BoardData, PlaceProps} from '../../data'
+import {Reply} from '../Reply'
+import BoardReportModal from '../../components/Board/BoardReportModal'
 
 type DetailedCourseType = {
     title?: string
@@ -53,6 +52,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
 
     // user mno
     const user = useSelector((state: RootState) => state.login.mno)!
+    const role = useSelector((state: RootState) => state.login.role)
     const [searchParams] = useSearchParams()
     const bno = searchParams.get('bno')!
     const [report, setReport] = useState<boolean>(false)
@@ -60,13 +60,8 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     const [loading, setLoading] = useState<boolean>(false)
 
     const navigate = useNavigate()
-    // left arrow button
-    function backPage() {
-        // 뒤로가기 로직
-        navigate(-1)
-    }
 
-    const delPage = () => {
+    function delPage() {
         try {
             if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
                 deleteBoard(parseInt(bno))
@@ -84,7 +79,6 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 parseInt(bno),
                 getCookie('refreshToken') != undefined
             )
-            console.log(data)
             if (!data.isCourse) {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
@@ -92,6 +86,9 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
             setWriterNo(data.writerDTO.mno)
             if (user === data.writerDTO.mno) {
                 setEnables([true, false])
+            }
+            if (role === 'ADMIN') {
+                setEnables([false, false, true])
             }
             setTitle(data.title) // title
             setScore(data.score) // number of star
@@ -119,7 +116,8 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                     }))
                 )
             )
-        } catch (error) {
+        } catch (err) {
+            console.error(err)
             navigate('/notfound')
         }
         setLoading(false)
@@ -138,7 +136,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 setLikes(likes + 1)
             }
             setHeart(!heart)
-            console.log(date)
+            console.error(date)
         } catch (error) {
             if (heart) {
                 setLikes(likes + 1)
@@ -154,11 +152,15 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     }, [])
 
     // report
-    const nav = () => navigate(`/board/course/posting/modify?bno=${bno}`)
-    const closeModal = () => {
+    function nav() {
+        navigate(`/board/course/posting/modify?bno=${bno}`)
+    }
+    function closeModal() {
         setReport(false)
     }
-    const set = () => setReport(true)
+    function set() {
+        setReport(true)
+    }
     const boardData: BoardData = {
         bno: parseInt(bno),
         title: title,
@@ -168,7 +170,7 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     }
 
     return (
-        <div className="w-7/12 py-10 mx-auto my-10 shadow-2xl  px-14 rounded-2xl">
+        <div className="w-7/12 py-10 mx-auto my-10 shadow-2xl px-14 rounded-2xl">
             {loading && <LoadingSppinner />}
             <div className="py-5 ">
                 <div className="flex flex-col ">

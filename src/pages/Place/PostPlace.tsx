@@ -1,23 +1,16 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
-import {
-    Title,
-    TextBox,
-    PlacePostMap,
-    PlaceProps,
-    DropIcon,
-    LoadingSppinner
-} from '../../components'
-import {Reply} from '../Reply'
+import {Title, TextBox, PlacePostMap, DropIcon, LoadingSppinner} from '../../components'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHeart, faStar, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
 import noImage from '../../assets/smallLogo.png'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {deleteBoard, deleteLike, placePostLoad, postLike} from '../../api/Board/board'
-import BoardReportModal from '../../components/board/BoardReportModal'
-import {BoardData} from '../../data/Board/BoardData'
+import {deleteBoard, deleteLike, placePostLoad, postLike} from '../../api'
+import {BoardData, PlaceProps} from '../../data'
 import {getCookie} from '../../util/cookie'
+import {Reply} from '../Reply'
+import BoardReportModal from '../../components/Board/BoardReportModal'
 
 type PostPlaceProps = {
     title?: string
@@ -45,6 +38,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     const [report, setReport] = useState<boolean>(false)
     // user mno
     const user = useSelector((state: RootState) => state.login.mno)!
+    const role = useSelector((state: RootState) => state.login.role)
     // board bno
     const [searchParams] = useSearchParams()
     const bno = searchParams.get('bno')!
@@ -75,18 +69,17 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
     const [loading, setLoading] = useState<boolean>(false)
 
     const navigate = useNavigate()
-    // left arrow button
-    function backPage() {
-        // 뒤로가기 로직
-        navigate(-1)
-    }
 
     // report
-    const nav = () => navigate(`/board/place/posting/modify?bno=${bno}`)
-    const closeModal = () => {
+    function nav() {
+        navigate(`/board/place/posting/modify?bno=${bno}`)
+    }
+    function closeModal() {
         setReport(false)
     }
-    const set = () => setReport(true)
+    function set() {
+        setReport(true)
+    }
     const boardData: BoardData = {
         bno: parseInt(bno),
         title: title,
@@ -94,7 +87,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
         mno: writerNo as number,
         name: writer as string
     }
-    const delPage = () => {
+    function delPage() {
         try {
             if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
                 deleteBoard(parseInt(bno))
@@ -112,7 +105,6 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                 parseInt(bno),
                 getCookie('refreshToken') != undefined
             )
-            console.log(data)
             if (data.isCourse) {
                 // 코스정보 에러 처리(front)
                 throw new Error('Not Found')
@@ -121,11 +113,13 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
             if (user === data.writerDTO.mno) {
                 setEnables([true, false, true])
             }
+            if (role === 'ADMIN') {
+                setEnables([false, false, true])
+            }
 
             setTitle(data.title) // title
             setScore(data.score) // number of star
             setHeart(data.isLiked) // set isLiked
-            console.log(data.isLiked)
             setLikes(data.likes) // number of likes
             // set write Date
             if (data.moddate == data.regdate) {
@@ -142,7 +136,8 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                 setPlace(data.postingPlaceBoardDTOS[0][0])
             }
             setContent(data.content) // content
-        } catch (error) {
+        } catch (err) {
+            console.error(err)
             navigate('/notfound')
         }
         setLoading(false)

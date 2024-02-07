@@ -7,18 +7,16 @@ import {
     LoadingSppinnerSmall,
     Title,
     MiniSppinner
-} from '../../components/index'
-import {UserSearchData} from '../../data/User/User'
-import {getSearchUserInfo} from '../../api/UserSearch/UserSearch'
+} from '../../components'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {useSearchParams} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import {UserSearchData} from '../../data'
+import {getSearchUserInfo} from '../../api'
 
 export const UserSearch = () => {
     const userSearchRef = useRef(null) // 관찰할 요소에 대한 참조
 
-    const dispatch = useDispatch()
     const [page, setPage] = useState<number>(0)
     const [userRequest, setUserRequest] = useState<boolean>(true)
 
@@ -59,9 +57,9 @@ export const UserSearch = () => {
             const data = await getSearchUserInfo(searchValue, user || null, 0)
             setUserInfoData(data)
             setLoading(false)
-        } catch (error) {
+        } catch (err) {
             // 오류 처리
-            console.error(error)
+            console.error(err)
         }
     }
 
@@ -83,7 +81,7 @@ export const UserSearch = () => {
             userInfoData !== null && setUserInfoData([...userInfoData, ...data])
             setPage(page + 1)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

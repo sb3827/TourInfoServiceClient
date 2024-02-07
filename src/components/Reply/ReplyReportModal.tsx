@@ -1,10 +1,9 @@
 import {FC, useState} from 'react'
-import {replyData} from '../../data/Reply/Reply'
-import {Button} from '../Button'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {reportReply} from '../../api'
-import {Modal} from '../Modal'
+import {replyData} from '../../data'
+import {Button, Modal} from '../Common'
 
 type ReplyReportModalProps = {
     replyData: replyData
@@ -16,7 +15,7 @@ const ReplyReportModal: FC<ReplyReportModalProps> = ({replyData, onCloseModal}) 
 
     const [isModalOpen, setModalOpen] = useState<boolean>(true)
     const [reportReason, setReportReason] = useState<string>('')
-    const closeModal = () => {
+    function closeModal() {
         setModalOpen(false)
         onCloseModal(false)
     }
@@ -36,7 +35,6 @@ const ReplyReportModal: FC<ReplyReportModalProps> = ({replyData, onCloseModal}) 
                 content: replyData.text,
                 message: reportReason
             })
-            console.log('데이터값 : ', data.data)
             if (data.data == -1) {
                 alert('이미 신고한 댓글입니다.')
             } else if (data.data == 1) {

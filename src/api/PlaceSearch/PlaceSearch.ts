@@ -1,4 +1,4 @@
-import {PlaceData, PlaceBoardData} from '../../data/placeSearch'
+import {PlaceData, PlaceBoardData} from '../../data/PlaceSearch'
 import {commonAxios} from '../Axios/CommonAxios'
 
 //장소 정보 검색 결과 들고오기

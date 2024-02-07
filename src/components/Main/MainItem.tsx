@@ -1,8 +1,8 @@
 import {FC, PropsWithChildren} from 'react'
-import {MainBoardData, MainPlaceData} from '../../data/Main/Main'
 import noImage from '../../assets/smallLogo.png'
 import {faCartShopping, faHeart, faStar} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {MainBoardData, MainPlaceData} from '../../data'
 
 type MainItemProps = {
     onClick?: () => void
@@ -13,7 +13,7 @@ export const MainItem: FC<PropsWithChildren<MainItemProps>> = ({onClick, mainBoa
     return (
         <div className="flex flex-col items-center justify-center">
             <div
-                className="flex flex-col w-3/5 overflow-hidden duration-150 bg-white border-2 rounded-lg shadow-md xl:w-10/12 hover:cursor-pointer hover:-translate-y-2 hover:shadow-xl"
+                className="flex flex-col w-3/5 overflow-hidden duration-150 bg-white border-2 shadow-md rounded-3xl xl:w-10/12 hover:cursor-pointer hover:-translate-y-2 hover:shadow-xl"
                 onClick={onClick}>
                 <div className="flex justify-center w-full overflow-hidden">
                     <img

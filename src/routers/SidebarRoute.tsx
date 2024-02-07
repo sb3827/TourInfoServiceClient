@@ -1,12 +1,9 @@
-import {FC} from 'react'
 import {SidebarUser} from '../components'
 import {getWithTokenExpire} from '../util/localStorage'
 import {getCookie} from '../util/cookie'
 import {SidebarLogin} from '../components/Sidebar/SidebarLogin'
 
-type SidebarRouteProps = {}
-
-export const SidebarRoute: FC<SidebarRouteProps> = () => {
+export const SidebarRoute = () => {
     const user = getWithTokenExpire('token')
     const refreshToken = getCookie('refreshToken')
 
