@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import {useEffect, useRef} from 'react'
 
 export default function useInfinite(callback: () => void) {
     const target = useRef<HTMLDivElement | null>(null)
