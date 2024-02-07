@@ -23,7 +23,7 @@ export const PlaceDetails = () => {
         getPname: place && place.name
     }
 
-    const getPlaceData = (placeData: PlaceBoardData) => {
+    function getPlaceData(placeData: PlaceBoardData) {
         setPlace(placeData)
     }
 

@@ -13,7 +13,7 @@ export const Rating: FC<RatingProps> = forwardRef<RatingRef, RatingProps>(
         const [selectedRating, setSelectedRating] = useState<number>(5) // 초기값 설정 또는 기본값 5 사용
 
         // onClick method
-        const handleRatingChange = (rating: number) => {
+        function handleRatingChange(rating: number) {
             setSelectedRating(rating) // state 저장
             // onChange(rating)
         }

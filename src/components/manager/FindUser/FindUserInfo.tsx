@@ -19,8 +19,12 @@ export const FindUserInfo: FC<FindUserInfoProps> = ({users}) => {
         null
     )
 
-    const openModal = () => setModalOpen(true)
-    const closeModal = () => setModalOpen(false)
+    function openModal() {
+        setModalOpen(true)
+    }
+    function closeModal() {
+        setModalOpen(false)
+    }
 
     //유저 제재 조회
     async function onDisciplinaryAll() {

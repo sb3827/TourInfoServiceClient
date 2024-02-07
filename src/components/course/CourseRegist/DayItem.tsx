@@ -33,17 +33,17 @@ export const DayItem: FC<DayItemProps> = ({day, create}) => {
     }
 
     //요일 삭제
-    const onDeleteDay = (dayIndex: number) => {
+    function onDeleteDay(dayIndex: number) {
         dispatch(deleteDay(dayIndex))
     }
 
     //원하는 곳에 요일 추가
-    const onAddDay = (dayIndex: number) => {
+    function onAddDay(dayIndex: number) {
         dispatch(addDayAtPosition(dayIndex + 1))
     }
 
     //해당 요일의 아이템 제거
-    const onDeleteItem = (dayIndex: number, itemIndex: number) => {
+    function onDeleteItem(dayIndex: number, itemIndex: number) {
         dispatch(deleteItem({dayIndex, itemIndex}))
     }
 

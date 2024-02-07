@@ -7,3 +7,7 @@ export type placeInfo = {
     engAddress: string
     category: string
 }
+
+export type PnoName = {
+    getPno: number
+}

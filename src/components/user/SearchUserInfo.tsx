@@ -49,7 +49,7 @@ export const SearchUserInfo: FC<SearchResultProps> = ({userInfo}) => {
     }
 
     //회원 상세 페이지로 이동
-    const onUserDetail = () => {
+    function onUserDetail() {
         navigate(`/mypage/${userInfo.mno}`)
     }
 

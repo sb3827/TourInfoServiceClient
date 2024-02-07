@@ -36,7 +36,7 @@ export const CourseInfo: FC<CourseInfoProps> = ({boardData}) => {
             </div>
         ))
 
-    const handleReviewClick = () => {
+    function handleReviewClick() {
         navigate(`/board/course/posting?bno=${boardData?.bno}`)
     }
 

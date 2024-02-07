@@ -1,4 +1,4 @@
-import {FC, useEffect, useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../../store/rootReducer'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -20,10 +20,7 @@ import {UserInfoItemBox} from '../UserInfoItemBox'
 import {ReportInfo} from './ReportInfo'
 
 //신고 박스
-
-type ReportBoxProps = {}
-
-export const ReportBox: FC<ReportBoxProps> = () => {
+export const ReportBox = () => {
     const [page, setPage] = useState<number>(0)
     const [reportRequest, setReportRequest] = useState<boolean>(true)
 

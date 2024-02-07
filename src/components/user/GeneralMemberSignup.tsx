@@ -41,7 +41,7 @@ export const GeneralMemberSignup = () => {
 
     const [customDomain, setCustomDomain] = useState<string>('@')
 
-    const onChangeCustomDomain = (e: React.ChangeEvent<HTMLInputElement>) => {
+    function onChangeCustomDomain(e: React.ChangeEvent<HTMLInputElement>) {
         setCustomDomain(e.target.value)
     }
 

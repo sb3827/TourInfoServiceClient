@@ -20,10 +20,10 @@ export const ShowFollowModal: FC<ShowFollowModalProps> = ({
     const {mno} = useParams()
 
     // 모달을 열거나 닫는 함수
-    const openModal = () => {
+    function openModal() {
         setShowModal(true)
     }
-    const closeModal = () => {
+    function closeModal() {
         setShowModal(false)
     }
 

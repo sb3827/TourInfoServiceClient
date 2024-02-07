@@ -42,7 +42,7 @@ export const MyCart: FC<MyCartProps> = ({
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
-    const fetchData = async () => {
+    async function fetchData() {
         try {
             const userFolderData = await ShowFolderAll(mno)
             setFolder(userFolderData)
@@ -62,22 +62,22 @@ export const MyCart: FC<MyCartProps> = ({
         fetchData()
     }, [onClose])
 
-    const handleButtonClick = (fno: number) => {
+    function handleButtonClick(fno: number) {
         setSelectedFno(fno)
     }
 
     // 폴더 생성 시 이름 입력 모달
-    const openFolderNameModal = () => {
+    function openFolderNameModal() {
         setIsFolderNameModalOpen(true)
         setNewButtonName('')
     }
 
-    const closeFolderNameModal = () => {
+    function closeFolderNameModal() {
         setIsFolderNameModalOpen(false)
     }
 
     // 폴더 생성
-    const handleModalSubmit = async () => {
+    async function handleModalSubmit() {
         if (!newButtonName.trim()) {
             return
         }
@@ -114,7 +114,7 @@ export const MyCart: FC<MyCartProps> = ({
     }
 
     // 폴더명 수정 모달
-    const openEditModal = (fno: number) => {
+    function openEditModal(fno: number) {
         const folderToEdit = folder?.data.find(folder => folder.fno === fno)
 
         if (folderToEdit) {
@@ -124,13 +124,13 @@ export const MyCart: FC<MyCartProps> = ({
         }
     }
 
-    const closeEditModal = () => {
+    function closeEditModal() {
         setNewButtonName('')
         setEditingButtonIndex(null)
         setEditModalOpen(false)
     }
 
-    const handleEditSubmit = async () => {
+    async function handleEditSubmit() {
         if (editingButtonIndex === null || !newButtonName.trim()) {
             return
         }
@@ -167,12 +167,12 @@ export const MyCart: FC<MyCartProps> = ({
         closeEditModal()
     }
 
-    const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    function handleNameInput(e: React.ChangeEvent<HTMLInputElement>) {
         setNewButtonName(e.target.value)
     }
 
     // 폴더 삭제
-    const handleDeleteFolder = async (fno: number) => {
+    async function handleDeleteFolder(fno: number) {
         if (window.confirm('폴더를 삭제하시겠습니까?')) {
             try {
                 await deleteFolder(fno)
@@ -195,7 +195,7 @@ export const MyCart: FC<MyCartProps> = ({
     }
 
     // 스팟 삭제
-    const deleteSpot = async (mno: number, pno: number, fno: number) => {
+    async function deleteSpot(mno: number, pno: number, fno: number) {
         try {
             if (window.confirm('삭제 하시겠습니까?')) {
                 await deleteCart(mno, pno, fno)

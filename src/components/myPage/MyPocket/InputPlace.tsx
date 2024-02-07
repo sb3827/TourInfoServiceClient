@@ -18,13 +18,11 @@ import {
     Input,
     LoadingSppinnerSmall,
     Modal,
-    PlaceProps,
     SearchInput,
     SearchMap,
-    SearchMapRef,
     Title
 } from '../../Common'
-import {PlaceData} from '../../../data'
+import {PlaceData, PlaceProps, PnoName, SearchMapRef} from '../../../data'
 import {getSearchPlaceInfo, registerPlace} from '../../../api'
 import {SearchInfo} from '../../Place'
 
@@ -35,11 +33,6 @@ type InputPlaceProps = {
     getPlaceData?: (pno: number, place: PlaceProps) => void
     onClose?: () => void
     dayIndex?: number
-}
-
-export type PnoName = {
-    getPno: number
-    // getPname?: string
 }
 
 export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlaceProps>(

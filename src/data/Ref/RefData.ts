@@ -12,3 +12,7 @@ export type EditorRef = {
     getImages: ImageReturnData[] | null
     getEditor: () => CKEditor<ClassicEditor> | null
 }
+
+export type SearchMapRef = {
+    setLocation: (index: number) => void
+}

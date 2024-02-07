@@ -28,15 +28,15 @@ export const MyModifyPage = () => {
 
     const navigate = useNavigate()
 
-    const onChangeUserName = (e: string) => {
+    function onChangeUserName(e: string) {
         setUserName(e)
     }
 
-    const onChangeUserPhone = (e: string) => {
+    function onChangeUserPhone(e: string) {
         setUserPhone(e)
     }
 
-    const onChangeUserImage = (e: ChangeEvent<HTMLInputElement>) => {
+    function onChangeUserImage(e: ChangeEvent<HTMLInputElement>) {
         if (e.target.files) {
             const reader = new FileReader()
             setFile(e.target.files[0])
@@ -74,7 +74,7 @@ export const MyModifyPage = () => {
         }
     }
 
-    const fetchData = async () => {
+    async function fetchData() {
         try {
             const userData = await ShowUserInfo(userMno)
             setUserData(userData)
@@ -90,7 +90,7 @@ export const MyModifyPage = () => {
     }, [])
 
     // 회원탈퇴
-    const WithdrawalId = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    async function WithdrawalId(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault()
         if (window.confirm('탈퇴하시겠습니까?')) {
             try {

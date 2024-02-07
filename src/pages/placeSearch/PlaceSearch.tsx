@@ -4,7 +4,6 @@ import {
     SearchInfo,
     SearchMap,
     Button,
-    SearchMapRef,
     LoadingSppinnerSmall,
     Title,
     MiniSppinner
@@ -12,7 +11,7 @@ import {
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {PlaceData} from '../../data'
+import {PlaceData, SearchMapRef} from '../../data'
 import {getSearchPlaceInfo} from '../../api'
 
 // 장소 검색 페이지

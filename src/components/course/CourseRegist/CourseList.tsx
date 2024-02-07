@@ -1,5 +1,5 @@
 import {FC, useState} from 'react'
-import {DragDropContext, OnDragEndResponder} from 'react-beautiful-dnd'
+import {DragDropContext, DropResult, OnDragEndResponder} from 'react-beautiful-dnd'
 import {RootState} from '../../../store/rootReducer'
 import {useSelector} from 'react-redux'
 import {addItemAtPosition, moveItem} from '../../../store/slices/CourseSlice'
@@ -27,7 +27,7 @@ export const CourseList: FC<DndProps> = ({create, day}) => {
         setCartView(false)
     }
 
-    const onChangeItems = (item: Item[]) => {
+    function onChangeItems(item: Item[]) {
         setItems(item)
     }
 
@@ -35,7 +35,7 @@ export const CourseList: FC<DndProps> = ({create, day}) => {
 
     const dispatch = useDispatch()
 
-    const onDragEnd: OnDragEndResponder = result => {
+    function onDragEnd(result: DropResult) {
         if (!result.destination) {
             return
         }

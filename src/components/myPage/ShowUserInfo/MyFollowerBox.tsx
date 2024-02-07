@@ -14,7 +14,7 @@ export const MyFollowerBox: FC<MyFollowerBoxProps> = ({mno, closeModal}) => {
     const [userFollowers, setUserFollowers] = useState<userFollows[] | null>(null)
     const navigate = useNavigate()
 
-    const fetchData = async () => {
+    async function fetchData() {
         try {
             const userFollowerData = await ShowUserFollowers(mno)
             setUserFollowers(userFollowerData)

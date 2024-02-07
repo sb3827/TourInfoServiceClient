@@ -147,7 +147,7 @@ export const Main: FC<MainProps> = () => {
     // 메인 아이템 로딩 useEffect
     const mno = useSelector((state: RootState) => state.login.mno)
 
-    const fetchData = async () => {
+    async function fetchData() {
         try {
             setLoading(true)
             const data = await GetMainitemRequest(mno)

@@ -17,7 +17,7 @@ export const CourseSearch = () => {
 
     const user = useSelector((state: RootState) => state.login.mno)!
 
-    const handleRegisterClick = () => {
+    function handleRegisterClick() {
         navigate(`/board/course/posting/register`)
     }
 

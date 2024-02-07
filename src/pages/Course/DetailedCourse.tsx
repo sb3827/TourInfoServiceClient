@@ -3,7 +3,6 @@ import {
     Title,
     TextBox,
     CoursePostMap,
-    PlaceProps,
     DropIcon,
     CourseList,
     MainSlider,
@@ -18,7 +17,7 @@ import {useNavigate, useSearchParams} from 'react-router-dom'
 import {getCookie} from '../../util/cookie'
 import {SwiperSlide} from 'swiper/react'
 import {coursePostLoad, deleteBoard, deleteLike, postLike} from '../../api'
-import {BoardData} from '../../data'
+import {BoardData, PlaceProps} from '../../data'
 import {Reply} from '../Reply'
 import BoardReportModal from '../../components/Board/BoardReportModal'
 
@@ -60,13 +59,8 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     const [loading, setLoading] = useState<boolean>(false)
 
     const navigate = useNavigate()
-    // left arrow button
-    function backPage() {
-        // 뒤로가기 로직
-        navigate(-1)
-    }
 
-    const delPage = () => {
+    function delPage() {
         try {
             if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
                 deleteBoard(parseInt(bno))
@@ -154,11 +148,15 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     }, [])
 
     // report
-    const nav = () => navigate(`/board/course/posting/modify?bno=${bno}`)
-    const closeModal = () => {
+    function nav() {
+        navigate(`/board/course/posting/modify?bno=${bno}`)
+    }
+    function closeModal() {
         setReport(false)
     }
-    const set = () => setReport(true)
+    function set() {
+        setReport(true)
+    }
     const boardData: BoardData = {
         bno: parseInt(bno),
         title: title,

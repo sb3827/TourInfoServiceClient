@@ -12,7 +12,7 @@ type BoardProps = {
 export const Board: FC<BoardProps> = ({placeBoardData}) => {
     const navigate = useNavigate()
 
-    const handleReviewClick = () => {
+    function handleReviewClick() {
         navigate(`/board/place/posting?bno=${placeBoardData?.bno}`)
     }
 

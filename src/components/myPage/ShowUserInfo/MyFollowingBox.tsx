@@ -15,7 +15,7 @@ export const MyFollowingBox: FC<MyFollowingBoxProps> = ({mno, closeModal}) => {
     // const userMno = useSelector((state: RootState) => state.login.mno) || 0
     const navigate = useNavigate()
 
-    const fetchData = async () => {
+    async function fetchData() {
         try {
             const userFollowingData = await ShowUserFollowings(mno)
             setUserFollowings(userFollowingData)

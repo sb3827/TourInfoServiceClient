@@ -22,7 +22,7 @@ export const TextEditor: FC<TextEditorProps> = forwardRef<EditorRef, TextEditorP
             getEditor: () => ckRef.current
         }))
 
-        const customUploadAdapter = (loader: any) => {
+        function customUploadAdapter(loader: any) {
             // (2)
             return {
                 upload() {

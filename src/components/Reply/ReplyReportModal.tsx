@@ -15,7 +15,7 @@ const ReplyReportModal: FC<ReplyReportModalProps> = ({replyData, onCloseModal}) 
 
     const [isModalOpen, setModalOpen] = useState<boolean>(true)
     const [reportReason, setReportReason] = useState<string>('')
-    const closeModal = () => {
+    function closeModal() {
         setModalOpen(false)
         onCloseModal(false)
     }

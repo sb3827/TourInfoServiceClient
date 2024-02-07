@@ -14,7 +14,7 @@ export const SimpleMap: FC<SimpleMapProps> = ({className, mno}) => {
     const [placeCount, setPlaceCount] = useState<userPlaceCount | null>(null)
 
     // count값에 해당하는 색 변경
-    const setColorByCount = (count: number) => {
+    function setColorByCount(count: number) {
         if (count === 0) return '#F1F1F1'
         if (count >= 10) return '#91D9CD'
         if (count >= 5) return '#A9DFD6'

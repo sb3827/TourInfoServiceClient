@@ -19,10 +19,12 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
 
     const [isModalOpen, setModalOpen] = useState<boolean>(false)
 
-    const openModal = () => {
+    function openModal() {
         setModalOpen(true)
     }
-    const closeModal = () => setModalOpen(false)
+    function closeModal() {
+        setModalOpen(false)
+    }
 
     //신고 확인
     async function onCheckReport() {

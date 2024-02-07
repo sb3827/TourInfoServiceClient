@@ -15,7 +15,8 @@ const BoardReportModal: FC<BoardReportModalProps> = ({boardData, onCloseModal}) 
 
     const [isModalOpen, setModalOpen] = useState<boolean>(true)
     const [reportReason, setReportReason] = useState<string>('')
-    const closeModal = () => {
+
+    function closeModal() {
         setModalOpen(false)
         onCloseModal(false)
     }

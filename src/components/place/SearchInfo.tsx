@@ -20,18 +20,18 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, modal, ...prop
     const [modalView, setModalView] = useState<boolean>(false)
 
     //모달 열기
-    const onOpenModal = () => {
+    function onOpenModal() {
         setModalView(true)
     }
 
     //모달 닫기
-    const onCloseModal = () => {
+    function onCloseModal() {
         setModalView(false)
     }
 
     const user = useSelector((state: RootState) => state.login.mno)!
 
-    const handleReviewClick = () => {
+    function handleReviewClick() {
         if (placeInfoData && placeInfoData.pno) {
             // 예상되는 pno 데이터가 있다면
             const {pno} = placeInfoData

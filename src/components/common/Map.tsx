@@ -11,21 +11,13 @@ import {
     forwardRef,
     Ref
 } from 'react'
-
-type PlaceData = {
-    name: string
-    lng: number
-    lat: number
-} & Address
-
-type Address = {
-    roadAddress: string // 도로명
-    localAddress: string // 지번
-    engAddress: string // 영문
-}
-type AddressResult = {
-    msg: string // 처리 message
-} & Address
+import {
+    AddressResult,
+    LatLng,
+    PlaceCommonData,
+    PlaceProps,
+    SearchMapRef
+} from '../../data'
 
 // 주소 to 주소 검색
 // 사용법 : searchAddressToCoordinate('불정로 6').then(result => console.error(result))
@@ -212,9 +204,6 @@ export const PlainMap: FC<
         if (!mapElement.current || !naver) return
         // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
         const location = new naver.maps.LatLng(35.153289, 129.0597855)
-        // const maxBoundary = new naver.maps.LatLngBounds(
-        //     new naver.maps.LatLng(lat, lng),
-        //     new naver.maps.LatLng(lat, lng));
         const mapOptions: naver.maps.MapOptions = {
             disableDoubleClickZoom: true, // 더블 클릭 줌 해제
             draggable: true, // default true
@@ -234,37 +223,10 @@ export const PlainMap: FC<
         }
 
         const map = new naver.maps.Map(mapElement.current, mapOptions)
-
-        // const polyline = new naver.maps.Polyline({
-        //     map: map,
-        //     path: [],
-        //     strokeColor: '#5347AA',
-        //     strokeWeight: 2
-        // })
-
-        // naver.maps.Event.addListener(map, 'click', function (e) {
-        //     const path = polyline.getPath()
-        //     path.push(e.coord)
-
-        //     new naver.maps.Marker({
-        //         map: map,
-        //         position: e.coord
-        //     })
-        // })
     }, [])
 
     return <div ref={mapElement} style={{minHeight: '300px'}} {...props}></div>
 }
-
-export type LatLng = {
-    lat: number
-    lng: number
-}
-// marker props
-export type PlaceProps = {
-    name: string // 장소 이름
-} & LatLng &
-    Address
 
 type PlacePostMapProps = {
     place: PlaceProps
@@ -617,12 +579,8 @@ export const CoursePostMap: FC<PropsWithChildren<CoursePostMapProps>> = ({
     )
 }
 
-export type SearchMapRef = {
-    setLocation: (index: number) => void
-}
-
 type SearchMapProps = {
-    places: PlaceData[] | null
+    places: PlaceCommonData[] | null
     innerRef: Ref<SearchMapRef>
 } & RefAttributes<naver.maps.Map> &
     DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>

@@ -43,12 +43,6 @@ export const PlaceCartModal: FC<Pno> = ({pno, onCloseModal}) => {
         title: 'NewFolder'
     }
 
-    const updateFolderData: updateFolderData = {
-        fno: editingFolder,
-        mno: user,
-        title: folderTitle
-    }
-
     const selectFolder = (fno: number) => {
         setEditingFolder(fno)
     }

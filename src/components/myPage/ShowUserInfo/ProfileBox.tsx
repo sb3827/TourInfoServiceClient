@@ -25,10 +25,10 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
 
     const navigate = useNavigate()
 
-    const openModal = () => {
+    function openModal() {
         setShowModal(true)
     }
-    const closeModal = () => {
+    function closeModal() {
         setShowModal(false)
     }
 
@@ -46,7 +46,7 @@ export const ProfileBox: FC<ProfileProps> = ({mno}) => {
         fetchData()
     }
 
-    const fetchData = async () => {
+    async function fetchData() {
         try {
             setLoading(true)
             const userProfileData = await ShowUserProfile(mno)

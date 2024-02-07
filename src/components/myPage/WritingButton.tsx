@@ -20,7 +20,7 @@ export const WritingButton: FC<WritingButtonProps> = ({mno}) => {
         reply: <MyReplyBox mno={mno} />
     }
 
-    const onChangeContent = (type: string) => {
+    function onChangeContent(type: string) {
         setContent(components[type])
         setToggle(type)
     }

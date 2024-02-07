@@ -16,7 +16,7 @@ export const EditPassword = () => {
     const navigate = useNavigate()
 
     // 사용자 email 정보 받아옴
-    const fetchData = async () => {
+    async function fetchData() {
         try {
             const userData = await ShowUserInfo(userMno)
             setemail(userData.email)
@@ -24,25 +24,26 @@ export const EditPassword = () => {
             console.error(err)
         }
     }
+
     useEffect(() => {
         fetchData()
     }, [])
 
     // 현재 비밀번호
-    const onChangeOldPassword = (e: string) => {
+    function onChangeOldPassword(e: string) {
         setOldPassword(e)
     }
     // 새 비밀번호
-    const onChangeNewPassword = (e: string) => {
+    function onChangeNewPassword(e: string) {
         setNewPassword(e)
     }
     // 새 비밀번호 확인
-    const onChangeReNewPassword = (e: string) => {
+    function onChangeReNewPassword(e: string) {
         setReNewPassword(e)
     }
 
     // 비밀번호 변경
-    const resetPassword = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    async function resetPassword(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         // 비밀번호 공백 입력 시
         if (oldPassword === '' || newPassword === '' || reNewPassword === '') {
             alert('현재 비밀번호 / 새 비밀번호를 입력해주세요')

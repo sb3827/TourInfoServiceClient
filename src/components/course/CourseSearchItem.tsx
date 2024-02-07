@@ -18,7 +18,6 @@ const CourseSearchItem: React.FC<CourseSearchItemProps> = ({isAd, searchValue}) 
     const [page, setPage] = useState<number>(1)
 
     const [searchParams, setSearchParams] = useSearchParams()
-    const initialSearch = searchParams.get('search') || ''
     const [loading, setLoading] = useState<Boolean>(false)
 
     // 검색 결과 데이터 - 유저

@@ -6,15 +6,12 @@ import {
     Rating,
     InputPlace,
     PlacePostMap,
-    Modal,
-    PnoName,
-    PlaceProps
+    Modal
 } from '../../components'
 import {useLocation, useNavigate, useSearchParams} from 'react-router-dom'
-// import type {RatingRef, EditorRef, PlaceProps, PnoName} from '../../components'
 import {RootState} from '../../store/rootReducer'
 import {useSelector} from 'react-redux'
-import {EditorRef, RatingRef, savePlaceBoardDTO} from '../../data'
+import {EditorRef, PlaceProps, PnoName, RatingRef, savePlaceBoardDTO} from '../../data'
 import {deleteBoard, modifyPlaceBoard, placePostLoad, registPlaceBoard} from '../../api'
 
 type PostRegisterProps = {

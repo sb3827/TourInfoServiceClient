@@ -17,7 +17,7 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart, mno}) => {
     const [folder, setFolder] = useState<folderAll>()
     const [refreshFlag, setRefreshFlag] = useState<boolean>(false)
 
-    const fetchData = async () => {
+    async function fetchData() {
         try {
             const userFolderData = await ShowFolderAll(mno)
             setFolder(userFolderData)
@@ -30,10 +30,10 @@ export const ShowTotalLikes: FC<ShowTotalLikesProps> = ({cart, mno}) => {
         fetchData()
     }, [refreshFlag])
 
-    const openModal = () => {
+    function openModal() {
         setShowModal(true)
     }
-    const closeModal = () => {
+    function closeModal() {
         setShowModal(false)
     }
 
