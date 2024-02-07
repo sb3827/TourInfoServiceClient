@@ -58,7 +58,7 @@ export const Sidebar = () => {
             <div className="h-full ml-auto">
                 <div
                     className={` opacity-90 z-50 rounded-tr-3xl  fixed top-0 bg-lightGreen transition-all duration-200 flex-col items-center  ${
-                        isOpen ? 'w-64 h-full ' : 'w-10 rounded-br-3xl'
+                        isOpen ? ' w-44 xl:w-64  h-full ' : 'w-10 rounded-br-3xl'
                     }`}>
                     <div
                         className={`bg-darkGreen  flex items-center px-4 text-2xl h-14  ${
@@ -81,25 +81,41 @@ export const Sidebar = () => {
                             <SidebarRoute />
                             {/* 장소 게시판으로 이동  */}
                             <SidebarItem sideTitle="장소 게시판" onClick={onPlace}>
-                                <FontAwesomeIcon icon={faMapLocationDot} color="white" />
+                                <FontAwesomeIcon
+                                    icon={faMapLocationDot}
+                                    color="white"
+                                    className="text-sm xl:text-base"
+                                />
                             </SidebarItem>
                             {/* 코스 게시판으로 이동 */}
                             <SidebarItem sideTitle="코스 게시판" onClick={onCourse}>
-                                <FontAwesomeIcon icon={faRoute} color="white" />
+                                <FontAwesomeIcon
+                                    icon={faRoute}
+                                    color="white"
+                                    className="text-sm xl:text-base"
+                                />
                             </SidebarItem>
                             <SidebarItem sideTitle="유저 검색" onClick={onFindUser}>
-                                <FontAwesomeIcon icon={faFaceLaughBeam} color="white" />
+                                <FontAwesomeIcon
+                                    icon={faFaceLaughBeam}
+                                    color="white"
+                                    className="text-sm xl:text-base"
+                                />
                             </SidebarItem>
                             {role === 'ADMIN' && (
                                 <SidebarItem
                                     sideTitle="관리자 페이지"
                                     onClick={onManager}>
-                                    <FontAwesomeIcon icon={faUserGear} color="white" />
+                                    <FontAwesomeIcon
+                                        icon={faUserGear}
+                                        color="white"
+                                        className="text-sm xl:text-base"
+                                    />
                                 </SidebarItem>
                             )}
                         </div>
                         <div className="-mb-10">
-                            <p className="text-sm italic font-thin text-stone-100">
+                            <p className="text-xs italic font-thin text-stone-100 xl:text-sm">
                                 Discovery of Travel
                             </p>
                         </div>

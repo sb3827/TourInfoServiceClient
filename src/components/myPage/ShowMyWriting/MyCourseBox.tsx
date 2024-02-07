@@ -8,7 +8,7 @@ type MyCourseBoxProps = {
 }
 
 export const MyCourseBox: FC<MyCourseBoxProps> = ({mno}) => {
-    const [CourseList, setCourseList] = useState<userCourse>()
+    const [courseList, setCourseList] = useState<userCourse>()
 
     const navigate = useNavigate()
 
@@ -17,7 +17,6 @@ export const MyCourseBox: FC<MyCourseBoxProps> = ({mno}) => {
             try {
                 const userCourseData = await ShowUserCourse(mno)
                 setCourseList(userCourseData)
-                console.log(userCourseData)
             } catch {
                 console.error('error')
             }
@@ -37,8 +36,8 @@ export const MyCourseBox: FC<MyCourseBoxProps> = ({mno}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {Array.isArray(CourseList) &&
-                        CourseList.map((course: userCourse) => (
+                    {Array.isArray(courseList) &&
+                        courseList.map((course: userCourse) => (
                             <tr className="">
                                 <td className="">
                                     <span
@@ -63,11 +62,16 @@ export const MyCourseBox: FC<MyCourseBoxProps> = ({mno}) => {
                                     </span>
                                 </td>
                                 <td className="">{course.writer}</td>
-                                <td className="">{course.regdate}</td>
+                                <td className="">{course.regdate.slice(0,10)}</td>
                             </tr>
                         ))}
                 </tbody>
             </table>
+            {!courseList && (
+                <div className="py-8">
+                    <p>작성글이 없습니다.</p>
+                </div>
+            )}
         </div>
     )
 }

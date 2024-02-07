@@ -8,7 +8,7 @@ type MyReplyBoxProps = {
 }
 
 export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
-    const [ReplyList, setReplyList] = useState<userReply | null>(null)
+    const [replyList, setReplyList] = useState<userReply | null>(null)
 
     const navigate = useNavigate()
 
@@ -17,7 +17,6 @@ export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
             try {
                 const userReplyData = await ShowUserReply(mno)
                 setReplyList(userReplyData)
-                console.log(userReplyData)
             } catch (error) {
                 console.error('error', error)
             }
@@ -30,16 +29,16 @@ export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
             <div>
                 <table className="w-full table-auto">
                     <thead className="justify-between">
-                        <tr className="">
-                            <th className="px-20">글번호</th>
-                            <th className="px-20">제목</th>
-                            <th className="px-20">내용</th>
+                        <tr className="border-b ">
+                            <th className="px-20 border-r ">글번호</th>
+                            <th className="px-20 border-r ">제목</th>
+                            <th className="px-20 border-r ">내용</th>
                             <th className="px-20">작성일자</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {Array.isArray(ReplyList) &&
-                            ReplyList.map((reply: userReply) => (
+                        {Array.isArray(replyList) &&
+                            replyList.map((reply: userReply) => (
                                 <tr key={reply.rno}>
                                     <td className="px-4">
                                         <span>{reply.rno}</span>
@@ -81,11 +80,16 @@ export const MyReplyBox: FC<MyReplyBoxProps> = ({mno}) => {
                                             {reply.text}
                                         </span>
                                     </td>
-                                    <td>{reply.regdate}</td>
+                                    <td>{reply.regdate.slice(0,10)}</td>
                                 </tr>
                             ))}
                     </tbody>
                 </table>
+                {!replyList && (
+                    <div className="py-8">
+                        <p>작성 댓글이 없습니다.</p>
+                    </div>
+                )}
             </div>
         </div>
     )

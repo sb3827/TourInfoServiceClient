@@ -9,7 +9,9 @@ import {
     Input,
     SearchMapRef,
     Title,
-    Modal
+    Modal,
+    PlaceProps,
+    LoadingSppinnerSmall
 } from './../../index'
 import {PlaceData} from './../../../data/placeSearch'
 import {registerPlace} from './../../../api/index'
@@ -24,27 +26,37 @@ import React, {
     Ref,
     useEffect
 } from 'react'
+import {useDispatch} from 'react-redux'
+import {addLastItem} from '../../../store/slices/CourseSlice'
 
 // 컴포넌트 className 값
 type InputPlaceProps = {
     className?: string
     ref?: Ref<PnoName>
-    getPlaceData?: (pno: number, pname: string) => void
+    getPlaceData?: (pno: number, place: PlaceProps) => void
     onClose?: () => void
+    dayIndex?: number
 }
 
 export type PnoName = {
     getPno: number
-    getPname?: string
+    // getPname?: string
 }
 
 export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlaceProps>(
-    ({className, getPlaceData, onClose}, ref) => {
+    ({className, getPlaceData, onClose, dayIndex}, ref) => {
         const [searchValue, setSearchValue] = useState<string>('')
         const [selectedCategory, setSelectedCategory] = useState<string>('') // 장소 검색할때 category
         const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null) // 장소 검색 결과
         const searchMapRef = useRef<SearchMapRef | null>(null)
-        const [RegisterSpotModal, setRegisterSpotModal] = useState(false)
+        const [registerSpotModal, setRegisterSpotModal] = useState(false)
+
+        const [loading, setLoading] = useState<boolean>(false)
+
+        const placeInfoRef = useRef(null) // 관찰할 요소에 대한 참조
+
+        const [page, setPage] = useState<number>(1)
+        const [placeInfoRequest, setPlaceInfoRequest] = useState<boolean>(true)
 
         // 장소 등록을 위한 값
         const [placeName, setPlaceName] = useState<string>('')
@@ -56,6 +68,9 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
         const [selectedSpotCategory, setSelectedSpotCategory] = useState<string>('SIGHT') // 장소 등록할때 category
 
         const [pno, setPno] = useState<number>(0)
+
+        //day 아이템 추가
+        const dispatch = useDispatch()
 
         useImperativeHandle(ref, () => ({
             getPno: pno,
@@ -114,11 +129,19 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
             setSelectedSpotCategory(e.target.value)
         }
 
-        //장소 선택 확인 함수
-        function onCheckPlace(pno: number, pname: string) {
-            const con = window.confirm(`${pname} 장소를 선택 하시겠습니까?`)
+        function onCheckPlace(pno: number, place: PlaceProps, img: string) {
+            const con = window.confirm(`${place.name} 장소를 선택 하시겠습니까?`)
             if (con) {
-                getPlaceData && getPlaceData(pno, pname)
+                getPlaceData && getPlaceData(pno, place)
+                console.log(place)
+                if (typeof dayIndex === 'number' && dayIndex >= 0) {
+                    dispatch(
+                        addLastItem({
+                            index: dayIndex,
+                            item: {pno: pno, pname: place.name, img: img}
+                        })
+                    )
+                }
                 onClose && onClose()
             }
         }
@@ -135,20 +158,59 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
             ) {
                 return
             }
-
+            setLoading(true)
             try {
-                const data = await getSearchPlaceInfo(selectedCategory, searchValue)
+                const data = await getSearchPlaceInfo(selectedCategory, searchValue, 0)
                 setPlaceInfoData(data)
-                console.log(data)
+                setPage(1)
+                setPlaceInfoRequest(true)
             } catch (err) {
                 console.log(err)
                 alert('서버와 연결이 끊겼습니다.')
             }
+            setLoading(false)
         }
 
+        //초기
         useEffect(() => {
             onPlaceList()
-        }, [RegisterSpotModal])
+        }, [registerSpotModal])
+
+        //스크롤 조회
+        async function onInfinityList() {
+            try {
+                const data = await getSearchPlaceInfo(selectedCategory, searchValue, page)
+                //데이터를 받는것이 없으면 스크롤 할 시 요청 보내지 못하도록 state 변경
+                if (data.length === 0) {
+                    observer.disconnect()
+                    placeInfoData !== null && setPlaceInfoRequest(false)
+                    return
+                }
+                placeInfoData !== null && setPlaceInfoData([...placeInfoData, ...data])
+                setPage(page + 1)
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                placeInfoRequest === true && onInfinityList()
+            }
+        })
+
+        //스크롤 설정
+        useEffect(() => {
+            //무한 스크롤
+            if (placeInfoRef.current) {
+                observer.observe(placeInfoRef.current) // loaderRef를 관찰 대상으로 등록
+            }
+            return () => {
+                if (placeInfoRef.current) {
+                    observer.unobserve(placeInfoRef.current) // 컴포넌트 언마운트 시 관찰 취소
+                }
+            }
+        }, [placeInfoData, placeInfoRequest, placeInfoRef])
 
         return (
             <div className={className}>
@@ -166,6 +228,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                             <option value="ETC">기타</option>
                         </select>
                         <SearchInput
+                            placeholder="장소 검색"
                             className="w-full ml-1"
                             value={searchValue}
                             onChange={onChangeSearch}
@@ -188,23 +251,44 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                             <FontAwesomeIcon icon={faPlus} />
                         </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center w-full overflow-hidden h-4/5">
+                    <div className="relative flex flex-col items-center justify-center w-full overflow-hidden h-4/5">
+                        {loading && <LoadingSppinnerSmall />}
                         <div className="flex justify-center w-full h-full ">
                             <div className="flex w-full h-full ">
                                 {/* <div className="z-0 w-1/3 overflow-y-auto border rounded-lg border--300"> */}
                                 <div className="w-1/3 mr-2 overflow-y-auto">
                                     {/* 검색 결과를 보여줄 컴포넌트 */}
-                                    {placeInfoData &&
+                                    {placeInfoData && placeInfoData.length > 0 ? (
                                         placeInfoData.map((data: PlaceData, index) => (
                                             <SearchInfo
+                                                key={index}
                                                 modal={true}
                                                 placeInfoData={data}
                                                 mapClick={() => {
                                                     onMap(index)
                                                     setPno(data.pno)
-                                                    onCheckPlace(data.pno, data.name)
+                                                    onCheckPlace(
+                                                        data.pno,
+                                                        data,
+                                                        data.image
+                                                    )
                                                 }}
                                             />
+                                        ))
+                                    ) : (
+                                        <div className="flex items-center justify-center w-full h-full">
+                                            <p className="text-lg font-semibold">
+                                                검색결과가 존재하지 않습니다...
+                                            </p>
+                                        </div>
+                                    )}
+                                    {placeInfoData?.length !== 0 &&
+                                        (placeInfoRequest === true ? (
+                                            <div className="" ref={placeInfoRef}>
+                                                로딩중 ...
+                                            </div>
+                                        ) : (
+                                            <div>마지막 입니다.</div>
                                         ))}
 
                                     {/* 클릭시 장소등록 모달 열림, 장소등록 버튼 (수정하셔도 됩니다) */}
@@ -212,9 +296,10 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
 
                                 {/* 장소등록 모달 */}
                                 <div>
-                                    {RegisterSpotModal ? (
+                                    {registerSpotModal ? (
                                         <Modal isOpen onClose={closeRegisterSpotModal}>
-                                            <div className="w-full h-full p-8">
+                                            <div className="w-full h-full p-4">
+                                                <Title>장소 추가</Title>
                                                 <div className="flex bg-white">
                                                     <div className="flex items-center justify-between w-full mb-3 ">
                                                         {/* <div className="flex items-center">
@@ -227,7 +312,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                                         </div> */}
                                                         <div className="flex items-center w-full h-full">
                                                             <select
-                                                                className="py-3 border-2 border-darkGreen rounded-xl"
+                                                                className="px-2 py-3 border-2 border-darkGreen rounded-xl"
                                                                 value={
                                                                     selectedSpotCategory
                                                                 }
@@ -284,7 +369,7 @@ export const InputPlace: FC<InputPlaceProps> = forwardRef<PnoName, InputPlacePro
                                     ) : null}
                                 </div>
                                 <div className="w-4/6 border border-gray-300 rounded-lg">
-                                    {!RegisterSpotModal &&
+                                    {!registerSpotModal &&
                                         (placeInfoData ? (
                                             <SearchMap
                                                 places={placeInfoData}

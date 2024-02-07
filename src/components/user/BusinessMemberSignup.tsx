@@ -4,8 +4,8 @@ import {
     Subtitle,
     DropdownSelect,
     Button,
-    SignupInput,
-    LoadingSppinner
+    LoadingSppinner,
+    LoginInput
 } from '../../components'
 import {duplicatedEmailCheckRequest, signupRequest} from '../../api/Signup/Signup'
 import {postBusinessCheck} from '../../api/Business/BusinessCheck'
@@ -43,6 +43,12 @@ export const BusinessMemberSignup = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const [customDomain, setCustomDomain] = useState<string>('@')
+
+    const onChangeCustomDomain = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCustomDomain(e.target.value)
+    }
 
     //이메일 검증
     const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
@@ -102,13 +108,23 @@ export const BusinessMemberSignup = () => {
             alert('이메일을 입력하세요')
             return
         }
-        if (!email_regex.test(userEmail + selectValue)) {
+        if (
+            !email_regex.test(
+                userEmail + (selectValue == 'custom' ? customDomain : selectValue)
+            )
+        ) {
             alert('이메일 형식이 아닙니다.')
             return
         }
         try {
-            const data = await duplicatedEmailCheckRequest(userEmail + selectValue)
-            dispatch(setEmail(userEmail + selectValue))
+            const data = await duplicatedEmailCheckRequest(
+                userEmail + (selectValue == 'custom' ? customDomain : selectValue)
+            )
+            dispatch(
+                setEmail(
+                    userEmail + (selectValue == 'custom' ? customDomain : selectValue)
+                )
+            )
 
             alert(
                 data.isDuplicate ? '이미 가입된 이메일입니다' : '사용 가능한 이메일입니다'
@@ -182,48 +198,65 @@ export const BusinessMemberSignup = () => {
             )
         ) {
             return
-        }
-        try {
-            setLoading(true)
-            const formattedBusinessCode = `${userBusinessCode.slice(
-                0,
-                3
-            )}-${userBusinessCode.slice(3, 5)}-${userBusinessCode.slice(5)}`
-            const data: SignupData = {
-                email: userEmail + selectValue,
-                password: userPassword,
-                birth: userBirthDate,
-                phone: formattedPhoneNumber,
-                name: userName,
-                businessId: formattedBusinessCode,
-                role: 'BUSINESSPERSON'
+        } else {
+            try {
+                setLoading(true)
+                const formattedBusinessCode = `${userBusinessCode.slice(
+                    0,
+                    3
+                )}-${userBusinessCode.slice(3, 5)}-${userBusinessCode.slice(5)}`
+                const data: SignupData = {
+                    email:
+                        userEmail +
+                        (selectValue == 'custom' ? customDomain : selectValue),
+                    password: userPassword,
+                    birth: userBirthDate,
+                    phone: formattedPhoneNumber,
+                    name: userName,
+                    businessId: formattedBusinessCode,
+                    role: 'BUSINESSPERSON'
+                }
+                if (
+                    email_regex.test(
+                        userEmail + (selectValue == 'custom' ? customDomain : selectValue)
+                    )
+                ) {
+                    const result = await signupRequest(data)
+                    dispatch(
+                        setEmail(
+                            userEmail +
+                                (selectValue == 'custom' ? customDomain : selectValue)
+                        )
+                    )
+                    alert('회원가입성공! 이메일 인증을 진행해주세요')
+                    navigate('/login')
+                } else {
+                    alert('이메일을 확인하세요')
+                    setIsEmailChecked(false)
+                }
+            } catch (error) {
+                alert('회원가입 요청 실패')
+                console.log(error)
             }
-            const result = await signupRequest(data)
-            dispatch(setEmail(userEmail + selectValue))
-            alert('회원가입성공! 이메일 인증을 진행해주세요')
-            navigate('/login')
-        } catch (error) {
-            alert('회원가입 요청 실패')
-            console.log(error)
+            setLoading(false)
         }
-        setLoading(false)
     }
 
     return (
         <div className="h-full p-8 border rounded-lg md:w-11/12 lg:ml-6 lg:w-11/12">
             {loading && <LoadingSppinner />}
-            <Title className="my-6 text-[#609966]">야! 먹고놀자 계정 만들기</Title>
+            <Title className="my-6 mb-8 text-[#609966]">여행의발견 계정 만들기</Title>
             <Subtitle className="text-[#8EB682]">
-                야! 먹고놀자는 당신의 비즈니스를 홍보하고
+                개성 있는 여행을 위한 맞춤형 계획을 세우세요.{' '}
             </Subtitle>
             <Subtitle className="mb-8 text-[#8EB682]">
-                고객들에게 도달할 수 있는 기회를 제공합니다.
+                DoT와 함께라면 여행은 더욱 특별해집니다.
             </Subtitle>
 
             <div onKeyDown={onSignupClicked}>
                 {/* 이메일 입력 창 */}
                 <div className="flex flex-row ">
-                    <SignupInput
+                    <LoginInput
                         value={userEmail}
                         type="email"
                         text="이메일"
@@ -238,7 +271,17 @@ export const BusinessMemberSignup = () => {
                                 <option value="@naver.com">@naver.com</option>
                                 <option value="@gmail.com">@gmail.com</option>
                                 <option value="@kako.com">@kakao.com</option>
+                                <option value="custom">직접 입력</option>
                             </select>
+                            {selectValue === 'custom' && (
+                                <input
+                                    type="text"
+                                    value={customDomain}
+                                    onChange={onChangeCustomDomain}
+                                    placeholder="Enter custom domain"
+                                    className="block p-2 mt-1 leading-tight bg-white border border-gray-300 shadow appearance-none rounded-2xl focus:outline-none focus:shadow-outline"
+                                />
+                            )}
                         </div>
                     </DropdownSelect>
                     <Button
@@ -248,8 +291,10 @@ export const BusinessMemberSignup = () => {
                 </div>
                 {/* 사업자 번호 입력 창 */}
                 <div className="flex flex-row ">
-                    <SignupInput
-                        className="flex-1 mt-6"
+                    <LoginInput
+                        className={`flex-1 mt-6 ${
+                            isBussinesscodeChecked ? 'pointer-events-none' : ''
+                        }`}
                         value={userBusinessCode}
                         type="text"
                         text="사업자번호(-제외)"
@@ -262,7 +307,7 @@ export const BusinessMemberSignup = () => {
                 </div>
             </div>
             {/* 비밀번호 입력창 */}
-            <SignupInput
+            <LoginInput
                 className="my-6"
                 value={userPassword}
                 type="password"
@@ -270,7 +315,7 @@ export const BusinessMemberSignup = () => {
                 onChange={onUserPasswordChange}
             />
             {/* 비밀번호 재입력창 */}
-            <SignupInput
+            <LoginInput
                 className="mb-6"
                 value={repeatPassword}
                 type="password"
@@ -278,7 +323,7 @@ export const BusinessMemberSignup = () => {
                 onChange={onRepeatPasswordChange}
             />
             {/* 이름 입력창 */}
-            <SignupInput
+            <LoginInput
                 className="mb-6"
                 value={userName}
                 type="userName"
@@ -286,14 +331,15 @@ export const BusinessMemberSignup = () => {
                 onChange={onUserNameChange}
             />
             {/* 생년월일 입력창 */}
-            <SignupInput
+            <LoginInput
                 className="mb-6"
                 value={userBirthDate}
+                text=""
                 type="date"
                 onChange={onUserBirthDateChange}
             />
             {/* 휴대폰번호 입력창 */}
-            <SignupInput
+            <LoginInput
                 className="mb-6"
                 value={userPhoneNumber}
                 type="phoneNumber"

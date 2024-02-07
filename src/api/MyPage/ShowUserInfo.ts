@@ -67,13 +67,13 @@ export const ShowUserCourse = async (mno: number): Promise<userCourse> => {
 }
 
 // 팔로잉 조회
-export const ShowUserFollowings = async (mno: number): Promise<userFollows> => {
+export const ShowUserFollowings = async (mno: number): Promise<userFollows[]> => {
     const response = await commonAxios.get(`/follow/followings?mno=${mno}`)
     return response.data
 }
 
 // 팔로워 조회
-export const ShowUserFollowers = async (mno: number): Promise<userFollows> => {
+export const ShowUserFollowers = async (mno: number): Promise<userFollows[] | null> => {
     const response = await commonAxios.get(`/follow/followers?mno=${mno}`)
     return response.data
 }
@@ -86,5 +86,18 @@ export const ShowPlaceCount = async (mno: number): Promise<userPlaceCount> => {
 
 export const deleteId = async (mno: number): Promise<void> => {
     const response = await refreshAxios.delete(`/users/delete?mno=${mno}`)
+    return response.data
+}
+
+export const changePw = async (
+    email: string,
+    oldPassword: string,
+    newPassword: string
+): Promise<void> => {
+    const response = await refreshAxios.post(`/auth/password/change`, {
+        email,
+        oldPassword,
+        newPassword
+    })
     return response.data
 }

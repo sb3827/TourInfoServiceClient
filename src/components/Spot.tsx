@@ -15,9 +15,9 @@ type SpotProps = {
 // daily course spot component
 export const Spot: FC<PropsWithChildren<SpotProps>> = props => {
     return (
-        <div className="w-32 m-3 bg-white rounded-lg">
+        <div className="flex flex-col m-2 rounded-lg ">
             {props.isRegister && (
-                <div className="flex justify-end mt-2 mr-2">
+                <div className="absolute flex justify-end right-1 top-1">
                     <FontAwesomeIcon
                         icon={faCircleMinus}
                         style={{color: '#c2c2c2'}}
@@ -30,7 +30,9 @@ export const Spot: FC<PropsWithChildren<SpotProps>> = props => {
                     />
                 </div>
             )}
-            <img src={props.src} alt="img" />
+            <div className="flex justify-center w-24 h-20">
+                <img src={props.src} alt="img" className="object-fill h-full p-2 " />
+            </div>
             {props.children}
         </div>
     )

@@ -14,13 +14,24 @@ export const CourseInfo: FC<CourseInfoProps> = ({boardData}) => {
 
     const imageArray =
         boardData?.srcList &&
-        boardData.srcList.length > 0 &&
-        boardData.srcList.map((src, index) => (
-            <div key={index} className="flex justify-center h-full overflow-hidden">
+        (boardData.srcList.length > 0 ? (
+            boardData.srcList.map((src, index) => (
+                <div
+                    key={index}
+                    className="flex justify-center h-full overflow-hidden rounded-t-2xl">
+                    <img
+                        src={src ? src : noImage}
+                        alt="Image"
+                        className="duration-150 xl:h-80 hover:scale-110"
+                    />
+                </div>
+            ))
+        ) : (
+            <div className="flex justify-center h-full overflow-hidden rounded-t-2xl">
                 <img
-                    src={src ?? noImage}
+                    src={noImage}
                     alt="Image"
-                    className="h-full duration-150 hover:scale-110"
+                    className="duration-150 xl:h-80 hover:scale-110"
                 />
             </div>
         ))
@@ -30,27 +41,30 @@ export const CourseInfo: FC<CourseInfoProps> = ({boardData}) => {
     }
 
     return (
-        <div
-            className="flex flex-col items-center justify-center flex-1 w-full my-5 shadow-2xl cursor-pointer border-lightGreen rounded-2xl "
-            onClick={handleReviewClick}>
-            <div className="flex justify-center w-full h-full overflow-hidden">
-                {imageArray}
-            </div>
-            <div className="relative flex items-center justify-between w-full p-3">
-                <div className="flex flex-col w-full">
-                    <p className="my-3 text-xl font-bold">{boardData?.title}</p>
-                    <div className="flex flex-col px-3 text-left text-gray-500">
-                        <p className="">{boardData?.writer}</p>
-                        <p className="">{boardData?.regDate}</p>
-                    </div>
-                    <div className="absolute flex items-center justify-center top-2 right-3">
-                        <div>
-                            <FontAwesomeIcon icon={faStar} size="lg" color="gold" />
-                            <p className="text-sm">{boardData?.score}</p>
+        <div className="flex flex-col items-center justify-center w-full mb-5">
+            <div
+                className="flex flex-col items-center justify-center w-full my-5 shadow-2xl cursor-pointer xl:w-11/12 xl:h-96 border-lightGreen rounded-2xl "
+                onClick={handleReviewClick}>
+                <div className="flex justify-center w-full h-full overflow-hidden">
+                    {imageArray}
+                </div>
+
+                <div className="relative flex items-center justify-between w-full p-3 ">
+                    <div className="flex flex-col w-full">
+                        <p className="my-3 text-xl font-bold">{boardData?.title}</p>
+                        <div className="flex flex-col px-3 text-left text-gray-500">
+                            <p className="">{boardData?.writer}</p>
+                            <p className="">{boardData?.regDate.slice(0, 10)}</p>
                         </div>
-                        <div>
-                            <FontAwesomeIcon icon={faHeart} size="lg" color="red" />
-                            <p className="text-sm">{boardData?.likes}</p>
+                        <div className="absolute flex items-center justify-center top-3 right-5">
+                            <div className="mr-2">
+                                <FontAwesomeIcon icon={faStar} size="lg" color="gold" />
+                                <p className="text-sm">{boardData?.score}</p>
+                            </div>
+                            <div>
+                                <FontAwesomeIcon icon={faHeart} size="lg" color="red" />
+                                <p className="text-sm">{boardData?.likes}</p>
+                            </div>
                         </div>
                     </div>
                 </div>

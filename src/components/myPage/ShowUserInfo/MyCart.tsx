@@ -9,17 +9,14 @@ import {
 } from './../../../api/Folder/Folder'
 import {
     folderAll,
-    folder,
     registerFolderData,
     updateFolderData
 } from './../../../data/Folder/Folder'
-import {Spot, MyPocketModal, Subtitle, CartItem, Item} from './../../index'
+import {CartItem, Item} from './../../index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faPenToSquare, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {RootState} from './../../../store/rootReducer'
 import {useSelector} from 'react-redux'
-
-//TODO - spot 추가 후 새로고침해야 나오는 문제
 
 type MyCartProps = {
     onChangeItems?: (itme: Item[]) => void
@@ -27,6 +24,8 @@ type MyCartProps = {
     dragDisable?: boolean
     onClose?: boolean
     mno: number
+    animate?: string
+    myCart?: Boolean
 }
 
 export const MyCart: FC<MyCartProps> = ({
@@ -34,7 +33,9 @@ export const MyCart: FC<MyCartProps> = ({
     className,
     dragDisable,
     onClose,
-    mno
+    mno,
+    animate,
+    myCart
 }) => {
     const [folder, setFolder] = useState<folderAll>()
     const [selectedFno, setSelectedFno] = useState<number | null>(0)
@@ -42,7 +43,6 @@ export const MyCart: FC<MyCartProps> = ({
     const [isFolderNameModalOpen, setIsFolderNameModalOpen] = useState(false)
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [editingButtonIndex, setEditingButtonIndex] = useState<number | null>(null)
-    const [isAddButtonVisible, setAddButtonVisible] = useState(true) // 추가 버튼 숨김 여부 상태
 
     const userMno = useSelector((state: RootState) => state.login.mno) || 0
 
@@ -50,17 +50,12 @@ export const MyCart: FC<MyCartProps> = ({
         try {
             const userFolderData = await ShowFolderAll(mno)
             setFolder(userFolderData)
-            console.log(userFolderData) // 추후에 삭제 예정
-
-            console.log(
-                userFolderData.data.map(folderInfo => convertFolderInfoToItem(folderInfo))
-            )
 
             const convertedItems: Item[] = userFolderData.data.flatMap(folderInfo =>
                 convertFolderInfoToItem(folderInfo)
             )
+            setSelectedFno(userFolderData.data[0].fno)
 
-            console.log('convertedItems', convertedItems)
             onChangeItems && onChangeItems(convertedItems)
         } catch (error) {
             console.error('error', error)
@@ -72,8 +67,7 @@ export const MyCart: FC<MyCartProps> = ({
     }, [onClose])
 
     const handleButtonClick = (fno: number) => {
-        console.log(`${fno} selected`) // 추후에 삭제 예정
-        setSelectedFno(prev => (prev === fno ? null : fno))
+        setSelectedFno(fno)
     }
 
     // 폴더 생성 시 이름 입력 모달
@@ -183,31 +177,34 @@ export const MyCart: FC<MyCartProps> = ({
 
     // 폴더 삭제
     const handleDeleteFolder = async (fno: number) => {
-        try {
-            await deleteFolder(fno)
+        if (window.confirm('폴더를 삭제하시겠습니까?')) {
+            try {
+                await deleteFolder(fno)
 
-            setFolder((prev: folderAll | undefined) => {
-                if (prev) {
-                    const updatedData = prev.data.filter(folder => folder.fno !== fno)
-                    return {
-                        ...prev,
-                        data: updatedData
+                setFolder((prev: folderAll | undefined) => {
+                    if (prev) {
+                        const updatedData = prev.data.filter(folder => folder.fno !== fno)
+                        return {
+                            ...prev,
+                            data: updatedData
+                        }
                     }
-                }
-                return prev
-            })
-            alert('삭제 완료')
-        } catch (error) {
-            console.error('Error', error)
+                    return prev
+                })
+                alert('삭제 완료')
+            } catch (error) {
+                console.error('Error', error)
+            }
         }
     }
 
     // 스팟 삭제
     const deleteSpot = async (mno: number, pno: number, fno: number) => {
         try {
-            await deleteCart(mno, pno, fno)
-            fetchData()
-            alert('스팟 삭제!')
+            if (window.confirm('삭제 하시겠습니까?')) {
+                await deleteCart(mno, pno, fno)
+                fetchData()
+            }
         } catch (error) {
             console.log(error)
         }
@@ -227,70 +224,86 @@ export const MyCart: FC<MyCartProps> = ({
     }
 
     return (
-        <div>
-            <div
-                className={`w-full mt-8 overflow-y-auto bg-gray-200 border h-96 ${className}`}>
-                <div className="flex justify-start w-full h-12 border">
-                    {folder &&
-                        Array.isArray(folder.data) &&
+        <div className={`w-full ${animate}`}>
+            <div className="flex items-center justify-between w-full overflow-x-auto overflow-y-hidden ">
+                <div className="flex w-full">
+                    {folder && Array.isArray(folder.data) && folder.data.length > 0 ? (
                         folder.data
                             .sort((a, b) => a.fno - b.fno) // fno 순서대로 정렬
                             .map(folderInfo => (
-                                <div className="inline-block border rounded-2xl">
-                                    <button
-                                        key={folderInfo.fno}
-                                        className={`p-2 h-12 w-28 text-black ${
-                                            selectedFno === folderInfo.fno
-                                                ? 'bg-gray-400'
-                                                : 'bg-white'
-                                        }`}
-                                        onClick={() => handleButtonClick(folderInfo.fno)}>
-                                        {folderInfo.title}
+                                <div
+                                    key={folderInfo.fno}
+                                    className={`max-w-[250px] h-full relative cursor-pointer justify-center flex items-center p-2 w-full text-black text-sm duration-150 border border-b-0 rounded-t-2xl ${
+                                        selectedFno === folderInfo.fno
+                                            ? 'bg-lightGreen text-white bg-opacity-80'
+                                            : 'bg-white'
+                                    }`}
+                                    onClick={() => handleButtonClick(folderInfo.fno)}>
+                                    <div className="basis-1/3"></div>
+                                    <div className="flex items-center justify-center overflow-hidden basis-1/3">
                                         {userMno === mno && (
                                             <FontAwesomeIcon
                                                 icon={faPenToSquare}
-                                                className="ml-2 text-gray-500 cursor-pointer"
-                                                onClick={() =>
+                                                size="sm"
+                                                className="mr-1 cursor-pointer hover:text-black"
+                                                onClick={event => {
+                                                    event.stopPropagation()
                                                     openEditModal(folderInfo.fno)
-                                                }
+                                                }}
                                             />
                                         )}
-                                    </button>
+                                        <p className="overflow-hidden whitespace-nowrap text-ellipsis">
+                                            {folderInfo.title}
+                                        </p>
+                                    </div>
+
                                     {userMno === mno && (
-                                        <button className="w-8 h-12 ">
+                                        <div className="basis-1/3">
                                             <FontAwesomeIcon
                                                 icon={faTrash}
-                                                onClick={() =>
+                                                size="sm"
+                                                onClick={event => {
+                                                    event.stopPropagation()
                                                     handleDeleteFolder(folderInfo.fno)
-                                                }
-                                                className="ml-2 cursor-pointer"
+                                                }}
+                                                className="cursor-pointer hover:text-black"
                                             />
-                                        </button>
+                                        </div>
                                     )}
                                 </div>
-                            ))}
+                            ))
+                    ) : (
+                        <div className="flex items-center justify-center w-full ">
+                            <p>장바구니를 만들어주세요 ➞</p>
+                        </div>
+                    )}
+                </div>
 
+                <div>
                     {folder &&
                         Array.isArray(folder.data) &&
                         folder.data.length < 7 &&
                         userMno === mno && (
                             <button
-                                className="w-12 h-12 text-xl bg-white border-black"
+                                className="px-3 text-xl bg-white border-black"
                                 onClick={openFolderNameModal}>
                                 <FontAwesomeIcon icon={faPlus} />
                             </button>
                         )}
                 </div>
-                <div className="flex">
+            </div>
+            <div
+                className={`p-5 overflow-y-auto max-w-screen bg-lightGreen bg-opacity-80 border border-t-0 mb-5 h-96 rounded-b-2xl shadow-xl ${className}`}>
+                <div className="">
                     {folder &&
                         Array.isArray(folder.data) &&
                         folder.data
                             .filter(folderInfo => folderInfo.fno === selectedFno)
-                            .map(folderInfo => (
-                                <div
-                                    key={folderInfo.fno}
-                                    className="flex flex-row w-full">
+                            .map((folderInfo, index) => (
+                                <div key={folderInfo.fno}>
                                     <CartItem
+                                        myCart={myCart}
+                                        key={index}
                                         items={convertFolderInfoToItem(folderInfo)}
                                         dragDisable={dragDisable}
                                         isRegister={true}
@@ -298,8 +311,6 @@ export const MyCart: FC<MyCartProps> = ({
                                             deleteSpot(mno, pno, folderInfo.fno)
                                         }
                                     />
-
-                                    {/* {folderInfo.title && <MyPocketModal />} */}
                                 </div>
                             ))}
                 </div>
@@ -307,31 +318,35 @@ export const MyCart: FC<MyCartProps> = ({
 
             {/* 폴더 이름 지정하는 모달 */}
             {isFolderNameModalOpen && (
-                <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
-                    <div className="p-4 bg-white rounded">
+                <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+                    <div className="flex flex-col justify-between p-8 bg-white rounded-3xl ">
                         <input
                             type="text"
-                            placeholder="폴더 이름 입력(최대 8자)"
+                            placeholder="장바구니 이름 입력)"
                             value={newButtonName}
                             onChange={e => setNewButtonName(e.target.value)}
-                            className="p-2 mb-2 border"
+                            className="p-2 mb-2 border shadow-xl border-lightGreen rounded-xl"
                             maxLength={8}
                         />
-                        <button onClick={handleModalSubmit} className="p-2 border">
-                            추가
-                        </button>
-                        <button
-                            onClick={closeFolderNameModal}
-                            className="p-2 ml-2 border">
-                            취소
-                        </button>
+                        <div className="flex flex-col justify-end">
+                            <button
+                                onClick={handleModalSubmit}
+                                className="mb-2 text-white duration-150 rounded-lg shadow-lg hover:bg-lightGreen bg-darkGreen">
+                                추가
+                            </button>
+                            <button
+                                onClick={closeFolderNameModal}
+                                className="text-white duration-150 bg-red-500 rounded-lg shadow-lg hover:bg-red-300">
+                                취소
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
 
             {/* 폴더명 변경 모달 */}
             {editModalOpen && (
-                <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+                <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
                     <div className="p-4 bg-white rounded">
                         <input
                             type="text"

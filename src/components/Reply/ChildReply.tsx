@@ -11,6 +11,7 @@ import {deleteReply, updateReply} from '../../api'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import ReplyReportModal from './ReplyReportModal'
+import {useNavigate} from 'react-router-dom'
 
 type ChildReplyProps = {
     viewReply: Boolean
@@ -24,6 +25,8 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
     getRereply
 }) => {
     const mno = useSelector((state: RootState) => state.login.mno)
+
+    const navigate = useNavigate()
 
     //댓글 값
     const [replyValue, setReplyValue] = useState<string>(reReplyData.text)
@@ -52,10 +55,15 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
     }
 
     async function onDeleteReply() {
-        const data = mno && (await deleteReply({rno: reReplyData.rno, mno}))
-        alert('삭제완료')
-        setUpdateVeiw(false)
-        getRereply()
+        try {
+            if (window.confirm('해당 댓글을 삭제하시겠습니까?')) {
+                mno && (await deleteReply({rno: reReplyData.rno, mno}))
+                setUpdateVeiw(false)
+                getRereply()
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     function onOpenModal() {
@@ -73,10 +81,13 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
     }
     //댓글 수정
     async function onUpdateReply() {
-        const data =
+        try {
             mno && (await updateReply({rno: reReplyData.rno, mno, text: replyValue}))
-        setUpdateVeiw(false)
-        alert('수정완료')
+            setUpdateVeiw(false)
+            alert('수정완료')
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     useEffect(() => {
@@ -99,11 +110,29 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
                 <div className="flex flex-col items-center justify-center w-24">
                     <div>
                         <img
-                            className="w-10"
+                            className="w-10 cursor-pointer"
+                            alt="프로필 사진"
                             src={reReplyData.src ? reReplyData.src : dummyImage}
+                            onClick={() => {
+                                if (reReplyData.mno !== null) {
+                                    navigate(`/mypage/${reReplyData.mno}`)
+                                } else {
+                                    alert('탈퇴한 회원입니다')
+                                }
+                            }}
                         />
                     </div>
-                    <div className="flex items-center">{reReplyData.name}</div>
+                    <div
+                        className="flex items-center cursor-pointer hover:underline"
+                        onClick={() => {
+                            if (reReplyData.mno !== null) {
+                                navigate(`/mypage/${reReplyData.mno}`)
+                            } else {
+                                alert('탈퇴한 회원입니다')
+                            }
+                        }}>
+                        {reReplyData.name}
+                    </div>
                 </div>
                 <div className="flex flex-col w-5/6">
                     <div className="flex justify-end mx-4 my-2">
@@ -144,7 +173,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
                         )}
                     </div>
                     <div className="flex justify-end mx-4 my-2">
-                        <Caption>작성일자: {reReplyData.regDate}</Caption>
+                        <Caption>작성일자: {reReplyData.regDate.slice(0, 10)}</Caption>
                     </div>
                 </div>
             </div>

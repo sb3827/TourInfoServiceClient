@@ -48,7 +48,7 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, modal, ...prop
     return (
         <div
             className="flex flex-col p-2 mx-3 my-8 overflow-hidden duration-150 border rounded-lg cursor-pointer border-lightGreen hover:shadow-xl"
-            onClick={props.mapClick}>
+            onClick={() => props.mapClick()}>
             <div className="relative flex justify-center w-full overflow-hidden h-36">
                 <img
                     src={placeInfoData.image ?? noImage}
@@ -57,7 +57,7 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, modal, ...prop
                 />
                 {user && !modal && (
                     <label
-                        className="absolute z-50 px-3 top-2 btn right-2"
+                        className="absolute z-0 px-3 top-2 btn right-2"
                         onClick={onOpenModal}>
                         <FontAwesomeIcon icon={faCartPlus} className="text-lg " />
                     </label>
@@ -75,26 +75,35 @@ export const SearchInfo: FC<SearchResultProps> = ({placeInfoData, modal, ...prop
                     )}
                 </div>
                 <div className="flex flex-col items-start w-full">
-                    <div className="w-full px-3">
-                        <div className="flex justify-between w-full">
-                            <div>
+                    <div className="w-full px-3 py-2">
+                        <div className="relative flex items-center justify-center w-full xl:flex-row xl:justify-between ">
+                            <div className="">
                                 <p className="text-lg font-bold">{placeInfoData.name}</p>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-500">
-                                    {placeInfoData.category}
+                            <div className="absolute right-0 xl:static ">
+                                <p className="text-xs text-gray-500 xl:text-sm">
+                                    {placeInfoData.category === 'SIGHT'
+                                        ? '관광지'
+                                        : placeInfoData.category === 'RESTAURANT'
+                                        ? '음식점'
+                                        : placeInfoData.category === 'LODGMENT'
+                                        ? '숙소'
+                                        : '기타'}
                                 </p>
                             </div>
                         </div>
 
                         <div className="flex justify-between w-full">
                             <div>
-                                <p className="text-left text-gray-500">
+                                <p className="hidden text-left text-gray-500 xl:block">
                                     {placeInfoData.roadAddress}
                                 </p>
                             </div>
-                            <p className="flex">
-                                <FontAwesomeIcon icon={faCartShopping} className="mx-2" />
+                            <p className="flex items-center text-sm xl:text-base">
+                                <FontAwesomeIcon
+                                    icon={faCartShopping}
+                                    className="mx-2 text-sm xl:text-base"
+                                />
                                 {placeInfoData.cart}
                             </p>
                         </div>

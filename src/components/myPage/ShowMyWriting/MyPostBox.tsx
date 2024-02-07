@@ -1,4 +1,4 @@
-import {useState, useEffect, FC} from 'react'
+import {useState, useEffect, FC, useMemo} from 'react'
 import {userBoard} from './../../../data/User/User'
 import {ShowUserBoard} from './../../../api/MyPage/ShowUserInfo'
 import {useNavigate} from 'react-router-dom'
@@ -8,7 +8,7 @@ type MyPostBoxProps = {
 }
 
 export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
-    const [BoardList, setBoardList] = useState<userBoard>()
+    const [boardList, setBoardList] = useState<userBoard>()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -16,7 +16,6 @@ export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
             try {
                 const userBoardData = await ShowUserBoard(mno)
                 setBoardList(userBoardData)
-                console.log(userBoardData)
             } catch {
                 console.error('error')
             }
@@ -28,16 +27,16 @@ export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
         <div>
             <table className="w-full table-auto">
                 <thead className="justify-between">
-                    <tr className="">
-                        <th className="px-20">글번호</th>
-                        <th className="px-20">제목</th>
-                        <th className="px-20">작성자</th>
+                    <tr className="border-b ">
+                        <th className="px-20 border-r ">글번호</th>
+                        <th className="px-20 border-r ">제목</th>
+                        <th className="px-20 border-r ">작성자</th>
                         <th className="px-20">작성일자</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {Array.isArray(BoardList) &&
-                        BoardList.map((board: userBoard) => (
+                    {Array.isArray(boardList) &&
+                        boardList.map((board: userBoard) => (
                             <tr>
                                 <td>
                                     <label
@@ -62,11 +61,16 @@ export const MyPostBox: FC<MyPostBoxProps> = ({mno}) => {
                                     </span>
                                 </td>
                                 <td>{board.writer}</td>
-                                <td>{board.regdate}</td>
+                                <td>{board.regdate.slice(0,10)}</td>
                             </tr>
                         ))}
                 </tbody>
             </table>
+            {!boardList && (
+                <div className="py-8">
+                    <p>작성글이 없습니다.</p>
+                </div>
+            )}
         </div>
     )
 }

@@ -6,19 +6,14 @@ import {
     PlaceProps,
     DropIcon,
     CourseList,
-    MainSlider
+    MainSlider,
+    LoadingSppinner
 } from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {
-    faHeart,
-    faArrowLeft,
-    faEllipsisVertical,
-    faStar
-} from '@fortawesome/free-solid-svg-icons'
+import {faHeart, faEllipsisVertical, faStar} from '@fortawesome/free-solid-svg-icons'
 import noImage from '../../assets/smallLogo.png'
-import {postText} from "../../dummy data/sb's dummy"
-import {coursePostLoad, deleteLike, postLike} from '../../api/Board/board'
+import {coursePostLoad, deleteBoard, deleteLike, postLike} from '../../api/Board/board'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {useNavigate, useSearchParams} from 'react-router-dom'
@@ -32,8 +27,9 @@ type DetailedCourseType = {
 }
 
 export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
+    const postText = ['수정', '신고', '삭제']
     const [day, setDay] = useState(useSelector((state: RootState) => state.course))
-    const [enables, setEnables] = useState<boolean[]>([false, true])
+    const [enables, setEnables] = useState<boolean[]>([false, true, false])
     const [content, setContent] = useState<string>('')
     const [score, setScore] = useState<number>(5)
     const [likes, setLikes] = useState<number>(0)
@@ -61,6 +57,8 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     const bno = searchParams.get('bno')!
     const [report, setReport] = useState<boolean>(false)
 
+    const [loading, setLoading] = useState<boolean>(false)
+
     const navigate = useNavigate()
     // left arrow button
     function backPage() {
@@ -68,7 +66,19 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
         navigate(-1)
     }
 
+    const delPage = () => {
+        try {
+            if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
+                deleteBoard(parseInt(bno))
+                navigate('/board/place')
+            }
+        } catch (error) {
+            alert('삭제 실패')
+        }
+    }
+
     async function loadPage() {
+        setLoading(true)
         try {
             const data = await coursePostLoad(
                 parseInt(bno),
@@ -105,13 +115,14 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                     daliyPlace.map(place => ({
                         pno: place.pno,
                         pname: place.name,
-                        img: '' || noImage
+                        img: place.src
                     }))
                 )
             )
         } catch (error) {
             navigate('/notfound')
         }
+        setLoading(false)
     }
 
     // heart button state
@@ -157,17 +168,18 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
     }
 
     return (
-        <div className="w-1/2 mx-auto my-10">
+        <div className="w-7/12 py-10 mx-auto my-10 shadow-2xl  px-14 rounded-2xl">
+            {loading && <LoadingSppinner />}
             <div className="py-5 ">
                 <div className="flex flex-col ">
                     <div className="flex items-center justify-between">
                         <Title className="my-5 text-5xl">{title}</Title>
                         <div className="flex flex-row justify-end">
-                            <div className="flex flex-col mx-2 text-sm text-gray-500">
+                            <div className="flex flex-col mx-2 text-gray-500">
                                 <FontAwesomeIcon icon={faStar} size="xl" color="gold" />
                                 {score}
                             </div>
-                            <div className="flex flex-col mx-2 text-sm text-gray-500">
+                            <div className="flex flex-col mx-2 text-gray-500">
                                 {heart && (
                                     <FontAwesomeIcon
                                         className="hover:cursor-pointer"
@@ -188,16 +200,18 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                                 )}
                                 {likes}
                             </div>
-                            <DropIcon
-                                itemTexts={postText}
-                                itemActions={[nav, set]}
-                                itemEnabled={enables}>
-                                <FontAwesomeIcon
-                                    className="ml-2 hover:cursor-pointer"
-                                    icon={faEllipsisVertical}
-                                    size="xl"
-                                />
-                            </DropIcon>
+                            {user && (
+                                <DropIcon
+                                    itemTexts={postText}
+                                    itemActions={[nav, set, delPage]}
+                                    itemEnabled={enables}>
+                                    <FontAwesomeIcon
+                                        className="ml-2 hover:cursor-pointer"
+                                        icon={faEllipsisVertical}
+                                        size="xl"
+                                    />
+                                </DropIcon>
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-between w-full my-5">
@@ -205,7 +219,9 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                             <div className="flex flex-row justify-start">
                                 작성자: {writer}
                             </div>
-                            <div className="flex flex-row justify-end">{date}</div>
+                            <div className="flex flex-row justify-end">
+                                {date.slice(0, 16)}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -215,15 +231,17 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                 <div className="flex flex-row items-center justify-center mb-5">
                     <MainSlider className="w-full overflow-hidden border-none rounded-3xl">
                         {placesList.map((places, idx) => (
-                            <SwiperSlide className="rounded-3xl">
+                            <SwiperSlide className="rounded-3xl" key={idx}>
                                 <div
                                     key={idx}
-                                    className="flex flex-col justify-center w-full">
-                                    <div>
-                                        <p className="text-xl font-bold">{`${
-                                            idx + 1
-                                        } 일차`}</p>
-                                    </div>
+                                    className="relative flex flex-col justify-center w-full">
+                                    {places.length > 0 && (
+                                        <div>
+                                            <p className="text-xl font-bold">{`DAY-${
+                                                idx + 1
+                                            }`}</p>
+                                        </div>
+                                    )}
                                     <CoursePostMap
                                         places={places}
                                         className="rounded-3xl"></CoursePostMap>
@@ -240,6 +258,11 @@ export const DetailedCourse: FC<PropsWithChildren<DetailedCourseType>> = () => {
                     className="p-5 my-10 overflow-hidden shadow-xl rounded-3xl">
                     <TextBox data={content}></TextBox>
                 </div>
+            </div>
+            <div className="flex w-full border-b-2 border-lightGreen">
+                <p className="mx-5 mt-8 mb-3 text-3xl font-semibold text-darkGreen">
+                    댓글
+                </p>
             </div>
             <div>
                 <Reply />

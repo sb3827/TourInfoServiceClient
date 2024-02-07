@@ -53,11 +53,10 @@ export const Reply: FC<PropsWithChildren<ReplyProps>> = () => {
     return (
         <div className="py-10 mb-10 ">
             {mno && (
-                <div className="flex flex-row items-center justify-center pt-5 my-5 border-t-2 border-lightGreen">
+                <div className="flex flex-row items-center justify-center my-3 ">
                     <Input
                         placeholder="댓글을 작성해 주세요"
-                        className="mx-2 focus:shadow-lg outline-darkGreen border-darkGreen focus:outline-none focus:border-darkGreen"
-                        size={80}
+                        className="w-full mx-2 focus:shadow-lg outline-darkGreen border-darkGreen focus:outline-none focus:border-darkGreen xl:w-2/3"
                         value={replyValue}
                         onChange={e => onChangeReply(e.target.value)}></Input>
                     <Button
@@ -69,13 +68,18 @@ export const Reply: FC<PropsWithChildren<ReplyProps>> = () => {
             )}
             <div className="flex flex-col items-center justify-center w-full ">
                 <div className="w-full rounded-2xl">
-                    {replyes &&
+                    {replyes && replyes?.length > 0 ? (
                         replyes.map(reply => (
                             <ParentReply
                                 reply={reply}
                                 key={reply.rno}
                                 getReply={() => getReply()}></ParentReply>
-                        ))}
+                        ))
+                    ) : (
+                        <div className="mt-5">
+                            <p className="text-lg">댓글이 없습니다...</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

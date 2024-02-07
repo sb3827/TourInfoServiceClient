@@ -1,12 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {
-    Box,
     SearchInput,
     SearchInfo,
     SearchMap,
     Button,
     SearchMapRef,
-    LoadingSppinner
+    LoadingSppinnerSmall,
+    Title,
+    MiniSppinner
 } from '../../components/index'
 import {PlaceData} from '../../data/placeSearch'
 import {getSearchPlaceInfo} from '../../api'
@@ -17,6 +18,11 @@ import {RootState} from '../../store/rootReducer'
 // 장소 검색 페이지
 
 export const PlaceSearch = () => {
+    const placeRef = useRef(null) // 관찰할 요소에 대한 참조
+
+    const [page, setPage] = useState<number>(0)
+    const [placeRequest, setPlaceRequest] = useState<boolean>(true)
+
     const [searchParams, setSearchParams] = useSearchParams()
     const [loading, setLoading] = useState<Boolean>(false)
 
@@ -48,6 +54,9 @@ export const PlaceSearch = () => {
     function handleCategoryChange(e: React.ChangeEvent<HTMLSelectElement>) {
         setSelectedCategory(e.target.value)
     }
+    const handleRegisterClick = () => {
+        navigate(`/board/place/posting/register`)
+    }
 
     // 검색 파라미터 변경 시 URL 업데이트 및 데이터 들고오기
     async function onPlaceList(
@@ -61,10 +70,13 @@ export const PlaceSearch = () => {
             return
         }
 
+        setPage(1)
+        setPlaceRequest(true)
+
         try {
             setLoading(true)
             setSearchParams({filter: selectedCategory, search: searchValue})
-            const data = await getSearchPlaceInfo(selectedCategory, searchValue)
+            const data = await getSearchPlaceInfo(selectedCategory, searchValue, 0)
             setPlaceInfoData(data)
             setLoading(false)
         } catch (err) {
@@ -77,14 +89,47 @@ export const PlaceSearch = () => {
         onPlaceList()
     }, [])
 
-    const handleRegisterClick = () => {
-        navigate(`/board/place/posting/register`)
+    //스크롤 조회
+    async function onInfinityList() {
+        try {
+            const data = await getSearchPlaceInfo(selectedCategory, searchValue, page)
+            //데이터를 받는것이 없으면 스크롤 할 시 요청 보내지 못하도록 state 변경
+            if (data.length === 0) {
+                observer.disconnect()
+                placeInfoData !== null && setPlaceRequest(false)
+                return
+            }
+            placeInfoData !== null && setPlaceInfoData([...placeInfoData, ...data])
+            setPage(page + 1)
+        } catch (err) {
+            console.log(err)
+        }
     }
+
+    const observer = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+            placeRequest === true && onInfinityList()
+        }
+    })
+
+    //스크롤 설정
+    useEffect(() => {
+        //무한 스크롤
+        if (placeRef.current) {
+            observer.observe(placeRef.current) // loaderRef를 관찰 대상으로 등록
+        }
+        return () => {
+            if (placeRef.current) {
+                observer.unobserve(placeRef.current) // 컴포넌트 언마운트 시 관찰 취소
+            }
+        }
+    }, [placeInfoData, placeRequest, placeRef])
 
     return (
         <div className="flex flex-col items-center justify-center w-full py-0 mt-14">
-            {loading && <LoadingSppinner />}
-            <div className="flex justify-center w-2/3">
+            <Title className="mb-5 text-darkGreen">장소 게시판</Title>
+
+            <div className="flex justify-center w-7/12">
                 <div className="flex w-full">
                     <select
                         className="px-2 border-2 shadow-xl outline-none border-lightGreen rounded-2xl"
@@ -118,19 +163,36 @@ export const PlaceSearch = () => {
                 )}
             </div>
 
-            <div className="flex justify-center w-full h-screen py-5">
-                <div className="flex w-2/3 h-5/6">
-                    <div className="w-1/3 overflow-y-auto border rounded-lg border--300 border-lightGreen">
+            <div className="flex justify-center w-full h-[700px] xl:h-screen py-5 mb-12 overflow-hidden">
+                <div className="relative flex w-7/12 h-full">
+                    {loading && <LoadingSppinnerSmall />}
+                    <div className="w-2/5 overflow-y-auto border rounded-lg border-300 border-lightGreen xl:w-1/3">
                         {/* 검색 결과를 보여줄 컴포넌트 */}
-                        {placeInfoData &&
+                        {placeInfoData && placeInfoData.length > 0 ? (
                             placeInfoData.map((data: PlaceData, index) => (
                                 <SearchInfo
+                                    key={index}
                                     placeInfoData={data}
                                     mapClick={() => onMap(index)}
                                 />
+                            ))
+                        ) : (
+                            <div className="flex items-center justify-center h-full ">
+                                <p className="text-lg font-semibold">
+                                    검색 결과가 없습니다...
+                                </p>
+                            </div>
+                        )}
+                        {placeInfoData?.length !== 0 &&
+                            (placeRequest === true ? (
+                                <div className="my-5" ref={placeRef}>
+                                    <MiniSppinner />
+                                </div>
+                            ) : (
+                                <div className="my-5">•</div>
                             ))}
                     </div>
-                    <div className="w-2/3 border rounded-lg border-lightGreen ">
+                    <div className="w-3/5 border rounded-lg border-lightGreen xl:w-2/3">
                         {/* MapAPI 컴포넌트 */}
                         {placeInfoData ? (
                             <SearchMap

@@ -1,7 +1,5 @@
 import {FC, PropsWithChildren, useEffect, useMemo, useRef, useState} from 'react'
 import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlus, faMinus, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {
     coursePostLoad,
@@ -10,7 +8,7 @@ import {
     registCourseBoard
 } from '../../api/Board/board'
 import {useDispatch} from 'react-redux'
-import {addDay, deleteAll, deleteDay} from '../../store/slices/CourseSlice'
+import {addDay, deleteAll, setCommonState} from '../../store/slices/CourseSlice'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import {CourseList} from '../../components/course/CourseRegist/CourseList'
@@ -22,19 +20,13 @@ type CourseRegisterProps = {
 }
 
 export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props => {
-    const [day, setDay] = useState(useSelector((state: RootState) => state.course))
-    //코스 등록시 추가적으로 로직 필요 -> 아래 콘솔보고 할것
-    console.log(day)
+    const day = useSelector((state: RootState) => state.course)
 
     const dispatch = useDispatch()
 
     // plus day box
     function daysPlus() {
         dispatch(addDay())
-    }
-    // minus day box
-    function daysMinus() {
-        dispatch(deleteDay())
     }
 
     const navigate = useNavigate()
@@ -54,7 +46,7 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     const [loadImg, setLoadImg] = useState<string[]>([])
 
     // 등록 onclick 함수
-    function regist() {
+    async function regist() {
         const title = titleRef.current?.value as string
         if (title == '') {
             alert('제목을 입력하세요')
@@ -82,11 +74,11 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             writer: user
         }
         ////
+        console.log(board, images)
 
-        registCourseBoard(board, images).then(res => {
-            alert(`${res.bno}번 글 등록 완료!`)
-            navigate(`/board/course/posting?bno=${res.bno}`)
-        })
+        const data = await registCourseBoard(board, images)
+        alert(`${data.bno}번 글 등록 완료!`)
+        navigate(`/board/course/posting?bno=${data.bno}`)
     }
     // 수정 onclick 함수
     function modify() {
@@ -158,13 +150,16 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             editorRef.current?.getEditor()?.editor?.data.set(data.content)
             starRef.current?.setSelectedRating(data.score)
 
-            setDay(
-                data.postingPlaceBoardDTOS.map(daliyPlace =>
-                    daliyPlace.map(place => ({
-                        pno: place.pno,
-                        pname: place.name,
-                        img: noImage
-                    }))
+            console.log(data)
+            dispatch(
+                setCommonState(
+                    data.postingPlaceBoardDTOS.map(dailyPlace =>
+                        dailyPlace.map(place => ({
+                            pno: place.pno,
+                            pname: place.name,
+                            img: noImage
+                        }))
+                    )
                 )
             )
         } catch (error) {
@@ -173,11 +168,15 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     }
 
     useEffect(() => {
+        if (!user) {
+            alert('로그인 후 이용가능합니다.')
+            navigate('/login')
+            return
+        }
         //새로 고침시 초기화
         dispatch(deleteAll())
 
         if (props.isModify) {
-            if (!user) navigate('/unauthorized')
             loadPage()
         }
     }, [])
@@ -185,56 +184,63 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
     const courseList = useMemo(() => <CourseList create={true} day={day} />, [day])
 
     return (
-        <div className="w-3/4 mx-auto">
-            <div className="flex justify-start my-6">
-                <FontAwesomeIcon
-                    className="hover:cursor-pointer"
-                    icon={faArrowLeft}
-                    size="2xl"
-                    onClick={backPage}
-                />
-            </div>
-            <div className="">
-                <Input
-                    className="w-full my-2 border-black"
-                    size={70}
-                    placeholder="제목을 입력하세요"
-                    ref={titleRef}></Input>
+        <div className="w-full py-14">
+            <div className="w-2/3 mx-auto xl:w-1/2">
                 <div>
-                    <div className="flex justify-end mb-2 ml-3">
-                        <FontAwesomeIcon
-                            className="mx-2 hover:cursor-pointer"
-                            icon={faMinus}
-                            size="xl"
-                            onClick={daysMinus}
-                        />
-                        <FontAwesomeIcon
-                            className="mx-2 hover:cursor-pointer"
-                            icon={faPlus}
-                            size="xl"
-                            onClick={daysPlus}
+                    <div className="flex flex-row justify-between ">
+                        <div>
+                            <Button
+                                className="flex items-center justify-center text-white bg-darkGreen "
+                                value={'일정 +'}
+                                onClick={daysPlus}
+                            />
+                        </div>
+                        <div className="flex items-center">
+                            <p className="mt-1 mr-3 text-xl font-bold text-orange-400">
+                                별점을 선택하세요
+                            </p>
+                            <Rating ref={starRef} />
+                        </div>
+                    </div>
+                    <Input
+                        className="w-full my-2 border-2 border-darkGreen focus:border-darkGreen"
+                        size={70}
+                        placeholder="코스 게시글 제목을 입력하세요"
+                        ref={titleRef}></Input>
+
+                    <div>{courseList}</div>
+
+                    <div>
+                        <TextEditor ref={editorRef}></TextEditor>
+                    </div>
+                    <div className="flex flex-row justify-end my-2 ml-6">
+                        {props.isModify && (
+                            <Button
+                                className="btn-error"
+                                value={'삭제'}
+                                onClick={erase}
+                            />
+                        )}
+                        {props.isModify && (
+                            <Button
+                                className="btn-warning"
+                                value={'수정'}
+                                onClick={modify}
+                            />
+                        )}
+                        {props.isModify || (
+                            <Button
+                                className="text-white bg-darkGreen"
+                                value={'등록'}
+                                onClick={regist}
+                            />
+                        )}
+                        <Button
+                            className="text-white bg-black"
+                            onClick={backPage}
+                            value={'취소'}
                         />
                     </div>
-                    {/* 테스트 코드 */}
-                    {/* <CourseList create={true} day={day} /> */}
-                    {courseList}
-                </div>
-                <div className="flex flex-row justify-end my-2">
-                    <Rating ref={starRef} />
-                </div>
-                <div>
-                    <TextEditor ref={editorRef}></TextEditor>
-                </div>
-                <div className="flex flex-row justify-end my-2 ml-6">
-                    {props.isModify && (
-                        <Button className="btn-error" value={'삭제'} onClick={erase} />
-                    )}
-                    {props.isModify && (
-                        <Button className="btn-warning" value={'수정'} onClick={modify} />
-                    )}
-                    {props.isModify || (
-                        <Button className="btn-success" value={'등록'} onClick={regist} />
-                    )}
                 </div>
             </div>
         </div>

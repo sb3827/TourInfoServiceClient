@@ -1,5 +1,12 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
-import {Title, TextBox, PlacePostMap, PlaceProps, DropIcon} from '../../components'
+import {
+    Title,
+    TextBox,
+    PlacePostMap,
+    PlaceProps,
+    DropIcon,
+    LoadingSppinner
+} from '../../components'
 import {Reply} from '../Reply'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHeart, faStar, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
@@ -7,7 +14,7 @@ import noImage from '../../assets/smallLogo.png'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import {deleteLike, placePostLoad, postLike} from '../../api/Board/board'
+import {deleteBoard, deleteLike, placePostLoad, postLike} from '../../api/Board/board'
 import BoardReportModal from '../../components/board/BoardReportModal'
 import {BoardData} from '../../data/Board/BoardData'
 import {getCookie} from '../../util/cookie'
@@ -17,8 +24,8 @@ type PostPlaceProps = {
 }
 
 export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
-    const postText = ['수정', '신고']
-    const [enables, setEnables] = useState<boolean[]>([false, true])
+    const postText = ['수정', '신고', '삭제']
+    const [enables, setEnables] = useState<boolean[]>([false, true, false])
     const [content, setContent] = useState<string>('')
     const [score, setScore] = useState<number>(5)
     const [likes, setLikes] = useState<number>(0)
@@ -65,6 +72,8 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
         }
     }
 
+    const [loading, setLoading] = useState<boolean>(false)
+
     const navigate = useNavigate()
     // left arrow button
     function backPage() {
@@ -85,8 +94,19 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
         mno: writerNo as number,
         name: writer as string
     }
+    const delPage = () => {
+        try {
+            if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
+                deleteBoard(parseInt(bno))
+                navigate('/board/place')
+            }
+        } catch (error) {
+            alert('삭제 실패')
+        }
+    }
 
     async function loadPage() {
+        setLoading(true)
         try {
             const data = await placePostLoad(
                 parseInt(bno),
@@ -99,7 +119,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
             }
             setWriterNo(data.writerDTO.mno)
             if (user === data.writerDTO.mno) {
-                setEnables([true, false])
+                setEnables([true, false, true])
             }
 
             setTitle(data.title) // title
@@ -125,23 +145,25 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
         } catch (error) {
             navigate('/notfound')
         }
+        setLoading(false)
     }
     useEffect(() => {
         loadPage()
     }, [])
 
     return (
-        <div className="w-1/2 mx-auto my-10">
+        <div className="w-7/12 py-10 mx-auto my-10 shadow-2xl px-14 rounded-2xl">
+            {loading && <LoadingSppinner />}
             <div className="py-5 ">
                 <div className="flex flex-col ">
                     <div className="flex items-center justify-between ">
                         <Title className="my-5 text-5xl">{title}</Title>
                         <div className="flex flex-row justify-end">
-                            <div className="flex flex-col mx-2 text-sm text-gray-500">
+                            <div className="flex flex-col mx-2 text-gray-500">
                                 <FontAwesomeIcon icon={faStar} size="xl" color="gold" />
                                 {score}
                             </div>
-                            <div className="flex flex-col mx-2 text-sm text-gray-500">
+                            <div className="flex flex-col mx-2 text-gray-500">
                                 {heart && (
                                     <FontAwesomeIcon
                                         className="hover:cursor-pointer"
@@ -164,7 +186,7 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                             </div>
                             <DropIcon
                                 itemTexts={postText}
-                                itemActions={[nav, set]}
+                                itemActions={[nav, set, delPage]}
                                 itemEnabled={enables}>
                                 <FontAwesomeIcon
                                     className="ml-2 hover:cursor-pointer"
@@ -179,7 +201,9 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                             <div className="flex flex-row justify-start">
                                 작성자: {writer}
                             </div>
-                            <div className="flex flex-row justify-end">{date}</div>
+                            <div className="flex flex-row justify-end">
+                                {date.slice(0, 16)}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -196,6 +220,11 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                     className="p-5 my-10 overflow-hidden shadow-xl rounded-3xl">
                     <TextBox data={content}></TextBox>
                 </div>
+            </div>
+            <div className="flex w-full border-b-2 border-lightGreen">
+                <p className="mx-5 mt-8 mb-3 text-3xl font-semibold text-darkGreen">
+                    댓글
+                </p>
             </div>
             <div>
                 {/*footer*/}

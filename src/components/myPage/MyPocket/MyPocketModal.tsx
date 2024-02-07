@@ -38,8 +38,8 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({
     const [placeInfoData, setPlaceInfoData] = useState<PlaceData[] | null>(null)
     const searchMapRef = useRef<SearchMapRef | null>(null)
 
-    const [SpotModal, setSpotModal] = useState(false)
-    const [RegisterSpotModal, setRegisterSpotModal] = useState(false)
+    const [spotModal, setSpotModal] = useState(false)
+    const [registerSpotModal, setRegisterSpotModal] = useState(false)
 
     // 장소 등록을 위한 값
     const [placeName, setPlaceName] = useState<string>('')
@@ -134,9 +134,8 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({
         }
 
         try {
-            const data = await getSearchPlaceInfo(selectedCategory, searchValue)
+            const data = await getSearchPlaceInfo(selectedCategory, searchValue, 0)
             setPlaceInfoData(data)
-            console.log(data)
         } catch (err) {
             console.log(err)
             alert('서버와 연결이 끊겼습니다.')
@@ -145,15 +144,13 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({
 
     return (
         <div>
-            {userMno === Number(mno) && (
-                <button
-                    onClick={openSpotModal}
-                    className={`w-32 h-12 text-black bg-gray-400 rounded-xl ${className}`}>
-                    스팟 추가
-                </button>
-            )}
+            <button
+                onClick={openSpotModal}
+                className={`w-32 h-12 text-black bg-gray-400 rounded-xl ${className}`}>
+                스팟 추가
+            </button>
 
-            {SpotModal ? (
+            {spotModal ? (
                 <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-500 bg-opacity-75">
                     <div className="w-4/5 p-8 bg-white rounded shadow-lg h-5/6">
                         <div className="flex ">
@@ -218,7 +215,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({
 
                                     {/* 장소등록 모달 */}
                                     <div>
-                                        {RegisterSpotModal ? (
+                                        {registerSpotModal ? (
                                             <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75">
                                                 <div className="w-4/5 p-8 bg-white rounded shadow-lg h-6/7">
                                                     <div className="flex bg-white">
@@ -300,7 +297,7 @@ export const MyPocketModal: FC<MyPocketModalProps> = ({
                                         ) : null}
                                     </div>
                                     <div className="w-4/6 border border-gray-300 rounded-lg">
-                                        {!RegisterSpotModal &&
+                                        {!registerSpotModal &&
                                             (placeInfoData ? (
                                                 <SearchMap
                                                     places={placeInfoData}

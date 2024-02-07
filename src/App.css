@@ -41,6 +41,14 @@
     min-height: 500px; /* 원하는 높이로 설정 */
 }
 
+.ck-editor {
+    z-index: 0 !important;
+}
+
 #board_box * {
     border: none !important;
+}
+
+#simple_map div {
+    display: none;
 }

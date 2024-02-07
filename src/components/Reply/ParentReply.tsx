@@ -13,6 +13,7 @@ import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import ReplyReportModal from './ReplyReportModal'
 import {ChildReply} from './ChildReply'
+import {useNavigate} from 'react-router-dom'
 
 type ParentReplyProps = {
     reply: replyData
@@ -25,6 +26,8 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
     getReply
 }) => {
     const mno = useSelector((state: RootState) => state.login.mno)
+
+    const navigate = useNavigate()
 
     //댓글 값
     const [replyValue, setReplyValue] = useState<string>('')
@@ -83,16 +86,25 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
     }
     //댓글 수정
     async function onUpdateReply() {
-        const data = mno && (await updateReply({rno: reply.rno, mno, text: replyValue}))
-        setUpdateVeiw(false)
-        alert('수정완료')
+        try {
+            mno && (await updateReply({rno: reply.rno, mno, text: replyValue}))
+            setUpdateVeiw(false)
+            alert('수정완료')
+        } catch (err) {
+            console.log(err)
+        }
     }
     //댓글 삭제
     async function onDeleteReply() {
-        const data = mno && (await deleteReply({rno: reply.rno, mno}))
-        alert('삭제완료')
-        setUpdateVeiw(false)
-        getReply()
+        try {
+            mno && (await deleteReply({rno: reply.rno, mno}))
+            if (window.confirm('해당 댓글을 삭제하시겠습니까?')) {
+                setUpdateVeiw(false)
+                getReply()
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     //대댓글 조회
@@ -135,9 +147,30 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
             <div className="flex justify-center w-full mx-auto border-b border-lightGreen">
                 <div className="flex flex-col items-center justify-center w-24">
                     <div>
-                        <img className="w-10" src={reply.src ? reply.src : dummyImage} />
+                        <img
+                            className="w-10 cursor-pointer"
+                            alt="프로필 사진"
+                            src={reply.src ? reply.src : dummyImage}
+                            onClick={() => {
+                                if (reply.mno !== null) {
+                                    navigate(`/mypage/${reply.mno}`)
+                                } else {
+                                    alert('탈퇴한 회원입니다')
+                                }
+                            }}
+                        />
                     </div>
-                    <div className="flex items-center">{reply.name}</div>
+                    <div
+                        className="flex items-center cursor-pointer hover:underline"
+                        onClick={() => {
+                            if (reply.mno !== null) {
+                                navigate(`/mypage/${reply.mno}`)
+                            } else {
+                                alert('탈퇴한 회원입니다')
+                            }
+                        }}>
+                        {reply.name}
+                    </div>
                 </div>
                 <div className="flex flex-col w-5/6">
                     <div className="flex justify-end mx-4 my-2">
@@ -158,7 +191,7 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
 
                     <div className="flex items-center justify-start mx-6">
                         <Input
-                            className="w-4/5 text-left border-black cursor-default focus:outline-none read-only:border-none"
+                            className="w-full text-left border-black cursor-default focus:outline-none read-only:border-none xl:w-4/5"
                             readOnly={!updateView ? true : false}
                             value={replyValue}
                             onChange={e => onChangeReply(e.target.value)}
@@ -179,7 +212,7 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
                         )}
                     </div>
                     <div className="flex justify-end mx-4 my-2">
-                        <Caption>작성일자: {reply.regDate}</Caption>
+                        <Caption>작성일자: {reply.regDate.slice(0, 10)}</Caption>
                     </div>
                 </div>
             </div>
@@ -207,8 +240,7 @@ export const ParentReply: FC<PropsWithChildren<ParentReplyProps>> = ({
                 <div className="flex flex-row items-center justify-center my-5">
                     <Input
                         placeholder="대댓글을 작성해 주세요"
-                        className="mx-2 focus:shadow-lg outline-darkGreen border-darkGreen focus:outline-none focus:border-darkGreen"
-                        size={80}
+                        className="w-full mx-2 focus:shadow-lg outline-darkGreen border-darkGreen focus:outline-none focus:border-darkGreen xl:w-2/3"
                         value={reReplyValue}
                         onChange={e => onChangeRereply(e.target.value)}></Input>
                     <Button
