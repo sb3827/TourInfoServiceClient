@@ -1,19 +1,18 @@
 import {FC, PropsWithChildren, useEffect, useMemo, useRef, useState} from 'react'
-import {TextEditor, Input, Button, Rating, RatingRef, EditorRef} from '../../components'
 import {useNavigate, useSearchParams} from 'react-router-dom'
+import {useDispatch} from 'react-redux'
+import {addDay, deleteAll, setCommonState} from '../../store/slices/CourseSlice'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../store/rootReducer'
+import noImage from '../../assets/smallLogo.png'
+import {EditorRef, RatingRef, saveCourseBoardDTO} from '../../data'
 import {
     coursePostLoad,
     deleteBoard,
     modifyCourseBoard,
     registCourseBoard
-} from '../../api/Board/board'
-import {useDispatch} from 'react-redux'
-import {addDay, deleteAll, setCommonState} from '../../store/slices/CourseSlice'
-import {useSelector} from 'react-redux'
-import {RootState} from '../../store/rootReducer'
-import {CourseList} from '../../components/course/CourseRegist/CourseList'
-import {saveCourseBoardDTO} from '../../data/Board/BoardData'
-import noImage from '../../assets/smallLogo.png'
+} from '../../api'
+import {Button, CourseList, Input, Rating, TextEditor} from '../../components'
 
 type CourseRegisterProps = {
     isModify: boolean // true: 수정, false: 등록
@@ -74,7 +73,6 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             writer: user
         }
         ////
-        console.log(board, images)
 
         const data = await registCourseBoard(board, images)
         alert(`${data.bno}번 글 등록 완료!`)
@@ -98,8 +96,6 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
         let images = editorRef.current?.getImages || []
         const placeList = course.map(daliyPlace => daliyPlace.map(place => place.pno))
         images.push(...loadImg.map(src => ({ino: -1, src: src})))
-
-        console.log(images)
 
         ////
         const board: saveCourseBoardDTO = {
@@ -150,7 +146,6 @@ export const CourseRegister: FC<PropsWithChildren<CourseRegisterProps>> = props 
             editorRef.current?.getEditor()?.editor?.data.set(data.content)
             starRef.current?.setSelectedRating(data.score)
 
-            console.log(data)
             dispatch(
                 setCommonState(
                     data.postingPlaceBoardDTOS.map(dailyPlace =>

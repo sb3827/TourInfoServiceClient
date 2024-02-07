@@ -1,4 +1,4 @@
-import {FC, PropsWithChildren, useEffect} from 'react'
+import {FC, PropsWithChildren} from 'react'
 
 type MainFilterProps = {
     text: string

@@ -1,17 +1,15 @@
 import React, {useEffect, useState} from 'react'
-import {Button, DropdownIcon} from '../Button'
+import {Button, DropdownIcon} from '../Common/Button'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowTurnUp, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
-import {dropdownText} from "../../dummy data/sb's dummy"
-import {Caption} from '../Texts'
 import dummyImage from '../../assets/profileImage.jpeg'
-import {replyData} from '../../data/Reply/Reply'
-import {Input} from '../Input'
 import {deleteReply, updateReply} from '../../api'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
 import ReplyReportModal from './ReplyReportModal'
 import {useNavigate} from 'react-router-dom'
+import {replyData} from '../../data'
+import {Caption, Input} from '../Common'
 
 type ChildReplyProps = {
     viewReply: Boolean
@@ -25,6 +23,8 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
     getRereply
 }) => {
     const mno = useSelector((state: RootState) => state.login.mno)
+    const role = useSelector((state: RootState) => state.login.role)
+    const dropdownText = ['댓글 달기', '수정', '삭제', '신고']
 
     const navigate = useNavigate()
 
@@ -62,7 +62,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
                 getRereply()
             }
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 
@@ -86,7 +86,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
             setUpdateVeiw(false)
             alert('수정완료')
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 
@@ -138,6 +138,7 @@ export const ChildReply: React.FC<ChildReplyProps> = ({
                     <div className="flex justify-end mx-4 my-2">
                         {mno && reReplyData.mno && (
                             <DropdownIcon
+                                role={role}
                                 texts={dropdownText}
                                 replyMno={reReplyData.mno}
                                 replyParent={reReplyData.parent_rno}

@@ -1,19 +1,12 @@
 import {useState} from 'react'
-import {
-    Box,
-    SearchInput,
-    BoardToggle,
-    Subtitle,
-    Button,
-    Title
-} from '../../components/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useSearchParams} from 'react-router-dom'
 import {faSignsPost} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
-import CourseSearchItem from '../../components/course/CourseSearchItem'
+import {BoardToggle, Box, Button, SearchInput, Subtitle, Title} from '../../components'
+import CourseSearchItem from '../../components/Course/CourseSearchItem'
 
 export const CourseSearch = () => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -24,7 +17,7 @@ export const CourseSearch = () => {
 
     const user = useSelector((state: RootState) => state.login.mno)!
 
-    const handleRegisterClick = () => {
+    function handleRegisterClick() {
         navigate(`/board/course/posting/register`)
     }
 
@@ -49,7 +42,7 @@ export const CourseSearch = () => {
         try {
             setSearchParams({search: searchValue})
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

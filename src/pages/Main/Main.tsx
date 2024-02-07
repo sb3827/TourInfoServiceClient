@@ -1,24 +1,24 @@
 import {FC, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {useSelector} from 'react-redux'
-import {
-    SearchInput,
-    Subtitle,
-    Button,
-    MainItem,
-    MostLikedCourseItem,
-    MostLikedMainItem,
-    CoursePostMap,
-    MainSlider,
-    LoadingSppinner
-} from '../../components'
 import {RootState} from '../../store/rootReducer'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faMapLocationDot, faRoute, faUsers} from '@fortawesome/free-solid-svg-icons'
-import MainFilter from '../../components/Main/MainFilter'
 import {SwiperSlide} from 'swiper/react'
-import {GetMainitemRequest} from '../../api/Main/Main'
-import {mainItemData} from '../../data/Main/Main'
+import {mainItemData} from '../../data'
+import {GetMainitemRequest} from '../../api'
+import {
+    Button,
+    CoursePostMap,
+    LoadingSppinner,
+    MainItem,
+    MainSlider,
+    MostLikedCourseItem,
+    MostLikedMainItem,
+    SearchInput,
+    Subtitle
+} from '../../components'
+import MainFilter from '../../components/Main/MainFilter'
 
 type MainProps = {}
 
@@ -147,15 +147,14 @@ export const Main: FC<MainProps> = () => {
     // 메인 아이템 로딩 useEffect
     const mno = useSelector((state: RootState) => state.login.mno)
 
-    const fetchData = async () => {
+    async function fetchData() {
         try {
             setLoading(true)
             const data = await GetMainitemRequest(mno)
-            console.log('Fetched data:', data)
             setFetchedData(data)
             setLoading(false)
-        } catch (error) {
-            console.error('Error fetching data:', error)
+        } catch (err) {
+            console.error(err)
             setLoading(false)
         }
     }

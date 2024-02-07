@@ -1,4 +1,4 @@
-import {Business} from '../../data/manager'
+import {Business} from '../../data/Manager'
 import {businesAxios} from '../Axios/BusinessAxios'
 
 //사업자 확인 post요청

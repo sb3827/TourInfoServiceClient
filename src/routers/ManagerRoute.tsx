@@ -1,5 +1,4 @@
 import {Navigate, Outlet} from 'react-router-dom'
-import {getCookie} from '../util/cookie'
 import {useSelector} from 'react-redux'
 import {RootState} from '../store/rootReducer'
 

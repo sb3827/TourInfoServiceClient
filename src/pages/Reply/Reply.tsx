@@ -1,10 +1,10 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {Input, Button, ParentReply} from '../../components'
 import {useSearchParams} from 'react-router-dom'
-import {replyData} from '../../data/Reply/Reply'
 import {createReply, getParentReply} from '../../api'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../store/rootReducer'
+import {replyData} from '../../data'
 
 type ReplyProps = {}
 

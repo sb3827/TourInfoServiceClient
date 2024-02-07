@@ -1,14 +1,6 @@
 import {useState, useEffect} from 'react'
-import {
-    LoadingSppinner,
-    LoginInput,
-    LoginUseButton,
-    Oauth2LoginButton,
-    Title
-} from '../../components'
 import {useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
-import {loginRequest} from '../../api/Login/Login'
 import {useDispatch} from 'react-redux'
 import {setCookie} from '../../util/cookie'
 import {setWithTokenExpire} from '../../util/localStorage'
@@ -17,7 +9,15 @@ import Google from '../../assets/google_btn.png'
 import Naver from '../../assets/naver_btn.png'
 import {setMno} from '../../store/slices/LoginSlice'
 import {RootState} from '../../store/rootReducer'
-import {MailResend} from '../MailResend'
+import {loginRequest} from '../../api'
+import {
+    LoadingSppinner,
+    LoginInput,
+    LoginUseButton,
+    MailResend,
+    Oauth2LoginButton,
+    Title
+} from '../../components'
 
 export const Login = () => {
     const [userEmail, setUserEmail] = useState<string>('')

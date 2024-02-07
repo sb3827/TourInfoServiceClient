@@ -5,7 +5,7 @@ import {
     reportReplyResponseData,
     updateReplyData
 } from '../../data/Reply/Reply'
-import {reportRequestData} from '../../data/manager'
+import {reportRequestData} from '../../data/Manager'
 import {commonAxios} from '../Axios/CommonAxios'
 import {refreshAxios} from '../Axios/RefreshAxios'
 

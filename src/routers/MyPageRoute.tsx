@@ -1,10 +1,7 @@
-import {FC} from 'react'
 import {Route, Routes} from 'react-router-dom'
 import {MyModifyPage, MyPage, NotFound, EditPassword} from '../pages'
 
-type MyPageRouteProps = {}
-
-export const MyPageRoute: FC<MyPageRouteProps> = ({}) => {
+export const MyPageRoute = () => {
     return (
         <Routes>
             <Route path=":mno" element={<MyPage />} />
