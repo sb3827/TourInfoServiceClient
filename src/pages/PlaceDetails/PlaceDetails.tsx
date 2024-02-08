@@ -125,6 +125,7 @@ export const PlaceDetails = () => {
                                     ref={titleRef}></Input>
                             )}
                             {!modifing && titleText}
+                            {!user && <div></div>}
                             {user && !modifing && (
                                 <DropIcon
                                     itemTexts={postText}
