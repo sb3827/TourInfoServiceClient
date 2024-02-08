@@ -7,7 +7,8 @@ import {
     Title,
     DropIcon,
     Input,
-    Button
+    Button,
+    PlaceReportModal
 } from '../../components'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useNavigate, useParams} from 'react-router-dom'
@@ -184,7 +185,13 @@ export const PlaceDetails = () => {
                     <PlaceDetailsItem pno={Number(pno)} isAd={true} />
                 </BoardToggle>
             </div>
-            {report && <div>report modal 자리</div>}
+            {report && (
+                <PlaceReportModal
+                    pno={place?.pno as number}
+                    name={place?.name as string}
+                    onCloseModal={closeModal}
+                />
+            )}
         </Box>
     )
 }

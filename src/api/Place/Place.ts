@@ -23,3 +23,14 @@ export const modifyPlace = async (place: modiPlace): Promise<void> => {
     const response = await refreshAxios.put(`/place/modify?pno=${place.pno}`, place.title)
     return response.data
 }
+
+export type requestReportPlaceData = {
+    complainant: number
+    pno: number
+    content: string
+    message: string
+}
+export const reportPlace = async (data: requestReportPlaceData): Promise<void> => {
+    const response = await refreshAxios.post(`/report/register`, data)
+    return response.data
+}
