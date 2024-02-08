@@ -179,16 +179,18 @@ export const PostPlace: FC<PropsWithChildren<PostPlaceProps>> = () => {
                                 )}
                                 {likes}
                             </div>
-                            <DropIcon
-                                itemTexts={postText}
-                                itemActions={[nav, set, delPage]}
-                                itemEnabled={enables}>
-                                <FontAwesomeIcon
-                                    className="ml-2 hover:cursor-pointer"
-                                    icon={faEllipsisVertical}
-                                    size="xl"
-                                />
-                            </DropIcon>
+                            {user && (
+                                <DropIcon
+                                    itemTexts={postText}
+                                    itemActions={[nav, set, delPage]}
+                                    itemEnabled={enables}>
+                                    <FontAwesomeIcon
+                                        className="ml-2 hover:cursor-pointer"
+                                        icon={faEllipsisVertical}
+                                        size="xl"
+                                    />
+                                </DropIcon>
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-between w-full my-5">
