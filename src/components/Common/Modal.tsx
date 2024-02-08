@@ -18,7 +18,8 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
 
     return (
         <div
-            className={`fixed inset-0 z-50 flex overflow-auto bg-gray-600 bg-opacity-50 ${className} min-w-[1024px]`}>
+            className={`fixed inset-0 flex overflow-auto bg-gray-600 bg-opacity-50 ${className} min-w-[1024px]`}
+            style={{zIndex: 100}}>
             <div className="relative flex flex-col w-2/3 max-w-screen-lg p-8 px-10 m-auto bg-white rounded-xl xl:w-full">
                 <span className="absolute top-0 right-0 p-4" onClick={onClose}>
                     <button>
