@@ -28,8 +28,9 @@ export type ReportResponseData = {
         sno: number
         complainant_mno: number
         complainant: string | null
-        defendant_mno: number
+        defendant_mno: number | null
         defendant: string | null
+        pno: number | null
         bno: number | null
         rno: number | null
         content: string
@@ -44,8 +45,9 @@ export type ReportData = {
     sno: number
     complainant_mno: number
     complainant: string | null
-    defendant_mno: number
+    defendant_mno: number | null
     defendant: string | null
+    pno: number | null
     bno: number | null
     rno: number | null
     content: string
