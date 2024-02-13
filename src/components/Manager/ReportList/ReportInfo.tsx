@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
 import {useDispatch} from 'react-redux'
 import {setIsDone} from '../../../store/slices/ReportSlice'
-import {checkReport, disciplinary} from '../../../api'
+import {checkReport, deletePlace, disciplinary} from '../../../api'
 import {setReportSearch} from '../../../store/slices/SearchSlice'
 import {ReportData} from '../../../data'
 
@@ -44,32 +44,47 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
             dispatch(setReportSearch(false))
         }
     }
-    //제재
+    //장소 삭제
+
+    async function onPlaceDelete() {
+        dispatch(setReportSearch(true))
+        if (reportData.pno) {
+            const data = await deletePlace(reportData.pno)
+            dispatch(setIsDone())
+            alert('장소 삭제 완료')
+            closeModal()
+        }
+        dispatch(setReportSearch(false))
+    }
+
+    //유저 제재
     async function onDisiplinary() {
         dispatch(setReportSearch(true))
-        try {
-            const data = await disciplinary(
-                reportData.sno,
-                reportData.defendant_mno,
-                reportData.message
-            )
-            if (data.data === -1 && data.result === false) {
+        if (reportData.defendant_mno) {
+            try {
+                const data = await disciplinary(
+                    reportData.sno,
+                    reportData.defendant_mno,
+                    reportData.message
+                )
+                if (data.data === -1 && data.result === false) {
+                    dispatch(setReportSearch(false))
+                    alert('이미 정지된 유저입니다.')
+                } else if (data.data === -2) {
+                    dispatch(setReportSearch(false))
+                    alert('신고 정보가 이상합니다.')
+                } else if (data.data === -3) {
+                    dispatch(setReportSearch(false))
+                    alert('신고가 존재하지 않습니다.')
+                } else if (data.result === true) {
+                    dispatch(setIsDone())
+                    dispatch(setReportSearch(false))
+                    closeModal()
+                }
+            } catch (err) {
+                console.error(err)
                 dispatch(setReportSearch(false))
-                alert('이미 정지된 유저입니다.')
-            } else if (data.data === -2) {
-                dispatch(setReportSearch(false))
-                alert('신고 정보가 이상합니다.')
-            } else if (data.data === -3) {
-                dispatch(setReportSearch(false))
-                alert('신고가 존재하지 않습니다.')
-            } else if (data.result === true) {
-                dispatch(setIsDone())
-                dispatch(setReportSearch(false))
-                closeModal()
             }
-        } catch (err) {
-            console.error(err)
-            dispatch(setReportSearch(false))
         }
     }
 
@@ -105,7 +120,8 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 </div>
 
                 <p className="mt-4">날짜 : {reportData.regDate.toString()}</p>
-                <p className="mt-4">게시글 번호 : {reportData.sno.toString()}</p>
+                <p className="mt-4">신고 번호 : {reportData.sno.toString()}</p>
+
                 <p className="mt-4">
                     아이디 : {reportData.complainant ? reportData.complainant : 'X'}
                 </p>
@@ -115,10 +131,12 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                 <p className="my-4 break-all">
                     신고 사유 :<br /> - {reportData.message}
                 </p>
-                <div className="overflow-auto max-h-52">
-                    <TextBox data={reportData.content} />
-                </div>
-                {reportData.isDone === false ? (
+                {reportData.content && (
+                    <div className="overflow-auto max-h-52">
+                        <TextBox data={reportData.content} />
+                    </div>
+                )}
+                {reportData.isDone === false && (
                     <div className="flex justify-around mt-5">
                         <Button
                             className="w-1/4 btn-primary"
@@ -128,15 +146,13 @@ export const ReportInfo: FC<ReportInfoProps> = ({reportData}) => {
                             value="처리"
                         />
                         <Button
-                            className="w-1/4 bg-gradient-to-r from-red-400 via-red-500 to-red-600"
+                            className="w-1/4 text-white bg-red-500"
                             onClick={() => {
-                                onDisiplinary()
+                                reportData.pno ? onPlaceDelete() : onDisiplinary()
                             }}
-                            value="유저 제재"
+                            value="제재"
                         />
                     </div>
-                ) : (
-                    ''
                 )}
             </Modal>
         </div>
