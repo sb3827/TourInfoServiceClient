@@ -134,6 +134,8 @@ export const ReportBox = () => {
                                 <option value="all">전체</option>
                                 <option value="reporting">처리 중</option>
                                 <option value="reported">처리 완료</option>
+                                <option value="place_reporting">장소 처리 중</option>
+                                <option value="place_reported">장소 처리 완료</option>
                                 <option value="board_reporting">게시글 처리 중</option>
                                 <option value="board_reported">게시글 처리 완료</option>
                                 <option value="reply_reporting">댓글 처리 중</option>

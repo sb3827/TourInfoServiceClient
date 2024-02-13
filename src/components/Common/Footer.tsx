@@ -32,7 +32,7 @@ export const Footer: FC<FooterProps> = ({}) => {
                                     src={GitHub}
                                     className="w-6 bg-white rounded-full"
                                     alt="react repository"></img>
-                                <p>react</p>
+                                <p>React</p>
                             </a>
                             <a
                                 href="https://github.com/sb3827/TourInfoServiceServer"
@@ -41,7 +41,7 @@ export const Footer: FC<FooterProps> = ({}) => {
                                     src={GitHub}
                                     className="w-6 bg-white rounded-full"
                                     alt="spring repository"></img>
-                                <p>spring</p>
+                                <p>Spring</p>
                             </a>
                             <a
                                 href="http://sangbaek.notion.site/DoT-Discovery-of-Travel-f6c356624ee441ff9cbe1bfbe6ea72a4?pvs=74"
