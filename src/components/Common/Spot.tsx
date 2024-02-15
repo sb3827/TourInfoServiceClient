@@ -30,7 +30,9 @@ export const Spot: FC<PropsWithChildren<SpotProps>> = props => {
             <div className="flex justify-center w-24 h-20">
                 <img src={props.src} alt="img" className="object-fill h-full p-2 " />
             </div>
-            {props.children}
+            <p className="w-24 overflow-hidden text-ellipsis whitespace-nowrap">
+                {props.children}
+            </p>
         </div>
     )
 }

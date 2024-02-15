@@ -24,7 +24,7 @@ export const MainItem: FC<PropsWithChildren<MainItemProps>> = ({onClick, mainBoa
                 </div>
                 <div className="flex flex-col w-full h-full px-3 py-1 border-t">
                     <div className="flex items-center justify-center flex-auto">
-                        <p className="text-2xl font-bold text-darkGreen">
+                        <p className="overflow-hidden text-2xl font-bold text-darkGreen whitespace-nowrap text-ellipsis">
                             {mainBoard.title}
                         </p>
                     </div>
