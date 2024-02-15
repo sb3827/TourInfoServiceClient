@@ -93,7 +93,7 @@ const PlaceDetailsItem: FC<PlaceDetailsItemProps> = ({isAd, getPlaceData}) => {
     return (
         <BoardBox className="relative">
             {loading && <LoadingSppinnerSmall />}
-            {boardData && boardData?.length > 1 ? (
+            {boardData && boardData?.length >= 1 && boardData[0].bno !== null ? (
                 boardData.map(
                     (data: PlaceBoardData, index) =>
                         data.writer !== null && (
