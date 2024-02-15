@@ -39,6 +39,7 @@ const PlaceDetailsItem: FC<PlaceDetailsItemProps> = ({isAd, getPlaceData}) => {
             getPlaceData && data && getPlaceData(data[0])
             setPage(1)
             setLoading(false)
+            console.log(data)
         } catch (err) {
             console.error(err)
             setLoading(false)
@@ -93,7 +94,12 @@ const PlaceDetailsItem: FC<PlaceDetailsItemProps> = ({isAd, getPlaceData}) => {
     return (
         <BoardBox className="relative">
             {loading && <LoadingSppinnerSmall />}
-            {boardData && boardData?.length >= 1 && boardData[0].bno !== null ? (
+            {/* 나중에 수정해야함 */}
+            {boardData &&
+            boardData?.length > 0 &&
+            (boardData.length > 1
+                ? boardData[1].bno !== null
+                : boardData[0].bno !== null) ? (
                 boardData.map(
                     (data: PlaceBoardData, index) =>
                         data.writer !== null && (
