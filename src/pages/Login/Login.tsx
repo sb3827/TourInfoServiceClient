@@ -89,7 +89,7 @@ export const Login = () => {
                 setCookie('refreshToken', refreshToken, {
                     path: '/',
                     //추후에 https로 배포할 경우 주석 제거
-                    //secure:true
+                    secure: true,
                     expires: expiryDate
                 })
                 if (data.response.message === 'password 변경이 필요 합니다') {
